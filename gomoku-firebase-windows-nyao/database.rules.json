@@ -1,0 +1,26 @@
+{
+    "rules": {
+        ".read": true,
+        ".write": true,
+        "games": {
+            "$gameId": {
+                ".read": true,
+                ".write": true
+            }
+        },
+        "players": {
+            "$playerId": {
+                ".read": true,
+                ".write": true
+            }
+        },
+        "queue": {
+            ".read": true,
+            ".write": true
+        },
+        "passwordQueue": {
+            ".read": true,
+            ".write": true
+        }
+    }
+}

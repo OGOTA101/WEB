@@ -1,0 +1,15 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "othello_players": {
+      ".indexOn": ["inQueue", "gameId"]
+    },
+    "othello_queue": {
+      ".indexOn": ["timestamp"]
+    },
+    "othello_games": {
+      ".indexOn": ["gameState", "currentPlayer"]
+    }
+  }
+} 

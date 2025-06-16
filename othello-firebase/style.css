@@ -1,0 +1,605 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 画面切り替え */
+.screen {
+    display: none;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* ボタンスタイル */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(45deg, #6c757d, #5a6268);
+    color: white;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(45deg, #dc3545, #c82333);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+}
+
+.btn-warning {
+    background: linear-gradient(45deg, #ffc107, #e0a800);
+    color: #212529;
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+}
+
+/* ゲームモード選択 */
+.game-mode-selection {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.game-mode-selection h3 {
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.mode-btn {
+    padding: 10px 20px;
+    border: 2px solid #ddd;
+    background: white;
+    color: #333;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    border-color: #4CAF50;
+    color: white;
+}
+
+.mode-btn:hover {
+    border-color: #4CAF50;
+    transform: translateY(-1px);
+}
+
+/* CPU強度選択 */
+.cpu-difficulty-section {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.cpu-difficulty-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.difficulty-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-difficulty {
+    padding: 8px 16px;
+    border: 2px solid #ddd;
+    background: white;
+    color: #333;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.btn-difficulty.easy.active {
+    background: linear-gradient(45deg, #28a745, #218838);
+    border-color: #28a745;
+    color: white;
+}
+
+.btn-difficulty.normal.active {
+    background: linear-gradient(45deg, #ffc107, #e0a800);
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-difficulty.hard.active {
+    background: linear-gradient(45deg, #fd7e14, #e8610e);
+    border-color: #fd7e14;
+    color: white;
+}
+
+.btn-difficulty.expert.active {
+    background: linear-gradient(45deg, #dc3545, #c82333);
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-difficulty:hover {
+    transform: translateY(-1px);
+}
+
+.difficulty-description {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+}
+
+/* ロビー画面 */
+#lobby .container {
+    text-align: center;
+}
+
+#lobby h1 {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.player-info {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.player-info label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+.player-info input {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.player-info input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.lobby-buttons {
+    margin-bottom: 30px;
+}
+
+.lobby-buttons .btn {
+    margin: 0 10px;
+}
+
+.status-message {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.players-list {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.players-list h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.players-list ul {
+    list-style: none;
+    text-align: left;
+}
+
+.players-list li {
+    padding: 8px 12px;
+    margin: 5px 0;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.players-list li:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* ゲーム画面 */
+#game .container {
+    text-align: center;
+}
+
+.game-header {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.player-info-game {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.player {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    flex-direction: column;
+}
+
+.player-stone {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.player-stone.black {
+    background: #000;
+    border: 2px solid #333;
+}
+
+.player-stone.white {
+    background: #fff;
+    border: 2px solid #000;
+}
+
+.stone-count {
+    font-size: 14px;
+    color: #666;
+    font-weight: normal;
+}
+
+.vs {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6b35;
+}
+
+.current-turn {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.timer {
+    font-size: 16px;
+    color: #ff6b35;
+    font-weight: 600;
+}
+
+.cpu-thinking {
+    font-size: 16px;
+    color: #007bff;
+    font-weight: 600;
+    font-style: italic;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.game-board-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#gameBoard {
+    border: 3px solid #8B4513;
+    border-radius: 10px;
+    background: #228B22;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    touch-action: none; /* タッチデバイスでのデフォルト動作を無効化 */
+    user-select: none; /* テキスト選択を無効化 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-tap-highlight-color: transparent; /* タップ時のハイライト除去 */
+}
+
+.game-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* 結果画面 */
+#result .container {
+    text-align: center;
+}
+
+.result-content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.result-content h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 2.5rem;
+}
+
+.result-message {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.final-score {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.score-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.score-stone {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.score-stone.black {
+    background: #000;
+    border: 2px solid #333;
+}
+
+.score-stone.white {
+    background: #fff;
+    border: 2px solid #000;
+}
+
+.result-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* 接続状態表示 */
+.connection-status {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.indicator.connected {
+    background: #4CAF50;
+}
+
+.indicator.disconnected {
+    background: #f44336;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    #lobby h1 {
+        font-size: 2rem;
+    }
+    
+    #gameBoard {
+        /* スマホでは固定サイズを使用して座標計算を正確にする */
+        width: 320px !important;
+        height: 320px !important;
+        max-width: 90vw;
+        max-height: 90vw;
+        display: block;
+        margin: 0 auto;
+    }
+    
+    .game-board-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        padding: 10px;
+    }
+    
+    .player-info-game {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .vs {
+        order: 1;
+    }
+    
+    .game-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .final-score {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .difficulty-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .mode-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    /* タッチデバイス用の追加改善 */
+    .btn {
+        min-height: 44px; /* タッチしやすいサイズ */
+        padding: 12px 20px;
+    }
+    
+    .current-turn {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    
+    .timer {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+}
+
+/* 極小画面（古いスマートフォン）対応 */
+@media (max-width: 480px) {
+    #gameBoard {
+        width: 280px !important;
+        height: 280px !important;
+    }
+    
+    .container {
+        padding: 5px;
+    }
+    
+    .game-header {
+        padding: 10px;
+    }
+    
+    .player-info-game {
+        font-size: 14px;
+    }
+}
+
+.screen {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.players-list li.current-player {
+    background: rgba(76, 175, 80, 0.2);
+    font-weight: bold;
+} 

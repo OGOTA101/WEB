@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <title>オセロオンライン (Firebase版)</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+    <!-- ロビー画面 -->
+    <div id="lobby" class="screen active">
+        <div class="container">
+            <h1>オセロオンライン</h1>
+            <div class="player-info">
+                <label for="playerName">プレイヤー名：</label>
+                <input type="text" id="playerName" placeholder="名前を入力してください" maxlength="20">
+            </div>
+            
+            <!-- ゲームモード選択 -->
+            <div class="game-mode-selection">
+                <h3>ゲームモードを選択</h3>
+                <div class="mode-buttons">
+                    <button id="pvpModeBtn" class="btn btn-primary mode-btn active">対戦モード</button>
+                    <button id="cpuModeBtn" class="btn btn-secondary mode-btn">CPU対戦</button>
+                </div>
+            </div>
+
+            <!-- CPU強度選択（CPU対戦時のみ表示） -->
+            <div id="cpuDifficultySection" class="cpu-difficulty-section" style="display: none;">
+                <h3>CPU強度を選択</h3>
+                <div class="difficulty-buttons">
+                    <button id="easyBtn" class="btn btn-difficulty easy active">初心者</button>
+                    <button id="normalBtn" class="btn btn-difficulty normal">中級者</button>
+                    <button id="hardBtn" class="btn btn-difficulty hard">上級者</button>
+                    <button id="expertBtn" class="btn btn-difficulty expert">エキスパート</button>
+                </div>
+                <div class="difficulty-description">
+                    <span id="difficultyDesc">初心者レベル - CPU思考時間: 0.5秒</span>
+                </div>
+            </div>
+            
+            <div class="lobby-buttons">
+                <button id="joinGameBtn" class="btn btn-primary">ゲームに参加</button>
+                <button id="leaveQueueBtn" class="btn btn-secondary" style="display: none;">キューから離脱</button>
+            </div>
+            <div id="lobbyStatus" class="status-message"></div>
+            <div id="playersList" class="players-list">
+                <h3>オンラインプレイヤー: <span id="playerCount">0</span></h3>
+                <ul id="playersUL"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ゲーム画面 -->
+    <div id="game" class="screen">
+        <div class="container">
+            <div class="game-header">
+                <div class="player-info-game">
+                    <div class="player black-player">
+                        <span id="blackPlayerName">プレイヤー1</span>
+                        <div class="player-stone black"></div>
+                        <div class="stone-count">
+                            <span id="blackCount">2</span>個
+                        </div>
+                    </div>
+                    <div class="vs">VS</div>
+                    <div class="player white-player">
+                        <span id="whitePlayerName">プレイヤー2</span>
+                        <div class="player-stone white"></div>
+                        <div class="stone-count">
+                            <span id="whiteCount">2</span>個
+                        </div>
+                    </div>
+                </div>
+                <div id="currentTurn" class="current-turn">黒の番です</div>
+                <div id="gameTimer" class="timer">残り時間: 30秒</div>
+                <div id="cpuThinking" class="cpu-thinking" style="display: none;">CPU思考中...</div>
+            </div>
+            
+            <div class="game-board-container">
+                <canvas id="gameBoard" width="480" height="480"></canvas>
+            </div>
+            
+            <div class="game-actions">
+                <button id="passBtn" class="btn btn-warning">パス</button>
+                <button id="surrenderBtn" class="btn btn-danger">投了</button>
+                <button id="leaveGameBtn" class="btn btn-secondary">ゲームを離脱</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="result" class="screen">
+        <div class="container">
+            <div class="result-content">
+                <h2 id="resultTitle">ゲーム終了</h2>
+                <div id="resultMessage" class="result-message"></div>
+                <div class="final-score">
+                    <div class="score-item">
+                        <div class="score-stone black"></div>
+                        <span id="finalBlackCount">0</span>個
+                    </div>
+                    <div class="score-item">
+                        <div class="score-stone white"></div>
+                        <span id="finalWhiteCount">0</span>個
+                    </div>
+                </div>
+                <div class="result-actions">
+                    <button id="backToLobbyBtn" class="btn btn-primary">ロビーに戻る</button>
+                    <button id="playAgainBtn" class="btn btn-secondary">もう一度プレイ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 接続状態表示 -->
+    <div id="connectionStatus" class="connection-status">
+        <span id="connectionIndicator" class="indicator disconnected"></span>
+        <span id="connectionText">接続中...</span>
+    </div>
+
+    <script src="othello-script.js?v=1"></script>
+</body>
+</html> 

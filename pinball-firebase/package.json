@@ -1,0 +1,17 @@
+{
+  "name": "space-cadet-pinball",
+  "version": "1.0.0",
+  "description": "Space Cadet 3D Pinball - Web版",
+  "main": "index.html",
+  "scripts": {
+    "start": "firebase serve",
+    "deploy": "firebase deploy",
+    "build": "echo 'No build process needed'"
+  },
+  "keywords": ["pinball", "game", "space-cadet", "firebase"],
+  "author": "Claude AI",
+  "license": "MIT",
+  "devDependencies": {
+    "firebase-tools": "^12.0.0"
+  }
+} 

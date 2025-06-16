@@ -1,0 +1,18 @@
+{
+  "name": "othello-firebase-game",
+  "version": "1.0.0",
+  "description": "オセロオンラインゲーム（Firebase版）",
+  "main": "index.html",
+  "scripts": {
+    "start": "firebase serve",
+    "deploy": "firebase deploy",
+    "build": "echo 'No build step required for static site'"
+  },
+  "dependencies": {
+    "firebase-tools": "^12.0.0"
+  },
+  "devDependencies": {},
+  "keywords": ["othello", "reversi", "game", "firebase", "multiplayer", "cpu"],
+  "author": "Your Name",
+  "license": "MIT"
+} 

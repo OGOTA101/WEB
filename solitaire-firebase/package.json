@@ -1,0 +1,35 @@
+{
+  "name": "solitaire-firebase",
+  "version": "1.0.0",
+  "description": "クロンダイク・ソリティア オンライン (Firebase版)",
+  "main": "index.html",
+  "scripts": {
+    "start": "firebase serve",
+    "build": "echo 'No build step required'",
+    "deploy": "firebase deploy",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "solitaire",
+    "klondike",
+    "card-game",
+    "firebase",
+    "javascript",
+    "html5",
+    "css3"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "firebase": "^9.23.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/solitaire-firebase.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/solitaire-firebase/issues"
+  },
+  "homepage": "https://github.com/yourusername/solitaire-firebase#readme"
+} 

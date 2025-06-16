@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "pinball_scores": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["score", "timestamp"]
+    },
+    "pinball_leaderboard": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["score"]
+    }
+  }
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五目並べオンライン (Firebase版)</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+</head>
+
+<body>
+    <!-- 接続状態表示 -->
+    <div class="connection-status">
+        <div id="connectionIndicator" class="indicator"></div>
+        <span id="connectionText">接続中...</span>
+    </div>
+
+    <!-- ロビー画面 -->
+    <div id="lobby" class="screen active">
+        <div class="container">
+            <h1>🎯 五目並べオンライン</h1>
+
+            <div class="player-info">
+                <label for="playerName">プレイヤー名:</label>
+                <input type="text" id="playerName" placeholder="名前を入力してください" maxlength="20">
+            </div>
+
+            <!-- 新機能：ゲーム設定 -->
+            <div class="game-settings">
+                <h3>⚙️ ゲーム設定</h3>
+
+                <!-- 制限時間選択 -->
+                <div class="setting-group">
+                    <label for="timeLimit">制限時間:</label>
+                    <select id="timeLimit">
+                        <option value="30">30秒</option>
+                        <option value="60">60秒</option>
+                        <option value="0">無制限</option>
+                    </select>
+                </div>
+
+                <!-- マッチング方式選択 -->
+                <div class="setting-group">
+                    <label for="matchType">マッチング方式:</label>
+                    <select id="matchType">
+                        <option value="random">ランダムマッチ</option>
+                        <option value="password">合言葉マッチ</option>
+                        <option value="cpu">CPU対戦</option>
+                    </select>
+                </div>
+
+                <!-- 合言葉入力（合言葉マッチ選択時のみ表示） -->
+                <div class="setting-group" id="passwordGroup" style="display: none;">
+                    <label for="roomPassword">合言葉:</label>
+                    <input type="text" id="roomPassword" placeholder="合言葉を入力" maxlength="20">
+                </div>
+
+                <!-- CPU難易度選択（CPU対戦選択時のみ表示） -->
+                <div class="setting-group" id="cpuDifficultyGroup" style="display: none;">
+                    <label for="cpuDifficulty">CPU難易度:</label>
+                    <select id="cpuDifficulty">
+                        <option value="easy">初級</option>
+                        <option value="hard">上級</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="lobby-buttons">
+                <button id="joinGameBtn" class="btn btn-primary">ゲーム開始</button>
+                <button id="leaveQueueBtn" class="btn btn-secondary" style="display: none;">キャンセル</button>
+            </div>
+
+            <div id="lobbyStatus" class="status-message"></div>
+
+            <div class="players-list">
+                <h3>🌐 オンラインプレイヤー (<span id="playerCount">0</span>人)</h3>
+                <ul id="playersUL"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ゲーム画面 -->
+    <div id="game" class="screen">
+        <div class="container">
+            <div class="game-header">
+                <div class="player-info-game">
+                    <div class="player">
+                        <div class="player-stone black"></div>
+                        <span id="blackPlayerName">プレイヤー1</span>
+                    </div>
+                    <div class="vs">VS</div>
+                    <div class="player">
+                        <div class="player-stone white"></div>
+                        <span id="whitePlayerName">プレイヤー2</span>
+                    </div>
+                </div>
+                <div id="currentTurn" class="current-turn">ゲーム開始</div>
+                <div id="gameTimer" class="timer">残り時間: 30秒</div>
+                <!-- ゲーム設定表示 -->
+                <div id="gameSettings" class="game-settings-display"></div>
+            </div>
+
+            <div class="game-board-container">
+                <canvas id="gameBoard" width="600" height="600"></canvas>
+            </div>
+
+            <div class="game-actions">
+                <button id="surrenderBtn" class="btn btn-danger">投了</button>
+                <button id="leaveGameBtn" class="btn btn-secondary">ゲーム離脱</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="result" class="screen">
+        <div class="container">
+            <div class="result-content">
+                <h2 id="resultTitle">ゲーム終了</h2>
+                <div id="resultMessage" class="result-message">結果メッセージ</div>
+                <div class="result-actions">
+                    <button id="playAgainBtn" class="btn btn-primary">もう一度プレイ</button>
+                    <button id="backToLobbyBtn" class="btn btn-secondary">ロビーに戻る</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ゲームスクリプト -->
+    <script src="cpu-ai.js"></script>
+    <script src="firebase-script.js"></script>
+</body>
+
+</html>

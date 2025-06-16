@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <title>ソリティア オンライン (Firebase版)</title>
+    <link rel="stylesheet" href="style.css">
+    
+
+</head>
+<body>
+    <!-- メニュー画面 -->
+    <div id="menu" class="screen active">
+        <div class="container">
+            <h1>ソリティア オンライン</h1>
+            <div class="player-info">
+                <label for="playerName">プレイヤー名：</label>
+                <input type="text" id="playerName" placeholder="名前を入力してください" maxlength="20">
+            </div>
+            
+            <!-- ゲーム難易度選択 -->
+            <div class="difficulty-selection">
+                <h3>難易度を選択</h3>
+                <div class="difficulty-buttons">
+                    <button id="easyBtn" class="btn btn-difficulty easy active">初心者 (1枚めくり)</button>
+                    <button id="hardBtn" class="btn btn-difficulty hard">上級者 (3枚めくり)</button>
+                </div>
+                <div class="difficulty-description">
+                    <span id="difficultyDesc">初心者モード - 山札から1枚ずつめくります</span>
+                </div>
+            </div>
+            
+            <div class="menu-buttons">
+                <button id="startGameBtn" class="btn btn-primary">ゲーム開始</button>
+                <button id="statisticsBtn" class="btn btn-secondary">統計を見る</button>
+            </div>
+            
+            <div id="menuStatus" class="status-message"></div>
+        </div>
+    </div>
+
+    <!-- ゲーム画面 -->
+    <div id="game" class="screen">
+        <div class="container">
+            <div class="game-header">
+                <div class="game-info">
+                    <div class="score-info">
+                        <span>スコア: <span id="gameScore">0</span></span>
+                        <span>時間: <span id="gameTime">00:00</span></span>
+                        <span>手数: <span id="moveCount">0</span></span>
+                    </div>
+                    <div class="game-controls">
+                        <button id="newGameBtn" class="btn btn-small">新しいゲーム</button>
+                        <button id="undoBtn" class="btn btn-small" disabled>元に戻す</button>
+                        <button id="hintBtn" class="btn btn-small">ヒント</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="solitaire-board">
+                <!-- 上段: 山札、捨て札、完成札置き場 -->
+                <div class="top-row">
+                    <div class="stock-waste">
+                        <div id="stock" class="card-pile stock">
+                            <div class="card-placeholder">山札</div>
+                        </div>
+                        <div id="waste" class="card-pile waste">
+                            <div class="card-placeholder">捨て札</div>
+                        </div>
+                    </div>
+                    
+                    <div class="foundations">
+                        <div id="foundation-0" class="card-pile foundation" data-suit="hearts">
+                            <div class="card-placeholder">♥</div>
+                        </div>
+                        <div id="foundation-1" class="card-pile foundation" data-suit="diamonds">
+                            <div class="card-placeholder">♦</div>
+                        </div>
+                        <div id="foundation-2" class="card-pile foundation" data-suit="clubs">
+                            <div class="card-placeholder">♣</div>
+                        </div>
+                        <div id="foundation-3" class="card-pile foundation" data-suit="spades">
+                            <div class="card-placeholder">♠</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 下段: タブロー（7列の場札） -->
+                <div class="tableau">
+                    <div id="tableau-0" class="card-pile tableau-pile" data-column="0">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div id="tableau-1" class="card-pile tableau-pile" data-column="1">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div id="tableau-2" class="card-pile tableau-pile" data-column="2">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div id="tableau-3" class="card-pile tableau-pile" data-column="3">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div id="tableau-4" class="card-pile tableau-pile" data-column="4">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div id="tableau-5" class="card-pile tableau-pile" data-column="5">
+                        <div class="card-placeholder"></div>
+                    </div>
+                    <div id="tableau-6" class="card-pile tableau-pile" data-column="6">
+                        <div class="card-placeholder"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-actions">
+                <button id="backToMenuBtn" class="btn btn-secondary">メニューに戻る</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="result" class="screen">
+        <div class="container">
+            <div class="result-content">
+                <h2 id="resultTitle">ゲーム完了！</h2>
+                <div id="resultMessage" class="result-message">おめでとうございます！</div>
+                <div class="final-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">最終スコア:</span>
+                        <span id="finalScore">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">プレイ時間:</span>
+                        <span id="finalTime">00:00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">手数:</span>
+                        <span id="finalMoves">0</span>
+                    </div>
+                </div>
+                <div class="result-actions">
+                    <button id="playAgainBtn" class="btn btn-primary">もう一度プレイ</button>
+                    <button id="backToMenuFromResultBtn" class="btn btn-secondary">メニューに戻る</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 統計画面 -->
+    <div id="statistics" class="screen">
+        <div class="container">
+            <div class="statistics-content">
+                <h2>プレイ統計</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalGames">0</div>
+                        <div class="stat-label">総ゲーム数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="wonGames">0</div>
+                        <div class="stat-label">勝利数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="winRate">0%</div>
+                        <div class="stat-label">勝率</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="bestScore">0</div>
+                        <div class="stat-label">最高スコア</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="bestTime">--:--</div>
+                        <div class="stat-label">最短時間</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="averageTime">--:--</div>
+                        <div class="stat-label">平均時間</div>
+                    </div>
+                </div>
+                <div class="statistics-actions">
+                    <button id="clearStatsBtn" class="btn btn-danger">統計をリセット</button>
+                    <button id="backToMenuFromStatsBtn" class="btn btn-secondary">メニューに戻る</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="solitaire-script.js?v=1"></script>
+</body>
+</html> 

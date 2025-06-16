@@ -1,0 +1,25 @@
+{
+    "name": "nekomoku-narabage-game",
+    "version": "1.0.0",
+    "description": "ねこもくならべオンラインゲーム（Firebase版）",
+    "main": "index.html",
+    "scripts": {
+        "start": "firebase serve",
+        "deploy": "firebase deploy",
+        "build": "echo 'No build step required for static site'"
+    },
+    "dependencies": {
+        "firebase-tools": "^12.0.0"
+    },
+    "devDependencies": {},
+    "keywords": [
+        "nekomoku",
+        "narabage",
+        "game",
+        "firebase",
+        "multiplayer",
+        "cat"
+    ],
+    "author": "Your Name",
+    "license": "MIT"
+}
