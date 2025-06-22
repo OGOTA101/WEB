@@ -1,0 +1,21 @@
+<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <!-- いちごの本体 -->
+  <path d="M 10 6 Q 6 8 7 15 Q 10 18 10 18 Q 10 18 13 15 Q 14 8 10 6" fill="#ff4466" stroke="#cc2244" stroke-width="0.5"/>
+
+  <!-- 葉っぱ -->
+  <ellipse cx="8" cy="6" rx="2" ry="1.5" fill="#22aa22"/>
+  <ellipse cx="10" cy="5" rx="2" ry="1.5" fill="#22aa22"/>
+  <ellipse cx="12" cy="6" rx="2" ry="1.5" fill="#22aa22"/>
+
+  <!-- 種（ドット）-->
+  <circle cx="8" cy="10" r="0.5" fill="#ffff44"/>
+  <circle cx="12" cy="10" r="0.5" fill="#ffff44"/>
+  <circle cx="9" cy="12" r="0.5" fill="#ffff44"/>
+  <circle cx="11" cy="12" r="0.5" fill="#ffff44"/>
+  <circle cx="10" cy="14" r="0.5" fill="#ffff44"/>
+  <circle cx="8" cy="14" r="0.5" fill="#ffff44"/>
+  <circle cx="12" cy="14" r="0.5" fill="#ffff44"/>
+
+  <!-- ハイライト -->
+  <ellipse cx="9" cy="9" rx="1.5" ry="2" fill="#ff8899" opacity="0.6"/>
+</svg>

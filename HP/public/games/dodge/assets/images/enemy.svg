@@ -1,0 +1,24 @@
+<svg width="35" height="35" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg">
+  <!-- 敵機本体 -->
+  <path d="M 17.5 5 L 10 15 L 17.5 20 L 25 15 Z" fill="#dc143c" stroke="#8b0000" stroke-width="1"/>
+
+  <!-- 翼 -->
+  <path d="M 5 12 L 10 10 L 10 20 L 5 18 Z" fill="#ff4500"/>
+  <path d="M 30 12 L 25 10 L 25 20 L 30 18 Z" fill="#ff4500"/>
+
+  <!-- エンジン -->
+  <circle cx="17.5" cy="18" r="2" fill="#ff6b35"/>
+
+  <!-- 推進炎 -->
+  <path d="M 16 20 L 17.5 25 L 19 20" fill="#ff0000" opacity="0.8"/>
+
+  <!-- コックピット -->
+  <ellipse cx="17.5" cy="10" rx="3" ry="4" fill="#2f2f2f" stroke="#000" stroke-width="0.5"/>
+
+  <!-- 武器 -->
+  <rect x="16.5" y="5" width="2" height="4" fill="#666"/>
+
+  <!-- 警告ライト -->
+  <circle cx="12" cy="8" r="1" fill="#ff0000"/>
+  <circle cx="23" cy="8" r="1" fill="#ff0000"/>
+</svg>

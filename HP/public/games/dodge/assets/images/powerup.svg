@@ -1,0 +1,22 @@
+<svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+  <!-- エネルギーコア -->
+  <circle cx="12.5" cy="12.5" r="10" fill="#00ffff" stroke="#0080ff" stroke-width="1"/>
+
+  <!-- 内側のコア -->
+  <circle cx="12.5" cy="12.5" r="6" fill="#40e0d0" stroke="#00bfff" stroke-width="0.5"/>
+
+  <!-- エネルギーパルス -->
+  <circle cx="12.5" cy="12.5" r="3" fill="#ffffff" opacity="0.8"/>
+
+  <!-- 電気エフェクト -->
+  <path d="M 8 8 L 10 12 L 6 12 L 8 16" fill="none" stroke="#ffff00" stroke-width="1.5"/>
+  <path d="M 17 9 L 19 13 L 15 13 L 17 17" fill="none" stroke="#ffff00" stroke-width="1.5"/>
+
+  <!-- 回転する外殻 -->
+  <path d="M 12.5 2.5 A 10 10 0 0 1 22.5 12.5" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
+  <path d="M 22.5 12.5 A 10 10 0 0 1 12.5 22.5" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
+
+  <!-- 輝きエフェクト -->
+  <path d="M 5 5 L 7 3 L 9 5 L 7 7 Z" fill="#ffffff" opacity="0.9"/>
+  <path d="M 18 7 L 20 5 L 22 7 L 20 9 Z" fill="#ffffff" opacity="0.9"/>
+</svg>
