@@ -1,0 +1,22 @@
+<svg width="40" height="50" viewBox="0 0 40 50" xmlns="http://www.w3.org/2000/svg">
+  <!-- ドット絵風の卵（シンプルでつるんとした） -->
+  <defs>
+    <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#cd7f32;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#8b4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 卵本体（上が細く下が太い卵型） -->
+  <path d="M 20 6 L 24 8 L 28 12 L 30 16 L 32 22 L 32 30 L 30 36 L 28 40 L 24 42 L 16 42 L 12 40 L 10 36 L 8 30 L 8 22 L 10 16 L 12 12 L 16 8 Z"
+        fill="url(#bronzeGrad)" stroke="#654321" stroke-width="2"/>
+
+  <!-- シンプルなハイライト（上部のみ） -->
+  <ellipse cx="18" cy="16" rx="4" ry="2" fill="#f4e4bc" opacity="0.6"/>
+  <ellipse cx="19" cy="14" rx="2" ry="1" fill="#ffffff" opacity="0.8"/>
+
+  <!-- 底部の影 -->
+  <ellipse cx="20" cy="44" rx="8" ry="2" fill="#654321" opacity="0.3"/>
+</svg>

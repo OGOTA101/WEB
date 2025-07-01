@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💣 マインスイーパー - SGGameSite</title>
+
+    <!-- 共通CSS -->
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="../../shared/css/game-base.css">
+
+    <!-- 音響システム -->
+    <script src="../../shared/js/audio-system.js"></script>
+
+    <!-- ゲーム固有CSS -->
+    <style>
+        /* マインスイーパー固有のスタイル */
+        .game-board {
+            background: linear-gradient(45deg, #C0C0C0 0%, #E0E0E0 50%, #F0F0F0 100%);
+            box-shadow: 0 0 30px rgba(128, 128, 128, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .stat-item {
+            background: rgba(128, 128, 128, 0.1);
+            border: 1px solid #808080;
+            box-shadow: 0 0 10px rgba(128, 128, 128, 0.3);
+        }
+
+        .stat-label {
+            color: #404040;
+        }
+
+        .stat-value {
+            color: #606060;
+            text-shadow: 0 0 5px #808080;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #D0D0D0, #A0A0A0);
+            box-shadow: 0 0 15px rgba(128, 128, 128, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(128, 128, 128, 0.6);
+        }
+
+        .game-over {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .game-over h3 {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .game-win {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .game-win h3 {
+            color: #00aa00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .high-score {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .high-score h4 {
+            color: #FFD700;
+            text-shadow: 0 0 5px #FFD700;
+        }
+
+        .game-title-screen {
+            background: linear-gradient(45deg, #808080, #606060);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px #808080;
+        }
+
+        .controls-info h4 {
+            color: #606060;
+        }
+
+        .back-link {
+            border-top: 1px solid #808080;
+        }
+
+        .back-link a {
+            color: #606060;
+        }
+
+        .back-link a:hover {
+            text-shadow: 0 0 5px #808080;
+        }
+
+        /* マインスイーパー盤面 */
+        .minefield {
+            display: grid;
+            gap: 1px;
+            background: #808080;
+            border: 3px solid #808080;
+            margin: 20px 0;
+            padding: 3px;
+        }
+
+        .cell {
+            width: 30px;
+            height: 30px;
+            background: #C0C0C0;
+            border: 2px outset #C0C0C0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .cell:hover {
+            background: #D0D0D0;
+        }
+
+        .cell.revealed {
+            background: #E0E0E0;
+            border: 1px inset #C0C0C0;
+        }
+
+        .cell.flagged {
+            background: #FFD700;
+            color: #FF0000;
+        }
+
+        .cell.mine {
+            background: #FF0000;
+            color: #000;
+        }
+
+        .cell.mine-exploded {
+            background: #FF4444;
+            color: #FFF;
+            animation: explode 0.5s ease-out;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* 数字の色 */
+        .cell.num-1 {
+            color: #0000FF;
+        }
+
+        .cell.num-2 {
+            color: #008000;
+        }
+
+        .cell.num-3 {
+            color: #FF0000;
+        }
+
+        .cell.num-4 {
+            color: #000080;
+        }
+
+        .cell.num-5 {
+            color: #800000;
+        }
+
+        .cell.num-6 {
+            color: #008080;
+        }
+
+        .cell.num-7 {
+            color: #000000;
+        }
+
+        .cell.num-8 {
+            color: #808080;
+        }
+
+        /* ゲーム情報パネル */
+        .game-info-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            background: #F0F0F0;
+            border: 2px inset #C0C0C0;
+            padding: 10px;
+        }
+
+        .info-display {
+            background: #000;
+            color: #FF0000;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border: 1px inset #808080;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .smiley-btn {
+            width: 40px;
+            height: 40px;
+            background: #FFFF00;
+            border: 2px outset #C0C0C0;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .smiley-btn:hover {
+            background: #FFFF80;
+        }
+
+        .smiley-btn:active {
+            border: 2px inset #C0C0C0;
+        }
+
+        .difficulty-selector {
+            margin-bottom: 20px;
+        }
+
+        .difficulty-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #333;
+            border: 1px solid #808080;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .difficulty-btn.active {
+            background: #C0C0C0;
+            color: #000;
+            box-shadow: 0 0 10px #808080;
+        }
+
+        @media (max-width: 768px) {
+            .game-title-screen {
+                font-size: 24px;
+            }
+
+            .cell {
+                width: 25px;
+                height: 25px;
+                font-size: 14px;
+            }
+
+            .game-info-panel {
+                max-width: 300px;
+            }
+        }
+
+        /* マインスイーパー用ゲーム内ダイアログスタイル */
+        .game-dialog {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            border: 2px solid #4169E1;
+            box-shadow: 0 0 30px rgba(65, 105, 225, 0.5);
+        }
+
+        .game-dialog .game-dialog-header {
+            background: rgba(65, 105, 225, 0.1);
+            border-bottom: 1px solid rgba(65, 105, 225, 0.3);
+        }
+
+        .game-dialog .game-dialog-header h3 {
+            color: #4169E1;
+        }
+
+        .game-dialog .game-dialog-content {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <div class="header">
+            <div class="header-content">
+                <h1>🎮 SGGameSite</h1>
+                <div class="tagline">無料ゲームサイト</div>
+            </div>
+        </div>
+
+        <!-- パンくずリスト -->
+        <div class="breadcrumb">
+            <a href="../../index.html">ホーム</a> &gt; 💣 マインスイーパー
+        </div>
+
+        <!-- ゲームコンテナ -->
+        <div class="game-container">
+            <h2 class="game-title">💣 マインスイーパー</h2>
+
+            <!-- ゲーム情報 -->
+            <div class="game-info">
+                <h3>🎯 ゲーム概要</h3>
+                <p>隠された地雷を避けながら、すべての安全なマスを開こう！</p>
+                <p>数字は周囲8マスの地雷数を示している。推理力と運が試される定番パズル！</p>
+            </div>
+
+            <!-- 操作説明 -->
+            <div class="controls-info">
+                <h4>🕹️ 操作方法</h4>
+                <p><strong>左クリック:</strong> マスを開く</p>
+                <p><strong>右クリック:</strong> 旗を立てる/外す</p>
+                <p><strong>スマホ:</strong> タップで開く、長押しで旗を立てる</p>
+                <p><strong>😊ボタン:</strong> ゲームをリスタート</p>
+            </div>
+
+            <!-- 難易度選択 -->
+            <div class="difficulty-selector">
+                <h4 style="color: #606060; margin-bottom: 10px;">🏆 難易度選択</h4>
+                <button class="difficulty-btn active" data-difficulty="beginner">初級 (9×9, 10個)</button>
+                <button class="difficulty-btn" data-difficulty="intermediate">中級 (16×16, 40個)</button>
+                <button class="difficulty-btn" data-difficulty="expert">上級 (30×16, 99個)</button>
+            </div>
+
+            <!-- ゲーム盤面 -->
+            <div class="game-board" style="position: relative;">
+                <!-- ゲーム情報パネル -->
+                <div class="game-info-panel">
+                    <div class="info-display" id="mineCount">010</div>
+                    <button class="smiley-btn" id="smileyBtn">😊</button>
+                    <div class="info-display" id="timer">000</div>
+                </div>
+
+                <!-- マインフィールド -->
+                <div class="minefield" id="minefield"></div>
+
+                <!-- ゲームオーバーダイアログ（ゲーム内） -->
+                <div id="gameOverDialog" class="game-dialog" style="display: none;">
+                    <div class="game-dialog-header">
+                        <h3>💥 ゲームオーバー</h3>
+                    </div>
+                    <div class="game-dialog-content">
+                        <p>地雷を踏んでしまいました！</p>
+                        <div style="margin: 20px 0;">
+                            <div>プレイ時間: <span id="finalTime">0</span>秒</div>
+                        </div>
+                        <div class="game-dialog-buttons">
+                            <button class="btn" id="restartBtn">もう一度プレイ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 勝利ダイアログ（ゲーム内） -->
+                <div id="winDialog" class="game-dialog" style="display: none;">
+                    <div class="game-dialog-header">
+                        <h3>🎉 おめでとうございます！</h3>
+                    </div>
+                    <div class="game-dialog-content">
+                        <p>すべての地雷を見つけました！</p>
+                        <div style="margin: 20px 0;">
+                            <div>クリアタイム: <span id="winTime">0</span>秒</div>
+                            <div id="newRecord" style="color: #FFD700; font-weight: bold; display: none;">🏆 新記録達成！
+                            </div>
+                        </div>
+                        <div class="game-dialog-buttons">
+                            <button class="btn" id="playAgainBtn">もう一度プレイ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 統計情報 -->
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <div class="stat-label">ゲーム数</div>
+                    <div class="stat-value" id="gamesPlayed">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">勝利数</div>
+                    <div class="stat-value" id="gamesWon">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">勝率</div>
+                    <div class="stat-value" id="winRate">0%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">最速タイム</div>
+                    <div class="stat-value" id="bestTime">---</div>
+                </div>
+            </div>
+
+            <!-- 操作ボタン -->
+            <div class="game-controls">
+                <button class="btn" id="newGameBtn">🎮 新しいゲーム</button>
+                <button class="btn" id="howToPlayBtn">❓ 遊び方</button>
+            </div>
+        </div>
+
+        <!-- フッター -->
+        <div class="footer">
+            © 2024 SGGameSite - Yahoo! Games風レトロゲームサイト
+        </div>
+
+        <!-- 戻るリンク -->
+        <div class="back-link">
+            <a href="../../index.html">← ホームに戻る</a>
+        </div>
+    </div>
+
+    <!-- 遊び方ダイアログ -->
+    <div id="howToPlayDialog" class="dialog" style="display: none;">
+        <div class="dialog-content-wrapper">
+            <div class="dialog-header">
+                <h3>💣 マインスイーパーの遊び方</h3>
+                <button class="close-btn" id="closeDialog">×</button>
+            </div>
+            <div class="dialog-content">
+                <h4>🎯 ゲームの目的</h4>
+                <p>地雷が隠されたマスを避けながら、すべての安全なマスを開くことが目的です。</p>
+
+                <h4>🔢 数字の意味</h4>
+                <p>開いたマスに表示される数字は、そのマスの周囲8マス（縦・横・斜め）にある地雷の数を表しています。</p>
+
+                <h4>🚩 旗の使い方</h4>
+                <p>地雷があると思うマスに旗を立てることで、間違って開くのを防げます。</p>
+
+                <h4>🏆 勝利条件</h4>
+                <p>地雷以外のすべてのマスを開けばクリアです！</p>
+
+                <h4>💥 ゲームオーバー</h4>
+                <p>地雷のあるマスを開いてしまうとゲームオーバーです。</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- マインスイーパーゲームスクリプト -->
+    <script src="minesweeper-game.js"></script>
+</body>
+
+</html>

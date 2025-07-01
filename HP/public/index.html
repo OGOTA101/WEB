@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGGameSite - Yahoo! Games風レトロゲームサイト</title>
+
+    <!-- 音響システム -->
+    <script src="shared/js/audio-system.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -41,6 +45,198 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
+
+        .coin-display {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .coin-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .coin-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .coin-gold {
+            background: linear-gradient(135deg, #ffd700, #ffb000);
+            border: 2px solid #ff8c00;
+        }
+
+        .coin-silver {
+            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+            border: 2px solid #808080;
+        }
+
+        .coin-bronze {
+            background: linear-gradient(135deg, #cd7f32, #8b4513);
+            border: 2px solid #654321;
+        }
+
+        .footer {
+            background: #316AC5;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            border-top: 2px solid #0066cc;
+        }
+
+        .egg {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s;
+            overflow: visible;
+        }
+
+        .egg img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .egg:hover {
+            transform: scale(1.1);
+        }
+
+        .egg-half-top,
+        .egg-half-bottom {
+            position: absolute;
+            width: 40px;
+            height: 25px;
+            left: 0;
+        }
+
+        .egg-half-top {
+            top: 0;
+        }
+
+        .egg-half-bottom {
+            bottom: 0;
+        }
+
+        .egg-half-top img,
+        .egg-half-bottom img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .egg-crack {
+            animation: crackOpen 1s ease-out forwards;
+        }
+
+        @keyframes crackOpen {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            20% {
+                transform: scale(1.05) rotate(-1deg);
+            }
+
+            40% {
+                transform: scale(1.1) rotate(1deg);
+            }
+
+            60% {
+                transform: scale(1.05) rotate(0deg);
+            }
+
+            80% {
+                transform: scale(1.02);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .egg-crack .egg-half-top {
+            animation: slideUp 0.6s ease-out 0.4s forwards;
+        }
+
+        .egg-crack .egg-half-bottom {
+            animation: slideDown 0.6s ease-out 0.4s forwards;
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-30px) rotate(-10deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideDown {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(30px) rotate(10deg);
+                opacity: 0;
+            }
+        }
+
+        .egg-destroyed {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .coin-reward {
+            position: absolute;
+            z-index: 1001;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+            animation: popOut 2s ease-out forwards;
+        }
+
+        @keyframes popOut {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+
+            30% {
+                transform: translateY(-10px) scale(1.3);
+                opacity: 1;
+            }
+
+            60% {
+                transform: translateY(-20px) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-60px) scale(0.8);
+                opacity: 0;
+            }
         }
 
         .header h1 {
@@ -274,8 +470,24 @@
         <!-- ヘッダー -->
         <div class="header">
             <div class="header-content">
-                <h1>🎮 SGGameSite</h1>
-                <div class="tagline">Yahoo! Games風レトロゲームサイト</div>
+                <div>
+                    <h1>🎮 SGGameSite</h1>
+                    <div class="tagline">Yahoo! Games風レトロゲームサイト</div>
+                </div>
+                <div class="coin-display">
+                    <div class="coin-item">
+                        <span class="coin-icon coin-gold"></span>
+                        <span id="gold-count">0</span>
+                    </div>
+                    <div class="coin-item">
+                        <span class="coin-icon coin-silver"></span>
+                        <span id="silver-count">0</span>
+                    </div>
+                    <div class="coin-item">
+                        <span class="coin-icon coin-bronze"></span>
+                        <span id="bronze-count">0</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -298,6 +510,9 @@
                 <ul>
                     <li><a href="games/snake/">🐍 スネークゲーム</a></li>
                     <li><a href="games/dodge/">🚀 スペースドッジ</a></li>
+                    <li><a href="games/bike/">🚴‍♂️ チャリ走</a></li>
+                    <li><a href="games/minesweeper/">💣 マインスイーパー</a></li>
+                    <li><a href="games/qix/">🎯 Qix - 陣取りパズル</a></li>
                     <li><a href="#puzzle">パズルゲーム</a></li>
                     <li><a href="#action">アクションゲーム</a></li>
                     <li><a href="#card">カードゲーム</a></li>
@@ -337,7 +552,9 @@
                         <h4>🔥 今週の人気ゲーム</h4>
                         <div>1. スネークゲーム（6,892 プレイ）🐍 <span class="status-new">NEW!</span></div>
                         <div>2. スペースドッジ（4,321 プレイ）🚀 <span class="status-new">NEW!</span></div>
-                        <div>3. パズルゲーム（3,547 プレイ）</div>
+                        <div>3. マインスイーパー（3,654 プレイ）💣 <span class="status-new">NEW!</span></div>
+                        <div>4. Qix - 陣取りパズル（2,987 プレイ）🎯 <span class="status-new">NEW!</span></div>
+                        <div>5. チャリ走（2,156 プレイ）🚴‍♂️ <span class="status-new">NEW!</span></div>
                     </div>
 
                     <div class="category-section">
@@ -368,10 +585,16 @@
                                 <td><span class="status-updated">更新済</span></td>
                             </tr>
                             <tr>
-                                <td><a href="#" class="game-link">🎲 数字パズル</a></td>
-                                <td>数字を使った楽しいパズルゲーム。計算力と推理力が試されます。</td>
-                                <td>★★☆☆☆</td>
-                                <td><span class="status-hot">人気!</span></td>
+                                <td><a href="games/minesweeper/" class="game-link">💣 マインスイーパー</a></td>
+                                <td>隠された地雷を避けながら、すべての安全なマスを開く定番パズルゲーム。推理力が試されます。</td>
+                                <td>★★★☆☆</td>
+                                <td><span class="status-new">NEW!</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="games/qix/" class="game-link">🎯 Qix - 陣取りパズル</a></td>
+                                <td>線を引いて領域を囲み、75%以上の陣地を獲得する名作アーケードゲーム。戦略とリスクのバランスが鍵！</td>
+                                <td>★★★★☆</td>
+                                <td><span class="status-new">NEW!</span></td>
                             </tr>
                         </table>
                     </div>
@@ -392,13 +615,19 @@
                                 <td><span class="status-new">NEW!</span></td>
                             </tr>
                             <tr>
+                                <td><a href="games/bike/" class="game-link">🚴‍♂️ チャリ走</a></td>
+                                <td>自転車で坂道を駆け抜け、障害物を避けながらコインを集める無限スコアアタックゲーム！</td>
+                                <td>★★★★☆</td>
+                                <td><span class="status-new">NEW!</span></td>
+                            </tr>
+                            <tr>
                                 <td><a href="#" class="game-link">🏃‍♂️ スピードアクション</a></td>
                                 <td>スピード感のあるアクションゲーム。素早い反応とテクニックが求められます。</td>
                                 <td>★★★★☆</td>
                                 <td>近日公開</td>
                             </tr>
                             <tr>
-                                <td><a href="#" class="game-link">🎯 シューティング</a></td>
+                                <td><a href="games/shooting/index.html" class="game-link">🎯 シューティング</a></td>
                                 <td>レトロなシューティングゲーム。懐かしい90年代の雰囲気を再現。</td>
                                 <td>★★★☆☆</td>
                                 <td>開発中</td>
@@ -569,7 +798,7 @@
                                 <th width="80">状態</th>
                             </tr>
                             <tr>
-                                <td rowspan="4">パズル・頭脳ゲーム</td>
+                                <td rowspan="5">パズル・頭脳ゲーム</td>
                                 <td><a href="games/snake/" class="game-link">🐍 スネークゲーム</a></td>
                                 <td>蛇を操作して食べ物を食べ、長く成長させるゲーム</td>
                                 <td><span class="status-new">NEW!</span></td>
@@ -585,14 +814,24 @@
                                 <td><span class="status-updated">更新済</span></td>
                             </tr>
                             <tr>
-                                <td><a href="#" class="game-link">🎲 数字パズル</a></td>
-                                <td>数字を使った楽しいパズルゲーム</td>
-                                <td><span class="status-hot">人気!</span></td>
+                                <td><a href="games/minesweeper/" class="game-link">💣 マインスイーパー</a></td>
+                                <td>隠された地雷を避けながら、すべての安全なマスを開く定番パズルゲーム</td>
+                                <td><span class="status-new">NEW!</span></td>
                             </tr>
                             <tr>
-                                <td rowspan="3">アクション・反射神経</td>
+                                <td><a href="games/qix/" class="game-link">🎯 Qix - 陣取りパズル</a></td>
+                                <td>線を引いて領域を囲み、75%以上の陣地を獲得する名作アーケードゲーム</td>
+                                <td><span class="status-new">NEW!</span></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4">アクション・反射神経</td>
                                 <td><a href="games/dodge/" class="game-link">🚀 スペースドッジ</a></td>
                                 <td>宇宙船を操縦して隕石と敵機を避け続けるSF風アクションゲーム</td>
+                                <td><span class="status-new">NEW!</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="games/bike/" class="game-link">🚴‍♂️ チャリ走</a></td>
+                                <td>自転車で坂道を駆け抜け、障害物を避けながらコインを集める無限スコアアタック</td>
                                 <td><span class="status-new">NEW!</span></td>
                             </tr>
                             <tr>
@@ -601,7 +840,7 @@
                                 <td>近日公開</td>
                             </tr>
                             <tr>
-                                <td><a href="#" class="game-link">🎯 シューティング</a></td>
+                                <td><a href="games/shooting/index.html" class="game-link">🎯 シューティング</a></td>
                                 <td>レトロなシューティングゲーム</td>
                                 <td>開発中</td>
                             </tr>
@@ -795,6 +1034,312 @@
     </div>
 
     <script>
+
+
+        // コインシステム管理クラス
+        class CoinSystem {
+            constructor() {
+                this.coins = {
+                    gold: 0,
+                    silver: 0,
+                    bronze: 0
+                };
+                this.loadCoins();
+                this.updateDisplay();
+                this.startEggSpawning();
+                this.audioContext = null;
+                this.initAudio();
+            }
+
+            // AudioContextを初期化
+            initAudio() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.log('Audio not supported');
+                }
+            }
+
+            // 効果音を生成・再生
+            playSound(type) {
+                if (!this.audioContext) return;
+
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                if (type === 'crack') {
+                    // 卵が割れる音
+                    oscillator.frequency.setValueAtTime(800, this.audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(200, this.audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.2);
+                    oscillator.start(this.audioContext.currentTime);
+                    oscillator.stop(this.audioContext.currentTime + 0.2);
+                } else if (type === 'coin') {
+                    // コイン獲得音
+                    oscillator.frequency.setValueAtTime(523, this.audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(659, this.audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.2, this.audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
+                    oscillator.start(this.audioContext.currentTime);
+                    oscillator.stop(this.audioContext.currentTime + 0.3);
+                }
+            }
+
+            // コインデータをローカルストレージから読み込み
+            loadCoins() {
+                const saved = localStorage.getItem('sgGameCoins');
+                if (saved) {
+                    this.coins = JSON.parse(saved);
+                }
+            }
+
+            // コインデータをローカルストレージに保存
+            saveCoins() {
+                localStorage.setItem('sgGameCoins', JSON.stringify(this.coins));
+            }
+
+            // コインを追加
+            addCoin(type, amount) {
+                this.coins[type] += amount;
+                this.saveCoins();
+                this.updateDisplay();
+            }
+
+            // 表示を更新
+            updateDisplay() {
+                document.getElementById('gold-count').textContent = this.coins.gold;
+                document.getElementById('silver-count').textContent = this.coins.silver;
+                document.getElementById('bronze-count').textContent = this.coins.bronze;
+            }
+
+            // 卵の出現を開始（ページ読み込み時に1回だけ判定）
+            startEggSpawning() {
+                // ページ読み込み時に即座に出現判定
+                if (Math.random() < 0.4) { // 40%の確率で卵出現
+                    this.createEgg();
+                }
+            }
+
+            // 卵を作成
+            createEgg() {
+                const egg = document.createElement('div');
+
+                // 卵の種類を決定（50%ずつ）
+                const eggType = Math.random() < 0.5 ? 'bronze' : 'silver';
+                egg.className = 'egg';
+                egg.dataset.type = eggType;
+
+                // 卵の画像を追加
+                const eggImg = document.createElement('img');
+                eggImg.src = `shared/images/eggs/${eggType}-egg.svg`;
+                eggImg.alt = `${eggType} egg`;
+
+                // 上下に割れるための構造を作成（最初は非表示）
+                const topHalf = document.createElement('div');
+                const bottomHalf = document.createElement('div');
+                topHalf.className = 'egg-half-top';
+                bottomHalf.className = 'egg-half-bottom';
+                topHalf.style.display = 'none';
+                bottomHalf.style.display = 'none';
+
+                const topImg = document.createElement('img');
+                topImg.src = `shared/images/eggs/${eggType}-shell-top.svg`;
+                topImg.alt = `${eggType} shell top`;
+                topHalf.appendChild(topImg);
+
+                const bottomImg = document.createElement('img');
+                bottomImg.src = `shared/images/eggs/${eggType}-shell-bottom.svg`;
+                bottomImg.alt = `${eggType} shell bottom`;
+                bottomHalf.appendChild(bottomImg);
+
+                egg.appendChild(eggImg);
+                egg.appendChild(topHalf);
+                egg.appendChild(bottomHalf);
+
+                // コンテンツにかぶらない位置に配置（枠外の空いている場所）
+                const container = document.querySelector('.container');
+                const containerRect = container.getBoundingClientRect();
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+
+                let x, y;
+                const positions = [];
+
+                // 左側の余白（コンテナの左側）
+                if (containerRect.left > 60) {
+                    positions.push({
+                        x: Math.random() * (containerRect.left - 60) + 10,
+                        y: Math.random() * (windowHeight - 100) + 50
+                    });
+                }
+
+                // 右側の余白（コンテナの右側）
+                if (windowWidth - containerRect.right > 60) {
+                    positions.push({
+                        x: containerRect.right + 10 + Math.random() * (windowWidth - containerRect.right - 60),
+                        y: Math.random() * (windowHeight - 100) + 50
+                    });
+                }
+
+                // 下部の余白（フッター下）
+                const footer = document.querySelector('.footer');
+                const footerRect = footer ? footer.getBoundingClientRect() : null;
+                if (footerRect && windowHeight - footerRect.bottom > 60) {
+                    positions.push({
+                        x: Math.random() * (containerRect.width - 60) + containerRect.left + 10,
+                        y: footerRect.bottom + 10 + Math.random() * (windowHeight - footerRect.bottom - 60)
+                    });
+                }
+
+                // サイドバーの下部空きスペース
+                const sidebar = document.querySelector('.sidebar');
+                const contentArea = document.querySelector('.content-area');
+                if (sidebar && contentArea) {
+                    const sidebarRect = sidebar.getBoundingClientRect();
+                    const contentRect = contentArea.getBoundingClientRect();
+                    const sidebarBottom = sidebarRect.bottom;
+                    const containerBottom = containerRect.bottom;
+
+                    if (containerBottom - sidebarBottom > 80) {
+                        positions.push({
+                            x: sidebarRect.left + 10 + Math.random() * (sidebarRect.width - 60),
+                            y: sidebarBottom + 10 + Math.random() * (containerBottom - sidebarBottom - 80)
+                        });
+                    }
+                }
+
+                // 利用可能な位置がない場合は、右下角に配置
+                if (positions.length === 0) {
+                    positions.push({
+                        x: windowWidth - 60,
+                        y: windowHeight - 70
+                    });
+                }
+
+                // ランダムに位置を選択
+                const position = positions[Math.floor(Math.random() * positions.length)];
+                x = position.x;
+                y = position.y;
+
+                // スクロール位置を考慮して絶対座標で配置
+                egg.style.left = x + 'px';
+                egg.style.top = (y + window.pageYOffset) + 'px';
+
+                // 自動削除は無し（クリックするかページリロードまで表示し続ける）
+
+                // クリックイベント
+                egg.addEventListener('click', () => {
+                    if (window.audioSystem) window.audioSystem.play('notification');
+                    this.crackEgg(egg, x, y);
+                });
+
+                document.body.appendChild(egg);
+            }
+
+            // 卵を割る
+            crackEgg(egg, x, y) {
+                // クリック無効化
+                egg.style.pointerEvents = 'none';
+
+                // 卵の画像を隠して殻を表示
+                const eggImg = egg.querySelector('img');
+                const topHalf = egg.querySelector('.egg-half-top');
+                const bottomHalf = egg.querySelector('.egg-half-bottom');
+
+                // 割れるアニメーション
+                egg.classList.add('egg-crack');
+
+                // 少し遅れて卵を隠し、殻を表示
+                setTimeout(() => {
+                    if (eggImg) eggImg.style.display = 'none';
+                    if (topHalf) topHalf.style.display = 'block';
+                    if (bottomHalf) bottomHalf.style.display = 'block';
+                }, 400);
+
+                // 卵の種類に基づいてコイン獲得（必ずコインが出る）
+                const eggType = egg.dataset.type;
+                let coinType, amount, text, rewardColor;
+
+                if (eggType === 'silver') {
+                    coinType = 'silver';
+                    amount = 1;
+                    text = '+1 🥈';
+                    rewardColor = '#c0c0c0';
+                } else { // bronze
+                    coinType = 'bronze';
+                    amount = 5;
+                    text = '+5 🥉';
+                    rewardColor = '#cd7f32';
+                }
+
+                // コイン追加
+                this.addCoin(coinType, amount);
+
+                // 少し遅れてコイン獲得音を再生（割れた中から出てくる演出）
+                setTimeout(() => {
+                    if (window.audioSystem) window.audioSystem.play('success');
+                }, 600);
+
+                // 報酬表示アニメーション（卵が割れた中から出てくる）
+                setTimeout(() => {
+                    const reward = document.createElement('div');
+                    reward.className = 'coin-reward';
+                    reward.textContent = text;
+                    // スクロール位置を考慮した絶対座標で配置
+                    reward.style.left = (x + 20) + 'px'; // 卵の中央から
+                    reward.style.top = (y + 25 + window.pageYOffset) + 'px';
+                    reward.style.color = rewardColor;
+
+                    document.body.appendChild(reward);
+
+                    // 報酬アニメーション後にクリーンアップ
+                    setTimeout(() => {
+                        if (reward.parentNode) {
+                            reward.remove();
+                        }
+                    }, 2000);
+                }, 800); // 卵が割れて少し遅れて出現
+
+                // 卵を完全に隠す
+                setTimeout(() => {
+                    egg.classList.add('egg-destroyed');
+                }, 1000);
+
+                // 卵のクリーンアップ
+                setTimeout(() => {
+                    if (egg.parentNode) {
+                        egg.remove();
+                    }
+
+                    // 卵が割れた後、少し時間を置いて新しい卵の出現判定
+                    setTimeout(() => {
+                        if (Math.random() < 0.2) { // 20%の確率で新しい卵出現
+                            this.createEgg();
+                        }
+                    }, Math.random() * 10000 + 5000); // 5-15秒後
+                }, 2000);
+            }
+        }
+
+        // パフォーマンス最適化
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('SGGameSite (Yahoo! Games風) loaded successfully! 🎮');
+
+            // コインシステムを初期化
+            window.coinSystem = new CoinSystem();
+        });
+
+        // ページ離脱時に卵を削除
+        window.addEventListener('beforeunload', function () {
+            const eggs = document.querySelectorAll('.egg');
+            eggs.forEach(egg => egg.remove());
+        });
+
+        // タブ切り替え時にも新しい卵を判定
         function showTab(tabName) {
             // すべてのタブとコンテンツを非アクティブにする
             const tabs = document.querySelectorAll('.nav-tab');
@@ -806,12 +1351,18 @@
             // 選択されたタブをアクティブにする
             event.target.classList.add('active');
             document.getElementById(tabName).classList.add('active');
-        }
 
-        // パフォーマンス最適化
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('SGGameSite (Yahoo! Games風) loaded successfully! 🎮');
-        });
+            // 既存の卵を削除
+            const existingEggs = document.querySelectorAll('.egg');
+            existingEggs.forEach(egg => egg.remove());
+
+            // 新しい卵の出現判定
+            if (window.coinSystem && Math.random() < 0.3) {
+                setTimeout(() => {
+                    window.coinSystem.createEgg();
+                }, 500);
+            }
+        }
 
         // レトロな効果音（オプション）
         function playRetroSound() {

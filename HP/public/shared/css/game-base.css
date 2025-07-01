@@ -1,0 +1,286 @@
+.game-info {
+    background: #ffffcc;
+    border: 1px solid #ffcc00;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.game-info h3 {
+    color: #cc6600;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.controls-info {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.controls-info h4 {
+    color: #316AC5;
+    margin-bottom: 10px;
+}
+
+.game-board {
+    display: inline-block;
+    border: 3px solid #316AC5;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    touch-action: none;
+    position: relative;
+}
+
+.game-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background: #e6f0ff;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #316AC5;
+}
+
+.game-buttons {
+    margin-bottom: 20px;
+}
+
+.btn {
+    background: #316AC5;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    margin: 0 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background: #4a90e2;
+}
+
+.btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 1.3em;
+    margin: 10px;
+}
+
+.btn-secondary {
+    background: #666;
+}
+
+.btn-secondary:hover {
+    background: #888;
+}
+
+.game-over {
+    background: #ffeeee;
+    border: 2px solid #ff0000;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    max-width: 400px;
+    display: none;
+}
+
+.game-over h3 {
+    color: #ff0000;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.high-score {
+    background: #eeffee;
+    border: 2px solid #00aa00;
+    padding: 15px;
+    margin: 20px auto;
+    border-radius: 10px;
+    max-width: 400px;
+}
+
+.high-score h4 {
+    color: #00aa00;
+    margin-bottom: 10px;
+}
+
+/* ゲーム開始画面 */
+.start-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.start-content {
+    text-align: center;
+    color: white;
+}
+
+.game-title-screen {
+    font-size: 3em;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px #316AC5;
+    background: linear-gradient(45deg, #316AC5, #4a90e2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.game-subtitle {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: #cccccc;
+}
+
+/* 一時停止・再生ボタン */
+.pause-play-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #316AC5;
+    color: white;
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.3s;
+}
+
+.pause-play-btn:hover {
+    background: rgba(49, 106, 197, 0.2);
+    transform: scale(1.1);
+}
+
+/* ダイアログ */
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.dialog {
+    background: white;
+    border: 2px solid #316AC5;
+    border-radius: 15px;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 30px rgba(49, 106, 197, 0.5);
+}
+
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    background: #f0f8ff;
+}
+
+.dialog-header h3 {
+    margin: 0;
+    color: #316AC5;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.dialog-content {
+    padding: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.dialog-content h4 {
+    color: #316AC5;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.dialog-content h4:first-child {
+    margin-top: 0;
+}
+
+.dialog-content p {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .game-stats {
+        gap: 15px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .game-board {
+        max-width: 100%;
+        border-width: 2px;
+    }
+
+    .btn {
+        margin: 5px;
+        padding: 10px 20px;
+    }
+}

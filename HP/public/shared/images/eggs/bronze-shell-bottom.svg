@@ -1,0 +1,20 @@
+<svg width="40" height="25" viewBox="0 0 40 25" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bronzeShellBottomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#cd7f32;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 完全な卵の下半分（Y=0からY=18で切断、ジグザグの割れ目） -->
+  <path d="M 8 0 L 10 2 L 12 0 L 14 2 L 16 0 L 18 2 L 20 0 L 22 2 L 24 0 L 26 2 L 28 0 L 30 2 L 32 0 L 32 6 L 30 12 L 28 16 L 24 18 L 16 18 L 12 16 L 10 12 L 8 6 Z"
+        fill="url(#bronzeShellBottomGrad)" stroke="#654321" stroke-width="2"/>
+
+  <!-- 内側の白い部分（割れ目） -->
+  <path d="M 10 0 L 30 0 L 30 2 L 28 0 L 26 2 L 24 0 L 22 2 L 20 0 L 18 2 L 16 0 L 14 2 L 12 0 L 10 2 Z"
+        fill="#ffffff" opacity="0.9"/>
+
+  <!-- 底部の影（下半分のみ） -->
+  <ellipse cx="20" cy="20" rx="8" ry="2" fill="#654321" opacity="0.3"/>
+</svg>

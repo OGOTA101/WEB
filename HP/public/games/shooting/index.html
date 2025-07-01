@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シューティングゲーム - SGGameSite</title>
+
+    <!-- 共通CSS -->
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="../../shared/css/game-base.css">
+
+    <!-- Phaser.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+
+    <!-- 音響システム -->
+    <script src="../../shared/js/audio-system.js"></script>
+
+    <style>
+        /* コインアイコンのスタイル */
+        .coin-display {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .coin-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .coin-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .coin-gold {
+            background: linear-gradient(135deg, #ffd700, #ffb000);
+            border: 2px solid #ff8c00;
+        }
+
+        .coin-silver {
+            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+            border: 2px solid #808080;
+        }
+
+        .coin-bronze {
+            background: linear-gradient(135deg, #cd7f32, #8b4513);
+            border: 2px solid #654321;
+        }
+
+        .footer {
+            background: #316AC5;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            border-top: 2px solid #0066cc;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            min-height: calc(100vh - 120px);
+        }
+
+        .game-title {
+            color: #00ffff;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ffff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .game-area {
+            position: relative;
+            border: 3px solid #00ffff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #00ffff50;
+            background: #000;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 800px;
+            margin-bottom: 15px;
+            color: #00ffff;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .score-display {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .controls {
+            margin-top: 15px;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+        }
+
+        .start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: #00ffff;
+        }
+
+        .start-title {
+            font-size: 48px;
+            font-weight: bold;
+            text-shadow: 0 0 20px #00ffff;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .start-subtitle {
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: #888;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #00ffff, #0088ff);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+
+        .start-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        .instructions {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .game-over-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: #ff4444;
+        }
+
+        .game-over-title {
+            font-size: 48px;
+            font-weight: bold;
+            text-shadow: 0 0 20px #ff4444;
+            margin-bottom: 20px;
+        }
+
+        .final-stats {
+            color: #00ffff;
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .mobile-controls {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .mobile-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 255, 255, 0.3);
+            border: 2px solid #00ffff;
+            border-radius: 50%;
+            color: #00ffff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-controls {
+                display: flex;
+            }
+
+            .game-info {
+                width: 100%;
+                max-width: 400px;
+                font-size: 14px;
+            }
+
+            .game-area {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>🎯 シューティングゲーム</h1>
+                    <div class="tagline">Phaserで作る本格シューティング</div>
+                </div>
+                <div class="coin-display">
+                    <div class="coin-item">
+                        <span class="coin-icon coin-gold"></span>
+                        <span id="goldCoins">0</span>
+                    </div>
+                    <div class="coin-item">
+                        <span class="coin-icon coin-silver"></span>
+                        <span id="silverCoins">0</span>
+                    </div>
+                    <div class="coin-item">
+                        <span class="coin-icon coin-bronze"></span>
+                        <span id="bronzeCoins">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- パンくずナビ -->
+        <div class="breadcrumb">
+            <a href="../../index.html">ホーム</a> &gt;
+            <a href="../snake/index.html">スネーク</a> |
+            <a href="../bike/index.html">チャリ走</a> |
+            <a href="../minesweeper/index.html">マインスイーパー</a> |
+            <a href="../qix/index.html">Qix</a> |
+            <strong>シューティング</strong>
+        </div>
+
+        <!-- ゲームコンテナ -->
+        <div class="game-container">
+            <div class="game-title">SPACE SHOOTER</div>
+
+            <!-- ゲーム情報 -->
+            <div class="game-info">
+                <div class="score-display">
+                    <div class="stat-item">
+                        <span class="stat-label">SCORE</span>
+                        <span class="stat-value" id="score">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">LEVEL</span>
+                        <span class="stat-value" id="level">1</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">LIVES</span>
+                        <span class="stat-value" id="lives">3</span>
+                    </div>
+                </div>
+                <div>
+                    <button id="pauseBtn" class="start-button" style="padding: 8px 16px; font-size: 14px;">⏸️</button>
+                </div>
+            </div>
+
+            <!-- ゲームエリア -->
+            <div class="game-area">
+                <div id="game-canvas"></div>
+
+                <!-- スタート画面 -->
+                <div class="start-screen" id="startScreen">
+                    <div class="start-title">SPACE SHOOTER</div>
+                    <div class="start-subtitle">宇宙からの侵略者を撃退せよ！</div>
+                    <button class="start-button" id="startBtn">ゲーム開始</button>
+                    <button class="start-button" id="instructionsBtn">操作方法</button>
+                    <div class="instructions" id="instructions" style="display: none;">
+                        <strong>操作方法：</strong><br>
+                        ← → : 移動<br>
+                        スペース : 射撃<br>
+                        ESC : ポーズ<br><br>
+                        <strong>ルール：</strong><br>
+                        • 敵を撃破してスコアを稼ごう<br>
+                        • パワーアップアイテムを取って強化<br>
+                        • 3回被弾するとゲームオーバー<br>
+                        • レベルが上がると敵が強くなる
+                    </div>
+                </div>
+
+                <!-- ゲームオーバー画面 -->
+                <div class="game-over-screen" id="gameOverScreen">
+                    <div class="game-over-title">GAME OVER</div>
+                    <div class="final-stats" id="finalStats">
+                        スコア: <span id="finalScore">0</span><br>
+                        到達レベル: <span id="finalLevel">1</span><br>
+                        撃破数: <span id="finalKills">0</span>
+                    </div>
+                    <button class="start-button" id="restartBtn">もう一度</button>
+                    <button class="start-button" id="backBtn">メニューに戻る</button>
+                </div>
+            </div>
+
+            <!-- 操作説明 -->
+            <div class="controls">
+                PC: ← → で移動、スペースで射撃 | モバイル: 画面下のボタンで操作
+            </div>
+
+            <!-- モバイル操作ボタン -->
+            <div class="mobile-controls">
+                <div class="mobile-btn" id="leftBtn">←</div>
+                <div class="mobile-btn" id="shootBtn">🔥</div>
+                <div class="mobile-btn" id="rightBtn">→</div>
+            </div>
+        </div>
+
+        <!-- フッター -->
+        <div class="footer">
+            <p>&copy; 2024 SGGameSite. Powered by Phaser.js</p>
+        </div>
+    </div>
+
+    <!-- ゲームスクリプト -->
+    <script src="shooting-game.js"></script>
+
+    <!-- 初期化スクリプト -->
+    <script>
+        // コイン表示を更新
+        function updateCoinDisplay() {
+            const goldCoins = localStorage.getItem('goldCoins') || '0';
+            const silverCoins = localStorage.getItem('silverCoins') || '0';
+            const bronzeCoins = localStorage.getItem('bronzeCoins') || '0';
+
+            document.getElementById('goldCoins').textContent = goldCoins;
+            document.getElementById('silverCoins').textContent = silverCoins;
+            document.getElementById('bronzeCoins').textContent = bronzeCoins;
+        }
+
+        // ページ読み込み時にコイン表示を更新
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCoinDisplay();
+
+            // 音響システム初期化（安全に）
+            setTimeout(() => {
+                if (window.audioSystem && typeof window.audioSystem.init === 'function') {
+                    window.audioSystem.init();
+                } else {
+                    console.log('AudioSystem not ready yet');
+                }
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>
