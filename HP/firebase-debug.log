@@ -1,45 +1,16 @@
-[debug] [2025-07-01T15:31:35.494Z] ----------------------------------------------------------------------
-[debug] [2025-07-01T15:31:35.496Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ihogo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only hosting --port 5000
-[debug] [2025-07-01T15:31:35.496Z] CLI Version:   14.8.0
-[debug] [2025-07-01T15:31:35.496Z] Platform:      win32
-[debug] [2025-07-01T15:31:35.496Z] Node Version:  v24.2.0
-[debug] [2025-07-01T15:31:35.497Z] Time:          Wed Jul 02 2025 00:31:35 GMT+0900 (日本標準時)
-[debug] [2025-07-01T15:31:35.497Z] ----------------------------------------------------------------------
+[debug] [2025-07-02T00:06:28.147Z] ----------------------------------------------------------------------
+[debug] [2025-07-02T00:06:28.150Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ihogo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only hosting --port 5000
+[debug] [2025-07-02T00:06:28.150Z] CLI Version:   14.8.0
+[debug] [2025-07-02T00:06:28.150Z] Platform:      win32
+[debug] [2025-07-02T00:06:28.150Z] Node Version:  v24.2.0
+[debug] [2025-07-02T00:06:28.150Z] Time:          Wed Jul 02 2025 09:06:28 GMT+0900 (日本標準時)
+[debug] [2025-07-02T00:06:28.150Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2025-07-01T15:31:35.683Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2025-07-01T15:31:35.683Z] > authorizing via signed-in user (ogotama@gmail.com)
-[debug] [2025-07-01T15:31:35.683Z] [iam] checking project sggame-hub for permissions ["firebase.projects.get"]
-[debug] [2025-07-01T15:31:35.684Z] Checked if tokens are valid: false, expires at: 1751384307095
-[debug] [2025-07-01T15:31:35.684Z] Checked if tokens are valid: false, expires at: 1751384307095
-[debug] [2025-07-01T15:31:35.684Z] > refreshing access token with scopes: []
-[debug] [2025-07-01T15:31:35.685Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2025-07-01T15:31:35.685Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2025-07-01T15:31:35.845Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2025-07-01T15:31:35.845Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2025-07-01T15:31:35.851Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/sggame-hub:testIamPermissions [none]
-[debug] [2025-07-01T15:31:35.851Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/sggame-hub:testIamPermissions x-goog-quota-user=projects/sggame-hub
-[debug] [2025-07-01T15:31:35.851Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/sggame-hub:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2025-07-01T15:31:36.505Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/sggame-hub:testIamPermissions 200
-[debug] [2025-07-01T15:31:36.505Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/sggame-hub:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2025-07-01T15:31:36.506Z] Checked if tokens are valid: true, expires at: 1751387494845
-[debug] [2025-07-01T15:31:36.506Z] Checked if tokens are valid: true, expires at: 1751387494845
-[debug] [2025-07-01T15:31:36.506Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/sggame-hub [none]
-[debug] [2025-07-01T15:31:36.690Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/sggame-hub 200
-[debug] [2025-07-01T15:31:36.690Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/sggame-hub {"projectNumber":"228141329072","projectId":"sggame-hub","lifecycleState":"ACTIVE","name":"SGGame","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-06-18T15:55:49.541288Z"}
-[debug] [2025-07-01T15:31:36.692Z] Checked if tokens are valid: true, expires at: 1751387494845
-[debug] [2025-07-01T15:31:36.692Z] Checked if tokens are valid: true, expires at: 1751387494845
-[debug] [2025-07-01T15:31:36.692Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/sggame-hub/sites 
-[debug] [2025-07-01T15:31:37.390Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/sggame-hub/sites 200
-[debug] [2025-07-01T15:31:37.390Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/sggame-hub/sites {"sites":[{"name":"projects/sggame-hub/sites/sggame-hub","defaultUrl":"https://sggame-hub.web.app","type":"DEFAULT_SITE"}]}
-[debug] [2025-07-01T15:31:37.390Z] Checked if tokens are valid: true, expires at: 1751387494845
-[debug] [2025-07-01T15:31:37.390Z] Checked if tokens are valid: true, expires at: 1751387494845
-[debug] [2025-07-01T15:31:37.390Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/sggame-hub/webApps/-/config [none]
-[debug] [2025-07-01T15:31:38.124Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/sggame-hub/webApps/-/config 200
-[debug] [2025-07-01T15:31:38.124Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/sggame-hub/webApps/-/config {"projectId":"sggame-hub","appId":"1:228141329072:web:66b1f70f1c16df891f6975","databaseURL":"https://sggame-hub-default-rtdb.asia-southeast1.firebasedatabase.app","storageBucket":"sggame-hub.firebasestorage.app","apiKey":"AIzaSyC16EouqGT7zq2S1KSSAFWnmgWPYb1r49E","authDomain":"sggame-hub.firebaseapp.com","messagingSenderId":"228141329072"}
-[debug] [2025-07-01T15:31:38.128Z] Checked if tokens are valid: true, expires at: 1751387494845
-[debug] [2025-07-01T15:31:38.128Z] Checked if tokens are valid: true, expires at: 1751387494845
-[debug] [2025-07-01T15:31:38.128Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/sggame-hub [none]
-[debug] [2025-07-01T15:31:38.507Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/sggame-hub 200
-[debug] [2025-07-01T15:31:38.507Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/sggame-hub {"projectId":"sggame-hub","projectNumber":"228141329072","displayName":"SGGame","name":"projects/sggame-hub","resources":{"hostingSite":"sggame-hub","realtimeDatabaseInstance":"sggame-hub-default-rtdb"},"state":"ACTIVE","etag":"1_331b2e0f-e991-45be-a169-242f5385bdd0"}
-[info] i  hosting[sggame-hub]: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpublic\u001b[22m"}}
-[info] +  hosting[sggame-hub]: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
+[debug] [2025-07-02T00:06:28.349Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-02T00:06:28.349Z] > authorizing via signed-in user (ogotama@gmail.com)
+[debug] [2025-07-02T00:06:28.349Z] [iam] checking project sggame-hub for permissions ["firebase.projects.get"]
+[debug] [2025-07-02T00:06:28.350Z] Checked if tokens are valid: false, expires at: 1751408653816
+[debug] [2025-07-02T00:06:28.350Z] Checked if tokens are valid: false, expires at: 1751408653816
+[debug] [2025-07-02T00:06:28.350Z] > refreshing access token with scopes: []
+[debug] [2025-07-02T00:06:28.351Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-07-02T00:06:28.351Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]

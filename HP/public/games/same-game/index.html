@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 さめがめ - SGGameSite</title>
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="../../shared/css/game-base.css">
+    <style>
+        /* さめがめ専用スタイル */
+        .same-game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            padding: 20px;
+        }
+
+        .game-board {
+            background: #2a2a2a;
+            border: 3px solid #00ff41;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .board-grid {
+            display: grid;
+            gap: 2px;
+            background: #1a1a1a;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .board-cell {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .board-cell:hover:not(.empty) {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .board-cell.highlighted {
+            animation: pulse 0.5s infinite alternate;
+            border: 2px solid #ffff00;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        .board-cell.falling {
+            animation: fall 0.3s ease-in;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .cell-color-1 {
+            background: #ff4444;
+        }
+
+        .cell-color-2 {
+            background: #44ff44;
+        }
+
+        .cell-color-3 {
+            background: #4444ff;
+        }
+
+        .cell-color-4 {
+            background: #ffff44;
+        }
+
+        .cell-color-5 {
+            background: #ff44ff;
+        }
+
+        .cell-color-6 {
+            background: #44ffff;
+        }
+
+        .empty {
+            background: transparent;
+            border: 1px solid #333;
+        }
+
+        .difficulty-section {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .difficulty-btn {
+            padding: 8px 16px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-btn:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .difficulty-btn.active {
+            background: #00ff41;
+            color: #000;
+        }
+
+        .game-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .info-card h3 {
+            margin: 0 0 10px 0;
+            color: #00ff41;
+            font-size: 14px;
+        }
+
+        .info-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .game-btn {
+            padding: 10px 20px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .game-btn:hover {
+            background: #00cc33;
+            transform: translateY(-2px);
+        }
+
+        .game-btn:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .coin-display {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        /* ゲーム終了画面 */
+        .game-over-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #2a2a2a;
+            border: 3px solid #00ff41;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #00ff41;
+        }
+
+        .modal-stats {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .board-cell {
+                width: 25px;
+                height: 25px;
+                font-size: 16px;
+            }
+
+            .game-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .controls {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <div class="game-header">
+            <div class="header-content">
+                <div class="game-title">
+                    <h1>🎯 さめがめ</h1>
+                    <p class="game-subtitle">同じ色のブロックを消して全クリアを目指そう！</p>
+                </div>
+                <div class="header-controls">
+                    <a href="../../index.html" class="back-btn">🏠 ホームに戻る</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ゲームコンテンツ -->
+        <div class="game-content">
+            <!-- 難易度選択 -->
+            <div class="difficulty-section">
+                <button class="difficulty-btn active" data-difficulty="easy">初級 (15×10)</button>
+                <button class="difficulty-btn" data-difficulty="normal">中級 (18×12)</button>
+                <button class="difficulty-btn" data-difficulty="hard">上級 (20×15)</button>
+            </div>
+
+            <!-- ゲーム情報 -->
+            <div class="game-info">
+                <div class="info-card">
+                    <h3>現在のスコア</h3>
+                    <div class="value" id="currentScore">0</div>
+                </div>
+                <div class="info-card">
+                    <h3>ハイスコア</h3>
+                    <div class="value" id="highScore">0</div>
+                </div>
+                <div class="info-card">
+                    <h3>残りブロック</h3>
+                    <div class="value" id="remainingBlocks">0</div>
+                </div>
+                <div class="info-card">
+                    <h3>選択中</h3>
+                    <div class="value" id="selectedCount">0</div>
+                </div>
+            </div>
+
+            <!-- コントロールボタン -->
+            <div class="controls">
+                <button class="game-btn" id="startBtn">ゲーム開始</button>
+                <button class="game-btn" id="restartBtn">リスタート</button>
+                <button class="game-btn" id="undoBtn" disabled>元に戻す</button>
+            </div>
+
+            <!-- ゲームボード -->
+            <div class="same-game-container">
+                <div class="game-board">
+                    <div class="board-grid" id="gameBoard"></div>
+                </div>
+            </div>
+
+            <!-- コイン表示 -->
+            <div class="coin-display">
+                <div class="coin-item">
+                    <span class="coin-icon coin-gold"></span>
+                    <span id="goldCoins">0</span>
+                </div>
+                <div class="coin-item">
+                    <span class="coin-icon coin-silver"></span>
+                    <span id="silverCoins">0</span>
+                </div>
+                <div class="coin-item">
+                    <span class="coin-icon coin-bronze"></span>
+                    <span id="bronzeCoins">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ゲーム終了モーダル -->
+        <div class="game-over-modal" id="gameOverModal">
+            <div class="modal-content">
+                <div class="modal-title" id="modalTitle">ゲーム終了</div>
+                <div class="modal-stats">
+                    <div>最終スコア: <span id="finalScore">0</span></div>
+                    <div>残ったブロック: <span id="finalBlocks">0</span></div>
+                    <div id="newHighScore" style="display: none; color: #ffd700; margin-top: 10px;">🏆 新記録達成！</div>
+                </div>
+                <div class="modal-buttons">
+                    <button class="game-btn" id="restartFromModalBtn">もう一度</button>
+                    <button class="game-btn" id="backToHomeBtn">ホームに戻る</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- フッター -->
+        <div class="game-footer">
+            <div class="footer-content">
+                <div class="game-rules">
+                    <h3>🎯 ゲームルール</h3>
+                    <ul>
+                        <li>同じ色で縦・横につながったブロックをクリックして消します</li>
+                        <li>2個以上つながったブロックのみ消すことができます</li>
+                        <li>ブロックを消すと上のブロックが落下し、空いた列は詰められます</li>
+                        <li>すべてのブロックを消すとクリア！高得点を目指しましょう</li>
+                        <li>一度に多くのブロックを消すほど高得点が獲得できます</li>
+                    </ul>
+                </div>
+                <div class="game-tips">
+                    <h3>💡 攻略のコツ</h3>
+                    <ul>
+                        <li>大きな塊を作ってから消すと高得点</li>
+                        <li>消す順番を考えて戦略的にプレイ</li>
+                        <li>小さな塊は最後に残さないよう注意</li>
+                        <li>全体のバランスを見ながら進める</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 共通スクリプト -->
+    <script src="../../shared/js/audio-system.js"></script>
+    <script src="../../shared/js/game-framework.js"></script>
+    <script src="same-game.js?v=1"></script>
+</body>
+
+</html>
