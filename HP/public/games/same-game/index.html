@@ -9,15 +9,18 @@
     <link rel="stylesheet" href="../../shared/css/game-base.css">
     <style>
         /* さめがめ専用スタイル */
-        .same-game-container {
+        .game-board {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 400px;
             padding: 20px;
+            background: linear-gradient(45deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+            overflow: hidden;
         }
 
-        .game-board {
+        .same-game-board {
             background: #2a2a2a;
             border: 3px solid #00ff41;
             border-radius: 8px;
@@ -111,91 +114,58 @@
             border: 1px solid #333;
         }
 
-        .difficulty-section {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
+        .difficulty-selector {
             margin-bottom: 20px;
         }
 
         .difficulty-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #333;
+            border: 1px solid #00ff41;
             padding: 8px 16px;
-            background: #4a90e2;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            margin: 0 5px;
+            border-radius: 3px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .difficulty-btn:hover {
-            background: #357abd;
-            transform: translateY(-2px);
+            transition: all 0.3s;
         }
 
         .difficulty-btn.active {
             background: #00ff41;
             color: #000;
+            box-shadow: 0 0 10px #00ff41;
         }
 
-        .game-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+        .stat-item {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid #00ff41;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
         }
 
-        .info-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
+        .stat-label {
+            color: #00bb33;
         }
 
-        .info-card h3 {
-            margin: 0 0 10px 0;
+        .stat-value {
             color: #00ff41;
-            font-size: 14px;
+            text-shadow: 0 0 5px #00ff41;
         }
 
-        .info-card .value {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
+        .btn {
+            background: linear-gradient(45deg, #00ff41, #00bb33);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
         }
 
-        .controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .game-btn {
-            padding: 10px 20px;
-            background: #00ff41;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .game-btn:hover {
-            background: #00cc33;
+        .btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 65, 0.6);
         }
 
-        .game-btn:disabled {
+        .btn:disabled {
             background: #666;
             color: #999;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
         .coin-display {
@@ -251,6 +221,30 @@
             margin-top: 25px;
         }
 
+        .game-title-screen {
+            background: linear-gradient(45deg, #00ff41, #00bb33);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px #00ff41;
+        }
+
+        .controls-info h4 {
+            color: #00bb33;
+        }
+
+        .back-link {
+            border-top: 1px solid #00ff41;
+        }
+
+        .back-link a {
+            color: #00bb33;
+        }
+
+        .back-link a:hover {
+            text-shadow: 0 0 5px #00ff41;
+        }
+
         /* レスポンシブデザイン */
         @media (max-width: 768px) {
             .board-cell {
@@ -259,12 +253,8 @@
                 font-size: 16px;
             }
 
-            .game-info {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .controls {
-                flex-wrap: wrap;
+            .game-title-screen {
+                font-size: 24px;
             }
         }
     </style>
@@ -273,57 +263,74 @@
 <body>
     <div class="container">
         <!-- ヘッダー -->
-        <div class="game-header">
+        <div class="header">
             <div class="header-content">
-                <div class="game-title">
-                    <h1>🎯 さめがめ</h1>
-                    <p class="game-subtitle">同じ色のブロックを消して全クリアを目指そう！</p>
-                </div>
-                <div class="header-controls">
-                    <a href="../../index.html" class="back-btn">🏠 ホームに戻る</a>
-                </div>
+                <h1>🎮 SGGameSite</h1>
+                <div class="tagline">無料ゲームサイト</div>
             </div>
         </div>
 
-        <!-- ゲームコンテンツ -->
-        <div class="game-content">
+        <!-- パンくずリスト -->
+        <div class="breadcrumb">
+            <a href="../../index.html">ホーム</a> &gt; 🎯 さめがめ
+        </div>
+
+        <!-- ゲームコンテナ -->
+        <div class="game-container">
+            <h2 class="game-title">🎯 さめがめ</h2>
+
+            <!-- ゲーム情報 -->
+            <div class="game-info">
+                <h3>🎯 ゲーム概要</h3>
+                <p>同じ色で縦・横につながったブロックをクリックして消していくパズルゲーム！</p>
+                <p>一度に多くのブロックを消すほど高得点！すべて消せればパーフェクト！</p>
+            </div>
+
+            <!-- 操作説明 -->
+            <div class="controls-info">
+                <h4>🕹️ 操作方法</h4>
+                <p><strong>PC:</strong> マウスクリックでブロック消去、ホバーでプレビュー</p>
+                <p><strong>スマホ:</strong> タップでブロック消去</p>
+                <p><strong>キーボード:</strong> U(アンドゥ)、R(リスタート)、Esc(選択解除)</p>
+            </div>
             <!-- 難易度選択 -->
-            <div class="difficulty-section">
+            <div class="difficulty-selector">
+                <h4 style="color: #00ff41; margin-bottom: 10px;">🏆 難易度選択</h4>
                 <button class="difficulty-btn active" data-difficulty="easy">初級 (15×10)</button>
                 <button class="difficulty-btn" data-difficulty="normal">中級 (18×12)</button>
                 <button class="difficulty-btn" data-difficulty="hard">上級 (20×15)</button>
             </div>
 
-            <!-- ゲーム情報 -->
-            <div class="game-info">
-                <div class="info-card">
-                    <h3>現在のスコア</h3>
-                    <div class="value" id="currentScore">0</div>
+            <!-- ゲーム統計 -->
+            <div class="game-stats">
+                <div class="stat-item">
+                    <div class="stat-label">現在のスコア</div>
+                    <div class="stat-value" id="currentScore">0</div>
                 </div>
-                <div class="info-card">
-                    <h3>ハイスコア</h3>
-                    <div class="value" id="highScore">0</div>
+                <div class="stat-item">
+                    <div class="stat-label">ハイスコア</div>
+                    <div class="stat-value" id="highScore">0</div>
                 </div>
-                <div class="info-card">
-                    <h3>残りブロック</h3>
-                    <div class="value" id="remainingBlocks">0</div>
+                <div class="stat-item">
+                    <div class="stat-label">残りブロック</div>
+                    <div class="stat-value" id="remainingBlocks">0</div>
                 </div>
-                <div class="info-card">
-                    <h3>選択中</h3>
-                    <div class="value" id="selectedCount">0</div>
+                <div class="stat-item">
+                    <div class="stat-label">選択中</div>
+                    <div class="stat-value" id="selectedCount">0</div>
                 </div>
             </div>
 
-            <!-- コントロールボタン -->
-            <div class="controls">
-                <button class="game-btn" id="startBtn">ゲーム開始</button>
-                <button class="game-btn" id="restartBtn">リスタート</button>
-                <button class="game-btn" id="undoBtn" disabled>元に戻す</button>
+            <!-- ゲームボタン -->
+            <div class="game-buttons">
+                <button class="btn" id="startBtn">ゲーム開始</button>
+                <button class="btn" id="restartBtn">リスタート</button>
+                <button class="btn" id="undoBtn" disabled>元に戻す</button>
             </div>
 
-            <!-- ゲームボード -->
-            <div class="same-game-container">
-                <div class="game-board">
+            <!-- ゲーム画面 -->
+            <div class="game-board">
+                <div class="same-game-board">
                     <div class="board-grid" id="gameBoard"></div>
                 </div>
             </div>
@@ -355,36 +362,35 @@
                     <div id="newHighScore" style="display: none; color: #ffd700; margin-top: 10px;">🏆 新記録達成！</div>
                 </div>
                 <div class="modal-buttons">
-                    <button class="game-btn" id="restartFromModalBtn">もう一度</button>
-                    <button class="game-btn" id="backToHomeBtn">ホームに戻る</button>
+                    <button class="btn" id="restartFromModalBtn">もう一度</button>
+                    <button class="btn" id="backToHomeBtn">ホームに戻る</button>
                 </div>
             </div>
         </div>
 
-        <!-- フッター -->
-        <div class="game-footer">
-            <div class="footer-content">
-                <div class="game-rules">
-                    <h3>🎯 ゲームルール</h3>
-                    <ul>
-                        <li>同じ色で縦・横につながったブロックをクリックして消します</li>
-                        <li>2個以上つながったブロックのみ消すことができます</li>
-                        <li>ブロックを消すと上のブロックが落下し、空いた列は詰められます</li>
-                        <li>すべてのブロックを消すとクリア！高得点を目指しましょう</li>
-                        <li>一度に多くのブロックを消すほど高得点が獲得できます</li>
-                    </ul>
-                </div>
-                <div class="game-tips">
-                    <h3>💡 攻略のコツ</h3>
-                    <ul>
-                        <li>大きな塊を作ってから消すと高得点</li>
-                        <li>消す順番を考えて戦略的にプレイ</li>
-                        <li>小さな塊は最後に残さないよう注意</li>
-                        <li>全体のバランスを見ながら進める</li>
-                    </ul>
-                </div>
-            </div>
+        <!-- ゲームルール -->
+        <div class="game-info" style="margin-top: 30px;">
+            <h3>🎯 ゲームルール</h3>
+            <p>• 同じ色で縦・横につながったブロックをクリックして消します</p>
+            <p>• 2個以上つながったブロックのみ消すことができます</p>
+            <p>• ブロックを消すと上のブロックが落下し、空いた列は詰められます</p>
+            <p>• すべてのブロックを消すとクリア！高得点を目指しましょう</p>
         </div>
+
+        <!-- 攻略のコツ -->
+        <div class="game-info">
+            <h3>💡 攻略のコツ</h3>
+            <p>• 大きな塊を作ってから消すと高得点</p>
+            <p>• 消す順番を考えて戦略的にプレイ</p>
+            <p>• 小さな塊は最後に残さないよう注意</p>
+            <p>• 全体のバランスを見ながら進める</p>
+        </div>
+
+        <!-- 戻るリンク -->
+        <div class="back-link">
+            <a href="../../index.html">← ゲーム一覧に戻る</a>
+        </div>
+    </div>
     </div>
 
     <!-- 共通スクリプト -->
