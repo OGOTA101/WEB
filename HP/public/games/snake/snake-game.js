@@ -283,6 +283,7 @@
             ctx.save();
 
             if (index === 0) {
+                // 蛇の頭部（方向に応じて顔の向きを変更）
                 const gradient = ctx.createRadialGradient(
                     segment.x + gridSize / 2, segment.y + gridSize / 2, 0,
                     segment.x + gridSize / 2, segment.y + gridSize / 2, gridSize / 2
@@ -295,17 +296,45 @@
                 ctx.roundRect(segment.x + 1, segment.y + 1, gridSize - 2, gridSize - 2, 4);
                 ctx.fill();
 
+                // 方向に応じて目と口の位置を計算
+                let eyeOffset1X, eyeOffset1Y, eyeOffset2X, eyeOffset2Y;
+                let mouthX, mouthY, mouthWidth, mouthHeight;
+
+                if (direction.x > 0) { // 右向き
+                    eyeOffset1X = 12; eyeOffset1Y = 6;
+                    eyeOffset2X = 12; eyeOffset2Y = 14;
+                    mouthX = 15; mouthY = 10; mouthWidth = 2; mouthHeight = 1;
+                } else if (direction.x < 0) { // 左向き
+                    eyeOffset1X = 8; eyeOffset1Y = 6;
+                    eyeOffset2X = 8; eyeOffset2Y = 14;
+                    mouthX = 3; mouthY = 10; mouthWidth = 2; mouthHeight = 1;
+                } else if (direction.y < 0) { // 上向き
+                    eyeOffset1X = 6; eyeOffset1Y = 8;
+                    eyeOffset2X = 14; eyeOffset2Y = 8;
+                    mouthX = 10; mouthY = 3; mouthWidth = 1; mouthHeight = 2;
+                } else { // 下向き（デフォルト）
+                    eyeOffset1X = 6; eyeOffset1Y = 12;
+                    eyeOffset2X = 14; eyeOffset2Y = 12;
+                    mouthX = 10; mouthY = 15; mouthWidth = 1; mouthHeight = 2;
+                }
+
+                // 目を描画
                 ctx.fillStyle = '#000';
                 ctx.beginPath();
-                ctx.arc(segment.x + 6, segment.y + 6, 2, 0, Math.PI * 2);
-                ctx.arc(segment.x + 14, segment.y + 6, 2, 0, Math.PI * 2);
+                ctx.arc(segment.x + eyeOffset1X, segment.y + eyeOffset1Y, 2, 0, Math.PI * 2);
+                ctx.arc(segment.x + eyeOffset2X, segment.y + eyeOffset2Y, 2, 0, Math.PI * 2);
                 ctx.fill();
 
+                // 目のハイライト
                 ctx.fillStyle = '#fff';
                 ctx.beginPath();
-                ctx.arc(segment.x + 7, segment.y + 5, 1, 0, Math.PI * 2);
-                ctx.arc(segment.x + 15, segment.y + 5, 1, 0, Math.PI * 2);
+                ctx.arc(segment.x + eyeOffset1X + 0.5, segment.y + eyeOffset1Y - 0.5, 1, 0, Math.PI * 2);
+                ctx.arc(segment.x + eyeOffset2X + 0.5, segment.y + eyeOffset2Y - 0.5, 1, 0, Math.PI * 2);
                 ctx.fill();
+
+                // 口を描画
+                ctx.fillStyle = '#000';
+                ctx.fillRect(segment.x + mouthX, segment.y + mouthY, mouthWidth, mouthHeight);
             } else {
                 const bodyProgress = Math.min(index / snake.length, 0.8);
                 const greenComponent = Math.floor(200 - (bodyProgress * 80));
