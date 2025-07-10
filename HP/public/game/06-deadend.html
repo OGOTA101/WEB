@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行き止まり？</title>
+    <style>
+        body {
+            background: #f5f5f5;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .simple-text {
+            font-size: 1.5em;
+            line-height: 1.6;
+            color: #555;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+
+        .dead-end {
+            font-size: 2em;
+            margin: 40px 0;
+            padding: 30px;
+            background: #ffffff;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            color: #999;
+        }
+
+        .hint-text {
+            font-size: 1.1em;
+            color: #777;
+            margin: 30px 0;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🚫 行き止まり</h1>
+
+    <div class="simple-text">
+        このページは一見すると行き止まりのように見えます。<br>
+        どこを探しても、次に進むためのリンクが見つかりません。
+    </div>
+
+    <div class="dead-end">
+        ここは行き止まり
+    </div>
+
+    <div class="hint-text">
+        本当にここで終わりなのでしょうか？<br>
+        プログラマーは何かメッセージを残しているかもしれません。
+    </div>
+
+    <script>
+        // 開発者ツールでコンソールを開くと、次のページのパスが表示される
+        console.log("🔍 隠されたパス: 07-moving.html");
+        console.log("まだ旅は続きます...");
+        console.log("次の扉が見えましたか？");
+    </script>
+
+    <!-- F12ヒント -->
+    <!-- このページのヒント: Consoleタブを開くと、JavaScriptのconsole.log()で次のページのパスが出力される -->
+</body>
+
+</html>

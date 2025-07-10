@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>見えない文字</title>
+    <style>
+        body {
+            background: #2c3e50;
+            color: #ecf0f1;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            color: #e74c3c;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .visible-text {
+            font-size: 1.5em;
+            line-height: 1.8;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            max-width: 600px;
+        }
+
+        .hidden-text {
+            color: #2c3e50;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 30px 0;
+            padding: 20px;
+            background: #2c3e50;
+            border-radius: 5px;
+            max-width: 600px;
+        }
+
+        .hidden-link {
+            color: #2c3e50;
+            text-decoration: none;
+            background: #2c3e50;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+        .hidden-link:hover {
+            background: #34495e;
+            color: #e74c3c;
+        }
+
+        .instruction {
+            font-size: 1.1em;
+            color: #f39c12;
+            margin: 40px 0;
+            padding: 15px;
+            border: 2px solid #f39c12;
+            border-radius: 8px;
+            background: rgba(243, 156, 18, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔍 第二の謎</h1>
+
+    <div class="visible-text">
+        このページには隠された文字があります。<br>
+        目に見えない文字の中に、次への扉があります。
+    </div>
+
+    <div class="hidden-text">
+        ここに隠された文字があります。背景と同じ色で書かれているため、普通は見えません。
+        でも、<a href="03-hidden.html" class="hidden-link">次のページへ</a>のリンクが隠されています。
+    </div>
+
+
+
+    <!-- F12ヒント -->
+    <!-- このページのヒント: .hidden-text クラスの要素が background と同じ色になっている。CSSを調べるか、テキストを選択すると見える -->
+</body>
+
+</html>

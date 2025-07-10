@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コメントの中に</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            font-family: 'Verdana', sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .content {
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin: 20px;
+        }
+
+        .mystery-text {
+            font-size: 1.3em;
+            line-height: 1.7;
+            margin: 20px 0;
+        }
+
+        .hint-box {
+            background: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid #ffd700;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+
+        .code-hint {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 1.1em;
+            color: #00ff00;
+        }
+
+        .warning {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔍 第三の謎</h1>
+
+    <div class="content">
+        <div class="mystery-text">
+            このページは一見行き止まりのように見えます。<br>
+            しかし、見た目に騙されてはいけません。<br><br>
+
+            プログラマーが残した「メモ」を探してみてください。<br>
+            コードの中に隠されたメッセージがあるかもしれません。
+        </div>
+
+
+    </div>
+
+    <!-- 次のページへのリンク: 04-chaos.html -->
+    <!-- プログラマーのメモ: カラフルな世界が次の扉を開くでしょう -->
+    <!-- 開発者ツールでこのコメントを見つけられましたね？ -->
+    <!-- 上記の04-chaos.htmlにアクセスして続きを進めてください -->
+</body>
+
+</html>

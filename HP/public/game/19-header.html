@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>謎の行き止まり</title>
+    <style>
+        body {
+            background: #f5f5f5;
+            color: #333;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .content {
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin: 20px 0;
+            color: #777;
+        }
+
+        .mystery {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+        }
+
+        .hint {
+            font-size: 1em;
+            color: #999;
+            margin-top: 30px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🚫 また行き止まり？</h1>
+
+    <div class="mystery">
+        <div class="content">
+            ここも行き止まりのようです。<br>
+            どこを探しても道が見つかりません。<br><br>
+
+            でも、もしかすると...<br>
+            この通信の裏側に何かあるかもしれません。
+        </div>
+    </div>
+
+    <div class="hint">
+        プログラマーは時々、見えない場所にメッセージを残します。<br>
+        開発者ツールのNetworkタブを確認してみてください。
+    </div>
+
+    <script>
+        // 模擬的にheaderの情報をコンソールに出力
+        console.log("このページのレスポンスヘッダー（模擬）:");
+        console.log("Content-Type: text/html");
+        console.log("X-Next-Page: 20-final.html");
+        console.log("Date: " + new Date().toUTCString());
+    </script>
+</body>
+
+</html>

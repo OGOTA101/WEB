@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リダイレクト</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            font-family: monospace;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #ff6b6b;
+        }
+
+        .loading {
+            font-size: 1.2em;
+            margin: 20px 0;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔄 リダイレクト中...</h1>
+    <div class="loading">しばらくお待ちください...</div>
+
+    <script>
+        // 次のページのヒントをコード内に隠す
+        const nextPageHint = "15-signal.html";
+
+        // 3秒後にトップページにリダイレクト
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 3000);
+    </script>
+</body>
+
+</html>

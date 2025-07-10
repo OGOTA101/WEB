@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅の終わり</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradient 5s ease infinite;
+            color: #ffffff;
+            font-family: serif;
+            margin: 0;
+            padding: 30px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            animation: sparkle 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes sparkle {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.05);
+            }
+        }
+
+        .congratulations {
+            font-size: 1.4em;
+            line-height: 1.8;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .home-link {
+            margin-top: 40px;
+        }
+
+        .home-link a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.3em;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 30px;
+            border-radius: 25px;
+            border: 2px solid #ffffff;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .home-link a:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .achievement {
+            margin: 30px 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎉 おめでとうございます！</h1>
+
+    <div class="congratulations">
+        見つけてくれてありがとう。<br><br>
+
+        あなたは隠しリンク探しの旅を<br>
+        見事に完走しました。<br><br>
+
+        Web開発者の知識と観察力で<br>
+        すべての謎を解き明かしましたね。
+    </div>
+
+    <div class="achievement">
+        🏆 隠しリンクマスター 🏆<br>
+        称号を獲得しました！
+    </div>
+
+    <div class="home-link">
+        <a href="/" target="_top">🏠 SGGameSiteに戻る</a>
+    </div>
+</body>
+
+</html>

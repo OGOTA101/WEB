@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隠しリンク探しの旅</title>
+    <style>
+        body {
+            background: #000066;
+            color: #00ffff;
+            font-family: 'MS Gothic', monospace;
+            margin: 0;
+            padding: 20px;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #00ffff;
+            }
+
+            to {
+                text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
+            }
+        }
+
+        .welcome-text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+        }
+
+        .rules {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .rules h3 {
+            color: #ffff00;
+            text-align: center;
+        }
+
+        .start-hint {
+            margin: 40px 0;
+            padding: 15px;
+            border: 2px dashed #ffff00;
+            background: rgba(255, 255, 0, 0.1);
+            color: #ffff00;
+        }
+
+        .hidden-link {
+            color: #000066;
+            text-decoration: none;
+            background: #000066;
+            padding: 2px;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .hidden-link:hover {
+            background: #003366;
+            color: #00ffff;
+        }
+
+        .retro-footer {
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #00ffff;
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔍 隠しリンク探しの旅へようこそ 🔍</h1>
+
+        <div class="welcome-text">
+            このサイトは、古き良きインターネットの時代に作られた<br>
+            「隠しリンク探し」の世界です。<br><br>
+
+            あなたの使命は、各ページに隠されたリンクを見つけ出し、<br>
+            この不思議な旅路を最後まで辿ることです。
+        </div>
+
+        <div class="rules">
+            <h3>📖 探索のルール</h3>
+            <ul>
+                <li>各ページには<strong>必ず次のページへのリンク</strong>が隠されています</li>
+                <li><strong>F12キー</strong>で開発者ツールを使うことが重要です</li>
+                <li>観察力とブラウザの知識が鍵となります</li>
+                <li>詰まったら、Elements・Console・Network・Sourcesタブをチェック</li>
+                <li>最後のページでは特別な操作が必要になります</li>
+            </ul>
+        </div>
+
+
+
+        <div class="retro-footer">
+            ～ Web 1.0 時代の懐かしさを込めて ～<br>
+            この冒険があなたにとって<a href="02-invisible.html" class="hidden-link">楽しい</a>ものになりますように。
+        </div>
+    </div>
+
+    <!-- F12ヒント -->
+    <!-- このページのヒント: 目立たない文字の中に隠されたリンクがある。色が背景と似ている文字を探そう -->
+</body>
+
+</html>

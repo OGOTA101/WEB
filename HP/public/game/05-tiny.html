@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>極小文字の世界</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            animation: terminal-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes terminal-glow {
+            from {
+                text-shadow: 0 0 10px #00ff00;
+            }
+
+            to {
+                text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+            }
+        }
+
+        .normal-text {
+            font-size: 1.5em;
+            line-height: 1.6;
+            margin: 20px 0;
+            max-width: 800px;
+            color: #cccccc;
+        }
+
+        .micro-text {
+            font-size: 1px;
+            line-height: 1.2;
+            margin: 30px 0;
+            max-width: 800px;
+            color: #ffffff;
+            border: 1px solid #333;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .micro-link {
+            font-size: 1px;
+            color: #00ff00;
+            text-decoration: none;
+        }
+
+        .micro-link:hover {
+            color: #ffff00;
+        }
+
+        .magnify-hint {
+            font-size: 1.2em;
+            color: #ffff00;
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #ffff00;
+            border-radius: 10px;
+            background: rgba(255, 255, 0, 0.1);
+        }
+
+        .zoom-demo {
+            font-size: 0.5em;
+            color: #888;
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px dashed #666;
+        }
+
+        .dev-tools-hint {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+            border: 1px solid #00ff00;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔍 極小文字の世界</h1>
+
+    <div class="normal-text">
+        この世界では、すべてが小さく、小さく、小さく...。<br>
+        肉眼では見えないほど小さな文字の中に、<br>
+        次の世界への扉が隠されています。
+    </div>
+
+    <div class="micro-text">
+        このテキストは極小サイズで書かれています。通常のブラウザ表示では読むことは困難です。このテキストの中には重要な情報が含まれています。<a href="06-deadend.html"
+            class="micro-link">次のページへのリンク</a>がここに隠されています。
+    </div>
+
+
+
+    <!-- F12ヒント -->
+    <!-- このページのヒント: .micro-text クラスのfont-size: 1px を大きくするか、ブラウザのズーム機能を使用 -->
+</body>
+
+</html>

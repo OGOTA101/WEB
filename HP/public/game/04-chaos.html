@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サイケデリック世界</title>
+    <style>
+        body {
+            background:
+                linear-gradient(45deg, #ff0000 0%, #00ff00 25%, #0000ff 50%, #ffff00 75%, #ff00ff 100%),
+                radial-gradient(circle at 25% 25%, #ff6b6b 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #4ecdc4 0%, transparent 50%),
+                linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            background-size: 400% 400%, 300px 300px, 200px 200px, 100% 100%;
+            animation: psychedelic 3s ease-in-out infinite;
+            color: #ffffff;
+            font-family: 'Impact', sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        @keyframes psychedelic {
+            0% {
+                background-position: 0% 50%, 0 0, 100% 100%, 0 0;
+            }
+
+            50% {
+                background-position: 100% 50%, 100% 0, 0 0, 100% 100%;
+            }
+
+            100% {
+                background-position: 0% 50%, 0 0, 100% 100%, 0 0;
+            }
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 30px;
+            text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
+            animation: rainbow 2s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% {
+                color: #ff0000;
+            }
+
+            16.66% {
+                color: #ff8000;
+            }
+
+            33.33% {
+                color: #ffff00;
+            }
+
+            50% {
+                color: #00ff00;
+            }
+
+            66.66% {
+                color: #0080ff;
+            }
+
+            83.33% {
+                color: #8000ff;
+            }
+
+            100% {
+                color: #ff0000;
+            }
+        }
+
+        .chaos-text {
+            font-size: 2em;
+            line-height: 1.5;
+            margin: 20px 0;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0px);
+            }
+
+            25% {
+                transform: translateX(-2px);
+            }
+
+            50% {
+                transform: translateX(2px);
+            }
+
+            75% {
+                transform: translateX(-1px);
+            }
+
+            100% {
+                transform: translateX(0px);
+            }
+        }
+
+        .hidden-chaos {
+            color: #ffff00;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ffff00);
+            background-size: 400% 400%;
+            animation: psychedelic 1s ease-in-out infinite;
+            font-size: 1.5em;
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .invisible-link {
+            color: transparent;
+            text-shadow: 0 0 0 #ffffff;
+            text-decoration: none;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ffff00);
+            background-size: 400% 400%;
+            animation: psychedelic 2s ease-in-out infinite;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .invisible-link:hover {
+            color: #000000;
+            text-shadow: none;
+            background: #ffffff;
+        }
+
+        .dev-hint {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🌈 サイケデリック・ワールド 🌈</h1>
+
+    <div class="chaos-text">
+        ようこそ、色彩の混沌世界へ！<br>
+        この世界では、すべてが踊り狂っています。
+    </div>
+
+    <div class="hidden-chaos">
+        この背景の中に、次の扉への鍵が隠されています。<br>
+        でも、この色の洪水の中では見つけるのは困難です。<br>
+        <a href="05-tiny.html" class="invisible-link">次のページへ</a>
+    </div>
+
+    <!-- F12ヒント -->
+    <!-- このページのヒント: CSSの background や animation を無効化すると、隠れたリンクが見えるようになる -->
+</body>
+
+</html>

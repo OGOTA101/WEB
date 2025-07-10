@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動く文字</title>
+    <style>
+        body {
+            background: #0f0f23;
+            color: #cccccc;
+            font-family: monospace;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .moving-text {
+            font-size: 1.5em;
+            white-space: nowrap;
+            animation: slide 10s linear infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(100vw);
+            }
+
+            100% {
+                transform: translateX(-100vw);
+            }
+        }
+
+        .special-char {
+            color: #ff4444;
+            font-weight: bold;
+            text-decoration: none;
+            text-shadow: 0 0 10px #ff4444;
+        }
+
+        .special-char:hover {
+            background: #ff4444;
+            color: #000;
+        }
+
+        .hint {
+            font-size: 1.1em;
+            color: #888;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🌊 動く文字の世界</h1>
+
+    <div class="moving-text">
+        普通の文字が流れています。何か特別な文字はありませんか？ 普通 普通 普通 <a href="08-broken.html" class="special-char">特</a> 普通 普通 普通
+    </div>
+
+    <div class="hint">
+        流れる文字をよく見てください。
+    </div>
+</body>
+
+</html>

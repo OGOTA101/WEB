@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最後の扉</title>
+    <style>
+        body {
+            background: radial-gradient(circle, #1a1a2e, #16213e, #0f3460);
+            color: #ffffff;
+            font-family: serif;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px #ffffff;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px #ffffff;
+            }
+
+            to {
+                text-shadow: 0 0 40px #ffffff, 0 0 60px #ffffff;
+            }
+        }
+
+        .final-message {
+            font-size: 1.5em;
+            line-height: 2;
+            margin: 30px 0;
+            text-shadow: 0 0 10px #ffffff;
+        }
+
+        .wisdom {
+            font-size: 1.2em;
+            margin: 40px 0;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .no-link {
+            font-size: 1.1em;
+            margin: 30px 0;
+            color: #cccccc;
+            border: 2px solid #555;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🚪 最後の扉</h1>
+
+    <div class="final-message">
+        長い旅路、お疲れ様でした。<br>
+        あなたはついに最後の扉に辿り着きました。<br><br>
+
+        しかし、この扉には<br>
+        クリックできるボタンも<br>
+        リンクもありません。<br><br>
+
+        最後の謎は...<br>
+        「どうやってこの旅を終えるか」です。
+    </div>
+
+    <div class="wisdom">
+        「終わりとは、自らの手で閉じるものである」
+    </div>
+
+    <div class="no-link">
+        ここには何もクリックできるものがありません。<br>
+        でも、あなたならきっと答えがわかるはずです。
+    </div>
+
+    <script>
+        console.log("この旅ももう終わりだ。最後の扉は、自らの手で閉じるものだ。");
+
+        // ページが閉じられる時にエンディングページを開く
+        window.addEventListener('beforeunload', function (e) {
+            // エンディングページを新しいウィンドウで開く
+            window.open('ending.html', '_blank', 'width=500,height=400,scrollbars=no,toolbar=no,menubar=no');
+        });
+    </script>
+</body>
+
+</html>

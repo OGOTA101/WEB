@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗号の世界</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .code-block {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+            font-size: 1.5em;
+            letter-spacing: 2px;
+            word-break: break-all;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .hint {
+            font-size: 1.1em;
+            margin: 30px 0;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔐 暗号の世界</h1>
+
+    <div class="hint">
+        この謎めいた文字列は何を意味しているのでしょうか？
+    </div>
+
+    <div class="code-block">
+        MTktaGVhZGVyLmh0bWw=
+    </div>
+
+    <div class="hint">
+        この形式の文字列をデコードする方法があります。<br>
+        開発者ツールのコンソールで試してみてください。
+    </div>
+
+    <script>
+        console.log("window.atob() メソッドを使ってみてください");
+        console.log("例: atob('MTktaGVhZGVyLmh0bWw=')");
+    </script>
+</body>
+
+</html>

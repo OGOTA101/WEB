@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隠された扉</title>
+    <style>
+        body {
+            background: #1e1e1e;
+            color: #ccc;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            cursor: crosshair;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .search-area {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            border: 2px dashed #666;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hidden-spot {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .hidden-spot:hover {
+            opacity: 1;
+        }
+
+        .hidden-link {
+            color: #00ff00;
+            text-decoration: none;
+            font-size: 1.3em;
+            font-weight: bold;
+            background: rgba(0, 255, 0, 0.2);
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 2px solid #00ff00;
+        }
+
+        .instruction {
+            font-size: 1.1em;
+            margin: 20px 0;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎯 隠された扉</h1>
+
+    <div class="instruction">
+        この空間のどこかに、隠された扉があります。<br>
+        マウスで探してみてください。
+    </div>
+
+    <div class="search-area">
+        <div style="color: #666;">マウスを動かして探索中...</div>
+        <div class="hidden-spot">
+            <a href="18-encode.html" class="hidden-link">扉を開く</a>
+        </div>
+    </div>
+</body>
+
+</html>
