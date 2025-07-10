@@ -1,732 +1,614 @@
-// Matter.js物理エンジンを使用したチャリ走ゲーム
-class BikeGame {
+// エスケープ・ラン - SFサイバー回避アクションゲーム
+class EscapeRunGame {
     constructor() {
         this.canvas = document.getElementById('gameCanvas');
+        if (!this.canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
         this.ctx = this.canvas.getContext('2d');
 
-        // Matter.js設定
-        this.engine = Matter.Engine.create();
-        this.world = this.engine.world;
+        // Canvas サイズ設定
+        this.canvas.width = 800;
+        this.canvas.height = 400;
 
-        // 物理設定（重力を強く）
-        this.engine.world.gravity.y = 1.2;
-
-        // ゲーム設定
-        this.baseSpeed = 2.0;    // 基本速度（常に右に進む）
-        this.gameSpeed = 0.5;    // 追加速度
-        this.maxSpeed = 4.0;     // 最高速度
-        this.minSpeed = 1.5;     // 最低速度（逆方向防止）
-        this.speedIncrement = 0.001;
+        // ゲーム状態
+        this.isRunning = false;
+        this.isPaused = false;
+        this.gameTime = 0;
+        this.score = 0;
+        this.dodgedCount = 0;
+        this.itemCount = 0;
 
         // プレイヤー
-        this.player = null;
-        this.playerBody = null;
-        this.wheels = [];
-
-        // ゲーム状態
-        this.isGameRunning = false;
-        this.isPaused = false;
-        this.score = 0;
-        this.distance = 0;
-        this.currentSpeed = this.baseSpeed;
-        this.maxSpeedReached = 1.0;
-
-        // 地形とオブジェクト
-        this.terrainBodies = [];
-        this.obstacles = [];
-        this.coins = [];
-        this.particles = [];
-
-        // カメラ
-        this.camera = { x: 0, y: 0 };
-
-        // 画像
-        this.images = {};
-
-        // 入力状態
-        this.keys = {
-            left: false,
-            right: false,
-            jump: false
+        this.player = {
+            x: 100,
+            y: 300,
+            width: 20,
+            height: 20,
+            velocityY: 0,
+            onGround: true,
+            isCharging: false,
+            chargeStartTime: 0,
+            maxCharge: 100,
+            currentCharge: 0,
+            glowPhase: 0,
+            doubleJumpAvailable: false,
+            hasDoubleJump: false,
+            doubleJumpTimer: 0,
+            isInvincible: false,
+            invincibleTimer: 0
         };
 
-        // ゲーム状態
-        this.isGameRunning = false;
-        this.isPaused = false;
+        // ゲーム設定
+        this.gravity = 0.6;
+        this.groundY = 320;
+        this.gameSpeed = 3;
+        this.maxSpeed = 8;
+        this.acceleration = 0.002;
 
-        this.setupEventListeners();
-        this.loadImages();
-        this.createPlayer();
-        this.generateInitialTerrain();
-        this.loadBikeSounds();
+        // 敵（赤い三角形）
+        this.enemies = [];
+        this.lastEnemySpawn = 0;
+        this.enemySpawnRate = 0.02;
 
-        // 初期レンダリング
-        setTimeout(() => {
-            this.renderGame();
-        }, 100);
+        // アイテム（青い図形）
+        this.items = [];
+        this.lastItemSpawn = 0;
+        this.itemSpawnRate = 0.008;
+
+        // エフェクト
+        this.particles = [];
+        this.backgroundParticles = [];
+        this.screenFlash = 0;
+        this.cameraShake = 0;
+
+        // 背景
+        this.stars = [];
+        this.gridOffset = 0;
+
+        // 入力処理
+        this.keys = {};
+        this.isJumpKeyDown = false;
+        this.touchStartTime = 0;
+
+        // スコア管理
+        this.bestScore = localStorage.getItem('escapeRunBestScore') || 0;
+
+        // UI要素
+        this.chargeGauge = document.getElementById('chargeGauge');
+        this.chargeFill = document.getElementById('chargeFill');
+
+        this.init();
     }
 
-    async loadImages() {
-        const imageFiles = {
-            bike: 'assets/images/bike.svg',
-            obstacle: 'assets/images/obstacle.svg',
-            coin: 'assets/images/coin.svg'
-        };
+    init() {
+        this.initBackground();
+        this.setupEventListeners();
+        this.loadSounds();
+        this.updateUI(); // 初期状態のUI更新
+        this.showStartScreen();
+    }
 
-        try {
-            this.images = await this.loadGameImages(imageFiles);
-        } catch (error) {
-            console.log('画像読み込み失敗、フォールバック描画を使用');
+    initBackground() {
+        // 星の初期化
+        this.stars = [];
+        for (let i = 0; i < 100; i++) {
+            this.stars.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                size: Math.random() * 2 + 1,
+                speed: Math.random() * 0.5 + 0.2,
+                opacity: Math.random() * 0.8 + 0.2
+            });
+        }
+
+        // 背景パーティクル
+        this.backgroundParticles = [];
+        for (let i = 0; i < 20; i++) {
+            this.backgroundParticles.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                size: Math.random() * 3 + 1,
+                speed: Math.random() * 1 + 0.5,
+                opacity: Math.random() * 0.3 + 0.1,
+                color: `hsl(${180 + Math.random() * 60}, 70%, 60%)`
+            });
         }
     }
 
-    loadGameImages(imageFiles) {
-        return new Promise((resolve) => {
-            const images = {};
-            const promises = [];
-
-            for (const [key, src] of Object.entries(imageFiles)) {
-                const promise = new Promise((imgResolve) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        images[key] = img;
-                        imgResolve();
-                    };
-                    img.onerror = () => {
-                        console.log(`画像読み込み失敗: ${src}`);
-                        imgResolve();
-                    };
-                    img.src = src;
-                });
-                promises.push(promise);
-            }
-
-            Promise.all(promises).then(() => resolve(images));
-        });
-    }
-
-    loadBikeSounds() {
+    loadSounds() {
         if (!window.audioSystem) return;
 
-        // バイクゲーム固有の音を生成
         const audioContext = window.audioSystem.audioContext;
         if (!audioContext) return;
 
-        // ジャンプ音
-        const jumpBuffer = this.generateJumpSound(audioContext);
-        window.audioSystem.addSound('jump', jumpBuffer);
+        try {
+            // ジャンプ音
+            const jumpBuffer = this.generateJumpSound(audioContext);
+            window.audioSystem.addSound('escape-jump', jumpBuffer);
 
-        // コイン取得音
-        const coinBuffer = this.generateCoinSound(audioContext);
-        window.audioSystem.addSound('coin', coinBuffer);
+            // アイテム音
+            const itemBuffer = this.generateItemSound(audioContext);
+            window.audioSystem.addSound('escape-item', itemBuffer);
 
-        // 衝突音
-        const crashBuffer = this.generateCrashSound(audioContext);
-        window.audioSystem.addSound('crash', crashBuffer);
+            // 敵回避音
+            const dodgeBuffer = this.generateDodgeSound(audioContext);
+            window.audioSystem.addSound('escape-dodge', dodgeBuffer);
 
-        // エンジン音（走行音）
-        const engineBuffer = this.generateEngineSound(audioContext);
-        window.audioSystem.addSound('engine', engineBuffer);
+            // クラッシュ音
+            const crashBuffer = this.generateCrashSound(audioContext);
+            window.audioSystem.addSound('escape-crash', crashBuffer);
+
+            // パワーアップ音
+            const powerupBuffer = this.generatePowerupSound(audioContext);
+            window.audioSystem.addSound('escape-powerup', powerupBuffer);
+
+        } catch (e) {
+            console.warn('Failed to load escape sounds:', e);
+        }
     }
 
     generateJumpSound(audioContext) {
-        const sampleRate = audioContext.sampleRate;
-        const duration = 0.3;
-        const buffer = audioContext.createBuffer(1, sampleRate * duration, sampleRate);
-        const data = buffer.getChannelData(0);
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
 
-        for (let i = 0; i < data.length; i++) {
-            const t = i / sampleRate;
-            const freq = 400 + (t * 300); // 上昇音
-            data[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp(-t * 4) * 0.3;
-        }
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
-        return buffer;
+        oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.1);
+
+        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+
+        return { oscillator, gainNode };
     }
 
-    generateCoinSound(audioContext) {
-        const sampleRate = audioContext.sampleRate;
-        const duration = 0.2;
-        const buffer = audioContext.createBuffer(1, sampleRate * duration, sampleRate);
-        const data = buffer.getChannelData(0);
+    generateItemSound(audioContext) {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
 
-        for (let i = 0; i < data.length; i++) {
-            const t = i / sampleRate;
-            const freq1 = 659.25; // E5
-            const freq2 = 783.99; // G5
-            const envelope = Math.exp(-t * 8);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
-            data[i] = (Math.sin(2 * Math.PI * freq1 * t) + Math.sin(2 * Math.PI * freq2 * t)) * envelope * 0.15;
-        }
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.1);
 
-        return buffer;
+        gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+
+        return { oscillator, gainNode };
+    }
+
+    generateDodgeSound(audioContext) {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+        return { oscillator, gainNode };
     }
 
     generateCrashSound(audioContext) {
-        const sampleRate = audioContext.sampleRate;
-        const duration = 0.5;
-        const buffer = audioContext.createBuffer(1, sampleRate * duration, sampleRate);
-        const data = buffer.getChannelData(0);
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
 
-        for (let i = 0; i < data.length; i++) {
-            const t = i / sampleRate;
-            const noise = (Math.random() - 0.5) * 2;
-            const crash = Math.sin(2 * Math.PI * (150 - t * 100) * t);
-            const envelope = Math.exp(-t * 2);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
-            data[i] = (noise * 0.4 + crash * 0.6) * envelope * 0.4;
-        }
+        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.5);
 
-        return buffer;
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
+
+        return { oscillator, gainNode };
     }
 
-    generateEngineSound(audioContext) {
-        const sampleRate = audioContext.sampleRate;
-        const duration = 0.1;
-        const buffer = audioContext.createBuffer(1, sampleRate * duration, sampleRate);
-        const data = buffer.getChannelData(0);
+    generatePowerupSound(audioContext) {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
 
-        for (let i = 0; i < data.length; i++) {
-            const t = i / sampleRate;
-            const baseFreq = 80 + Math.sin(t * 40) * 20;
-            const noise = (Math.random() - 0.5) * 0.3;
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
-            data[i] = (Math.sin(2 * Math.PI * baseFreq * t) + noise) * 0.1;
-        }
+        oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(1000, audioContext.currentTime + 0.2);
 
-        return buffer;
+        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+        return { oscillator, gainNode };
     }
 
     setupEventListeners() {
-        // キーボード操作
+        // キーボード入力
         document.addEventListener('keydown', (e) => {
-            if (!this.isGameRunning) return;
+            this.keys[e.code] = true;
 
-            switch (e.code) {
-                case 'ArrowLeft':
-                    this.keys.left = true;
-                    e.preventDefault();
-                    break;
-                case 'ArrowRight':
-                    this.keys.right = true;
-                    e.preventDefault();
-                    break;
-                case 'Space':
-                    if (!this.keys.jump) {
-                        this.jump();
-                        this.keys.jump = true;
-                    }
-                    e.preventDefault();
-                    break;
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                e.preventDefault();
+                this.startChargeJump();
             }
         });
 
         document.addEventListener('keyup', (e) => {
-            switch (e.code) {
-                case 'ArrowLeft':
-                    this.keys.left = false;
-                    break;
-                case 'ArrowRight':
-                    this.keys.right = false;
-                    break;
-                case 'Space':
-                    this.keys.jump = false;
-                    break;
+            this.keys[e.code] = false;
+
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                e.preventDefault();
+                this.endChargeJump();
             }
         });
 
-        // タッチ操作
-        this.canvas.addEventListener('touchstart', (e) => {
-            if (!this.isGameRunning) return;
-            this.jump();
-            e.preventDefault();
-        });
+        // モバイル対応
+        const jumpButton = document.getElementById('jumpBtn');
+        if (jumpButton) {
+            jumpButton.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.touchStartTime = Date.now();
+                this.startChargeJump();
+            });
 
-        // モバイルボタン
-        document.getElementById('leftButton').addEventListener('touchstart', () => {
-            this.keys.left = true;
-        });
+            jumpButton.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.endChargeJump();
+            });
 
-        document.getElementById('leftButton').addEventListener('touchend', () => {
-            this.keys.left = false;
-        });
+            jumpButton.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                this.touchStartTime = Date.now();
+                this.startChargeJump();
+            });
 
-        document.getElementById('rightButton').addEventListener('touchstart', () => {
-            this.keys.right = true;
-        });
-
-        document.getElementById('rightButton').addEventListener('touchend', () => {
-            this.keys.right = false;
-        });
-
-        document.getElementById('jumpButton').addEventListener('touchstart', () => {
-            this.jump();
-        });
-    }
-
-    createPlayer() {
-        // プレイヤーを球体に変更（坂道に沿って転がるように調整）
-        this.playerBody = Matter.Bodies.circle(100, 320, 18, {
-            density: 0.004,
-            friction: 1.2,
-            frictionAir: 0.005,
-            restitution: 0.2,
-            render: { fillStyle: '#e74c3c' }
-        });
-
-        // 世界に追加
-        Matter.World.add(this.world, this.playerBody);
-
-        this.player = {
-            body: this.playerBody,
-            jumpCount: 0,
-            maxJumps: 2,
-            onGround: false
-        };
-
-        this.wheels = []; // 車輪は不要
-    }
-
-    generateInitialTerrain() {
-        // 地形の高さポイントを生成（直線的な地形用）
-        this.terrainHeights = [];
-
-        // 最初の500pxは平坦
-        for (let x = 0; x <= 500; x += 100) {
-            this.terrainHeights.push({ x: x, y: 350, type: 'flat' });
+            jumpButton.addEventListener('mouseup', (e) => {
+                e.preventDefault();
+                this.endChargeJump();
+            });
         }
 
-        // その後はシンプルな変化のある地形
-        for (let x = 600; x <= 2000; x += 200) {
-            const rand = Math.random();
-            let terrainType = 'flat';
-            let terrainY = 350;
+        // ゲーム制御ボタン
+        const startButton = document.getElementById('startButton');
+        if (startButton) {
+            startButton.addEventListener('click', () => this.startGame());
+        }
 
-            if (rand < 0.15 && x > 800) {
-                // 落とし穴（15%）
-                terrainType = 'pit';
-                this.terrainHeights.push({ x: x - 100, y: 350, type: 'flat' }); // 穴の手前
-                this.terrainHeights.push({ x: x, y: 350, type: 'flat' }); // 穴の入り口
-                this.terrainHeights.push({ x: x + 50, y: 450, type: 'pit' }); // 穴の底
-                this.terrainHeights.push({ x: x + 150, y: 450, type: 'pit' }); // 穴の底続き
-                this.terrainHeights.push({ x: x + 200, y: 350, type: 'flat' }); // 穴の出口
-                x += 200; // スキップ
-            } else if (rand < 0.4) {
-                // 上り坂（25%）
-                terrainType = 'uphill';
-                terrainY = 280;
-                this.terrainHeights.push({ x: x, y: 350, type: 'flat' });
-                this.terrainHeights.push({ x: x + 100, y: terrainY, type: terrainType });
-            } else if (rand < 0.65) {
-                // 下り坂（25%）
-                terrainType = 'downhill';
-                terrainY = 420;
-                this.terrainHeights.push({ x: x, y: 350, type: 'flat' });
-                this.terrainHeights.push({ x: x + 100, y: terrainY, type: terrainType });
-            } else {
-                // 平坦（35%）
-                terrainType = 'flat';
-                terrainY = 350;
-                this.terrainHeights.push({ x: x, y: terrainY, type: terrainType });
+        const restartButton = document.getElementById('restartButton');
+        if (restartButton) {
+            restartButton.addEventListener('click', () => this.restartGame());
+        }
+
+        const pauseButton = document.getElementById('pauseButton');
+        if (pauseButton) {
+            pauseButton.addEventListener('click', () => this.togglePause());
+        }
+    }
+
+    startChargeJump() {
+        if (!this.isRunning || this.isPaused) return;
+
+        if (!this.isJumpKeyDown) {
+            this.isJumpKeyDown = true;
+            this.player.isCharging = true;
+            this.player.chargeStartTime = Date.now();
+            this.player.currentCharge = 0;
+
+            // チャージゲージ表示
+            if (this.chargeGauge) {
+                this.chargeGauge.style.display = 'block';
             }
         }
-
-        // 直線的な地形セグメントを生成
-        this.generateStraightTerrain();
     }
 
-    generateStraightTerrain() {
-        // 地形を坂道として物理的に正確に生成
-        for (let i = 0; i < this.terrainHeights.length - 1; i++) {
-            const current = this.terrainHeights[i];
-            const next = this.terrainHeights[i + 1];
+    endChargeJump() {
+        if (!this.isRunning || this.isPaused) return;
 
-            const segmentWidth = next.x - current.x;
-            const startY = current.y;
-            const endY = next.y;
+        if (this.isJumpKeyDown) {
+            this.isJumpKeyDown = false;
+            this.player.isCharging = false;
 
-            // 坂道の角度を計算
-            const angle = Math.atan2(endY - startY, segmentWidth);
-            const centerX = current.x + segmentWidth / 2;
-            const centerY = (startY + endY) / 2;
+            // チャージゲージ非表示
+            if (this.chargeGauge) {
+                this.chargeGauge.style.display = 'none';
+            }
 
-            // 地形の厚みを計算（下まで全部地面）
-            const groundBottom = this.canvas.height;
-            const terrainThickness = groundBottom - Math.min(startY, endY);
-            const terrainCenterY = Math.min(startY, endY) + terrainThickness / 2;
-
-            // 坂道の表面を物理ボディとして作成
-            const slopeLength = Math.sqrt(segmentWidth * segmentWidth + (endY - startY) * (endY - startY));
-            const slopeBody = Matter.Bodies.rectangle(
-                centerX,
-                centerY,
-                slopeLength,
-                20, // 坂道の厚み
-                {
-                    isStatic: true,
-                    friction: 1.0,
-                    angle: angle,
-                    render: { fillStyle: '#666666' }
-                }
-            );
-
-            // 地面の底部分（下まで埋める）
-            const groundBody = Matter.Bodies.rectangle(
-                centerX,
-                terrainCenterY,
-                segmentWidth,
-                terrainThickness,
-                {
-                    isStatic: true,
-                    friction: 0.8,
-                    render: { fillStyle: '#666666' }
-                }
-            );
-
-            Matter.World.add(this.world, [slopeBody, groundBody]);
-            this.terrainBodies.push({
-                body: slopeBody,
-                groundBody: groundBody,
-                x: current.x,
-                width: segmentWidth,
-                startY: startY,
-                endY: endY,
-                type: current.type || 'flat',
-                angle: angle
-            });
-
-            // 障害物とコインを地形に沿って配置
-            this.placeObjectsOnTerrain(current, next);
+            this.executeJump();
         }
     }
 
-    placeObjectsOnTerrain(currentPoint, nextPoint) {
-        const segmentWidth = nextPoint.x - currentPoint.x;
-        const avgHeight = (currentPoint.y + nextPoint.y) / 2;
-        const terrainType = currentPoint.type || 'flat';
+    executeJump() {
+        const canJump = this.player.onGround || (this.player.hasDoubleJump && this.player.doubleJumpAvailable);
 
-        // 障害物の配置（平坦地のみ、15%確率、800px以降）
-        if (terrainType === 'flat' && Math.random() < 0.15 && currentPoint.x > 800) {
-            const obstacleX = currentPoint.x + segmentWidth * 0.5;
-            const obstacleY = currentPoint.y - 15; // 地面の高さに正確に配置
+        if (canJump) {
+            // チャージ量に応じたジャンプ力
+            const chargeMultiplier = Math.min(this.player.currentCharge / this.player.maxCharge, 1);
+            const jumpPower = 8 + (chargeMultiplier * 12); // 8-20の範囲
 
-            const obstacle = Matter.Bodies.rectangle(obstacleX, obstacleY, 20, 20, {
-                isStatic: true,
-                render: { fillStyle: '#333333' }
-            });
+            this.player.velocityY = -jumpPower;
 
-            Matter.World.add(this.world, obstacle);
-            this.obstacles.push({
-                body: obstacle,
-                x: obstacleX,
-                y: obstacleY,
-                width: 20,
-                height: 20
-            });
-        }
+            // 二段ジャンプ処理
+            if (!this.player.onGround && this.player.hasDoubleJump && this.player.doubleJumpAvailable) {
+                this.player.doubleJumpAvailable = false;
+                this.createDoubleJumpParticles();
+            }
 
-        // コインの配置（40%確率）
-        if (Math.random() < 0.4) {
-            const coinX = currentPoint.x + segmentWidth * (0.3 + Math.random() * 0.4);
-            const coinY = avgHeight - 30 - Math.random() * 50;
+            this.player.onGround = false;
+            this.player.currentCharge = 0;
 
-            const coin = Matter.Bodies.circle(coinX, coinY, 12, {
-                isStatic: true,
-                isSensor: true,
-                render: { fillStyle: '#cccccc' }
-            });
+            // ジャンプパーティクル
+            this.createJumpParticles();
 
-            Matter.World.add(this.world, coin);
-            this.coins.push({
-                body: coin,
-                x: coinX,
-                y: coinY,
-                collected: false,
-                bounce: 0
-            });
+            // ジャンプ音
+            if (window.audioSystem) {
+                window.audioSystem.play('escape-jump', 0.3);
+            }
         }
     }
 
-    generateNewTerrainSegments() {
-        // 最後に生成された地形から新しいセグメントを追加
-        const startIndex = this.terrainBodies.length;
-        const endIndex = this.terrainHeights.length - 1;
+    startGame() {
+        this.isRunning = true;
+        this.isPaused = false;
+        this.gameTime = 0;
+        this.score = 0;
+        this.dodgedCount = 0;
+        this.itemCount = 0;
+        this.gameSpeed = 3;
 
-        for (let i = startIndex; i < endIndex; i++) {
-            const current = this.terrainHeights[i];
-            const next = this.terrainHeights[i + 1];
+        // プレイヤーリセット
+        this.player.x = 100;
+        this.player.y = this.groundY;
+        this.player.velocityY = 0;
+        this.player.onGround = true;
+        this.player.isCharging = false;
+        this.player.currentCharge = 0;
+        this.player.hasDoubleJump = false;
+        this.player.doubleJumpAvailable = false;
+        this.player.doubleJumpTimer = 0;
+        this.player.isInvincible = false;
+        this.player.invincibleTimer = 0;
+        this.player.glowPhase = 0;
 
-            if (!current || !next) continue;
+        // 配列リセット
+        this.enemies = [];
+        this.items = [];
+        this.particles = [];
+        this.screenFlash = 0;
+        this.cameraShake = 0;
 
-            const segmentWidth = next.x - current.x;
-            const startY = current.y;
-            const endY = next.y;
+        // 背景リセット
+        this.gridOffset = 0;
+        this.lastEnemySpawn = 0;
+        this.lastItemSpawn = 0;
 
-            // 坂道の角度を計算
-            const angle = Math.atan2(endY - startY, segmentWidth);
-            const centerX = current.x + segmentWidth / 2;
-            const centerY = (startY + endY) / 2;
-
-            // 地形の厚みを計算（下まで全部地面）
-            const groundBottom = this.canvas.height;
-            const terrainThickness = groundBottom - Math.min(startY, endY);
-            const terrainCenterY = Math.min(startY, endY) + terrainThickness / 2;
-
-            // 坂道の表面を物理ボディとして作成
-            const slopeLength = Math.sqrt(segmentWidth * segmentWidth + (endY - startY) * (endY - startY));
-            const slopeBody = Matter.Bodies.rectangle(
-                centerX,
-                centerY,
-                slopeLength,
-                20, // 坂道の厚み
-                {
-                    isStatic: true,
-                    friction: 1.0,
-                    angle: angle,
-                    render: { fillStyle: '#666666' }
-                }
-            );
-
-            // 地面の底部分（下まで埋める）
-            const groundBody = Matter.Bodies.rectangle(
-                centerX,
-                terrainCenterY,
-                segmentWidth,
-                terrainThickness,
-                {
-                    isStatic: true,
-                    friction: 0.8,
-                    render: { fillStyle: '#666666' }
-                }
-            );
-
-            Matter.World.add(this.world, [slopeBody, groundBody]);
-            this.terrainBodies.push({
-                body: slopeBody,
-                groundBody: groundBody,
-                x: current.x,
-                width: segmentWidth,
-                startY: startY,
-                endY: endY,
-                type: current.type || 'flat',
-                angle: angle
-            });
-
-            this.placeObjectsOnTerrain(current, next);
-        }
+        this.hideStartScreen();
+        this.gameLoop();
     }
 
-    jump() {
-        if (this.player.jumpCount < this.player.maxJumps) {
-            // プレイヤーに上向きの力を加える
-            Matter.Body.applyForce(this.playerBody, this.playerBody.position, { x: 0, y: -0.015 });
-
-            this.player.jumpCount++;
-
-            // ジャンプ音再生
-            if (window.audioSystem) window.audioSystem.play('jump');
-
-            // ジャンプエフェクト
-            this.createParticles(this.playerBody.position.x, this.playerBody.position.y + 20, 6, '#cccccc');
-        }
+    restartGame() {
+        this.hideGameOverScreen();
+        this.startGame();
     }
 
-    createParticles(x, y, count, color) {
-        for (let i = 0; i < count; i++) {
-            this.particles.push({
-                x: x,
-                y: y,
-                velocityX: (Math.random() - 0.5) * 6,
-                velocityY: Math.random() * -5,
-                life: 40,
-                maxLife: 40,
-                color: color,
-                size: Math.random() * 3 + 1
-            });
+    togglePause() {
+        this.isPaused = !this.isPaused;
+
+        // ゲームエリア内の一時停止ボタン
+        const pauseButton = document.getElementById('pauseButton');
+        if (pauseButton) {
+            pauseButton.textContent = this.isPaused ? '▶️' : '⏸️';
+        }
+
+        // コントロールエリアの一時停止ボタン
+        const pauseBtn = document.getElementById('pauseBtn');
+        if (pauseBtn) {
+            pauseBtn.textContent = this.isPaused ? '▶️ 再開' : '⏸️ 一時停止';
         }
     }
 
     update() {
-        if (!this.isGameRunning || this.isPaused) return;
+        if (!this.isRunning || this.isPaused) return;
 
-        // 物理エンジン更新
-        Matter.Engine.update(this.engine);
+        this.gameTime++;
 
-        // プレイヤーの左右移動（速度制限：最低速度保証）
-        if (this.keys.left) {
-            Matter.Body.applyForce(this.playerBody, this.playerBody.position, { x: -0.004, y: 0 });
-            this.currentSpeed = Math.max(this.minSpeed, this.currentSpeed - 0.05);
-        }
-        if (this.keys.right) {
-            Matter.Body.applyForce(this.playerBody, this.playerBody.position, { x: 0.006, y: 0 });
-            this.currentSpeed = Math.min(this.maxSpeed, this.currentSpeed + 0.05);
+        // 速度上昇
+        if (this.gameSpeed < this.maxSpeed) {
+            this.gameSpeed += this.acceleration;
         }
 
-        // 常に右に進む力（最低速度保証）
-        const forceX = Math.max(this.minSpeed, this.currentSpeed) * 0.005;
-        Matter.Body.applyForce(this.playerBody, this.playerBody.position, { x: forceX, y: 0 });
+        // スコア更新
+        this.score += Math.floor(this.gameSpeed);
 
-        // 自転車の回転制限（45度以内に制限）
-        const maxAngle = Math.PI / 4; // 45度
-        if (this.playerBody.angle > maxAngle) {
-            Matter.Body.setAngle(this.playerBody, maxAngle);
-            Matter.Body.setAngularVelocity(this.playerBody, 0);
-        } else if (this.playerBody.angle < -maxAngle) {
-            Matter.Body.setAngle(this.playerBody, -maxAngle);
-            Matter.Body.setAngularVelocity(this.playerBody, 0);
-        }
-
-        // 角速度も制限
-        if (Math.abs(this.playerBody.angularVelocity) > 0.3) {
-            Matter.Body.setAngularVelocity(this.playerBody,
-                this.playerBody.angularVelocity > 0 ? 0.3 : -0.3);
-        }
-
-        // 着地判定（物理エンジンの衝突検出を使用）
-        this.player.onGround = false;
-
-        // Matter.jsの衝突検出を使用して着地判定
-        const collisions = Matter.Query.collides(this.playerBody, this.terrainBodies.map(t => t.body));
-        if (collisions.length > 0) {
-            this.player.onGround = true;
-            this.player.jumpCount = 0;
-        }
-
-        // カメラ追従
-        this.camera.x = this.playerBody.position.x - this.canvas.width / 3;
-        this.camera.y = Math.max(0, this.playerBody.position.y - this.canvas.height * 0.7);
-
-        // 距離とスコア更新
-        this.distance += this.currentSpeed * 0.1;
-        this.score += Math.floor(this.currentSpeed * 0.1);
-
-        // スピード徐々に増加（開始を遅らせる）
-        if (this.distance > 200) {
-            this.currentSpeed = Math.min(this.maxSpeed, this.baseSpeed + (this.distance * this.speedIncrement));
-            this.maxSpeedReached = Math.max(this.maxSpeedReached, this.currentSpeed / this.baseSpeed);
-        }
-
-        // 新しい地形を生成
-        const playerX = this.playerBody.position.x;
-        const lastHeight = this.terrainHeights[this.terrainHeights.length - 1];
-        if (lastHeight && playerX > lastHeight.x - 500) {
-            // 新しい高さポイントを追加（シンプルな地形）
-            for (let x = lastHeight.x + 200; x <= lastHeight.x + 800; x += 200) {
-                const rand = Math.random();
-                let terrainType = 'flat';
-                let terrainY = 350;
-
-                if (rand < 0.15 && x > 800) {
-                    // 落とし穴（15%）
-                    terrainType = 'pit';
-                    this.terrainHeights.push({ x: x - 100, y: 350, type: 'flat' });
-                    this.terrainHeights.push({ x: x, y: 350, type: 'flat' });
-                    this.terrainHeights.push({ x: x + 50, y: 450, type: 'pit' });
-                    this.terrainHeights.push({ x: x + 150, y: 450, type: 'pit' });
-                    this.terrainHeights.push({ x: x + 200, y: 350, type: 'flat' });
-                    x += 200;
-                } else if (rand < 0.4) {
-                    // 上り坂（25%）
-                    terrainType = 'uphill';
-                    terrainY = 280;
-                    this.terrainHeights.push({ x: x, y: 350, type: 'flat' });
-                    this.terrainHeights.push({ x: x + 100, y: terrainY, type: terrainType });
-                } else if (rand < 0.65) {
-                    // 下り坂（25%）
-                    terrainType = 'downhill';
-                    terrainY = 420;
-                    this.terrainHeights.push({ x: x, y: 350, type: 'flat' });
-                    this.terrainHeights.push({ x: x + 100, y: terrainY, type: terrainType });
-                } else {
-                    // 平坦（35%）
-                    terrainType = 'flat';
-                    terrainY = 350;
-                    this.terrainHeights.push({ x: x, y: terrainY, type: terrainType });
-                }
-            }
-
-            // 新しいセグメントを生成
-            this.generateNewTerrainSegments();
-        }
-
-        // 古い要素を削除
-        this.cleanupOffscreenObjects();
-
-        // コリジョン検出
-        this.checkCollisions();
-
-        // パーティクル更新
+        this.updatePlayer();
+        this.updateChargeSystem();
+        this.updatePowerups();
+        this.spawnEnemies();
+        this.spawnItems();
+        this.updateEnemies();
+        this.updateItems();
         this.updateParticles();
+        this.updateBackground();
+        this.checkCollisions();
+        this.updateUI();
 
-        // ゲームオーバー判定
-        if (this.playerBody.position.y > this.canvas.height + 100) {
-            // 衝突音再生
-            if (window.audioSystem) window.audioSystem.play('crash');
-            this.gameOver();
+        // エフェクト減衰
+        if (this.screenFlash > 0) {
+            this.screenFlash -= 0.05;
+        }
+        if (this.cameraShake > 0) {
+            this.cameraShake *= 0.9;
         }
 
-        // UI更新
-        this.updateUI();
+        // プレイヤーグロー効果
+        this.player.glowPhase += 0.1;
     }
 
-    checkCollisions() {
-        const playerX = this.playerBody.position.x;
-        const playerY = this.playerBody.position.y;
+    updatePlayer() {
+        // 重力適用
+        if (!this.player.onGround) {
+            this.player.velocityY += this.gravity;
+        }
 
-        // 障害物との衝突（小さな当たり判定）
-        this.obstacles.forEach(obstacle => {
-            const distance = Math.sqrt(
-                Math.pow(playerX - obstacle.x, 2) +
-                Math.pow(playerY - obstacle.y, 2)
-            );
+        // Y座標更新
+        this.player.y += this.player.velocityY;
 
-            // プレイヤーと障害物の当たり判定を小さく（15px）
-            if (distance < 15) {
-                // 衝突音再生
-                if (window.audioSystem) window.audioSystem.play('crash');
-                this.gameOver();
+        // 地面判定
+        if (this.player.y >= this.groundY) {
+            this.player.y = this.groundY;
+            this.player.velocityY = 0;
+            this.player.onGround = true;
+
+            // 二段ジャンプリセット
+            if (this.player.hasDoubleJump) {
+                this.player.doubleJumpAvailable = true;
             }
-        });
+        }
 
-        // コインとの衝突（大きな当たり判定で取りやすく）
-        this.coins.forEach(coin => {
-            if (!coin.collected) {
-                const distance = Math.sqrt(
-                    Math.pow(playerX - coin.x, 2) +
-                    Math.pow(playerY - coin.y, 2)
-                );
+        // 画面上部制限
+        if (this.player.y < 0) {
+            this.player.y = 0;
+            this.player.velocityY = 0;
+        }
+    }
 
-                // コインの当たり判定を大きく（30px）
-                if (distance < 30) {
-                    coin.collected = true;
-                    this.score += 10;
+    updateChargeSystem() {
+        if (this.player.isCharging) {
+            const chargeTime = Date.now() - this.player.chargeStartTime;
+            this.player.currentCharge = Math.min(chargeTime / 10, this.player.maxCharge);
 
-                    // コイン取得音再生
-                    if (window.audioSystem) window.audioSystem.play('coin');
+            // チャージゲージ更新
+            if (this.chargeFill) {
+                const chargePercent = (this.player.currentCharge / this.player.maxCharge) * 100;
+                this.chargeFill.style.width = `${chargePercent}%`;
+            }
+        }
+    }
 
-                    this.createParticles(coin.x, coin.y, 12, '#cccccc');
+    updatePowerups() {
+        // 二段ジャンプタイマー
+        if (this.player.hasDoubleJump && this.player.doubleJumpTimer > 0) {
+            this.player.doubleJumpTimer--;
+            if (this.player.doubleJumpTimer <= 0) {
+                this.player.hasDoubleJump = false;
+                this.player.doubleJumpAvailable = false;
+            }
+        }
 
-                    // コインを物理世界から削除
-                    Matter.World.remove(this.world, coin.body);
+        // 無敵タイマー
+        if (this.player.isInvincible && this.player.invincibleTimer > 0) {
+            this.player.invincibleTimer--;
+            if (this.player.invincibleTimer <= 0) {
+                this.player.isInvincible = false;
+            }
+        }
+    }
+
+    spawnEnemies() {
+        if (Math.random() < this.enemySpawnRate + (this.gameSpeed - 3) * 0.005) {
+            const types = ['triangle-right', 'triangle-down'];
+            const type = types[Math.floor(Math.random() * types.length)];
+
+            let enemy = {
+                x: this.canvas.width + 50,
+                y: this.groundY - 20,
+                width: 25,
+                height: 20,
+                type: type,
+                speed: this.gameSpeed + Math.random() * 2,
+                rotation: 0
+            };
+
+            // 高さバリエーション
+            if (Math.random() < 0.3) {
+                enemy.y = this.groundY - 60 - Math.random() * 80;
+            }
+
+            this.enemies.push(enemy);
+        }
+    }
+
+    spawnItems() {
+        if (Math.random() < this.itemSpawnRate) {
+            const types = ['circle', 'star', 'diamond'];
+            const type = types[Math.floor(Math.random() * types.length)];
+
+            let item = {
+                x: this.canvas.width + 50,
+                y: this.groundY - 40 - Math.random() * 100,
+                width: 15,
+                height: 15,
+                type: type,
+                speed: this.gameSpeed * 0.8,
+                bounce: Math.random() * Math.PI * 2,
+                effect: this.getItemEffect(type)
+            };
+
+            this.items.push(item);
+        }
+    }
+
+    getItemEffect(type) {
+        switch (type) {
+            case 'circle':
+                return 'double-jump';
+            case 'star':
+                return 'invincible';
+            case 'diamond':
+                return 'score-boost';
+            default:
+                return 'score-boost';
+        }
+    }
+
+    updateEnemies() {
+        for (let i = this.enemies.length - 1; i >= 0; i--) {
+            const enemy = this.enemies[i];
+            enemy.x -= enemy.speed;
+            enemy.rotation += 0.1;
+
+            // 敵が画面外に出たら削除とスコア加算
+            if (enemy.x < -enemy.width) {
+                this.enemies.splice(i, 1);
+                this.dodgedCount++;
+                this.score += 50;
+
+                // 回避音
+                if (window.audioSystem) {
+                    window.audioSystem.play('escape-dodge', 0.1);
                 }
             }
-        });
+        }
+    }
 
-        // 落とし穴判定（Y座標が430以上で落下）
-        if (playerY > 430) {
-            // 衝突音再生
-            if (window.audioSystem) window.audioSystem.play('crash');
-            this.gameOver();
+    updateItems() {
+        for (let i = this.items.length - 1; i >= 0; i--) {
+            const item = this.items[i];
+            item.x -= item.speed;
+            item.bounce += 0.15;
+
+            if (item.x < -item.width) {
+                this.items.splice(i, 1);
+            }
         }
     }
 
     updateParticles() {
         for (let i = this.particles.length - 1; i >= 0; i--) {
-            let particle = this.particles[i];
-            particle.x += particle.velocityX;
-            particle.y += particle.velocityY;
-            particle.velocityY += 0.2; // 重力
-            particle.life--;
+            const particle = this.particles[i];
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            particle.life -= particle.decay;
+
+            if (particle.gravity) {
+                particle.vy += 0.1;
+            }
 
             if (particle.life <= 0) {
                 this.particles.splice(i, 1);
@@ -734,394 +616,525 @@ class BikeGame {
         }
     }
 
-    cleanupOffscreenObjects() {
-        const cleanupX = this.playerBody.position.x - 400;
+    updateBackground() {
+        this.gridOffset += this.gameSpeed;
 
-        // 地形の削除（坂道と地面の両方を削除）
-        this.terrainBodies = this.terrainBodies.filter(terrain => {
-            if (terrain.x < cleanupX) {
-                Matter.World.remove(this.world, terrain.body);
-                if (terrain.groundBody) {
-                    Matter.World.remove(this.world, terrain.groundBody);
-                }
-                return false;
+        // 星の移動
+        this.stars.forEach(star => {
+            star.x -= star.speed;
+            if (star.x < -star.size) {
+                star.x = this.canvas.width + star.size;
             }
-            return true;
         });
 
-        // 障害物の削除
-        this.obstacles = this.obstacles.filter(obstacle => {
-            if (obstacle.x < cleanupX) {
-                Matter.World.remove(this.world, obstacle.body);
-                return false;
+        // 背景パーティクル
+        this.backgroundParticles.forEach(particle => {
+            particle.x -= particle.speed;
+            if (particle.x < -particle.size) {
+                particle.x = this.canvas.width + particle.size;
             }
-            return true;
-        });
-
-        // コインの削除
-        this.coins = this.coins.filter(coin => {
-            if (coin.x < cleanupX) {
-                if (!coin.collected) {
-                    Matter.World.remove(this.world, coin.body);
-                }
-                return false;
-            }
-            return true;
         });
     }
 
-    updateUI() {
-        document.getElementById('score').textContent = Math.floor(this.score);
-        document.getElementById('distance').textContent = Math.floor(this.distance);
-        document.getElementById('speed').textContent = (this.currentSpeed / this.baseSpeed).toFixed(1);
-    }
+    checkCollisions() {
+        if (this.player.isInvincible) return;
 
-    renderGame() {
-        // 背景をクリア（背景なし）
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // カメラ変換
-        this.ctx.save();
-        this.ctx.translate(-this.camera.x, -this.camera.y);
-
-        // 地形を描画
-        this.renderTerrain();
-
-        // オブジェクトを描画
-        this.renderCoins();
-        this.renderObstacles();
-        this.renderPlayer();
-
-        // ゲーム実行中のみパーティクルを描画
-        if (this.isGameRunning) {
-            this.renderParticles();
+        // 敵との衝突
+        for (let enemy of this.enemies) {
+            if (this.checkCollision(this.player, enemy)) {
+                this.gameOver();
+                return;
+            }
         }
 
-        this.ctx.restore();
-
-        // ゲーム実行中のみUIを描画
-        if (this.isGameRunning) {
-            this.renderUI();
+        // アイテムとの衝突
+        for (let i = this.items.length - 1; i >= 0; i--) {
+            const item = this.items[i];
+            if (this.checkCollision(this.player, item)) {
+                this.collectItem(item);
+                this.items.splice(i, 1);
+            }
         }
     }
 
-    renderTerrain() {
-        this.ctx.fillStyle = '#666666';  // 暗いグレー（地面）
-        this.ctx.strokeStyle = '#333333'; // より暗いグレー（輪郭）
-        this.ctx.lineWidth = 2;
+    checkCollision(rect1, rect2) {
+        return rect1.x < rect2.x + rect2.width &&
+            rect1.x + rect1.width > rect2.x &&
+            rect1.y < rect2.y + rect2.height &&
+            rect1.y + rect1.height > rect2.y;
+    }
 
-        // 地形の描画（下まで全部地面として描画）
-        if (this.terrainHeights && this.terrainHeights.length > 1) {
-            // 地面全体を描画（浮島ではなく、下まで全部地面）
-            this.ctx.beginPath();
+    collectItem(item) {
+        this.itemCount++;
+        this.score += 100;
 
-            // 画面左端から開始
-            const startX = Math.max(0, this.camera.x - 100);
-            this.ctx.moveTo(startX, this.canvas.height);
-            this.ctx.lineTo(startX, this.terrainHeights[0].y);
+        // アイテム効果適用
+        switch (item.effect) {
+            case 'double-jump':
+                this.player.hasDoubleJump = true;
+                this.player.doubleJumpAvailable = true;
+                this.player.doubleJumpTimer = 600; // 10秒
+                break;
+            case 'invincible':
+                this.player.isInvincible = true;
+                this.player.invincibleTimer = 300; // 5秒
+                break;
+            case 'score-boost':
+                this.score += 500;
+                break;
+        }
 
-            // 地形の高さポイントを直線で繋げる
-            this.terrainHeights.forEach((point, index) => {
-                if (point.x > this.camera.x - 100 && point.x < this.camera.x + this.canvas.width + 100) {
-                    this.ctx.lineTo(point.x, point.y);
-                }
+        // アイテムパーティクル
+        this.createItemParticles(item.x + item.width / 2, item.y + item.height / 2);
+
+        // アイテム音
+        if (window.audioSystem) {
+            window.audioSystem.play('escape-powerup', 0.4);
+        }
+    }
+
+    createJumpParticles() {
+        for (let i = 0; i < 8; i++) {
+            this.particles.push({
+                x: this.player.x + Math.random() * this.player.width,
+                y: this.player.y + this.player.height,
+                vx: (Math.random() - 0.5) * 6,
+                vy: -Math.random() * 4,
+                life: 1,
+                decay: 0.02,
+                color: '#00ffff',
+                size: 2 + Math.random() * 2,
+                gravity: true
             });
+        }
+    }
 
-            // 画面右端まで描画
-            const endX = Math.min(this.canvas.width + this.camera.x + 100,
-                this.terrainHeights[this.terrainHeights.length - 1].x);
-            const lastPoint = this.terrainHeights[this.terrainHeights.length - 1];
-            this.ctx.lineTo(endX, lastPoint.y);
-            this.ctx.lineTo(endX, this.canvas.height);
-            this.ctx.lineTo(startX, this.canvas.height);
-
-            this.ctx.closePath();
-            this.ctx.fill();
-            this.ctx.stroke();
-
-            // 地形表面の強調線
-            this.ctx.strokeStyle = '#888888';
-            this.ctx.lineWidth = 3;
-            this.ctx.beginPath();
-            this.terrainHeights.forEach((point, index) => {
-                if (point.x > this.camera.x - 100 && point.x < this.camera.x + this.canvas.width + 100) {
-                    if (index === 0) {
-                        this.ctx.moveTo(point.x, point.y);
-                    } else {
-                        this.ctx.lineTo(point.x, point.y);
-                    }
-                }
+    createDoubleJumpParticles() {
+        for (let i = 0; i < 12; i++) {
+            this.particles.push({
+                x: this.player.x + this.player.width / 2,
+                y: this.player.y + this.player.height / 2,
+                vx: (Math.random() - 0.5) * 8,
+                vy: (Math.random() - 0.5) * 8,
+                life: 1,
+                decay: 0.015,
+                color: '#ff6600',
+                size: 3 + Math.random() * 3,
+                gravity: false
             });
-            this.ctx.stroke();
-        }
-
-        this.ctx.fillStyle = '#666666'; // リセット
-        this.ctx.strokeStyle = '#333333'; // リセット
-        this.ctx.lineWidth = 2; // リセット
-    }
-
-    renderPlayer() {
-        if (!this.playerBody) return;
-
-        const playerX = this.playerBody.position.x;
-        const playerY = this.playerBody.position.y;
-        const angle = this.playerBody.angle;
-
-        if (this.images.bike) {
-            this.ctx.save();
-            this.ctx.translate(playerX, playerY);
-            this.ctx.rotate(angle);
-            this.ctx.drawImage(this.images.bike, -18, -18, 36, 36);
-            this.ctx.restore();
-        } else {
-            // 球体として描画
-            this.ctx.save();
-            this.ctx.translate(playerX, playerY);
-            this.ctx.rotate(angle);
-
-            // 球体のメインボディ
-            this.ctx.fillStyle = '#e74c3c';
-            this.ctx.strokeStyle = '#c0392b';
-            this.ctx.lineWidth = 2;
-            this.ctx.beginPath();
-            this.ctx.arc(0, 0, 18, 0, Math.PI * 2);
-            this.ctx.fill();
-            this.ctx.stroke();
-
-            // 球体の中心マーク
-            this.ctx.fillStyle = '#ffffff';
-            this.ctx.beginPath();
-            this.ctx.arc(0, 0, 4, 0, Math.PI * 2);
-            this.ctx.fill();
-
-            this.ctx.restore();
         }
     }
 
-    renderObstacles() {
-        this.obstacles.forEach(obstacle => {
-            if (obstacle.x + obstacle.width > this.camera.x && obstacle.x < this.camera.x + this.canvas.width) {
-                if (this.images.obstacle) {
-                    this.ctx.drawImage(this.images.obstacle, obstacle.x - 10, obstacle.y - 10, 20, 20);
-                } else {
-                    this.ctx.fillStyle = '#333333';
-                    this.ctx.fillRect(obstacle.x - 10, obstacle.y - 10, 20, 20);
-                }
-            }
-        });
-    }
-
-    renderCoins() {
-        this.coins.forEach(coin => {
-            if (!coin.collected && coin.x + 20 > this.camera.x && coin.x < this.camera.x + this.canvas.width) {
-                coin.bounce += 0.2;
-                const bounceY = coin.y + Math.sin(coin.bounce) * 3;
-
-                if (this.images.coin) {
-                    this.ctx.save();
-                    this.ctx.translate(coin.x, bounceY);
-                    this.ctx.rotate(coin.bounce * 0.1);
-                    this.ctx.drawImage(this.images.coin, -12, -12, 24, 24);
-                    this.ctx.restore();
-                } else {
-                    this.ctx.fillStyle = '#cccccc';
-                    this.ctx.strokeStyle = '#999999';
-                    this.ctx.lineWidth = 2;
-                    this.ctx.beginPath();
-                    this.ctx.arc(coin.x, bounceY, 12, 0, Math.PI * 2);
-                    this.ctx.fill();
-                    this.ctx.stroke();
-                }
-            }
-        });
-    }
-
-    renderParticles() {
-        this.particles.forEach(particle => {
-            const alpha = particle.life / particle.maxLife;
-            this.ctx.fillStyle = particle.color + Math.floor(alpha * 255).toString(16).padStart(2, '0');
-            this.ctx.fillRect(particle.x - particle.size / 2, particle.y - particle.size / 2, particle.size, particle.size);
-        });
-    }
-
-    renderUI() {
-        // スピードメーター
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        this.ctx.fillRect(this.canvas.width - 120, 10, 110, 60);
-
-        const speedRatio = (this.currentSpeed - this.baseSpeed) / (this.maxSpeed - this.baseSpeed);
-        const barWidth = 80 * Math.max(0, Math.min(1, speedRatio));
-
-        this.ctx.fillStyle = speedRatio > 0.8 ? '#ff4444' : speedRatio > 0.5 ? '#ffaa00' : '#44ff44';
-        this.ctx.fillRect(this.canvas.width - 110, 30, barWidth, 10);
-
-        this.ctx.strokeStyle = '#fff';
-        this.ctx.lineWidth = 2;
-        this.ctx.strokeRect(this.canvas.width - 110, 30, 80, 10);
-
-        this.ctx.fillStyle = '#fff';
-        this.ctx.font = '12px Arial';
-        this.ctx.fillText('SPEED', this.canvas.width - 110, 25);
-        this.ctx.fillText(`${(this.currentSpeed / this.baseSpeed).toFixed(1)}x`, this.canvas.width - 110, 55);
-    }
-
-    startGame() {
-        this.resetGame();
-        this.isGameRunning = true;
-        this.hideStartScreen();
-        document.getElementById('pausePlayBtn').style.display = 'block';
-
-        // 初期カメラ位置を設定
-        this.camera.x = 0;
-        this.camera.y = 0;
-
-        // 最初のフレームをレンダリング
-        this.renderGame();
-
-        // ゲームループ開始
-        this.gameLoop();
-    }
-
-    resetGame() {
-        // 物理世界をクリア
-        Matter.World.clear(this.world);
-
-        // プレイヤーリセット
-        this.createPlayer();
-
-        // ゲーム状態リセット
-        this.currentSpeed = this.baseSpeed;
-        this.distance = 0;
-        this.score = 0;
-        this.maxSpeedReached = 1.0;
-        this.camera = { x: 0, y: 0 };
-
-        // オブジェクトクリア
-        this.terrainBodies = [];
-        this.terrainHeights = [];
-        this.obstacles = [];
-        this.coins = [];
-        this.particles = [];
-
-        // 地形再生成
-        this.generateInitialTerrain();
-    }
-
-    gameLoop() {
-        if (this.isGameRunning) {
-            this.update();
-            this.renderGame();
-            requestAnimationFrame(() => this.gameLoop());
+    createItemParticles(x, y) {
+        for (let i = 0; i < 15; i++) {
+            this.particles.push({
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 8,
+                vy: (Math.random() - 0.5) * 8,
+                life: 1,
+                decay: 0.01,
+                color: '#0088ff',
+                size: 2 + Math.random() * 3,
+                gravity: false
+            });
         }
     }
 
     gameOver() {
-        this.isGameRunning = false;
+        this.isRunning = false;
 
-        // 最終スコア表示
-        document.getElementById('finalScore').textContent = Math.floor(this.score);
-        document.getElementById('finalDistance').textContent = Math.floor(this.distance);
-        document.getElementById('maxSpeed').textContent = this.maxSpeedReached.toFixed(1);
+        // 画面エフェクト
+        this.screenFlash = 1;
+        this.cameraShake = 30;
 
-        // セッション最高記録更新
-        const currentHigh = parseInt(document.getElementById('sessionHigh').textContent) || 0;
-        if (this.score > currentHigh) {
-            document.getElementById('sessionHigh').textContent = Math.floor(this.score);
-            document.getElementById('sessionDistance').textContent = Math.floor(this.distance);
-            document.getElementById('sessionSpeed').textContent = this.maxSpeedReached.toFixed(1);
+        // 爆発パーティクル
+        for (let i = 0; i < 40; i++) {
+            this.particles.push({
+                x: this.player.x + this.player.width / 2,
+                y: this.player.y + this.player.height / 2,
+                vx: (Math.random() - 0.5) * 16,
+                vy: (Math.random() - 0.5) * 16,
+                life: 1,
+                decay: 0.005,
+                color: ['#ff0000', '#ff4400', '#ff6600', '#ff8800'][Math.floor(Math.random() * 4)],
+                size: 3 + Math.random() * 5,
+                gravity: false
+            });
         }
 
-        // 最高スコア更新
-        const highScore = parseInt(document.getElementById('highScore').textContent) || 0;
-        if (this.score > highScore) {
-            document.getElementById('highScore').textContent = Math.floor(this.score);
+        // クラッシュ音
+        if (window.audioSystem) {
+            window.audioSystem.play('escape-crash', 0.6);
         }
 
-        this.showGameOverDialog();
-        this.showStartScreen();
-        document.getElementById('pausePlayBtn').style.display = 'none';
+        // ベストスコア更新
+        if (this.score > this.bestScore) {
+            this.bestScore = this.score;
+            localStorage.setItem('escapeRunBestScore', this.bestScore);
+        }
+
+        setTimeout(() => this.showGameOverScreen(), 1500);
     }
 
-    // UI制御メソッド
+    draw() {
+        // 画面クリア
+        this.ctx.fillStyle = '#000011';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // カメラシェイク適用
+        if (this.cameraShake > 0) {
+            this.ctx.save();
+            this.ctx.translate(
+                (Math.random() - 0.5) * this.cameraShake,
+                (Math.random() - 0.5) * this.cameraShake
+            );
+        }
+
+        // 背景
+        this.drawBackground();
+
+        // プレイヤー
+        this.drawPlayer();
+
+        // 敵
+        this.drawEnemies();
+
+        // アイテム
+        this.drawItems();
+
+        // パーティクル
+        this.drawParticles();
+
+        // UI
+        this.drawUI();
+
+        // スクリーンフラッシュ
+        if (this.screenFlash > 0) {
+            this.ctx.fillStyle = `rgba(255, 0, 0, ${this.screenFlash * 0.3})`;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+
+        // カメラシェイク復元
+        if (this.cameraShake > 0) {
+            this.ctx.restore();
+        }
+    }
+
+    drawBackground() {
+        // グリッド
+        this.ctx.strokeStyle = 'rgba(0, 255, 255, 0.1)';
+        this.ctx.lineWidth = 1;
+
+        const gridSize = 40;
+        const offsetX = -(this.gridOffset % gridSize);
+        const offsetY = 0;
+
+        for (let x = offsetX; x < this.canvas.width; x += gridSize) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, 0);
+            this.ctx.lineTo(x, this.canvas.height);
+            this.ctx.stroke();
+        }
+
+        for (let y = offsetY; y < this.canvas.height; y += gridSize) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, y);
+            this.ctx.lineTo(this.canvas.width, y);
+            this.ctx.stroke();
+        }
+
+        // 星
+        this.stars.forEach(star => {
+            this.ctx.save();
+            this.ctx.globalAlpha = star.opacity;
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.beginPath();
+            this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.restore();
+        });
+
+        // 背景パーティクル
+        this.backgroundParticles.forEach(particle => {
+            this.ctx.save();
+            this.ctx.globalAlpha = particle.opacity;
+            this.ctx.fillStyle = particle.color;
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.restore();
+        });
+
+        // 地面
+        this.ctx.fillStyle = 'rgba(0, 255, 255, 0.2)';
+        this.ctx.fillRect(0, this.groundY + 20, this.canvas.width, 10);
+    }
+
+    drawPlayer() {
+        this.ctx.save();
+
+        // 無敵モード時の点滅
+        if (this.player.isInvincible && Math.floor(this.gameTime / 5) % 2 === 0) {
+            this.ctx.globalAlpha = 0.5;
+        }
+
+        const x = this.player.x + this.player.width / 2;
+        const y = this.player.y + this.player.height / 2;
+
+        // グローエフェクト
+        const glowSize = 8 + Math.sin(this.player.glowPhase) * 4;
+        this.ctx.shadowBlur = glowSize;
+        this.ctx.shadowColor = '#00ffff';
+
+        // プレイヤー本体（白い四角）
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.fillRect(this.player.x, this.player.y, this.player.width, this.player.height);
+
+        // 内側のサイバーエフェクト
+        this.ctx.shadowBlur = 0;
+        this.ctx.fillStyle = '#00ffff';
+        this.ctx.fillRect(this.player.x + 2, this.player.y + 2, this.player.width - 4, this.player.height - 4);
+
+        // 二段ジャンプ表示
+        if (this.player.hasDoubleJump) {
+            this.ctx.fillStyle = '#ff6600';
+            this.ctx.fillRect(this.player.x + 6, this.player.y + 6, this.player.width - 12, this.player.height - 12);
+        }
+
+        this.ctx.restore();
+    }
+
+    drawEnemies() {
+        this.enemies.forEach(enemy => {
+            this.ctx.save();
+
+            const x = enemy.x + enemy.width / 2;
+            const y = enemy.y + enemy.height / 2;
+
+            this.ctx.translate(x, y);
+            this.ctx.rotate(enemy.rotation);
+
+            // 敵の影
+            this.ctx.shadowBlur = 10;
+            this.ctx.shadowColor = '#ff0000';
+
+            this.ctx.fillStyle = '#ff0000';
+
+            if (enemy.type === 'triangle-right') {
+                // 右向き三角形 ▶
+                this.ctx.beginPath();
+                this.ctx.moveTo(enemy.width / 2, 0);
+                this.ctx.lineTo(-enemy.width / 2, -enemy.height / 2);
+                this.ctx.lineTo(-enemy.width / 2, enemy.height / 2);
+                this.ctx.closePath();
+                this.ctx.fill();
+            } else if (enemy.type === 'triangle-down') {
+                // 下向き三角形 ▼
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, enemy.height / 2);
+                this.ctx.lineTo(-enemy.width / 2, -enemy.height / 2);
+                this.ctx.lineTo(enemy.width / 2, -enemy.height / 2);
+                this.ctx.closePath();
+                this.ctx.fill();
+            }
+
+            this.ctx.restore();
+        });
+    }
+
+    drawItems() {
+        this.items.forEach(item => {
+            this.ctx.save();
+
+            const x = item.x + item.width / 2;
+            const y = item.y + item.height / 2 + Math.sin(item.bounce) * 3;
+
+            this.ctx.translate(x, y);
+
+            // アイテムの影
+            this.ctx.shadowBlur = 8;
+            this.ctx.shadowColor = '#0088ff';
+
+            this.ctx.fillStyle = '#0088ff';
+
+            if (item.type === 'circle') {
+                // 円 ●
+                this.ctx.beginPath();
+                this.ctx.arc(0, 0, item.width / 2, 0, Math.PI * 2);
+                this.ctx.fill();
+            } else if (item.type === 'star') {
+                // 星 ★
+                this.ctx.beginPath();
+                for (let i = 0; i < 5; i++) {
+                    const angle = (i * Math.PI * 2) / 5 - Math.PI / 2;
+                    const x1 = Math.cos(angle) * item.width / 2;
+                    const y1 = Math.sin(angle) * item.width / 2;
+                    const x2 = Math.cos(angle + Math.PI / 5) * item.width / 4;
+                    const y2 = Math.sin(angle + Math.PI / 5) * item.width / 4;
+
+                    if (i === 0) {
+                        this.ctx.moveTo(x1, y1);
+                    } else {
+                        this.ctx.lineTo(x1, y1);
+                    }
+                    this.ctx.lineTo(x2, y2);
+                }
+                this.ctx.closePath();
+                this.ctx.fill();
+            } else if (item.type === 'diamond') {
+                // ダイヤモンド ◆
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, -item.height / 2);
+                this.ctx.lineTo(item.width / 2, 0);
+                this.ctx.lineTo(0, item.height / 2);
+                this.ctx.lineTo(-item.width / 2, 0);
+                this.ctx.closePath();
+                this.ctx.fill();
+            }
+
+            this.ctx.restore();
+        });
+    }
+
+    drawParticles() {
+        this.particles.forEach(particle => {
+            this.ctx.save();
+            this.ctx.globalAlpha = particle.life;
+            this.ctx.fillStyle = particle.color;
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.restore();
+        });
+    }
+
+    drawUI() {
+        // パワーアップ表示
+        let yOffset = 20;
+
+        if (this.player.hasDoubleJump) {
+            const timeLeft = Math.ceil(this.player.doubleJumpTimer / 60);
+            this.ctx.fillStyle = '#ff6600';
+            this.ctx.font = 'bold 16px Arial';
+            this.ctx.fillText(`二段ジャンプ: ${timeLeft}秒`, 20, yOffset);
+            yOffset += 25;
+        }
+
+        if (this.player.isInvincible) {
+            const timeLeft = Math.ceil(this.player.invincibleTimer / 60);
+            this.ctx.fillStyle = '#00ff00';
+            this.ctx.font = 'bold 16px Arial';
+            this.ctx.fillText(`無敵: ${timeLeft}秒`, 20, yOffset);
+            yOffset += 25;
+        }
+
+        // スコア表示
+        this.ctx.fillStyle = '#00ffff';
+        this.ctx.font = 'bold 18px Arial';
+        this.ctx.fillText(`スコア: ${this.score}`, this.canvas.width - 150, 30);
+
+        // 速度表示
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.font = '14px Arial';
+        this.ctx.fillText(`速度: ${this.gameSpeed.toFixed(1)}`, this.canvas.width - 150, 50);
+    }
+
+    updateUI() {
+        // ゲームヘッダーの統計を更新
+        const scoreElements = document.querySelectorAll('#score');
+        const dodgedElements = document.querySelectorAll('#dodged');
+        const itemsElements = document.querySelectorAll('#items');
+        const bestScoreElements = document.querySelectorAll('#bestScore');
+
+        scoreElements.forEach(element => {
+            element.textContent = this.score;
+        });
+
+        dodgedElements.forEach(element => {
+            element.textContent = this.dodgedCount;
+        });
+
+        itemsElements.forEach(element => {
+            element.textContent = this.itemCount;
+        });
+
+        bestScoreElements.forEach(element => {
+            element.textContent = this.bestScore;
+        });
+    }
+
     showStartScreen() {
         const startScreen = document.getElementById('startScreen');
-        if (startScreen) startScreen.style.display = 'flex';
+        if (startScreen) {
+            startScreen.style.display = 'flex';
+        }
+
+        // 一時停止ボタンを非表示
+        const pauseButton = document.getElementById('pauseButton');
+        if (pauseButton) {
+            pauseButton.style.display = 'none';
+        }
     }
 
     hideStartScreen() {
         const startScreen = document.getElementById('startScreen');
-        if (startScreen) startScreen.style.display = 'none';
+        if (startScreen) {
+            startScreen.style.display = 'none';
+        }
+
+        // 一時停止ボタンを表示
+        const pauseButton = document.getElementById('pauseButton');
+        if (pauseButton) {
+            pauseButton.style.display = 'flex';
+        }
     }
 
-    showGameOverDialog() {
-        const dialog = document.getElementById('gameOver');
-        if (dialog) dialog.style.display = 'block';
+    showGameOverScreen() {
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const finalScore = document.getElementById('finalScore');
+        const finalDodged = document.getElementById('finalDodged');
+        const finalItems = document.getElementById('finalItems');
+        const bestScoreElements = document.querySelectorAll('#bestScore');
+
+        if (gameOverScreen) {
+            gameOverScreen.style.display = 'block';
+        }
+
+        if (finalScore) finalScore.textContent = this.score;
+        if (finalDodged) finalDodged.textContent = this.dodgedCount;
+        if (finalItems) finalItems.textContent = this.itemCount;
+
+        // 複数のbestScore要素を更新
+        bestScoreElements.forEach(element => {
+            element.textContent = this.bestScore;
+        });
+
+        // 一時停止ボタンを非表示
+        const pauseButton = document.getElementById('pauseButton');
+        if (pauseButton) {
+            pauseButton.style.display = 'none';
+        }
     }
 
-    hideGameOverDialog() {
-        const dialog = document.getElementById('gameOver');
-        if (dialog) dialog.style.display = 'none';
+    hideGameOverScreen() {
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        if (gameOverScreen) {
+            gameOverScreen.style.display = 'none';
+        }
     }
 
-    showHowToPlayDialog() {
-        const dialog = document.getElementById('howToPlayDialog');
-        if (dialog) dialog.style.display = 'flex';
-    }
-
-    hideHowToPlayDialog() {
-        const dialog = document.getElementById('howToPlayDialog');
-        if (dialog) dialog.style.display = 'none';
-    }
-
-    togglePause() {
-        if (!this.isGameRunning) return;
-
-        const pauseBtn = document.getElementById('pausePlayBtn');
-
-        if (this.isPaused) {
-            // 再開
-            this.isPaused = false;
-            if (pauseBtn) pauseBtn.textContent = '⏸️';
-        } else {
-            // 一時停止
-            this.isPaused = true;
-            if (pauseBtn) pauseBtn.textContent = '▶️';
+    gameLoop() {
+        if (this.isRunning) {
+            this.update();
+            this.draw();
+            requestAnimationFrame(() => this.gameLoop());
         }
     }
 }
 
 // ゲーム初期化
-document.addEventListener('DOMContentLoaded', () => {
-    const game = new BikeGame();
-
-    // ゲーム開始ボタン
-    document.getElementById('startGameBtn').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.startGame();
-    });
-
-    // 遊び方ボタン
-    document.getElementById('howToPlayBtn').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.showHowToPlayDialog();
-    });
-
-    // 遊び方ダイアログを閉じる
-    document.getElementById('closeDialog').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.hideHowToPlayDialog();
-    });
-
-    // リスタートボタン
-    document.getElementById('restartBtn').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.hideGameOverDialog();
-        game.startGame();
-    });
-
-    // 一時停止・再生ボタン
-    document.getElementById('pausePlayBtn').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.togglePause();
-    });
+let game;
+window.addEventListener('load', () => {
+    game = new EscapeRunGame();
 });

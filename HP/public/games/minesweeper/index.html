@@ -306,6 +306,95 @@
         .game-dialog .game-dialog-content {
             color: #333;
         }
+
+        /* ゲームウィンドウ統合スタイル */
+        .game-window {
+            background: linear-gradient(135deg, #C0C0C0, #F0F0F0);
+            border: 3px solid #808080;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(128, 128, 128, 0.3);
+            position: relative;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .game-header-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .game-header-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+
+        .game-header-stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        .game-header-stat-value {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .game-play-area {
+            background: #F0F0F0;
+            border: 2px solid #808080;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+            padding: 20px;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .game-controls .btn {
+            background: #C0C0C0;
+            border: 2px solid #808080;
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .game-controls .btn:hover {
+            background: #D0D0D0;
+            transform: translateY(-2px);
+        }
+
+        /* 統計パネルを非表示 */
+        .stats-panel {
+            display: none;
+        }
     </style>
 </head>
 
@@ -352,54 +441,79 @@
                 <button class="difficulty-btn" data-difficulty="expert">上級 (30×16, 99個)</button>
             </div>
 
-            <!-- ゲーム盤面 -->
-            <div class="game-board" style="position: relative;">
-                <!-- ゲーム情報パネル -->
-                <div class="game-info-panel">
-                    <div class="info-display" id="mineCount">010</div>
+            <!-- ゲームウィンドウ -->
+            <div class="game-window">
+                <!-- ゲームヘッダー（スコア表示エリア） -->
+                <div class="game-header">
+                    <div class="game-header-stats">
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">残り地雷</div>
+                            <div class="game-header-stat-value" id="mineCount">010</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">経過時間</div>
+                            <div class="game-header-stat-value" id="timer">000</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">ゲーム数</div>
+                            <div class="game-header-stat-value" id="gamesPlayed">0</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">勝率</div>
+                            <div class="game-header-stat-value" id="winRate">0%</div>
+                        </div>
+                    </div>
                     <button class="smiley-btn" id="smileyBtn">😊</button>
-                    <div class="info-display" id="timer">000</div>
                 </div>
 
-                <!-- マインフィールド -->
-                <div class="minefield" id="minefield"></div>
+                <!-- ゲームプレイエリア -->
+                <div class="game-play-area">
+                    <!-- マインフィールド -->
+                    <div class="minefield" id="minefield"></div>
 
-                <!-- ゲームオーバーダイアログ（ゲーム内） -->
-                <div id="gameOverDialog" class="game-dialog" style="display: none;">
-                    <div class="game-dialog-header">
-                        <h3>💥 ゲームオーバー</h3>
-                    </div>
-                    <div class="game-dialog-content">
-                        <p>地雷を踏んでしまいました！</p>
-                        <div style="margin: 20px 0;">
-                            <div>プレイ時間: <span id="finalTime">0</span>秒</div>
+                    <!-- ゲームオーバーダイアログ（ゲーム内） -->
+                    <div id="gameOverDialog" class="game-dialog" style="display: none;">
+                        <div class="game-dialog-header">
+                            <h3>💥 ゲームオーバー</h3>
                         </div>
-                        <div class="game-dialog-buttons">
-                            <button class="btn" id="restartBtn">もう一度プレイ</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 勝利ダイアログ（ゲーム内） -->
-                <div id="winDialog" class="game-dialog" style="display: none;">
-                    <div class="game-dialog-header">
-                        <h3>🎉 おめでとうございます！</h3>
-                    </div>
-                    <div class="game-dialog-content">
-                        <p>すべての地雷を見つけました！</p>
-                        <div style="margin: 20px 0;">
-                            <div>クリアタイム: <span id="winTime">0</span>秒</div>
-                            <div id="newRecord" style="color: #FFD700; font-weight: bold; display: none;">🏆 新記録達成！
+                        <div class="game-dialog-content">
+                            <p>地雷を踏んでしまいました！</p>
+                            <div style="margin: 20px 0;">
+                                <div>プレイ時間: <span id="finalTime">0</span>秒</div>
+                            </div>
+                            <div class="game-dialog-buttons">
+                                <button class="btn" id="restartBtn">もう一度プレイ</button>
                             </div>
                         </div>
-                        <div class="game-dialog-buttons">
-                            <button class="btn" id="playAgainBtn">もう一度プレイ</button>
+                    </div>
+
+                    <!-- 勝利ダイアログ（ゲーム内） -->
+                    <div id="winDialog" class="game-dialog" style="display: none;">
+                        <div class="game-dialog-header">
+                            <h3>🎉 おめでとうございます！</h3>
+                        </div>
+                        <div class="game-dialog-content">
+                            <p>すべての地雷を見つけました！</p>
+                            <div style="margin: 20px 0;">
+                                <div>クリアタイム: <span id="winTime">0</span>秒</div>
+                                <div id="newRecord" style="color: #FFD700; font-weight: bold; display: none;">🏆 新記録達成！
+                                </div>
+                            </div>
+                            <div class="game-dialog-buttons">
+                                <button class="btn" id="playAgainBtn">もう一度プレイ</button>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- ゲームコントロール -->
+                <div class="game-controls">
+                    <button class="btn" id="newGameBtn">🎮 新しいゲーム</button>
+                    <button class="btn" id="howToPlayBtn">❓ 遊び方</button>
                 </div>
             </div>
 
-            <!-- 統計情報 -->
+            <!-- 統計情報（非表示） -->
             <div class="stats-panel">
                 <div class="stat-item">
                     <div class="stat-label">ゲーム数</div>
@@ -417,12 +531,6 @@
                     <div class="stat-label">最速タイム</div>
                     <div class="stat-value" id="bestTime">---</div>
                 </div>
-            </div>
-
-            <!-- 操作ボタン -->
-            <div class="game-controls">
-                <button class="btn" id="newGameBtn">🎮 新しいゲーム</button>
-                <button class="btn" id="howToPlayBtn">❓ 遊び方</button>
             </div>
             <!-- 戻るリンク -->
             <div class="back-link">

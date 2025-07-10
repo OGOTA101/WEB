@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🃏 ブラックジャック - SGGameSite</title>
+
+    <!-- 共通CSS -->
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="../../shared/css/game-base.css">
+
+    <!-- ゲーム固有CSS -->
+    <style>
+        /* ブラックジャック固有のスタイル */
+        .game-board {
+            background: linear-gradient(45deg, #1e3c72 0%, #2a5298 50%, #4a90e2 100%);
+            box-shadow: 0 0 30px rgba(30, 60, 114, 0.5);
+            overflow: hidden;
+        }
+
+        .stat-item {
+            background: rgba(30, 60, 114, 0.1);
+            border: 1px solid #2a5298;
+            box-shadow: 0 0 10px rgba(30, 60, 114, 0.3);
+        }
+
+        .stat-label {
+            color: #1e3c72;
+        }
+
+        .stat-value {
+            color: #2a5298;
+            text-shadow: 0 0 5px #4a90e2;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            box-shadow: 0 0 15px rgba(30, 60, 114, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(30, 60, 114, 0.6);
+        }
+
+        .game-over {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .game-over h3 {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .high-score {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .high-score h4 {
+            color: #FFD700;
+            text-shadow: 0 0 5px #FFD700;
+        }
+
+        .game-title-screen {
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px #2a5298;
+        }
+
+        .controls-info h4 {
+            color: #1e3c72;
+        }
+
+        .back-link {
+            border-top: 1px solid #2a5298;
+        }
+
+        .back-link a {
+            color: #1e3c72;
+        }
+
+        .back-link a:hover {
+            text-shadow: 0 0 5px #2a5298;
+        }
+
+        /* ダイアログをブラックジャック風に */
+        .dialog {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            border: 2px solid #2a5298;
+            box-shadow: 0 0 30px rgba(30, 60, 114, 0.5);
+        }
+
+        .dialog-header {
+            background: rgba(30, 60, 114, 0.1);
+            border-bottom: 1px solid rgba(30, 60, 114, 0.3);
+        }
+
+        .dialog-header h3 {
+            color: #1e3c72;
+        }
+
+        .dialog-content {
+            color: #333;
+        }
+
+        .dialog-content h4 {
+            color: #1e3c72;
+        }
+
+        .close-btn {
+            color: #666;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* ゲームウィンドウ統合スタイル */
+        .game-window {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border: 3px solid #2a5298;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 30px rgba(42, 82, 152, 0.3);
+            position: relative;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .game-header-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .game-header-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+
+        .game-header-stat-label {
+            font-size: 12px;
+            color: #87ceeb;
+            margin-bottom: 2px;
+        }
+
+        .game-header-stat-value {
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 0 0 5px #2a5298;
+        }
+
+        .game-play-area {
+            background: #006400;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+            min-height: 500px;
+            padding: 20px;
+        }
+
+        /* カードスタイル */
+        .card {
+            width: 80px;
+            height: 120px;
+            background: #fff;
+            border: 1px solid #333;
+            border-radius: 8px;
+            margin: 5px;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card.red {
+            color: #DC143C;
+        }
+
+        .card.black {
+            color: #000;
+        }
+
+        .card-back {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .card-mini {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 12px;
+        }
+
+        .card-mini-bottom {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 12px;
+            transform: rotate(180deg);
+        }
+
+        .hand {
+            margin: 20px 0;
+            min-height: 140px;
+        }
+
+        .hand-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .hand-total {
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .dealer-hand {
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 20px;
+        }
+
+        .player-hand {
+            padding-top: 20px;
+        }
+
+        .game-controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 8px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(30, 60, 114, 0.6);
+        }
+
+        .action-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .game-message {
+            text-align: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            min-height: 25px;
+        }
+
+        .coin-counter {
+            text-align: center;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .coin-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #cd7f32, #8b4513);
+            border: 2px solid #654321;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .pause-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .pause-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .bust {
+            animation: bustAnimation 0.5s ease-in-out;
+        }
+
+        @keyframes bustAnimation {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+                color: #ff0000;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .blackjack {
+            animation: blackjackAnimation 0.5s ease-in-out;
+        }
+
+        @keyframes blackjackAnimation {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+                color: #FFD700;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 60px;
+                height: 90px;
+                font-size: 18px;
+            }
+
+            .action-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+                margin: 0 4px;
+            }
+
+            .game-play-area {
+                min-height: 400px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <div class="header">
+            <div class="header-content">
+                <h1>🎮 SGGameSite</h1>
+                <div class="tagline">無料ゲームサイト</div>
+                <div class="coin-display">
+                    <div class="coin-item">
+                        <div class="coin-icon coin-gold"></div>
+                        <span id="goldCoins">0</span>
+                    </div>
+                    <div class="coin-item">
+                        <div class="coin-icon coin-silver"></div>
+                        <span id="silverCoins">0</span>
+                    </div>
+                    <div class="coin-item">
+                        <div class="coin-icon coin-bronze"></div>
+                        <span id="bronzeCoins">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- パンくずリスト -->
+        <div class="breadcrumb">
+            <a href="../../index.html">ホーム</a> &gt; 🃏 ブラックジャック
+        </div>
+
+        <!-- ゲームタイトル -->
+        <div class="game-title-header">
+            <h2 class="game-title">🃏 ブラックジャック</h2>
+        </div>
+
+        <!-- ゲームウィンドウ -->
+        <div class="game-window">
+            <div class="game-header">
+                <div class="game-header-stats">
+                    <div class="game-header-stat">
+                        <div class="game-header-stat-label">所持コイン</div>
+                        <div class="game-header-stat-value" id="coins">10</div>
+                    </div>
+                    <div class="game-header-stat">
+                        <div class="game-header-stat-label">ゲーム数</div>
+                        <div class="game-header-stat-value" id="games">0</div>
+                    </div>
+                    <div class="game-header-stat">
+                        <div class="game-header-stat-label">勝利数</div>
+                        <div class="game-header-stat-value" id="wins">0</div>
+                    </div>
+                    <div class="game-header-stat">
+                        <div class="game-header-stat-label">ベスト</div>
+                        <div class="game-header-stat-value" id="bestCoins">10</div>
+                    </div>
+                </div>
+                <button class="pause-btn" onclick="pauseGame()">⏸️</button>
+            </div>
+
+            <div class="game-play-area" id="gameArea">
+                <!-- ゲーム開始画面 -->
+                <div id="startScreen" class="game-screen">
+                    <div style="text-align: center; color: #fff;">
+                        <h3 class="game-title-screen">🃏 ブラックジャック</h3>
+                        <p style="margin: 20px 0;">21に近づけてディーラーに勝負！</p>
+                        <div class="controls-info">
+                            <h4>ゲームルール</h4>
+                            <p>• 最初にコイン10枚でスタート</p>
+                            <p>• カードの合計を21に近づける</p>
+                            <p>• 21を超えるとバスト（負け）</p>
+                            <p>• ディーラーより21に近いと勝利</p>
+                            <p>• 勝利すると1コイン獲得、負けると1コイン失う</p>
+                            <p>• 勝った枚数が銅コインとして記録されます</p>
+                        </div>
+                        <button class="btn" onclick="startGame()">ゲーム開始</button>
+                    </div>
+                </div>
+
+                <!-- ゲーム中画面 -->
+                <div id="gameScreen" class="game-screen" style="display: none;">
+                    <div class="coin-counter">
+                        <span class="coin-icon"></span>
+                        残りコイン: <span id="coinCount">10</span>枚
+                    </div>
+
+                    <div class="hand dealer-hand">
+                        <div class="hand-title">ディーラー <span class="hand-total" id="dealerTotal">-</span></div>
+                        <div id="dealerCards"></div>
+                    </div>
+
+                    <div class="hand player-hand">
+                        <div class="hand-title">プレイヤー <span class="hand-total" id="playerTotal">-</span></div>
+                        <div id="playerCards"></div>
+                    </div>
+
+                    <div class="game-message" id="gameMessage">
+                        カードを引きますか？
+                    </div>
+
+                    <div class="game-controls">
+                        <button class="action-btn" id="hitBtn" onclick="playerHit()">ヒット</button>
+                        <button class="action-btn" id="standBtn" onclick="playerStand()">スタンド</button>
+                        <button class="action-btn" id="newGameBtn" onclick="startNewRound()"
+                            style="display: none;">新しいゲーム</button>
+                    </div>
+                </div>
+
+                <!-- ゲーム終了画面 -->
+                <div id="gameOverScreen" class="game-screen" style="display: none;">
+                    <div style="text-align: center; color: #fff;">
+                        <h3 class="game-over">🃏 ゲーム終了</h3>
+                        <div class="coin-counter">
+                            <span class="coin-icon"></span>
+                            獲得コイン: <span id="finalCoins">0</span>枚
+                        </div>
+                        <div class="high-score" style="margin: 20px 0; padding: 15px; border-radius: 10px;">
+                            <h4>🏆 結果</h4>
+                            <p>勝利数: <span id="finalWins">0</span>回</p>
+                            <p>ゲーム数: <span id="finalGames">0</span>回</p>
+                            <p>勝率: <span id="winRate">0</span>%</p>
+                            <p>ベスト記録: <span id="finalBest">0</span>枚</p>
+                        </div>
+                        <button class="btn" onclick="startGame()">もう一度プレイ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 戻るリンク -->
+        <div class="back-link">
+            <a href="../../index.html">← ゲーム一覧に戻る</a>
+        </div>
+
+        <!-- フッター -->
+        <div class="footer">
+            &copy; 2024 SGGameSite - Yahoo! Games風レトロゲームサイト | 軽量・高速・シンプル
+        </div>
+    </div>
+
+    <script src="blackjack.js"></script>
+</body>
+
+</html>

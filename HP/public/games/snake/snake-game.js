@@ -52,13 +52,13 @@
                 }
             };
             img.onerror = () => {
-                console.warn(`Failed to load image: ${name}.svg`);
+                console.warn(`Failed to load image: ${name}.png`);
                 imagesLoaded++;
                 if (imagesLoaded === totalImages) {
                     gameFramework.onImagesLoaded();
                 }
             };
-            img.src = `assets/images/${name}.svg`;
+            img.src = `assets/images/${name}.png`;
             fruitImages[name] = img;
         });
     }

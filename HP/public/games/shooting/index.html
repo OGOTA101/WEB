@@ -5,206 +5,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>👾 スペースインベーダー - SGGameSite</title>
-
-    <!-- 共通CSS -->
     <link rel="stylesheet" href="../../shared/css/common.css">
     <link rel="stylesheet" href="../../shared/css/game-base.css">
+
+    <!-- Phaser.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
 
     <!-- 音響システム -->
     <script src="../../shared/js/audio-system.js"></script>
 
     <style>
-        /* スペースインベーダーゲーム固有のスタイル */
-        .game-board {
-            background: linear-gradient(to bottom, #000428, #004e92);
-            border: 3px solid #00ff00;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
-            position: relative;
+        /* スペースインベーダーゲーム専用スタイル - サイバー系テーマ */
+        .game-title {
+            color: #00ffff;
+            text-shadow: 2px 2px 4px rgba(0, 255, 255, 0.3);
         }
 
-        .stat-item {
-            background: rgba(0, 255, 0, 0.1);
-            border: 1px solid #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-        }
-
-        .stat-label {
-            color: #00cc00;
-        }
-
-        .stat-value {
-            color: #00ff00;
-            text-shadow: 0 0 5px #00ff00;
+        #game-area {
+            border: 3px solid #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            background: #000;
         }
 
         .btn {
-            background: linear-gradient(45deg, #00ff00, #00cc00);
+            background: #00ffff;
+            border: 2px solid #0088ff;
             color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
             font-weight: bold;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            margin: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.6);
+            background: #0088ff;
+            color: white;
+            box-shadow: 0 6px 12px rgba(0, 255, 255, 0.4);
         }
 
-        .game-over {
-            background: rgba(255, 0, 0, 0.1);
-            border: 2px solid #ff0000;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        .btn-large {
+            font-size: 18px;
+            padding: 15px 30px;
         }
 
-        .game-over h3 {
-            color: #ff0000;
-            text-shadow: 0 0 10px #ff0000;
+        .btn-secondary {
+            background: #0088ff;
+            border-color: #0066cc;
         }
 
-        .high-score {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid #FFD700;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        .btn-secondary:hover {
+            background: #0066cc;
         }
 
-        .high-score h4 {
-            color: #FFD700;
-            text-shadow: 0 0 5px #FFD700;
+        .game-stats .stat-item {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
         }
 
-        .game-title-screen {
-            background: linear-gradient(45deg, #00ff00, #00cc00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 20px #00ff00;
+        .game-stats .stat-label {
+            color: #00ffff;
+        }
+
+        .controls-info {
+            background: rgba(0, 136, 255, 0.1);
+            border: 2px solid #0088ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
         }
 
         .controls-info h4 {
-            color: #00ff00;
-        }
-
-        .back-link {
-            border-top: 1px solid #00ff00;
-        }
-
-        .back-link a {
-            color: #00ff00;
-        }
-
-        .back-link a:hover {
-            text-shadow: 0 0 5px #00ff00;
-        }
-
-        /* ダイアログをスペースインベーダー風に */
-        .dialog {
-            background: linear-gradient(135deg, #001122, #002244);
-            border: 2px solid #00ff00;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
-        }
-
-        .dialog-header {
-            background: rgba(0, 255, 0, 0.1);
-            border-bottom: 1px solid rgba(0, 255, 0, 0.3);
-        }
-
-        .dialog-header h3 {
-            color: #00ff00;
-        }
-
-        .dialog-content {
-            color: #fff;
-        }
-
-        .dialog-content h4 {
-            color: #00ff00;
-        }
-
-        .close-btn {
-            color: #ccc;
-        }
-
-        .close-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .difficulty-selector {
-            margin-bottom: 20px;
-        }
-
-        .difficulty-btn {
-            background: rgba(0, 255, 0, 0.1);
-            color: #00ff00;
-            border: 1px solid #00ff00;
-            padding: 8px 16px;
-            margin: 0 5px;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .difficulty-btn.active {
-            background: #00ff00;
-            color: #000;
-            box-shadow: 0 0 10px #00ff00;
-        }
-
-        /* 追加のゲーム固有スタイル */
-        .wave-info {
-            color: #00ff00;
-            font-size: 16px;
-            text-align: center;
+            color: #00ffff;
             margin-bottom: 10px;
         }
 
-        .level-indicator {
-            background: rgba(0, 255, 0, 0.2);
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: inline-block;
-        }
-
-        /* コインアイコンのスタイル */
-        .coin-display {
+        .mobile-controls {
             display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 20px;
             justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        .coin-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: rgba(0, 255, 0, 0.1);
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
+        .mobile-controls .btn {
+            font-size: 20px;
+            padding: 10px 15px;
+            min-width: 60px;
+        }
+
+        .game-control {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .game-control button {
+            background: #0088ff;
+            border: 2px solid #00ffff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
             font-weight: bold;
-            color: #00ff00;
+            margin: 0 5px;
+            transition: all 0.3s;
         }
 
-        .coin-icon {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: inline-block;
+        .game-control button:hover {
+            background: #00ffff;
+            color: #000;
         }
 
-        .coin-gold {
-            background: linear-gradient(135deg, #ffd700, #ffb000);
-            border: 2px solid #ff8c00;
+        .game-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
 
-        .coin-silver {
-            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
-            border: 2px solid #808080;
+        .game-screen-content {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            border: 3px solid #00ffff;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
         }
 
-        .coin-bronze {
-            background: linear-gradient(135deg, #cd7f32, #8b4513);
-            border: 2px solid #654321;
+        .game-screen h2 {
+            color: #00ffff;
+            margin-bottom: 20px;
+            font-size: 32px;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .game-screen p {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .score-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ffff;
+            margin: 15px 0;
         }
 
         @media (max-width: 768px) {
@@ -212,9 +167,19 @@
                 font-size: 24px;
             }
 
-            #gameCanvas {
+            #game-area {
                 max-width: 100%;
                 height: auto;
+            }
+
+            .mobile-controls {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-controls {
+                display: none;
             }
         }
     </style>
@@ -223,120 +188,131 @@
 <body>
     <div class="container">
         <!-- ヘッダー -->
-        <div class="header">
+        <header class="header">
             <div class="header-content">
-                <h1>🎮 SGGameSite</h1>
-                <div class="tagline">無料ゲームサイト</div>
+                <h1 class="site-title">🎮 SGGameSite</h1>
+                <p class="site-subtitle">無料ゲームサイト</p>
+            </div>
+        </header>
+
+        <!-- パンくずナビ -->
+        <nav class="breadcrumb">
+            <span><a href="../../index.html">ホーム</a></span> >
+            <span>スペースインベーダー</span>
+        </nav>
+
+        <!-- ゲームタイトル -->
+        <div class="game-title-section">
+            <h2 class="game-title">👾 スペースインベーダー</h2>
+            <p class="game-subtitle">宇宙戦艦で侵略者を撃退せよ！</p>
+        </div>
+
+        <!-- ゲーム概要 -->
+        <div class="game-overview">
+            <h3>ゲーム概要</h3>
+            <p>宇宙戦艦を操縦して、降りてくる侵略者を撃破するシューティングゲーム。敵を全て倒すと次のウェーブに進みます。時々現れるUFOを撃墜すると高得点！</p>
+        </div>
+
+        <!-- 操作説明 -->
+        <div class="controls-info">
+            <h4>🎮 操作方法</h4>
+            <ul>
+                <li><strong>左右矢印キー</strong>：戦艦の移動</li>
+                <li><strong>スペースキー</strong>：レーザー発射</li>
+                <li><strong>クリック/タップ</strong>：レーザー発射（モバイル）</li>
+            </ul>
+        </div>
+
+        <!-- ゲーム統計 -->
+        <div class="game-stats">
+            <div class="stat-item">
+                <div class="stat-label">スコア</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">ライフ</div>
+                <div class="stat-value" id="lives">3</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">ウェーブ</div>
+                <div class="stat-value" id="wave">1</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">敵残数</div>
+                <div class="stat-value" id="enemies">0</div>
             </div>
         </div>
 
-        <!-- パンくずリスト -->
-        <div class="breadcrumb">
-            <a href="../../index.html">ホーム</a> &gt; 👾 スペースインベーダー
+        <!-- ゲームコントロール -->
+        <div class="game-control">
+            <button id="pauseBtn" title="一時停止">⏸️</button>
+        </div>
+
+        <!-- ゲーム画面 -->
+        <div class="game-area">
+            <div id="game-area"></div>
+        </div>
+
+        <!-- モバイルコントロール -->
+        <div class="mobile-controls">
+            <button id="leftBtn" class="btn">⬅️</button>
+            <button id="fireBtn" class="btn btn-large">🔥 発射</button>
+            <button id="rightBtn" class="btn">➡️</button>
         </div>
 
         <!-- ゲームコンテナ -->
         <div class="game-container">
-            <h2 class="game-title">👾 スペースインベーダー</h2>
-
-            <!-- ゲーム情報 -->
-            <div class="game-info">
-                <h3>🎯 ゲーム概要</h3>
-                <p>エイリアンの侵略から地球を守ろう！戦闘機を操縦して、迫りくるインベーダーを撃退せよ！</p>
-                <p>全てのエイリアンを倒してウェーブをクリアしよう！</p>
+            <div class="game-rules">
+                <h3>🎯 ゲームのルール</h3>
+                <ul>
+                    <li>左右キーで戦艦を移動させる</li>
+                    <li>スペースキーでレーザーを発射</li>
+                    <li>全ての侵略者を撃破してウェーブクリア</li>
+                    <li>侵略者が地面に到達するとゲームオーバー</li>
+                    <li>戦艦が撃破されるとライフが減る</li>
+                </ul>
             </div>
 
-            <!-- 操作説明 -->
-            <div class="controls-info">
-                <h4>🕹️ 操作方法</h4>
-                <p><strong>PC:</strong> 矢印キー（←→）で移動、スペースキーで発射</p>
-                <p><strong>スマホ:</strong> 画面をタップして移動・発射</p>
-                <p><strong>ゲーム中:</strong> Pキーまたは画面上部タップで一時停止</p>
+            <div class="game-tips">
+                <h3>🔥 攻略のコツ</h3>
+                <ul>
+                    <li>端の敵から順番に倒していく</li>
+                    <li>バリケードを盾として活用する</li>
+                    <li>UFOが出現したら優先的に狙う</li>
+                    <li>敵の弾幕パターンを覚えよう</li>
+                </ul>
             </div>
 
-            <!-- 難易度選択 -->
-            <div class="difficulty-selector">
-                <h4 style="color: #00ff00; margin-bottom: 10px;">🏆 難易度選択</h4>
-                <button class="difficulty-btn active" data-difficulty="easy">初級</button>
-                <button class="difficulty-btn" data-difficulty="normal">中級</button>
-                <button class="difficulty-btn" data-difficulty="hard">上級</button>
-                <button class="difficulty-btn" data-difficulty="extreme">地獄</button>
-            </div>
-
-            <!-- ゲーム統計 -->
-            <div class="game-stats">
-                <div class="stat-item">
-                    <div class="stat-label">スコア</div>
-                    <div class="stat-value" id="currentScore">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">ライフ</div>
-                    <div class="stat-value" id="currentLives">3</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">ウェーブ</div>
-                    <div class="stat-value" id="currentWave">1</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">ハイスコア</div>
-                    <div class="stat-value" id="highScore">0</div>
-                </div>
-            </div>
-
-            <!-- ウェーブ情報 -->
-            <div class="wave-info">
-                <span class="level-indicator">ウェーブ <span id="waveNumber">1</span> - <span id="enemiesLeft">55</span>
-                    体のエイリアン残存</span>
-            </div>
-
-            <!-- ゲームボード -->
-            <div class="game-board">
-                <canvas id="gameCanvas" width="800" height="600"></canvas>
-            </div>
-
-            <!-- ゲームコントロール -->
-            <div class="game-controls">
-                <button id="startBtn" class="btn">🚀 ゲーム開始</button>
-                <button id="pauseBtn" class="btn" style="display: none;">⏸️ 一時停止</button>
-                <button id="restartBtn" class="btn" style="display: none;">🔄 リスタート</button>
-            </div>
-
-            <!-- ゲームオーバー画面 -->
-            <div id="gameOverScreen" class="game-over" style="display: none;">
-                <h3>👾 ゲームオーバー</h3>
-                <p>スコア: <span id="finalScore">0</span></p>
-                <p>到達ウェーブ: <span id="finalWave">1</span></p>
-                <div id="newHighScore" class="high-score" style="display: none;">
-                    <h4>🏆 新記録達成！</h4>
-                </div>
-                <button id="restartFromOverBtn" class="btn">もう一度プレイ</button>
-            </div>
-
-            <!-- コイン獲得表示 -->
-            <div class="coin-display">
-                <div class="coin-item">
-                    <div class="coin-icon coin-gold"></div>
-                    <span id="goldCoins">0</span>
-                </div>
-                <div class="coin-item">
-                    <div class="coin-icon coin-silver"></div>
-                    <span id="silverCoins">0</span>
-                </div>
-                <div class="coin-item">
-                    <div class="coin-icon coin-bronze"></div>
-                    <span id="bronzeCoins">0</span>
-                </div>
-            </div>
-
-            <!-- 戻るリンク -->
             <div class="back-link">
-                <a href="../../index.html">← ゲーム一覧に戻る</a>
+                <a href="../../index.html" class="btn">← ゲーム一覧に戻る</a>
             </div>
         </div>
     </div>
 
-    <!-- ゲームスクリプト -->
-    <script src="space-invaders.js?v=2"></script>
+    <!-- スタート画面 -->
+    <div id="startScreen" class="game-screen">
+        <div class="game-screen-content">
+            <h2>👾 スペースインベーダー</h2>
+            <p>宇宙戦艦で侵略者を撃退せよ！</p>
+            <p>全ての敵を倒してウェーブをクリアしよう！</p>
+            <button id="startBtn" class="btn btn-large">🚀 ゲーム開始</button>
+        </div>
+    </div>
+
+    <!-- ゲームオーバー画面 -->
+    <div id="gameOverScreen" class="game-screen" style="display: none;">
+        <div class="game-screen-content">
+            <h2>💥 ゲームオーバー</h2>
+            <div class="score-display">
+                <p>スコア: <span id="finalScore">0</span>点</p>
+                <p>ウェーブ: <span id="finalWave">1</span></p>
+            </div>
+            <p>侵略者に敗北しました...</p>
+            <button id="restartBtn" class="btn btn-large">🔄 もう一度</button>
+        </div>
+    </div>
+
+    <script src="space-invaders.js"></script>
 </body>
 
 </html>

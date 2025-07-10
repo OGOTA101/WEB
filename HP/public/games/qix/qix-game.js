@@ -2,12 +2,20 @@
 class QixGame {
     constructor() {
         this.canvas = document.getElementById('gameCanvas');
+        if (!this.canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
         this.ctx = this.canvas.getContext('2d');
 
         // ゲーム設定
         this.gridWidth = 120;
         this.gridHeight = 80;
         this.cellSize = 5;
+
+        // Canvasサイズを設定
+        this.canvas.width = this.gridWidth * this.cellSize;
+        this.canvas.height = this.gridHeight * this.cellSize;
 
         // プレイヤー
         this.player = {
@@ -193,33 +201,45 @@ class QixGame {
         });
 
         // モバイルボタン
-        document.getElementById('upButton').addEventListener('touchstart', () => {
-            this.keys.up = true;
-        });
-        document.getElementById('upButton').addEventListener('touchend', () => {
-            this.keys.up = false;
-        });
+        const upButton = document.getElementById('upButton');
+        if (upButton) {
+            upButton.addEventListener('touchstart', () => {
+                this.keys.up = true;
+            });
+            upButton.addEventListener('touchend', () => {
+                this.keys.up = false;
+            });
+        }
 
-        document.getElementById('downButton').addEventListener('touchstart', () => {
-            this.keys.down = true;
-        });
-        document.getElementById('downButton').addEventListener('touchend', () => {
-            this.keys.down = false;
-        });
+        const downButton = document.getElementById('downButton');
+        if (downButton) {
+            downButton.addEventListener('touchstart', () => {
+                this.keys.down = true;
+            });
+            downButton.addEventListener('touchend', () => {
+                this.keys.down = false;
+            });
+        }
 
-        document.getElementById('leftButton').addEventListener('touchstart', () => {
-            this.keys.left = true;
-        });
-        document.getElementById('leftButton').addEventListener('touchend', () => {
-            this.keys.left = false;
-        });
+        const leftButton = document.getElementById('leftButton');
+        if (leftButton) {
+            leftButton.addEventListener('touchstart', () => {
+                this.keys.left = true;
+            });
+            leftButton.addEventListener('touchend', () => {
+                this.keys.left = false;
+            });
+        }
 
-        document.getElementById('rightButton').addEventListener('touchstart', () => {
-            this.keys.right = true;
-        });
-        document.getElementById('rightButton').addEventListener('touchend', () => {
-            this.keys.right = false;
-        });
+        const rightButton = document.getElementById('rightButton');
+        if (rightButton) {
+            rightButton.addEventListener('touchstart', () => {
+                this.keys.right = true;
+            });
+            rightButton.addEventListener('touchend', () => {
+                this.keys.right = false;
+            });
+        }
     }
 
     createQixes() {
@@ -324,7 +344,8 @@ class QixGame {
         this.resetGame();
         this.isGameRunning = true;
         this.hideStartScreen();
-        document.getElementById('pausePlayBtn').style.display = 'block';
+        const pauseBtn = document.getElementById('pauseBtn');
+        if (pauseBtn) pauseBtn.style.display = 'inline-block';
         this.createQixes();
         this.gameLoop();
     }
@@ -806,10 +827,10 @@ class QixGame {
         // 効果音
         if (window.audioSystem) window.audioSystem.play('stage-clear');
 
-        // ダイアログ表示
-        document.getElementById('stageScore').textContent = this.score;
-        document.getElementById('stageTerritory').textContent = this.territory;
-        document.getElementById('stageClear').style.display = 'block';
+        // 次のステージに自動で進む
+        setTimeout(() => {
+            this.nextStage();
+        }, 2000);
     }
 
     nextStage() {
@@ -831,7 +852,6 @@ class QixGame {
         this.spawnParticles = [];
         this.captureParticles = [];
 
-        document.getElementById('stageClear').style.display = 'none';
         this.createQixes();
         this.isGameRunning = true;
         this.updateUI();
@@ -844,26 +864,31 @@ class QixGame {
         // 効果音
         if (window.audioSystem) window.audioSystem.play('warning');
 
-        // 最高スコア更新
-        const highScore = parseInt(document.getElementById('highScore').textContent) || 0;
-        if (this.score > highScore) {
-            document.getElementById('highScore').textContent = this.score;
-        }
+        // 統合されたゲームオーバー画面を表示
+        const gameOverElement = document.getElementById('gameOverScreen');
+        const finalScoreElement = document.getElementById('finalScore');
+        const finalLevelElement = document.getElementById('finalLevel');
+        const finalTerritoryElement = document.getElementById('finalTerritory');
 
-        // ダイアログ表示
-        document.getElementById('finalScore').textContent = this.score;
-        document.getElementById('finalTerritory').textContent = this.territory;
-        document.getElementById('finalLevel').textContent = this.level;
-        document.getElementById('gameOver').style.display = 'block';
+        if (finalScoreElement) finalScoreElement.textContent = this.score;
+        if (finalLevelElement) finalLevelElement.textContent = this.level;
+        if (finalTerritoryElement) finalTerritoryElement.textContent = this.territory + '%';
+        if (gameOverElement) gameOverElement.style.display = 'block';
 
-        this.showStartScreen();
-        document.getElementById('pausePlayBtn').style.display = 'none';
+        const pauseBtn = document.getElementById('pauseBtn');
+        if (pauseBtn) pauseBtn.style.display = 'none';
     }
 
     updateUI() {
-        document.getElementById('score').textContent = this.score;
-        document.getElementById('territory').textContent = this.territory;
-        document.getElementById('level').textContent = this.level;
+        const scoreElement = document.getElementById('score');
+        const territoryElement = document.getElementById('territory');
+        const levelElement = document.getElementById('level');
+        const targetTerritoryElement = document.getElementById('targetTerritory');
+
+        if (scoreElement) scoreElement.textContent = this.score;
+        if (territoryElement) territoryElement.textContent = this.territory + '%';
+        if (levelElement) levelElement.textContent = this.level;
+        if (targetTerritoryElement) targetTerritoryElement.textContent = this.targetTerritory + '%';
     }
 
     renderGame() {
@@ -1204,17 +1229,17 @@ class QixGame {
     togglePause() {
         if (!this.isGameRunning) return;
 
-        const pauseBtn = document.getElementById('pausePlayBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
 
         if (this.isPaused) {
             // 再開
             this.isPaused = false;
-            if (pauseBtn) pauseBtn.textContent = '⏸️';
+            if (pauseBtn) pauseBtn.textContent = '一時停止';
             this.gameLoop();
         } else {
             // 一時停止
             this.isPaused = true;
-            if (pauseBtn) pauseBtn.textContent = '▶️';
+            if (pauseBtn) pauseBtn.textContent = '再開';
         }
     }
 }
@@ -1224,39 +1249,110 @@ document.addEventListener('DOMContentLoaded', () => {
     const game = new QixGame();
 
     // ゲーム開始ボタン
-    document.getElementById('startGameBtn').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.startGame();
-    });
+    const startBtn = document.getElementById('startBtn');
+    if (startBtn) {
+        startBtn.addEventListener('click', () => {
+            if (window.audioSystem) window.audioSystem.play('click');
+            game.startGame();
+        });
+    }
 
     // 遊び方ボタン
-    document.getElementById('howToPlayBtn').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.showHowToPlayDialog();
-    });
+    const howToPlayBtn = document.getElementById('howToPlayBtn');
+    if (howToPlayBtn) {
+        howToPlayBtn.addEventListener('click', () => {
+            if (window.audioSystem) window.audioSystem.play('click');
+            game.showHowToPlayDialog();
+        });
+    }
 
     // 遊び方ダイアログを閉じる
-    document.getElementById('closeDialog').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.hideHowToPlayDialog();
-    });
+    const closeDialog = document.getElementById('closeDialog');
+    if (closeDialog) {
+        closeDialog.addEventListener('click', () => {
+            if (window.audioSystem) window.audioSystem.play('click');
+            game.hideHowToPlayDialog();
+        });
+    }
 
     // リスタートボタン
-    document.getElementById('restartBtn').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        document.getElementById('gameOver').style.display = 'none';
-        game.startGame();
-    });
-
-    // 次のステージボタン
-    document.getElementById('nextStageBtn').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.nextStage();
-    });
+    const restartBtn = document.getElementById('restartBtn');
+    if (restartBtn) {
+        restartBtn.addEventListener('click', () => {
+            if (window.audioSystem) window.audioSystem.play('click');
+            const gameOverScreen = document.getElementById('gameOverScreen');
+            if (gameOverScreen) gameOverScreen.style.display = 'none';
+            game.startGame();
+        });
+    }
 
     // 一時停止・再生ボタン
-    document.getElementById('pausePlayBtn').addEventListener('click', () => {
-        if (window.audioSystem) window.audioSystem.play('click');
-        game.togglePause();
-    });
+    const pauseBtn = document.getElementById('pauseBtn');
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', () => {
+            if (window.audioSystem) window.audioSystem.play('click');
+            game.togglePause();
+        });
+    }
+
+    // リセットボタン
+    const resetBtn = document.getElementById('resetBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            if (window.audioSystem) window.audioSystem.play('click');
+            game.resetGame();
+            const gameOverScreen = document.getElementById('gameOverScreen');
+            if (gameOverScreen) gameOverScreen.style.display = 'none';
+        });
+    }
+
+    // モバイルコントロール
+    const upButton = document.getElementById('upButton');
+    const downButton = document.getElementById('downButton');
+    const leftButton = document.getElementById('leftButton');
+    const rightButton = document.getElementById('rightButton');
+
+    if (upButton) {
+        upButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            game.keys.up = true;
+        });
+        upButton.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            game.keys.up = false;
+        });
+    }
+
+    if (downButton) {
+        downButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            game.keys.down = true;
+        });
+        downButton.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            game.keys.down = false;
+        });
+    }
+
+    if (leftButton) {
+        leftButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            game.keys.left = true;
+        });
+        leftButton.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            game.keys.left = false;
+        });
+    }
+
+    if (rightButton) {
+        rightButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            game.keys.right = true;
+        });
+        rightButton.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            game.keys.right = false;
+        });
+    }
 });

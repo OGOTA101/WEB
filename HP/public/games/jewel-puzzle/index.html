@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💎 宝石パズル - SGGameSite</title>
+    <!-- Version 4.0 NEW FILES - タップ判定修正版 -->
+
+    <!-- 共通CSS -->
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="../../shared/css/game-base.css">
+
+    <!-- 音響システム -->
+    <script src="../../shared/js/audio-system.js"></script>
+    <script src="assets/sounds/audio-effects-new.js?v=1.0"></script>
+
+    <style>
+        /* 宝石パズル固有のスタイル */
+        .game-board {
+            background: linear-gradient(45deg, #4a0e4e 0%, #6a1b9a 50%, #9c27b0 100%);
+            box-shadow: 0 0 30px rgba(156, 39, 176, 0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stat-item {
+            background: rgba(156, 39, 176, 0.1);
+            border: 1px solid #9c27b0;
+            box-shadow: 0 0 10px rgba(156, 39, 176, 0.3);
+        }
+
+        .stat-label {
+            color: #7b1fa2;
+        }
+
+        .stat-value {
+            color: #9c27b0;
+            text-shadow: 0 0 5px #9c27b0;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #9c27b0, #7b1fa2);
+            box-shadow: 0 0 15px rgba(156, 39, 176, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(156, 39, 176, 0.6);
+        }
+
+        .game-title-screen {
+            background: linear-gradient(45deg, #9c27b0, #7b1fa2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px #9c27b0;
+        }
+
+        .controls-info h4 {
+            color: #7b1fa2;
+        }
+
+        .back-link {
+            border-top: 1px solid #9c27b0;
+        }
+
+        .back-link a {
+            color: #7b1fa2;
+        }
+
+        .back-link a:hover {
+            text-shadow: 0 0 5px #9c27b0;
+        }
+
+        .game-over {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .game-over h3 {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .high-score {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .high-score h4 {
+            color: #FFD700;
+            text-shadow: 0 0 5px #FFD700;
+        }
+
+        /* 宝石パズル専用スタイル */
+        .jewel-board {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            gap: 2px;
+            width: 620px;
+            height: 620px;
+            background: #2a2a2a;
+            border: 3px solid #9c27b0;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .jewel-cell {
+            width: 100%;
+            height: 100%;
+            background: #3a3a3a;
+            border: 1px solid #666;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .jewel-cell:hover {
+            background: #4a4a4a;
+            transform: scale(1.05);
+        }
+
+        .jewel-cell.selected {
+            background: #9c27b0;
+            box-shadow: 0 0 15px rgba(156, 39, 176, 0.8);
+        }
+
+        .jewel-cell.highlighted {
+            background: #ffd700;
+            animation: pulse 0.5s ease-in-out infinite alternate;
+        }
+
+        .jewel-cell.dragging {
+            background: #9c27b0;
+            box-shadow: 0 0 20px rgba(156, 39, 176, 1);
+            transform: scale(1.1);
+            z-index: 1000;
+            cursor: grabbing;
+        }
+
+        .jewel-cell.drop-target {
+            background: #4caf50;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+            animation: dropTargetPulse 0.6s ease-in-out infinite alternate;
+        }
+
+        .jewel-cell.dragging .jewel {
+            transform-origin: center;
+            z-index: 1001;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+            pointer-events: none;
+        }
+
+        .jewel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+            transition: all 0.3s ease;
+            pointer-events: none;
+            /* 画像をクリアに表示（ぼやけ防止） */
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            -ms-interpolation-mode: nearest-neighbor;
+            /* アンチエイリアス無効化 */
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            /* 画像の品質を最適化 */
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .jewel-image.falling {
+            animation: fall 0.5s ease-in-out;
+        }
+
+        .jewel-image.matching {
+            animation: match 0.6s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) scale(0.8);
+            }
+
+            100% {
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes match {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.3) rotate(180deg);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes dropTargetPulse {
+            0% {
+                background: #4caf50;
+                transform: scale(1);
+            }
+
+            100% {
+                background: #66bb6a;
+                transform: scale(1.05);
+            }
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .particle-star {
+            background: radial-gradient(circle, #ffd700, #ff8c00);
+            box-shadow: 0 0 10px #ffd700;
+            animation: particle-star 0.4s ease-out forwards;
+        }
+
+        .particle-sparkle {
+            background: radial-gradient(circle, #ffffff, #9c27b0);
+            box-shadow: 0 0 8px #ffffff;
+            animation: particle-sparkle 0.4s ease-out forwards;
+        }
+
+        .particle-gem {
+            background: radial-gradient(circle, #9c27b0, #6a1b9a);
+            box-shadow: 0 0 12px #9c27b0;
+            animation: particle-gem 0.4s ease-out forwards;
+        }
+
+        @keyframes particle-star {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            20% {
+                transform: scale(1.5) rotate(90deg);
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: scale(0.2) rotate(360deg) translate(var(--dx), var(--dy));
+                opacity: 0;
+            }
+        }
+
+        @keyframes particle-sparkle {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            30% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(0) translate(var(--dx), var(--dy));
+                opacity: 0;
+            }
+        }
+
+        @keyframes particle-gem {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.8) rotate(180deg);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(0.3) rotate(720deg) translate(var(--dx), var(--dy));
+                opacity: 0;
+            }
+        }
+
+        .combo-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+            z-index: 200;
+            animation: combo-bounce 1.2s ease-out forwards;
+        }
+
+        .combo-display {
+            position: absolute;
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+            z-index: 150;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+            animation: combo-display 0.8s ease-out forwards;
+        }
+
+        @keyframes combo-display {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            20% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+
+            80% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes combo-bounce {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .time-warning {
+            animation: time-warning 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes time-warning {
+            0% {
+                color: #9c27b0;
+            }
+
+            100% {
+                color: #f44336;
+            }
+        }
+
+        .difficulty-selector {
+            margin-bottom: 20px;
+        }
+
+        .difficulty-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #333;
+            border: 1px solid #9c27b0;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .difficulty-btn.active {
+            background: #9c27b0;
+            color: #fff;
+            box-shadow: 0 0 10px #9c27b0;
+        }
+
+        /* ダイアログをゲーム風に */
+        .dialog {
+            background: linear-gradient(135deg, #F5F0FF, #EDE7F6);
+            border: 2px solid #9c27b0;
+            box-shadow: 0 0 30px rgba(156, 39, 176, 0.5);
+        }
+
+        .dialog-header {
+            background: rgba(156, 39, 176, 0.1);
+            border-bottom: 1px solid rgba(156, 39, 176, 0.3);
+        }
+
+        .dialog-header h3 {
+            color: #7b1fa2;
+        }
+
+        .dialog-content {
+            color: #333;
+        }
+
+        .dialog-content h4 {
+            color: #7b1fa2;
+        }
+
+        .close-btn {
+            color: #666;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* ページ全体のオーバーフロー制御 */
+        body {
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        /* ゲームウィンドウ統合スタイル */
+        .game-window {
+            background: linear-gradient(45deg, #4a0e4e 0%, #6a1b9a 50%, #9c27b0 100%);
+            border: 3px solid #9c27b0;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 30px rgba(156, 39, 176, 0.5);
+            position: relative;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .game-header-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .game-header-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+
+        .game-header-stat-label {
+            font-size: 12px;
+            color: #e1bee7;
+            margin-bottom: 2px;
+        }
+
+        .game-header-stat-value {
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 0 0 5px #9c27b0;
+        }
+
+        .game-play-area {
+            background: #2a2a2a;
+            border: 2px solid #9c27b0;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 700px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .game-controls .btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #9c27b0;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .game-controls .btn:hover {
+            background: rgba(156, 39, 176, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+        }
+
+        .game-controls .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* スタート画面をゲームエリア内に */
+        .start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            z-index: 10;
+        }
+
+        /* 統計表示を非表示に（ヘッダーに統合） */
+        .game-stats {
+            display: none;
+        }
+
+        .game-buttons {
+            display: none;
+        }
+
+        /* モバイル対応 */
+        @media (max-width: 768px) {
+            .jewel-board {
+                width: 90vw;
+                max-width: 500px;
+                height: 90vw;
+                max-height: 500px;
+                margin: 10px auto;
+            }
+
+            .jewel-cell {
+                cursor: default;
+            }
+
+            .jewel-image {
+                width: 85%;
+                height: 85%;
+            }
+
+            .combo-display {
+                font-size: 24px;
+            }
+
+            .combo-indicator {
+                font-size: 32px;
+            }
+
+            .game-header-stats {
+                gap: 10px;
+            }
+
+            .game-header-stat {
+                min-width: 60px;
+            }
+
+            .game-header-stat-value {
+                font-size: 16px;
+            }
+
+            .game-window {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .jewel-board {
+                width: 95vw;
+                height: 95vw;
+                max-width: 400px;
+                max-height: 400px;
+            }
+
+            .combo-display {
+                font-size: 20px;
+                padding: 3px 8px;
+            }
+
+            .combo-indicator {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <div class="header">
+            <div class="header-content">
+                <h1>🎮 SGGameSite</h1>
+                <div class="tagline">無料ゲームサイト</div>
+            </div>
+        </div>
+
+        <!-- パンくずリスト -->
+        <div class="breadcrumb">
+            <a href="../../index.html">ホーム</a> &gt; 💎 宝石パズル
+        </div>
+
+        <!-- ゲームコンテナ -->
+        <div class="game-container">
+            <h2 class="game-title">💎 宝石パズル</h2>
+
+            <!-- ゲーム情報 -->
+            <div class="game-info">
+                <h3>🎯 ゲーム概要</h3>
+                <p>3つ以上の同じ宝石を縦横に並べて消すマッチ3パズルゲーム！</p>
+                <p>隣接する宝石をドラッグして入れ替え、どんどんコンボを繋げよう！</p>
+            </div>
+
+            <!-- 操作説明 -->
+            <div class="controls-info">
+                <h4>🕹️ 操作方法</h4>
+                <p><strong>PC:</strong> 宝石をクリックして選択、または宝石をドラッグして隣接する宝石と入れ替え</p>
+                <p><strong>スマホ:</strong> 宝石をタップして選択、または宝石をドラッグして隣接する宝石と入れ替え</p>
+                <p><strong>目標:</strong> 3つ以上の同じ宝石を縦横に並べて消去</p>
+            </div>
+
+
+
+            <!-- ゲームウィンドウ -->
+            <div class="game-window">
+                <!-- ゲームヘッダー（スコア表示エリア） -->
+                <div class="game-header">
+                    <div class="game-header-stats">
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">スコア</div>
+                            <div class="game-header-stat-value" id="score">0</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">レベル</div>
+                            <div class="game-header-stat-value" id="level">1</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">残り時間</div>
+                            <div class="game-header-stat-value" id="time">3:00</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">コンボ</div>
+                            <div class="game-header-stat-value" id="combo">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ゲームプレイエリア -->
+                <div class="game-play-area">
+                    <div class="jewel-board" id="jewelBoard"></div>
+
+                    <!-- ゲーム開始画面 -->
+                    <div id="startScreen" class="start-screen">
+                        <div class="start-content">
+                            <h1 class="game-title-screen">💎 JEWEL PUZZLE</h1>
+                            <p class="game-subtitle">宝石を繋げて高得点を目指そう！</p>
+                            <button id="startGameBtn" class="btn btn-large" onclick="startGame()">🎮 ゲーム開始</button>
+                            <button id="howToPlayBtn" class="btn btn-secondary">📖 遊び方</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ゲームコントロール -->
+                <div class="game-controls">
+                    <button class="btn" id="startBtn" onclick="startGame()">ゲーム開始</button>
+                    <button class="btn" id="pauseBtn" onclick="togglePause()" disabled>一時停止</button>
+                    <button class="btn" id="resetBtn" onclick="resetGame()">リセット</button>
+                </div>
+            </div>
+
+            <!-- ゲーム統計（非表示） -->
+            <div class="game-stats">
+                <div class="stat-item">
+                    <div class="stat-label">スコア</div>
+                    <div class="stat-value" id="score">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">レベル</div>
+                    <div class="stat-value" id="level">1</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">残り時間</div>
+                    <div class="stat-value" id="time">3:00</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">コンボ</div>
+                    <div class="stat-value" id="combo">0</div>
+                </div>
+            </div>
+
+            <!-- ゲームボタン（非表示） -->
+            <div class="game-buttons">
+                <button class="btn" id="startBtn" onclick="startGame()">ゲーム開始</button>
+                <button class="btn" id="pauseBtn" onclick="togglePause()" disabled>一時停止</button>
+                <button class="btn" id="resetBtn" onclick="resetGame()">リセット</button>
+            </div>
+
+            <!-- 遊び方ダイアログ -->
+            <div id="howToPlayDialog" class="dialog-overlay">
+                <div class="dialog">
+                    <div class="dialog-header">
+                        <h3>📖 遊び方</h3>
+                        <button id="closeDialog" class="close-btn">×</button>
+                    </div>
+                    <div class="dialog-content">
+                        <h4>🎯 ゲームの目的</h4>
+                        <p>3つ以上の同じ宝石を縦横に並べて消去し、高得点を目指そう！</p>
+
+                        <h4>🕹️ 操作方法</h4>
+                        <p><strong>入れ替え:</strong> 宝石をクリック/タップして隣接する宝石にドラッグ</p>
+                        <p><strong>消去:</strong> 3つ以上の同じ宝石が縦横に並ぶと自動で消去</p>
+                        <p><strong>連鎖:</strong> 宝石が消えると上から新しい宝石が落下</p>
+
+                        <h4>💎 宝石の種類</h4>
+                        <p>• 💎 ダイヤモンド • 💚 エメラルド • ❤️ ルビー</p>
+                        <p>• 💙 サファイア • 🧡 トパーズ • 💜 アメジスト</p>
+
+                        <h4>🏆 スコアシステム</h4>
+                        <p>• 3個消去: 30点 • 4個消去: 100点 • 5個以上: 200点</p>
+                        <p>• コンボ: 連続で消去すると得点倍増</p>
+                        <p>• 時間ボーナス: 10コンボから1秒追加</p>
+
+                        <h4>⏰ 時間制限</h4>
+                        <p>• 基本時間: 3分間</p>
+                        <p>• 10コンボ以上で1コンボにつき1秒追加</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ゲームオーバー表示 -->
+            <div class="game-over" id="gameOver">
+                <h3>💎 ゲーム終了！</h3>
+                <p>最終スコア: <span id="finalScore">0</span></p>
+                <p>最高コンボ: <span id="finalCombo">0</span></p>
+                <p>消去数: <span id="finalCleared">0</span></p>
+                <button class="btn" onclick="resetGame()" style="margin-top: 15px;">再プレイ</button>
+            </div>
+
+            <!-- ハイスコア表示 -->
+            <div class="high-score">
+                <h4>🏆 セッション最高記録</h4>
+                <p>スコア: <span id="sessionHigh">0</span> | コンボ: <span id="sessionCombo">0</span> | 消去数: <span
+                        id="sessionCleared">0</span></p>
+            </div>
+
+            <!-- 戻るリンク -->
+            <div class="back-link">
+                <a href="../../index.html">← ゲーム一覧に戻る</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 共通フレームワーク -->
+    <script src="../../shared/js/game-framework.js"></script>
+
+    <!-- ゲーム固有スクリプト -->
+    <script src="jewel-puzzle-new.js?v=6.0"></script>
+</body>
+
+</html>

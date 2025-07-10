@@ -1,10 +1,24 @@
 // スペースインベーダーゲーム
 (function () {
     // キャンバス設定
-    const canvas = document.getElementById('gameCanvas');
+    const canvas = document.getElementById('game-canvas');
+    if (!canvas) {
+        console.error('Canvas element not found');
+        return;
+    }
+
     const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('Could not get 2D context');
+        return;
+    }
+
     const canvasWidth = 800;
     const canvasHeight = 600;
+
+    // Canvasサイズを設定
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
 
     // ゲーム状態
     let gameState = 'menu'; // menu, playing, paused, gameOver, waveComplete
@@ -679,14 +693,20 @@
 
     // UI更新
     function updateUI() {
-        document.getElementById('currentScore').textContent = score;
-        document.getElementById('currentLives').textContent = lives;
-        document.getElementById('currentWave').textContent = wave;
-        document.getElementById('highScore').textContent = highScore;
-        document.getElementById('waveNumber').textContent = wave;
+        // 新しい統合UIの要素を更新
+        const scoreElement = document.getElementById('score');
+        const levelElement = document.getElementById('level');
+        const livesElement = document.getElementById('lives');
+        const killsElement = document.getElementById('kills');
 
-        const aliveEnemies = enemies.filter(e => e.alive).length;
-        document.getElementById('enemiesLeft').textContent = aliveEnemies;
+        if (scoreElement) scoreElement.textContent = score;
+        if (levelElement) levelElement.textContent = wave;
+        if (livesElement) livesElement.textContent = lives;
+        if (killsElement) {
+            const aliveEnemies = enemies.filter(e => e.alive).length;
+            const totalEnemies = enemies.length;
+            killsElement.textContent = totalEnemies - aliveEnemies;
+        }
     }
 
     // ゲームオーバー
@@ -701,6 +721,21 @@
 
         // コイン獲得
         awardCoins();
+
+        // 最終スコアの表示
+        const finalScoreElement = document.getElementById('finalScore');
+        const finalLevelElement = document.getElementById('finalLevel');
+        const finalKillsElement = document.getElementById('finalKills');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+
+        if (finalScoreElement) finalScoreElement.textContent = score;
+        if (finalLevelElement) finalLevelElement.textContent = wave;
+        if (finalKillsElement) {
+            const aliveEnemies = enemies.filter(e => e.alive).length;
+            const totalEnemies = enemies.length;
+            finalKillsElement.textContent = totalEnemies - aliveEnemies;
+        }
+        if (gameOverScreen) gameOverScreen.style.display = 'flex';
 
         // 音響効果
         if (window.audioSystem && typeof window.audioSystem.play === 'function') {
@@ -737,10 +772,14 @@
         localStorage.setItem('silverCoins', currentSilver + silverCoins);
         localStorage.setItem('bronzeCoins', currentBronze + bronzeCoins);
 
-        // 表示更新
-        document.getElementById('goldCoins').textContent = currentGold + goldCoins;
-        document.getElementById('silverCoins').textContent = currentSilver + silverCoins;
-        document.getElementById('bronzeCoins').textContent = currentBronze + bronzeCoins;
+        // 表示更新（要素が存在する場合のみ）
+        const goldElement = document.getElementById('goldCoins');
+        const silverElement = document.getElementById('silverCoins');
+        const bronzeElement = document.getElementById('bronzeCoins');
+
+        if (goldElement) goldElement.textContent = currentGold + goldCoins;
+        if (silverElement) silverElement.textContent = currentSilver + silverCoins;
+        if (bronzeElement) bronzeElement.textContent = currentBronze + bronzeCoins;
     }
 
     // ゲーム開始
@@ -763,15 +802,13 @@
         createBarriers();
 
         // HTML要素の制御（存在する場合のみ）
-        const startBtn = document.getElementById('startBtn');
-        const pauseBtn = document.getElementById('pauseBtn');
-        const restartBtn = document.getElementById('restartBtn');
+        const startScreen = document.getElementById('startScreen');
         const gameOverScreen = document.getElementById('gameOverScreen');
+        const pauseBtn = document.getElementById('pauseBtn');
 
-        if (startBtn) startBtn.style.display = 'none';
-        if (pauseBtn) pauseBtn.style.display = 'inline-block';
-        if (restartBtn) restartBtn.style.display = 'inline-block';
+        if (startScreen) startScreen.style.display = 'none';
         if (gameOverScreen) gameOverScreen.style.display = 'none';
+        if (pauseBtn) pauseBtn.style.display = 'inline-block';
 
         updateUI();
     }
@@ -811,13 +848,27 @@
             keys[e.key] = false;
         });
 
-        // ボタン
-        document.getElementById('startBtn').addEventListener('click', startGame);
-        document.getElementById('pauseBtn').addEventListener('click', () => {
+        // ボタン（要素が存在する場合のみ）
+        const startBtnElement = document.getElementById('startBtn');
+        const pauseBtnElement = document.getElementById('pauseBtn');
+        const restartBtnElement = document.getElementById('restartBtn');
+        const startGameElement = document.getElementById('startGame');
+        const restartGameElement = document.getElementById('restartGame');
+        const instructionsToggleElement = document.getElementById('instructionsToggle');
+
+        if (startBtnElement) startBtnElement.addEventListener('click', startGame);
+        if (pauseBtnElement) pauseBtnElement.addEventListener('click', () => {
             gameState = gameState === 'playing' ? 'paused' : 'playing';
         });
-        document.getElementById('restartBtn').addEventListener('click', restartGame);
-        document.getElementById('restartFromOverBtn').addEventListener('click', restartGame);
+        if (restartBtnElement) restartBtnElement.addEventListener('click', restartGame);
+        if (startGameElement) startGameElement.addEventListener('click', startGame);
+        if (restartGameElement) restartGameElement.addEventListener('click', restartGame);
+        if (instructionsToggleElement) instructionsToggleElement.addEventListener('click', () => {
+            const instructionsElement = document.getElementById('instructions');
+            if (instructionsElement) {
+                instructionsElement.style.display = instructionsElement.style.display === 'none' ? 'block' : 'none';
+            }
+        });
 
         // 難易度選択
         document.querySelectorAll('.difficulty-btn').forEach(btn => {
@@ -833,6 +884,54 @@
         canvas.addEventListener('touchmove', handleTouch, { passive: false });
         canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
         canvas.addEventListener('click', handleClick);
+
+        // モバイルコントロール
+        const leftBtn = document.getElementById('leftBtn');
+        const rightBtn = document.getElementById('rightBtn');
+        const shootBtn = document.getElementById('shootBtn');
+
+        if (leftBtn) {
+            leftBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                keys['ArrowLeft'] = true;
+            });
+            leftBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                keys['ArrowLeft'] = false;
+            });
+            leftBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                keys['ArrowLeft'] = true;
+                setTimeout(() => keys['ArrowLeft'] = false, 100);
+            });
+        }
+
+        if (rightBtn) {
+            rightBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                keys['ArrowRight'] = true;
+            });
+            rightBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                keys['ArrowRight'] = false;
+            });
+            rightBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                keys['ArrowRight'] = true;
+                setTimeout(() => keys['ArrowRight'] = false, 100);
+            });
+        }
+
+        if (shootBtn) {
+            shootBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                shootPlayerBullet();
+            });
+            shootBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                shootPlayerBullet();
+            });
+        }
     }
 
     // タッチ処理
@@ -1077,7 +1176,19 @@
         updateCoinDisplay();
 
         // ハイスコア読み込み
-        document.getElementById('highScore').textContent = highScore;
+        const highScoreElement = document.getElementById('highScore');
+        if (highScoreElement) {
+            highScoreElement.textContent = highScore;
+        }
+
+        // 初期画面設定
+        const startScreen = document.getElementById('startScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+
+        if (startScreen) startScreen.style.display = 'flex';
+        if (gameOverScreen) gameOverScreen.style.display = 'none';
+
+        gameState = 'menu';
 
         // ゲームループ開始
         requestAnimationFrame(gameLoop);
@@ -1089,9 +1200,13 @@
         const silverCoins = localStorage.getItem('silverCoins') || '0';
         const bronzeCoins = localStorage.getItem('bronzeCoins') || '0';
 
-        document.getElementById('goldCoins').textContent = goldCoins;
-        document.getElementById('silverCoins').textContent = silverCoins;
-        document.getElementById('bronzeCoins').textContent = bronzeCoins;
+        const goldElement = document.getElementById('goldCoins');
+        const silverElement = document.getElementById('silverCoins');
+        const bronzeElement = document.getElementById('bronzeCoins');
+
+        if (goldElement) goldElement.textContent = goldCoins;
+        if (silverElement) silverElement.textContent = silverCoins;
+        if (bronzeElement) bronzeElement.textContent = bronzeCoins;
     }
 
     // ページ読み込み完了後に初期化

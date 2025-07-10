@@ -143,6 +143,164 @@
             box-shadow: 0 0 10px #32CD32;
         }
 
+        /* ゲームウィンドウ統合スタイル */
+        .game-window {
+            background: linear-gradient(135deg, #228B22, #32CD32);
+            border: 3px solid #32CD32;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 30px rgba(50, 205, 50, 0.3);
+            position: relative;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .game-header-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .game-header-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+
+        .game-header-stat-label {
+            font-size: 12px;
+            color: #90EE90;
+            margin-bottom: 2px;
+        }
+
+        .game-header-stat-value {
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 0 0 5px #32CD32;
+        }
+
+        .game-play-area {
+            background: #000;
+            border: 2px solid #32CD32;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 620px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .game-controls .btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #32CD32;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .game-controls .btn:hover {
+            background: rgba(50, 205, 50, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(50, 205, 50, 0.4);
+        }
+
+        .game-controls .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* スタート画面をゲームエリア内に */
+        .start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            z-index: 10;
+        }
+
+        .pause-play-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(50, 205, 50, 0.3);
+            border: 2px solid #32CD32;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pause-play-btn:hover {
+            background: rgba(50, 205, 50, 0.5);
+        }
+
+        /* ゲームオーバー画面をゲームエリア内に */
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            z-index: 10;
+            display: none;
+        }
+
+        /* 統計表示を非表示に（ヘッダーに統合） */
+        .game-stats {
+            display: none;
+        }
+
+        .game-buttons {
+            display: none;
+        }
+
+        .high-score {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .game-title-screen {
                 font-size: 24px;
@@ -151,6 +309,22 @@
             #gameCanvas {
                 max-width: 100%;
                 height: auto;
+            }
+
+            .game-header-stats {
+                gap: 10px;
+            }
+
+            .game-header-stat {
+                min-width: 60px;
+            }
+
+            .game-header-stat-value {
+                font-size: 16px;
+            }
+
+            .game-window {
+                padding: 15px;
             }
         }
     </style>
@@ -199,7 +373,66 @@
                 <button class="difficulty-btn" data-difficulty="extreme">極限</button>
             </div>
 
-            <!-- ゲーム統計 -->
+            <!-- ゲームウィンドウ -->
+            <div class="game-window">
+                <!-- ゲームヘッダー（スコア表示エリア） -->
+                <div class="game-header">
+                    <div class="game-header-stats">
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">スコア</div>
+                            <div class="game-header-stat-value" id="score">0</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">長さ</div>
+                            <div class="game-header-stat-value" id="length">1</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">レベル</div>
+                            <div class="game-header-stat-value" id="level">1</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">最高</div>
+                            <div class="game-header-stat-value" id="highScore">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ゲームプレイエリア -->
+                <div class="game-play-area">
+                    <canvas id="gameCanvas" width="600" height="600"></canvas>
+
+                    <!-- ゲーム開始画面 -->
+                    <div id="startScreen" class="start-screen">
+                        <div class="start-content">
+                            <h1 class="game-title-screen">🐍 SNAKE GAME</h1>
+                            <p class="game-subtitle">フルーツを食べて成長しよう！</p>
+                            <button id="startGameBtn" class="btn btn-large">🎮 ゲーム開始</button>
+                            <button id="howToPlayBtn" class="btn btn-secondary">📖 遊び方</button>
+                        </div>
+                    </div>
+
+                    <!-- 一時停止・再生ボタン -->
+                    <button id="pausePlayBtn" class="pause-play-btn" style="display: none;">⏸️</button>
+
+                    <!-- ゲームオーバー表示 -->
+                    <div class="game-over" id="gameOver">
+                        <h3>🐍 ゲームオーバー！</h3>
+                        <p>最終スコア: <span id="finalScore">0</span></p>
+                        <p>最終長さ: <span id="finalLength">1</span></p>
+                        <p>到達レベル: <span id="finalLevel">1</span></p>
+                        <button class="btn" onclick="resetGame()" style="margin-top: 15px;">再プレイ</button>
+                    </div>
+                </div>
+
+                <!-- ゲームコントロール -->
+                <div class="game-controls">
+                    <button class="btn" id="startBtn" onclick="startGame()">ゲーム開始</button>
+                    <button class="btn" id="pauseBtn" onclick="pauseGame()" disabled>一時停止</button>
+                    <button class="btn" id="resetBtn" onclick="resetGame()">リセット</button>
+                </div>
+            </div>
+
+            <!-- ゲーム統計（非表示） -->
             <div class="game-stats">
                 <div class="stat-item">
                     <div class="stat-label">スコア</div>
@@ -224,24 +457,6 @@
                 <button class="btn" id="startBtn" onclick="startGame()">ゲーム開始</button>
                 <button class="btn" id="pauseBtn" onclick="pauseGame()" disabled>一時停止</button>
                 <button class="btn" id="resetBtn" onclick="resetGame()">リセット</button>
-            </div>
-
-            <!-- ゲーム画面 -->
-            <div class="game-board">
-                <canvas id="gameCanvas" width="600" height="600"></canvas>
-
-                <!-- ゲーム開始画面 -->
-                <div id="startScreen" class="start-screen">
-                    <div class="start-content">
-                        <h1 class="game-title-screen">🐍 SNAKE GAME</h1>
-                        <p class="game-subtitle">フルーツを食べて成長しよう！</p>
-                        <button id="startGameBtn" class="btn btn-large">🎮 ゲーム開始</button>
-                        <button id="howToPlayBtn" class="btn btn-secondary">📖 遊び方</button>
-                    </div>
-                </div>
-
-                <!-- 一時停止・再生ボタン -->
-                <button id="pausePlayBtn" class="pause-play-btn" style="display: none;">⏸️</button>
             </div>
 
             <!-- 遊び方ダイアログ -->
@@ -278,16 +493,7 @@
                 </div>
             </div>
 
-            <!-- ゲームオーバー表示 -->
-            <div class="game-over" id="gameOver">
-                <h3>🐍 ゲームオーバー！</h3>
-                <p>最終スコア: <span id="finalScore">0</span></p>
-                <p>最終長さ: <span id="finalLength">1</span></p>
-                <p>到達レベル: <span id="finalLevel">1</span></p>
-                <button class="btn" onclick="resetGame()" style="margin-top: 15px;">再プレイ</button>
-            </div>
-
-            <!-- ハイスコア表示 -->
+            <!-- ハイスコア表示（非表示） -->
             <div class="high-score">
                 <h4>🏆 セッション最高記録</h4>
                 <p>スコア: <span id="sessionHigh">0</span> | 長さ: <span id="sessionLength">1</span> | レベル: <span

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎴 ハイアンドロー - SGGameSite</title>
+
+    <!-- 共通CSS -->
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="../../shared/css/game-base.css">
+
+    <!-- ゲーム固有CSS -->
+    <style>
+        /* ハイアンドロー固有のスタイル */
+        .game-board {
+            background: linear-gradient(45deg, #B22222 0%, #DC143C 50%, #F08080 100%);
+            box-shadow: 0 0 30px rgba(178, 34, 34, 0.5);
+            overflow: hidden;
+        }
+
+        .stat-item {
+            background: rgba(178, 34, 34, 0.1);
+            border: 1px solid #DC143C;
+            box-shadow: 0 0 10px rgba(178, 34, 34, 0.3);
+        }
+
+        .stat-label {
+            color: #8B0000;
+        }
+
+        .stat-value {
+            color: #B22222;
+            text-shadow: 0 0 5px #DC143C;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #DC143C, #B22222);
+            box-shadow: 0 0 15px rgba(178, 34, 34, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(178, 34, 34, 0.6);
+        }
+
+        .game-over {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .game-over h3 {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .high-score {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .high-score h4 {
+            color: #FFD700;
+            text-shadow: 0 0 5px #FFD700;
+        }
+
+        .game-title-screen {
+            background: linear-gradient(45deg, #DC143C, #B22222);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px #DC143C;
+        }
+
+        .controls-info h4 {
+            color: #B22222;
+        }
+
+        .back-link {
+            border-top: 1px solid #DC143C;
+        }
+
+        .back-link a {
+            color: #B22222;
+        }
+
+        .back-link a:hover {
+            text-shadow: 0 0 5px #DC143C;
+        }
+
+        /* ダイアログをハイアンドロー風に */
+        .dialog {
+            background: linear-gradient(135deg, #FFF0F0, #FFE6E6);
+            border: 2px solid #DC143C;
+            box-shadow: 0 0 30px rgba(178, 34, 34, 0.5);
+        }
+
+        .dialog-header {
+            background: rgba(178, 34, 34, 0.1);
+            border-bottom: 1px solid rgba(178, 34, 34, 0.3);
+        }
+
+        .dialog-header h3 {
+            color: #B22222;
+        }
+
+        .dialog-content {
+            color: #333;
+        }
+
+        .dialog-content h4 {
+            color: #B22222;
+        }
+
+        .close-btn {
+            color: #666;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* ゲームウィンドウ統合スタイル */
+        .game-window {
+            background: linear-gradient(135deg, #B22222, #DC143C);
+            border: 3px solid #DC143C;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 30px rgba(220, 20, 60, 0.3);
+            position: relative;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .game-header-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .game-header-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+
+        .game-header-stat-label {
+            font-size: 12px;
+            color: #F08080;
+            margin-bottom: 2px;
+        }
+
+        .game-header-stat-value {
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 0 0 5px #DC143C;
+        }
+
+        .game-play-area {
+            background: #006400;
+            border: 2px solid #DC143C;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        /* カードスタイル */
+        .card {
+            width: 120px;
+            height: 180px;
+            background: #fff;
+            border: 2px solid #333;
+            border-radius: 10px;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card.red {
+            color: #DC143C;
+        }
+
+        .card.black {
+            color: #000;
+        }
+
+        .card-back {
+            background: linear-gradient(45deg, #B22222, #DC143C);
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .game-controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .choice-btn {
+            background: linear-gradient(45deg, #DC143C, #B22222);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            margin: 0 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .choice-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(178, 34, 34, 0.6);
+        }
+
+        .choice-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .game-message {
+            text-align: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            min-height: 25px;
+        }
+
+        .coin-counter {
+            text-align: center;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .coin-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #cd7f32, #8b4513);
+            border: 2px solid #654321;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .pause-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .pause-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 100px;
+                height: 150px;
+                font-size: 36px;
+            }
+
+            .choice-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <div class="header">
+            <div class="header-content">
+                <h1>🎮 SGGameSite</h1>
+                <div class="tagline">無料ゲームサイト</div>
+                <div class="coin-display">
+                    <div class="coin-item">
+                        <div class="coin-icon coin-gold"></div>
+                        <span id="goldCoins">0</span>
+                    </div>
+                    <div class="coin-item">
+                        <div class="coin-icon coin-silver"></div>
+                        <span id="silverCoins">0</span>
+                    </div>
+                    <div class="coin-item">
+                        <div class="coin-icon coin-bronze"></div>
+                        <span id="bronzeCoins">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- パンくずリスト -->
+        <div class="breadcrumb">
+            <a href="../../index.html">ホーム</a> &gt; 🎴 ハイアンドロー
+        </div>
+
+        <!-- ゲームタイトル -->
+        <div class="game-title-header">
+            <h2 class="game-title">🎴 ハイアンドロー</h2>
+        </div>
+
+        <!-- ゲームウィンドウ -->
+        <div class="game-window">
+            <div class="game-header">
+                <div class="game-header-stats">
+                    <div class="game-header-stat">
+                        <div class="game-header-stat-label">所持コイン</div>
+                        <div class="game-header-stat-value" id="coins">10</div>
+                    </div>
+                    <div class="game-header-stat">
+                        <div class="game-header-stat-label">ラウンド</div>
+                        <div class="game-header-stat-value" id="round">1</div>
+                    </div>
+                    <div class="game-header-stat">
+                        <div class="game-header-stat-label">勝利数</div>
+                        <div class="game-header-stat-value" id="wins">0</div>
+                    </div>
+                    <div class="game-header-stat">
+                        <div class="game-header-stat-label">ベスト</div>
+                        <div class="game-header-stat-value" id="bestCoins">10</div>
+                    </div>
+                </div>
+                <button class="pause-btn" onclick="pauseGame()">⏸️</button>
+            </div>
+
+            <div class="game-play-area" id="gameArea">
+                <!-- ゲーム開始画面 -->
+                <div id="startScreen" class="game-screen">
+                    <div style="text-align: center; color: #fff;">
+                        <h3 class="game-title-screen">🎴 ハイアンドロー</h3>
+                        <p style="margin: 20px 0;">次のカードが現在のカードより高いか低いかを予想！</p>
+                        <div class="controls-info">
+                            <h4>ゲームルール</h4>
+                            <p>• 最初にコイン10枚でスタート</p>
+                            <p>• 次のカードの数字を予想してベット</p>
+                            <p>• 正解すると1コイン獲得、不正解で1コイン失う</p>
+                            <p>• コイン0枚でゲーム終了</p>
+                            <p>• 勝った枚数が銅コインとして記録されます</p>
+                        </div>
+                        <button class="btn" onclick="startGame()">ゲーム開始</button>
+                    </div>
+                </div>
+
+                <!-- ゲーム中画面 -->
+                <div id="gameScreen" class="game-screen" style="display: none;">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <div class="coin-counter">
+                            <span class="coin-icon"></span>
+                            残りコイン: <span id="coinCount">10</span>枚
+                        </div>
+
+                        <div style="display: flex; justify-content: center; align-items: center; margin: 20px 0;">
+                            <div class="card red" id="currentCard">
+                                <div id="currentCardValue">7</div>
+                                <div style="font-size: 24px;">♥</div>
+                            </div>
+                            <div style="color: #fff; font-size: 24px; margin: 0 20px;">VS</div>
+                            <div class="card card-back" id="nextCard">
+                                <div>?</div>
+                            </div>
+                        </div>
+
+                        <div class="game-message" id="gameMessage">
+                            次のカードは現在のカードより高い？低い？
+                        </div>
+
+                        <div class="game-controls">
+                            <button class="choice-btn" id="highBtn" onclick="makeChoice('high')">HIGH (高い)</button>
+                            <button class="choice-btn" id="lowBtn" onclick="makeChoice('low')">LOW (低い)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ゲーム終了画面 -->
+                <div id="gameOverScreen" class="game-screen" style="display: none;">
+                    <div style="text-align: center; color: #fff;">
+                        <h3 class="game-over">🎴 ゲーム終了</h3>
+                        <div class="coin-counter">
+                            <span class="coin-icon"></span>
+                            獲得コイン: <span id="finalCoins">0</span>枚
+                        </div>
+                        <div class="high-score" style="margin: 20px 0; padding: 15px; border-radius: 10px;">
+                            <h4>🏆 結果</h4>
+                            <p>勝利数: <span id="finalWins">0</span>回</p>
+                            <p>ベスト記録: <span id="finalBest">0</span>枚</p>
+                        </div>
+                        <button class="btn" onclick="startGame()">もう一度プレイ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 戻るリンク -->
+        <div class="back-link">
+            <a href="../../index.html">← ゲーム一覧に戻る</a>
+        </div>
+
+        <!-- フッター -->
+        <div class="footer">
+            &copy; 2024 SGGameSite - Yahoo! Games風レトロゲームサイト | 軽量・高速・シンプル
+        </div>
+    </div>
+
+    <script src="high-and-low.js"></script>
+</body>
+
+</html>

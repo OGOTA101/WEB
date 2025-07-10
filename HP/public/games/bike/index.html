@@ -4,148 +4,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚴‍♂️ チャリ走 - SGGameSite</title>
+    <title>🚀 エスケープ・ラン - SGGameSite</title>
+
+    <!-- 共通CSS -->
     <link rel="stylesheet" href="../../shared/css/common.css">
     <link rel="stylesheet" href="../../shared/css/game-base.css">
 
-    <!-- 音響システム -->
-    <script src="../../shared/js/audio-system.js"></script>
-
+    <!-- ゲーム固有CSS -->
     <style>
-        /* チャリ走ゲーム専用スタイル - オレンジ系テーマ */
-        .game-title {
-            color: #ff6b35;
-            text-shadow: 2px 2px 4px rgba(229, 90, 43, 0.3);
+        /* エスケープ・ラン固有のスタイル */
+        .game-board {
+            background: linear-gradient(to bottom, #000011 0%, #001122 50%, #002244 100%);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            overflow: hidden;
         }
 
-        #gameCanvas {
-            background: linear-gradient(to bottom, #87ceeb 0%, #98fb98 70%, #8b7355 100%);
-            border: 3px solid #ff6b35;
-            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        .stat-item {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .stat-label {
+            color: #00ffff;
+        }
+
+        .stat-value {
+            color: #ffffff;
+            text-shadow: 0 0 5px #00ffff;
         }
 
         .btn {
-            background: #ff6b35;
-            border: 2px solid #e55a2b;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            margin: 5px;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
+            background: linear-gradient(45deg, #00ffff, #0088ff);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            color: #000011;
+            border: 2px solid #00aaff;
         }
 
         .btn:hover {
-            background: #e55a2b;
-            box-shadow: 0 6px 12px rgba(255, 107, 53, 0.4);
-        }
-
-        .btn-large {
-            font-size: 18px;
-            padding: 15px 30px;
+            background: linear-gradient(45deg, #00aaff, #0066ff);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.6);
         }
 
         .btn-secondary {
-            background: #ffa500;
-            border-color: #cc8400;
+            background: linear-gradient(45deg, #ff6600, #ff4400);
+            border-color: #ff4400;
+            color: white;
         }
 
         .btn-secondary:hover {
-            background: #cc8400;
+            background: linear-gradient(45deg, #ff4400, #ff2200);
         }
 
-        .game-stats .stat-item {
-            background: rgba(255, 107, 53, 0.1);
-            border: 1px solid #ff6b35;
+        .game-over {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
         }
 
-        .game-stats .stat-label {
-            color: #ff6b35;
+        .game-over h3 {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
         }
 
-        .controls-info {
-            background: rgba(255, 165, 0, 0.1);
-            border: 2px solid #ffa500;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0;
+        .game-title-screen {
+            background: linear-gradient(45deg, #00ffff, #0088ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px #00ffff;
         }
 
         .controls-info h4 {
-            color: #ff6b35;
-            margin-bottom: 10px;
+            color: #00ffff;
         }
 
-        /* ダイアログをチャリ走風に */
-        .dialog .dialog-content-wrapper {
-            background: linear-gradient(135deg, #fff5f0, #ffe6d9);
-            border: 2px solid #ff6b35;
-            box-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+        .back-link {
+            border-top: 1px solid #00ffff;
         }
 
-        .dialog .dialog-header {
-            background: rgba(255, 107, 53, 0.1);
-            border-bottom: 1px solid rgba(255, 107, 53, 0.3);
+        .back-link a {
+            color: #00ffff;
         }
 
-        .dialog .dialog-header h3 {
-            color: #ff6b35;
+        .back-link a:hover {
+            text-shadow: 0 0 5px #00ffff;
         }
 
-        .dialog .dialog-content h4 {
-            color: #ff6b35;
+        /* ゲームウィンドウ統合スタイル */
+        .game-window {
+            background: linear-gradient(135deg, #001122, #002244);
+            border: 3px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            position: relative;
         }
 
-        /* ゲーム内ダイアログをチャリ走風に */
-        .game-dialog {
-            background: linear-gradient(135deg, #fff5f0, #ffe6d9);
-            border: 2px solid #ff6b35;
-            box-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: bold;
         }
 
-        .game-dialog .game-dialog-header {
-            background: rgba(255, 107, 53, 0.1);
-            border-bottom: 1px solid rgba(255, 107, 53, 0.3);
+        .game-header-stats {
+            display: flex;
+            gap: 20px;
         }
 
-        .game-dialog .game-dialog-header h3 {
-            color: #ff6b35;
+        .game-header-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
         }
 
-        .game-dialog .game-dialog-content {
-            color: #333;
+        .game-header-stat-label {
+            font-size: 12px;
+            color: #00ffff;
+            margin-bottom: 2px;
         }
 
-        .pause-play-btn {
-            background: #ffa500;
-            border: 2px solid #cc8400;
-            color: #333;
+        .game-header-stat-value {
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 0 0 5px #00ffff;
         }
 
-        .pause-play-btn:hover {
-            background: #cc8400;
+        .game-play-area {
+            background: #000011;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
-        .mobile-controls {
+        .game-controls {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 15px;
+        }
+
+        .game-controls .btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00ffff;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .game-controls .btn:hover {
+            background: rgba(0, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+
+        .game-controls .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* スタート画面をゲームエリア内に */
+        .start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            z-index: 10;
+        }
+
+        .start-content {
+            text-align: center;
+        }
+
+        .start-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .start-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #cccccc;
+        }
+
+        .pause-play-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 255, 255, 0.3);
+            border: 2px solid #00ffff;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pause-play-btn:hover {
+            background: rgba(0, 255, 255, 0.5);
+        }
+
+        /* ゲームオーバー画面をゲームエリア内に */
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #ff0000;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            z-index: 10;
+            display: none;
+        }
+
+        .game-over h3 {
+            color: #ff0000;
+            margin-bottom: 20px;
+        }
+
+        .game-over p {
+            margin: 10px 0;
+            color: #cccccc;
+        }
+
+        .game-over span {
+            color: #00ffff;
+            font-weight: bold;
+        }
+
+        /* チャージゲージ */
+        .charge-gauge {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            z-index: 5;
+            display: none;
+        }
+
+        .charge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #0088ff);
+            border-radius: 8px;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+
+        /* 統計表示を非表示に（ヘッダーに統合） */
+        .game-stats {
+            display: none;
+        }
+
+        .game-buttons {
+            display: none;
+        }
+
+        .high-score {
+            display: none;
+        }
+
+        /* モバイル操作 */
+        .mobile-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
         }
 
         .mobile-controls .btn {
-            font-size: 20px;
-            padding: 10px 15px;
-            min-width: 60px;
+            font-size: 18px;
+            padding: 12px 20px;
+            min-width: 120px;
+            border-radius: 8px;
         }
 
         @media (max-width: 768px) {
             .game-title-screen {
-                font-size: 24px;
+                font-size: 32px;
             }
 
             #gameCanvas {
@@ -153,8 +328,29 @@
                 height: auto;
             }
 
+            .game-header-stats {
+                gap: 10px;
+            }
+
+            .game-header-stat {
+                min-width: 60px;
+            }
+
+            .game-header-stat-value {
+                font-size: 16px;
+            }
+
+            .game-window {
+                padding: 15px;
+            }
+
             .mobile-controls {
                 display: flex;
+            }
+
+            .charge-gauge {
+                width: 150px;
+                height: 12px;
             }
         }
 
@@ -178,121 +374,116 @@
 
         <!-- パンくずリスト -->
         <div class="breadcrumb">
-            <a href="../../index.html">ホーム</a> &gt; 🚴‍♂️ チャリ走
+            <a href="../../index.html">ホーム</a> &gt; 🚀 エスケープ・ラン
         </div>
 
         <!-- ゲームコンテナ -->
         <div class="game-container">
-            <h2 class="game-title">🚴‍♂️ チャリ走</h2>
+            <h2 class="game-title">🚀 エスケープ・ラン</h2>
 
             <!-- ゲーム情報 -->
             <div class="game-info">
                 <h3>🎯 ゲーム概要</h3>
-                <p>自転車で駆け抜けろ！坂道を駆け上がり、障害物を避けながらコインを集めよう！</p>
-                <p>スピードはどんどん上がっていくぞ！どこまで走れるかな？</p>
+                <p>白い四角の主人公を操作して、次々と飛んでくる赤い三角形を避け続けるSFアクションゲームです。</p>
+                <p>ジャンプはチャージ式で、長押しするほど高くジャンプできます。青いアイテムを取って特殊能力を獲得しましょう。</p>
             </div>
 
             <!-- 操作説明 -->
             <div class="controls-info">
                 <h4>🕹️ 操作方法</h4>
-                <p><strong>PC:</strong> 矢印キー（←→）で左右移動・加減速、スペースキーでジャンプ</p>
-                <p><strong>スマホ:</strong> 画面タップでジャンプ、下のボタンで左右移動</p>
-                <p><strong>ジャンプ:</strong> 空中でもう一度押すとダブルジャンプ可能！</p>
+                <p><strong>PC:</strong> スペースキーまたは↑キー（長押しでチャージジャンプ）</p>
+                <p><strong>モバイル:</strong> ジャンプボタンを長押ししてチャージ</p>
+                <p><strong>敵:</strong> 赤い三角形（▶▼）に当たるとゲームオーバー</p>
+                <p><strong>アイテム:</strong> 青い図形（●★◆）で特殊能力を獲得</p>
             </div>
 
-            <!-- ゲーム統計 -->
+            <!-- ゲームウィンドウ -->
+            <div class="game-window">
+                <!-- ゲームヘッダー（スコア表示エリア） -->
+                <div class="game-header">
+                    <div class="game-header-stats">
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">スコア</div>
+                            <div class="game-header-stat-value" id="score">0</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">回避数</div>
+                            <div class="game-header-stat-value" id="dodged">0</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">アイテム</div>
+                            <div class="game-header-stat-value" id="items">0</div>
+                        </div>
+                        <div class="game-header-stat">
+                            <div class="game-header-stat-label">ベスト</div>
+                            <div class="game-header-stat-value" id="bestScore">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ゲームプレイエリア -->
+                <div class="game-play-area">
+                    <canvas id="gameCanvas" width="800" height="400"></canvas>
+
+                    <!-- ゲーム開始画面 -->
+                    <div id="startScreen" class="start-screen">
+                        <div class="start-content">
+                            <h1 class="game-title-screen">🚀 ESCAPE RUN</h1>
+                            <p class="game-subtitle">サイバー回避アクションゲーム</p>
+                            <button id="startButton" class="btn btn-large">🎮 ゲーム開始</button>
+                        </div>
+                    </div>
+
+                    <!-- 一時停止・再生ボタン -->
+                    <button id="pauseButton" class="pause-play-btn" style="display: none;">⏸️</button>
+
+                    <!-- チャージゲージ -->
+                    <div class="charge-gauge" id="chargeGauge">
+                        <div class="charge-fill" id="chargeFill"></div>
+                    </div>
+
+                    <!-- ゲームオーバー表示 -->
+                    <div class="game-over" id="gameOverScreen">
+                        <h3>💥 ミッション失敗</h3>
+                        <p>最終スコア: <span id="finalScore">0</span></p>
+                        <p>回避数: <span id="finalDodged">0</span></p>
+                        <p>アイテム数: <span id="finalItems">0</span></p>
+                        <p>ベストスコア: <span id="bestScore">0</span></p>
+                        <button id="restartButton" class="btn" style="margin-top: 15px;">🔄 再挑戦</button>
+                    </div>
+                </div>
+
+                <!-- ゲームコントロール -->
+                <div class="game-controls">
+                    <button class="btn" id="startBtn" onclick="game && game.startGame()">ゲーム開始</button>
+                    <button class="btn" id="pauseBtn" onclick="game && game.togglePause()" disabled>一時停止</button>
+                    <button class="btn" id="resetBtn" onclick="game && game.restartGame()">リセット</button>
+                </div>
+
+                <!-- モバイル操作 -->
+                <div class="mobile-controls">
+                    <button id="jumpBtn" class="btn btn-large">🚀 チャージジャンプ</button>
+                </div>
+            </div>
+
+            <!-- ゲーム統計（非表示） -->
             <div class="game-stats">
                 <div class="stat-item">
                     <div class="stat-label">スコア</div>
                     <div class="stat-value" id="score">0</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-label">距離</div>
-                    <div class="stat-value"><span id="distance">0</span>m</div>
+                    <div class="stat-label">回避数</div>
+                    <div class="stat-value" id="dodged">0</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-label">速度</div>
-                    <div class="stat-value"><span id="speed">1.0</span>x</div>
+                    <div class="stat-label">アイテム</div>
+                    <div class="stat-value" id="items">0</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-label">最高スコア</div>
-                    <div class="stat-value" id="highScore">0</div>
+                    <div class="stat-label">ベスト</div>
+                    <div class="stat-value" id="bestScore">0</div>
                 </div>
-            </div>
-
-            <!-- ゲームボタン（非表示） -->
-            <div class="game-buttons" style="display: none;">
-                <button class="btn" id="startBtn">ゲーム開始</button>
-                <button class="btn" id="pauseBtn" disabled>一時停止</button>
-                <button class="btn" id="resetBtn">リセット</button>
-            </div>
-
-            <!-- ゲーム画面 -->
-            <div class="game-board" style="position: relative;">
-                <canvas id="gameCanvas" width="800" height="400"></canvas>
-
-                <!-- ゲーム開始画面 -->
-                <div id="startScreen" class="start-screen">
-                    <div class="start-content">
-                        <h1 class="game-title-screen">🚴‍♂️ BIKE RUSH</h1>
-                        <p class="game-subtitle">坂道を駆け抜けろ！</p>
-                        <button id="startGameBtn" class="btn btn-large">🎮 ゲーム開始</button>
-                        <button id="howToPlayBtn" class="btn btn-secondary">📖 遊び方</button>
-                    </div>
-                </div>
-
-                <!-- 一時停止・再生ボタン -->
-                <button id="pausePlayBtn" class="pause-play-btn" style="display: none;">⏸️</button>
-
-
-            </div>
-
-            <!-- モバイル用コントロール -->
-            <div class="mobile-controls">
-                <button id="leftButton" class="btn">⬅️</button>
-                <button id="jumpButton" class="btn">⬆️</button>
-                <button id="rightButton" class="btn">➡️</button>
-            </div>
-
-            <!-- 遊び方ダイアログ -->
-            <div id="howToPlayDialog" class="dialog" style="display: none;">
-                <div class="dialog-content-wrapper">
-                    <div class="dialog-header">
-                        <h3>📖 遊び方</h3>
-                        <button id="closeDialog" class="close-btn">×</button>
-                    </div>
-                    <div class="dialog-content">
-                        <h4>🎯 ゲームの目的</h4>
-                        <p>自転車で障害物を避けながら、できるだけ遠くまで走ろう！</p>
-
-                        <h4>🕹️ 操作方法</h4>
-                        <p><strong>PC:</strong> 矢印キー（←→）で左右移動・加減速</p>
-                        <p><strong>PC:</strong> スペースキーでジャンプ</p>
-                        <p><strong>スマホ:</strong> 画面タップでジャンプ、下のボタンで移動</p>
-                        <p><strong>ダブルジャンプ:</strong> 空中でもう一度ジャンプ可能</p>
-
-                        <h4>🪙 アイテム・得点</h4>
-                        <p>• 🪙 コイン: 10点</p>
-                        <p>• 📏 距離: 1mごとに1点</p>
-                        <p>• ⚡ スピードボーナス: 速度に応じて追加得点</p>
-
-                        <h4>🏆 ゲームシステム</h4>
-                        <p>• 時間が経つにつれてスピードアップ</p>
-                        <p>• 左右キーで加減速可能</p>
-                        <p>• 坂道では重力の影響を受ける</p>
-
-                        <h4>💥 ゲームオーバー条件</h4>
-                        <p>• 🪨 障害物に衝突</p>
-                        <p>• 画面下に落下</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ハイスコア表示 -->
-            <div class="high-score">
-                <h4>🏆 セッション最高記録</h4>
-                <p>スコア: <span id="sessionHigh">0</span> | 距離: <span id="sessionDistance">0</span>m | 速度: <span
-                        id="sessionSpeed">1.0</span>x</p>
             </div>
 
             <!-- 戻るリンク -->
@@ -302,11 +493,8 @@
         </div>
     </div>
 
-    <!-- Matter.js 物理エンジン -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
-
     <!-- 共通フレームワーク -->
-    <script src="../../shared/js/game-framework.js"></script>
+    <script src="../../shared/js/audio-system.js"></script>
 
     <!-- ゲーム固有スクリプト -->
     <script src="bike-game.js"></script>

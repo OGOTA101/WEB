@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Qix - SGGameSite</title>
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="../../shared/css/game-base.css">
+
+    <!-- 音響システム -->
+    <script src="../../shared/js/audio-system.js"></script>
+
+    <style>
+        /* Qixゲーム専用スタイル - 紫系テーマ */
+        .game-title {
+            color: #8A2BE2;
+            text-shadow: 2px 2px 4px rgba(138, 43, 226, 0.3);
+        }
+
+        #gameCanvas {
+            border: 3px solid #8A2BE2;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+            background: #000;
+        }
+
+        .btn {
+            background: #8A2BE2;
+            border: 2px solid #7B68EE;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #7B68EE;
+            box-shadow: 0 6px 12px rgba(138, 43, 226, 0.4);
+        }
+
+        .btn-large {
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+
+        .btn-secondary {
+            background: #9370DB;
+            border-color: #8A2BE2;
+        }
+
+        .btn-secondary:hover {
+            background: #8A2BE2;
+        }
+
+        .game-stats .stat-item {
+            background: rgba(138, 43, 226, 0.1);
+            border: 1px solid #8A2BE2;
+        }
+
+        .game-stats .stat-label {
+            color: #8A2BE2;
+        }
+
+        .controls-info {
+            background: rgba(147, 112, 219, 0.1);
+            border: 2px solid #9370DB;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .controls-info h4 {
+            color: #8A2BE2;
+            margin-bottom: 10px;
+        }
+
+        .mobile-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .mobile-controls .btn {
+            font-size: 20px;
+            padding: 10px 15px;
+            min-width: 60px;
+        }
+
+        .game-control {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .game-control button {
+            background: #9370DB;
+            border: 2px solid #8A2BE2;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 5px;
+            transition: all 0.3s;
+        }
+
+        .game-control button:hover {
+            background: #8A2BE2;
+        }
+
+        .game-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .game-screen-content {
+            background: linear-gradient(135deg, #F8F8FF, #E6E6FA);
+            border: 3px solid #8A2BE2;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+        }
+
+        .game-screen h2 {
+            color: #8A2BE2;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        .game-screen p {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .score-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8A2BE2;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .game-title-screen {
+                font-size: 24px;
+            }
+
+            #gameCanvas {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .mobile-controls {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-controls {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="site-title">🎮 SGGameSite</h1>
+                <p class="site-subtitle">無料ゲームサイト</p>
+            </div>
+        </header>
+
+        <!-- パンくずナビ -->
+        <nav class="breadcrumb">
+            <span><a href="../../index.html">ホーム</a></span> >
+            <span>Qix</span>
+        </nav>
+
+        <!-- ゲームタイトル -->
+        <div class="game-title-section">
+            <h2 class="game-title">🎯 Qix</h2>
+            <p class="game-subtitle">陣取りパズルゲーム</p>
+        </div>
+
+        <!-- ゲーム概要 -->
+        <div class="game-overview">
+            <h3>ゲーム概要</h3>
+            <p>境界線から線を引いて領域を囲み、75%以上の陣地を獲得するとステージクリア！敵のQixやSparkを避けながら、戦略的に陣地を広げていくパズルゲームです。</p>
+        </div>
+
+        <!-- 操作説明 -->
+        <div class="controls-info">
+            <h4>🎮 操作方法</h4>
+            <ul>
+                <li><strong>矢印キー</strong>：移動</li>
+                <li><strong>境界線上</strong>：安全に移動可能</li>
+                <li><strong>境界線外</strong>：線を引いて領域を作る</li>
+            </ul>
+        </div>
+
+        <!-- ゲーム統計 -->
+        <div class="game-stats">
+            <div class="stat-item">
+                <div class="stat-label">スコア</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">レベル</div>
+                <div class="stat-value" id="level">1</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">領域</div>
+                <div class="stat-value" id="territory">0%</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">目標</div>
+                <div class="stat-value" id="targetTerritory">75%</div>
+            </div>
+        </div>
+
+        <!-- ゲームコントロール -->
+        <div class="game-control">
+            <button id="startBtn">🎮 開始</button>
+            <button id="pauseBtn" style="display: none;">⏸️</button>
+            <button id="resetBtn">🔄 リセット</button>
+            <button id="howToPlayBtn">❓ 遊び方</button>
+        </div>
+
+        <!-- ゲーム画面 -->
+        <div class="game-area">
+            <canvas id="gameCanvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- モバイルコントロール -->
+        <div class="mobile-controls">
+            <button id="upButton" class="btn">⬆️</button>
+            <button id="downButton" class="btn">⬇️</button>
+            <button id="leftButton" class="btn">⬅️</button>
+            <button id="rightButton" class="btn">➡️</button>
+        </div>
+
+        <!-- ゲームコンテナ -->
+        <div class="game-container">
+            <div class="game-rules">
+                <h3>🎯 ゲームのルール</h3>
+                <ul>
+                    <li>境界線上を移動して安全を保つ</li>
+                    <li>境界線から離れると線を引き始める</li>
+                    <li>線を引いて領域を囲むと陣地になる</li>
+                    <li>75%以上の陣地を獲得すればクリア</li>
+                    <li>敵に触れるとゲームオーバー</li>
+                </ul>
+            </div>
+
+            <div class="game-tips">
+                <h3>🔥 攻略のコツ</h3>
+                <ul>
+                    <li>小さな安全な領域から始めよう</li>
+                    <li>敵の動きを観察してタイミングを計る</li>
+                    <li>境界線にいる時は比較的安全</li>
+                    <li>線を引く時は素早く移動しよう</li>
+                </ul>
+            </div>
+
+            <div class="back-link">
+                <a href="../../index.html" class="btn">← ゲーム一覧に戻る</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ゲームオーバー画面 -->
+    <div id="gameOverScreen" class="game-screen" style="display: none;">
+        <div class="game-screen-content">
+            <h2 id="gameOverTitle">ゲームオーバー</h2>
+            <p id="gameOverMessage">Qixに捕まってしまいました！</p>
+            <div class="score-display">
+                <p>スコア: <span id="finalScore">0</span>点</p>
+                <p>レベル: <span id="finalLevel">1</span></p>
+                <p>占有率: <span id="finalTerritory">0%</span></p>
+            </div>
+            <button id="restartBtn" class="btn btn-large">🔄 もう一度</button>
+        </div>
+    </div>
+
+    <!-- 遊び方ダイアログ -->
+    <div id="howToPlayDialog" class="game-screen" style="display: none;">
+        <div class="game-screen-content">
+            <h2>🎯 Qix - 遊び方</h2>
+            <div style="text-align: left; max-width: 500px;">
+                <h4>🎮 基本ルール</h4>
+                <ul>
+                    <li>境界線（白い線）上を移動できます</li>
+                    <li>境界線から離れると線を引き始めます</li>
+                    <li>線を引いて領域を囲むと陣地になります</li>
+                    <li>75%以上の陣地を獲得するとクリア！</li>
+                </ul>
+
+                <h4>⚡ 敵について</h4>
+                <ul>
+                    <li><strong>Qix:</strong> 中央エリアを動き回る敵</li>
+                    <li><strong>Spark:</strong> 境界線を移動する電光</li>
+                    <li>どちらも接触するとゲームオーバー</li>
+                </ul>
+
+                <h4>🏆 得点システム</h4>
+                <ul>
+                    <li>囲んだ領域の大きさに応じて得点</li>
+                    <li>大きな領域を一度に囲むと高得点</li>
+                    <li>レベルが上がると敵が増加</li>
+                </ul>
+            </div>
+            <button id="closeDialog" class="btn btn-large">✕ 閉じる</button>
+        </div>
+    </div>
+
+    <script src="qix-game.js"></script>
+
+    <script>
+        // ゲーム初期化
+        let qixGame;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 音響システム初期化
+            if (window.audioSystem) {
+                window.audioSystem.init();
+            }
+
+            // ゲームインスタンス作成
+            qixGame = new QixGame();
+
+            // ボタンイベント設定
+            document.getElementById('startBtn').addEventListener('click', () => {
+                qixGame.startGame();
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('pauseBtn').style.display = 'inline-block';
+            });
+
+            document.getElementById('pauseBtn').addEventListener('click', () => {
+                qixGame.togglePause();
+            });
+
+            document.getElementById('resetBtn').addEventListener('click', () => {
+                qixGame.resetGame();
+                document.getElementById('startBtn').style.display = 'inline-block';
+                document.getElementById('pauseBtn').style.display = 'none';
+            });
+
+            document.getElementById('howToPlayBtn').addEventListener('click', () => {
+                document.getElementById('howToPlayDialog').style.display = 'flex';
+            });
+
+            document.getElementById('closeDialog').addEventListener('click', () => {
+                document.getElementById('howToPlayDialog').style.display = 'none';
+            });
+
+            document.getElementById('restartBtn').addEventListener('click', () => {
+                qixGame.startGame();
+                document.getElementById('gameOverScreen').style.display = 'none';
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('pauseBtn').style.display = 'inline-block';
+            });
+
+            // モバイルコントロール
+            document.getElementById('upButton').addEventListener('click', () => {
+                qixGame.keys.up = true;
+                setTimeout(() => qixGame.keys.up = false, 150);
+            });
+
+            document.getElementById('downButton').addEventListener('click', () => {
+                qixGame.keys.down = true;
+                setTimeout(() => qixGame.keys.down = false, 150);
+            });
+
+            document.getElementById('leftButton').addEventListener('click', () => {
+                qixGame.keys.left = true;
+                setTimeout(() => qixGame.keys.left = false, 150);
+            });
+
+            document.getElementById('rightButton').addEventListener('click', () => {
+                qixGame.keys.right = true;
+                setTimeout(() => qixGame.keys.right = false, 150);
+            });
+        });
+    </script>
+</body>
+
+</html>
