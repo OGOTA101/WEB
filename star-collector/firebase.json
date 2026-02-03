@@ -1,0 +1,14 @@
+{
+    "hosting": {
+        "site": "starry-sanpo",
+        "public": ".",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ]
+    },
+    "firestore": {
+        "rules": "firestore.rules"
+    }
+}

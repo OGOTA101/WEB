@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="3Dクレーンゲーム - リアルな物理演算で景品をゲットしよう！初期資金2000円でチャレンジ">
+    <title>🎮 3Dクレーンゲーム | SGGameSite</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- ローディング画面 -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-icon">🎮</div>
+            <h1>3Dクレーンゲーム</h1>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loading-progress"></div>
+            </div>
+            <p id="loading-text">リソースを読み込み中...</p>
+        </div>
+    </div>
+
+    <!-- タイトル画面 -->
+    <div id="title-screen" class="hidden">
+        <div class="title-content">
+            <div class="title-logo">🎮 3Dクレーンゲーム</div>
+            <div class="title-subtitle">UFOキャッチャー風アーケードゲーム</div>
+
+            <div class="name-input-section">
+                <label for="player-name">プレイヤー名</label>
+                <input type="text" id="player-name" maxlength="10" placeholder="名前を入力...">
+            </div>
+
+            <div class="rules-section">
+                <h3>📋 ルール</h3>
+                <ul>
+                    <li>💰 初期資金: <strong>¥2,000</strong></li>
+                    <li>🎮 1プレイ: <strong>¥100</strong></li>
+                    <li>🧸 景品を取ると評価額分お金が戻る</li>
+                    <li>⏱️ 操作時間: <strong>30秒</strong></li>
+                    <li>💀 資金が尽きたらゲームオーバー</li>
+                </ul>
+            </div>
+
+            <button id="start-btn" class="primary-btn">
+                <span>ゲームスタート</span>
+                <span class="btn-icon">▶</span>
+            </button>
+
+            <a href="/" class="back-link" style="display: block; margin-top: 20px; color: #a0a0a0;">← トップページへ戻る</a>
+        </div>
+    </div>
+
+    <!-- ゲーム画面 -->
+    <div id="game-screen" class="hidden">
+        <!-- HUD -->
+        <div id="hud">
+            <div class="hud-left">
+                <div class="hud-item balance">
+                    <span class="hud-label">💰 所持金</span>
+                    <span class="hud-value" id="balance-display">¥2,000</span>
+                </div>
+                <div class="hud-item player-info">
+                    <span class="hud-label">👤 プレイヤー</span>
+                    <span class="hud-value" id="player-display">ゲスト</span>
+                </div>
+            </div>
+            <div class="hud-center">
+                <div class="hud-item game-state">
+                    <span id="state-display">待機中</span>
+                </div>
+                <div class="hud-item timer hidden" id="timer-container">
+                    <span class="hud-label">⏱️ 残り時間</span>
+                    <span class="hud-value" id="timer-display">30</span>
+                </div>
+            </div>
+            <div class="hud-right">
+                <div class="hud-item prizes-won">
+                    <span class="hud-label">🧸 獲得数</span>
+                    <span class="hud-value" id="prizes-count">0</span>
+                </div>
+                <div class="hud-item total-earned">
+                    <span class="hud-label">💵 総獲得額</span>
+                    <span class="hud-value" id="total-earned-display">¥0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3Dキャンバス -->
+        <div id="game-container">
+            <canvas id="game-canvas"></canvas>
+        </div>
+
+        <!-- コントロールパネル -->
+        <div id="control-panel">
+            <div class="control-section movement">
+                <div class="control-label">移動</div>
+                <div class="dpad">
+                    <button class="dpad-btn up" id="btn-up">▲</button>
+                    <button class="dpad-btn left" id="btn-left">◀</button>
+                    <button class="dpad-btn right" id="btn-right">▶</button>
+                    <button class="dpad-btn down" id="btn-down">▼</button>
+                </div>
+            </div>
+            <div class="control-section action">
+                <button id="action-btn" class="action-button">
+                    <span class="action-text">コイン投入</span>
+                    <span class="action-cost">¥100</span>
+                </button>
+            </div>
+            <div class="control-section info">
+                <div class="key-hints">
+                    <div>↑↓←→: 移動</div>
+                    <div>Space: アクション</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 獲得履歴サイドバー -->
+        <div id="prizes-sidebar">
+            <h3>🧸 獲得した景品</h3>
+            <div id="prizes-list"></div>
+        </div>
+    </div>
+
+    <!-- ゲームオーバー画面 -->
+    <div id="gameover-screen" class="hidden">
+        <div class="gameover-content">
+            <div class="gameover-title">GAME OVER</div>
+            <div class="gameover-subtitle">資金が尽きました...</div>
+
+            <div class="result-section">
+                <h3>📊 ゲーム結果</h3>
+                <div class="result-item">
+                    <span>獲得した景品</span>
+                    <span id="result-prizes">0個</span>
+                </div>
+                <div class="result-item">
+                    <span>総獲得額</span>
+                    <span id="result-earned">¥0</span>
+                </div>
+                <div class="result-item">
+                    <span>使用した金額</span>
+                    <span id="result-spent">¥0</span>
+                </div>
+                <div class="result-item highlight">
+                    <span>収支</span>
+                    <span id="result-balance">¥0</span>
+                </div>
+            </div>
+
+            <button id="retry-btn" class="primary-btn">
+                <span>もう一度プレイ</span>
+                <span class="btn-icon">🔄</span>
+            </button>
+            <a href="/" class="back-link">← トップページへ戻る</a>
+        </div>
+    </div>
+
+    <!-- 景品獲得エフェクト -->
+    <div id="prize-popup" class="hidden">
+        <div class="popup-content">
+            <div class="popup-icon">🎉</div>
+            <div class="popup-title">景品ゲット！</div>
+            <div class="popup-prize-name" id="popup-prize-name"></div>
+            <div class="popup-prize-value" id="popup-prize-value"></div>
+        </div>
+    </div>
+
+    <!-- Three.js と Cannon-es (CDN) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+            "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+        }
+    }
+    </script>
+    <script type="module" src="game.js"></script>
+</body>
+
+</html>

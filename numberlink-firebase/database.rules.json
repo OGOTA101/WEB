@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "numberlink_rooms": {
+      ".read": true,
+      ".write": true,
+      "$roomId": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}
+

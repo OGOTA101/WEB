@@ -1,0 +1,11 @@
+{
+    "name": "shooting-firebase",
+    "version": "1.0.0",
+    "description": "Multiplayer SF Shooting Game",
+    "scripts": {
+        "start": "firebase serve"
+    },
+    "dependencies": {
+        "firebase": "^9.0.0"
+    }
+}

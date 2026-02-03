@@ -4,465 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SGGameSiteは、Yahoo! Games風のレトロなデザインで楽しめる無料ゲームポータルサイトです。パズル、アクション、カードゲームなど多数のブラウザゲームを公開中。">
+    <meta name="keywords" content="無料ゲーム, ブラウザゲーム, レトロゲーム, パズル, アクション, オセロ, 五目並べ, ピンボール">
+    <meta name="author" content="SPIRAL GEAR GAME">
+
+    <!-- OGP設定 -->
+    <meta property="og:title" content="SGGameSite - Yahoo! Games風レトロゲームサイト">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sggame-hub.web.app/">
+    <meta property="og:image" content="https://sggame-hub.web.app/ogp.png">
+    <meta property="og:description" content="無料で遊べるレトロ風ゲームポータルサイト。登録不要ですぐに遊べます！">
+    <meta name="twitter:card" content="summary_large_image">
+
     <title>SGGameSite - Yahoo! Games風レトロゲームサイト</title>
+
+    <!-- ファビコン（仮） -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+
+    <!-- スタイルシート -->
+    <link rel="stylesheet" href="css/main.css">
 
     <!-- 音響システム -->
     <script src="shared/js/audio-system.js"></script>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f6f6f6;
-            color: #000;
-            font-size: 14px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            min-height: 100vh;
-            border-left: 1px solid #ccc;
-            border-right: 1px solid #ccc;
-        }
-
-        .header {
-            background: #316AC5;
-            color: white;
-            padding: 8px 0;
-            border-bottom: 2px solid #0066cc;
-        }
-
-        .header-content {
-            padding: 0 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .coin-display {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .coin-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .coin-icon {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .coin-gold {
-            background: linear-gradient(135deg, #ffd700, #ffb000);
-            border: 2px solid #ff8c00;
-        }
-
-        .coin-silver {
-            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
-            border: 2px solid #808080;
-        }
-
-        .coin-bronze {
-            background: linear-gradient(135deg, #cd7f32, #8b4513);
-            border: 2px solid #654321;
-        }
-
-        .footer {
-            background: #316AC5;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            border-top: 2px solid #0066cc;
-        }
-
-        .egg {
-            position: absolute;
-            width: 40px;
-            height: 50px;
-            cursor: pointer;
-            z-index: 1000;
-            transition: transform 0.2s;
-            overflow: visible;
-        }
-
-        .egg img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .egg:hover {
-            transform: scale(1.1);
-        }
-
-        .egg-half-top,
-        .egg-half-bottom {
-            position: absolute;
-            width: 40px;
-            height: 25px;
-            left: 0;
-        }
-
-        .egg-half-top {
-            top: 0;
-        }
-
-        .egg-half-bottom {
-            bottom: 0;
-        }
-
-        .egg-half-top img,
-        .egg-half-bottom img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .egg-crack {
-            animation: crackOpen 1s ease-out forwards;
-        }
-
-        @keyframes crackOpen {
-            0% {
-                transform: scale(1) rotate(0deg);
-            }
-
-            20% {
-                transform: scale(1.05) rotate(-1deg);
-            }
-
-            40% {
-                transform: scale(1.1) rotate(1deg);
-            }
-
-            60% {
-                transform: scale(1.05) rotate(0deg);
-            }
-
-            80% {
-                transform: scale(1.02);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .egg-crack .egg-half-top {
-            animation: slideUp 0.6s ease-out 0.4s forwards;
-        }
-
-        .egg-crack .egg-half-bottom {
-            animation: slideDown 0.6s ease-out 0.4s forwards;
-        }
-
-        @keyframes slideUp {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(-30px) rotate(-10deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes slideDown {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(30px) rotate(10deg);
-                opacity: 0;
-            }
-        }
-
-        .egg-destroyed {
-            opacity: 0;
-            pointer-events: none;
-            visibility: hidden;
-        }
-
-        .coin-reward {
-            position: absolute;
-            z-index: 1001;
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffd700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            pointer-events: none;
-            animation: popOut 2s ease-out forwards;
-        }
-
-        @keyframes popOut {
-            0% {
-                transform: translateY(0) scale(0.5);
-                opacity: 0;
-            }
-
-            30% {
-                transform: translateY(-10px) scale(1.3);
-                opacity: 1;
-            }
-
-            60% {
-                transform: translateY(-20px) scale(1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(-60px) scale(0.8);
-                opacity: 0;
-            }
-        }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .header .tagline {
-            font-size: 11px;
-            color: #cce0ff;
-        }
-
-        .navbar {
-            background: #4a90e2;
-            border-bottom: 1px solid #316AC5;
-            padding: 0;
-        }
-
-        .nav-tabs {
-            display: flex;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .nav-tab {
-            background: #4a90e2;
-            border-right: 1px solid #316AC5;
-            cursor: pointer;
-            padding: 8px 16px;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .nav-tab:hover {
-            background: #5ba0f2;
-        }
-
-        .nav-tab.active {
-            background: white;
-            color: #316AC5;
-            border-bottom: 2px solid white;
-        }
-
-        .main-content {
-            display: flex;
-            min-height: 600px;
-        }
-
-        .sidebar {
-            width: 200px;
-            background: #f0f0f0;
-            border-right: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        .sidebar h3 {
-            font-size: 14px;
-            color: #316AC5;
-            margin-bottom: 8px;
-            font-weight: bold;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 2px;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            margin-bottom: 15px;
-        }
-
-        .sidebar li {
-            margin-bottom: 3px;
-            font-size: 13px;
-        }
-
-        .sidebar a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-
-        .sidebar a:hover {
-            text-decoration: underline;
-        }
-
-        .content-area {
-            flex: 1;
-            padding: 15px;
-            background: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .breadcrumb {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .breadcrumb a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-
-        .page-title {
-            font-size: 16px;
-            color: #316AC5;
-            font-weight: bold;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
-        }
-
-        .game-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 13px;
-        }
-
-        .game-table th {
-            background: #e6f0ff;
-            border: 1px solid #ccc;
-            padding: 6px 8px;
-            text-align: left;
-            font-weight: bold;
-            color: #316AC5;
-        }
-
-        .game-table td {
-            border: 1px solid #ccc;
-            padding: 6px 8px;
-            vertical-align: top;
-        }
-
-        .game-table tr:nth-child(even) {
-            background: #f8f8f8;
-        }
-
-        .game-table tr:hover {
-            background: #fff0cc;
-        }
-
-        .game-link {
-            color: #0066cc;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .game-link:hover {
-            text-decoration: underline;
-        }
-
-        .category-section {
-            margin-bottom: 25px;
-        }
-
-        .category-title {
-            background: #e6f0ff;
-            padding: 6px 10px;
-            border: 1px solid #ccc;
-            font-weight: bold;
-            color: #316AC5;
-            font-size: 14px;
-            margin-bottom: 1px;
-        }
-
-        .popular-games {
-            background: #ffffcc;
-            border: 1px solid #ffcc00;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-
-        .popular-games h4 {
-            color: #cc6600;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .status-new {
-            color: #ff0000;
-            font-weight: bold;
-        }
-
-        .status-hot {
-            color: #ff6600;
-            font-weight: bold;
-        }
-
-        .status-updated {
-            color: #009900;
-            font-weight: bold;
-        }
-
-        .footer {
-            background: #f0f0f0;
-            padding: 10px 15px;
-            border-top: 1px solid #ccc;
-            font-size: 12px;
-            color: #666;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-            }
-
-            .nav-tabs {
-                flex-wrap: wrap;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -471,19 +36,23 @@
         <div class="header">
             <div class="header-content">
                 <div>
-                    <h1>🎮 SGGameSite</h1>
+                    <h1><a href="/" style="color: white; text-decoration: none;">🎮 SGGameSite</a></h1>
                     <div class="tagline">Yahoo! Games風レトロゲームサイト</div>
                 </div>
+
+                <!-- モバイル用メニュートグル -->
+                <button id="menuToggle" class="menu-toggle" aria-label="メニューを開く">☰</button>
+
                 <div class="coin-display">
-                    <div class="coin-item">
+                    <div class="coin-item" title="ゴールドコイン">
                         <span class="coin-icon coin-gold"></span>
                         <span id="gold-count">0</span>
                     </div>
-                    <div class="coin-item">
+                    <div class="coin-item" title="シルバーコイン">
                         <span class="coin-icon coin-silver"></span>
                         <span id="silver-count">0</span>
                     </div>
-                    <div class="coin-item">
+                    <div class="coin-item" title="ブロンズコイン">
                         <span class="coin-icon coin-bronze"></span>
                         <span id="bronze-count">0</span>
                     </div>
@@ -492,174 +61,272 @@
         </div>
 
         <!-- ナビゲーションタブ -->
-        <div class="navbar">
+        <nav class="navbar">
             <ul class="nav-tabs">
-                <li class="nav-tab active" onclick="showTab('games')">ゲーム</li>
-                <li class="nav-tab" onclick="showTab('apps')">アプリ</li>
-                <li class="nav-tab" onclick="showTab('articles')">記事</li>
-                <li class="nav-tab" onclick="showTab('sitemap')">サイトマップ</li>
-                <li class="nav-tab" onclick="showTab('credits')">クレジット</li>
+                <li><button class="nav-tab active" onclick="showTab('games')">ゲーム</button></li>
+                <li><button class="nav-tab" onclick="showTab('apps')">アプリ</button></li>
+                <li><button class="nav-tab" onclick="showTab('articles')">記事</button></li>
+                <li><button class="nav-tab" onclick="showTab('sitemap')">サイトマップ</button></li>
+                <li><button class="nav-tab" onclick="showTab('credits')">クレジット</button></li>
             </ul>
-        </div>
+        </nav>
 
         <!-- メインコンテンツ -->
         <div class="main-content">
             <!-- サイドバー -->
-            <div class="sidebar">
-                <h3>人気カテゴリ</h3>
+            <aside class="sidebar">
+                <!-- ユーザー情報 -->
+                <div class="user-status-box">
+                    <div class="user-status-header">こんにちは ゲストさん</div>
+                    <div class="user-greeting">
+                        <div style="font-size: 32px; margin: 5px 0;">👤</div>
+                        <div>状態: <strong>未ログイン</strong></div>
+                    </div>
+                    <button class="login-btn-dummy" onclick="alert('機能実装中です')">ログイン / 新規登録</button>
+                    <div style="margin-top: 8px; font-size: 11px; color: #666;">
+                        今日の運勢: <span style="color: #ff6600; font-weight: bold;">大吉</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-banner" onclick="alert('特集ページへ移動します（仮）')">
+                    🍁 秋の夜長に<br>パズルゲーム特集！
+                    <div style="font-size: 10px; font-weight: normal; margin-top: 4px;">ポイント増量中</div>
+                </div>
+
+                <h3>ゲームカテゴリ</h3>
                 <ul>
-                    <li><a href="games/snake/">🐍 スネークゲーム</a></li>
-                    <li><a href="games/dodge/">🚀 スペースドッジ</a></li>
-                    <li><a href="games/bike/">🚀 エスケープ・ラン</a></li>
-                    <li><a href="games/minesweeper/">💣 マインスイーパー</a></li>
-                    <li><a href="games/same-game/">🎯 さめがめ</a></li>
-                    <li><a href="games/qix/">🎯 Qix - 陣取りパズル</a></li>
-                    <li><a href="#puzzle">パズルゲーム</a></li>
-                    <li><a href="#action">アクションゲーム</a></li>
-                    <li><a href="#card">カードゲーム</a></li>
+                    <li><a href="#puzzle" onclick="showTab('games')">パズルゲーム</a></li>
+                    <li><a href="#action" onclick="showTab('games')">アクションゲーム</a></li>
+                    <li><a href="#card" onclick="showTab('games')">カードゲーム</a></li>
+                    <li><a href="#party" onclick="showTab('games')">協力ゲーム</a></li>
                 </ul>
 
-                <h3>新着情報</h3>
+                <h3>人気ゲーム</h3>
                 <ul>
-                    <li><a href="games/dodge/">🚀 スペースドッジ公開</a></li>
-                    <li><a href="#">パズルゲーム更新</a></li>
-                    <li><a href="#">ランキング機能追加</a></li>
+                    <li><a href="games/cat-defense/">🐱 ネズミ狩りの夜</a> <span
+                            style="color: #ff6600; font-size: 10px;">NEW!</span></li>
+                    <li><a href="games/crane/">🎮 3Dクレーンゲーム</a></li>
+                    <li><a href="games/numberlink/">🔢 ナンバーリンク</a></li>
+                    <li><a href="games/snake/">🐍 スネークゲーム</a></li>
+                    <li><a href="games/dodge/">🚀 スペースドッジ</a></li>
+                    <li><a href="games/minesweeper/">💣 マインスイーパー</a></li>
+                    <li><a href="games/same-game/">🎯 さめがめ</a></li>
                 </ul>
+
+                <div class="sidebar-banner"
+                    style="background: linear-gradient(to bottom, #ffe6e6, #ffcccc); border-color: #ff9999; color: #cc0000; margin-top: 15px;"
+                    onclick="alert('ランキングページへ移動します（仮）')">
+                    🏆 週間ランキング<br>
+                    <div style="font-size: 11px; margin-top: 2px;">1位: ゲストさん (12,345点)</div>
+                </div>
 
                 <h3>おすすめアプリ</h3>
                 <ul>
-                    <li><a href="#">データ管理ツール</a></li>
-                    <li><a href="#">ポモドーロタイマー</a></li>
-                    <li><a href="#">メモアプリ（β版）</a></li>
+                    <li><a href="apps/pixel-converter/">🎨 ドット絵コンバータ</a></li>
+                    <li><a href="#">📊 データ管理ツール</a></li>
                 </ul>
 
                 <h3>サイト情報</h3>
                 <ul>
-                    <li><a href="#" onclick="showTab('sitemap')">サイトマップ</a></li>
-                    <li><a href="#" onclick="showTab('credits')">クレジット</a></li>
+                    <li><button
+                            style="background:none; border:none; color:#0000cc; cursor:pointer; text-decoration:underline; padding:0; font-size:13px;"
+                            onclick="showTab('sitemap')">サイトマップ</button></li>
+                    <li><button
+                            style="background:none; border:none; color:#0000cc; cursor:pointer; text-decoration:underline; padding:0; font-size:13px;"
+                            onclick="showTab('credits')">クレジット</button></li>
                 </ul>
-            </div>
+            </aside>
 
             <!-- コンテンツエリア -->
-            <div class="content-area">
+            <main class="content-area">
                 <!-- ゲームタブ -->
                 <div id="games" class="tab-content active">
                     <div class="breadcrumb">
-                        <a href="#">ホーム</a> > ゲーム
+                        <a href="#" onclick="location.reload()">ホーム</a> > ゲーム
                     </div>
+
+                    <!-- お知らせエリア -->
+                    <div class="news-box">
+                        <h4>🔔 お知らせ・メンテナンス情報</h4>
+                        <ul class="news-list">
+                            <li><span class="news-date">12/10</span> <a href="#"
+                                    style="color: #333; text-decoration: none;">定期メンテナンス終了のお知らせ</a></li>
+                            <li><span class="news-date">12/08</span> <a href="#"
+                                    style="color: #333; text-decoration: none;">新ゲーム「スペースドッジ」公開！スマホでも遊べます</a> <span
+                                    class="status-new" style="font-size: 10px;">NEW</span></li>
+                            <li><span class="news-date">12/01</span> <a href="#"
+                                    style="color: #333; text-decoration: none;">サーバー機器調整による接続不安定について</a></li>
+                        </ul>
+                        <div style="text-align: right; margin-top: 5px;">
+                            <a href="#" style="font-size: 11px; color: #0000cc;">過去のお知らせ一覧 &gt;&gt;</a>
+                        </div>
+                    </div>
+
                     <div class="page-title">🎯 ゲーム一覧</div>
 
                     <div class="popular-games">
                         <h4>🔥 今週の人気ゲーム</h4>
-                        <div>1. スネークゲーム（6,892 プレイ）🐍 <span class="status-new">NEW!</span></div>
-                        <div>2. スペースドッジ（4,321 プレイ）🚀 <span class="status-new">NEW!</span></div>
-                        <div>3. さめがめ（4,123 プレイ）🎯 <span class="status-new">NEW!</span></div>
-                        <div>4. マインスイーパー（3,654 プレイ）💣 <span class="status-new">NEW!</span></div>
-                        <div>5. Qix - 陣取りパズル（2,987 プレイ）🎯 <span class="status-new">NEW!</span></div>
+                        <div>1. <a href="https://star-collector-2026-cat.web.app">🐈 星空さんぽ</a> <span
+                                class="status-new">NEW!</span></div>
+                        <div>2. ナンバーリンク（12,543 プレイ）🔢 <span class="status-new">NEW!</span></div>
+                        <div>3. スネークゲーム（6,892 プレイ）🐍 <span class="status-new">NEW!</span></div>
+                        <div>4. スペースドッジ（4,321 プレイ）🚀 <span class="status-new">NEW!</span></div>
+                        <div>5. さめがめ（4,123 プレイ）🎯 <span class="status-new">NEW!</span></div>
                     </div>
 
-                    <div class="category-section">
+                    <div class="category-section" id="puzzle">
                         <div class="category-title">パズル・頭脳ゲーム</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="250">ゲーム名</th>
-                                <th width="400">説明</th>
-                                <th width="80">難易度</th>
-                                <th width="60">状態</th>
-                            </tr>
-                            <tr>
-                                <td><a href="games/snake/" class="game-link">🐍 スネークゲーム</a></td>
-                                <td>蛇を操作して食べ物を食べ、できるだけ長く成長させる定番ゲーム。壁や自分の体にぶつからないよう注意！</td>
-                                <td>★★☆☆☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/same-game/" class="game-link">🎯 さめがめ</a></td>
-                                <td>同じ色のブロックを消して全クリアを目指す定番パズルゲーム。戦略性と運の要素が絶妙にバランスされた名作。</td>
-                                <td>★★★☆☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/jewel-puzzle/" class="game-link">💎 宝石パズル</a></td>
-                                <td>3つ以上の宝石を縦横に並べて消すマッチ3パズル。コンボで高得点を目指そう！</td>
-                                <td>★★★☆☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/minesweeper/" class="game-link">💣 マインスイーパー</a></td>
-                                <td>隠された地雷を避けながら、すべての安全なマスを開く定番パズルゲーム。推理力が試されます。</td>
-                                <td>★★★☆☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/qix/" class="game-link">🎯 Qix - 陣取りパズル</a></td>
-                                <td>線を引いて領域を囲み、75%以上の陣地を獲得する名作アーケードゲーム。戦略とリスクのバランスが鍵！</td>
-                                <td>★★★★☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="250">ゲーム名</th>
+                                    <th width="400">説明</th>
+                                    <th width="80">難易度</th>
+                                    <th width="60">状態</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/snake/" class="game-link">🐍 スネークゲーム</a></td>
+                                    <td>蛇を操作して食べ物を食べ、できるだけ長く成長させる定番ゲーム。壁や自分の体にぶつからないよう注意！</td>
+                                    <td>★★☆☆☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/same-game/" class="game-link">🎯 さめがめ</a></td>
+                                    <td>同じ色のブロックを消して全クリアを目指す定番パズルゲーム。戦略性と運の要素が絶妙にバランスされた名作。</td>
+                                    <td>★★★☆☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/jewel-puzzle/" class="game-link">💎 宝石パズル</a></td>
+                                    <td>3つ以上の宝石を縦横に並べて消すマッチ3パズル。コンボで高得点を目指そう！</td>
+                                    <td>★★★☆☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/minesweeper/" class="game-link">💣 マインスイーパー</a></td>
+                                    <td>隠された地雷を避けながら、すべての安全なマスを開く定番パズルゲーム。推理力が試されます。</td>
+                                    <td>★★★☆☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/qix/" class="game-link">🎯 Qix - 陣取りパズル</a></td>
+                                    <td>線を引いて領域を囲み、75%以上の陣地を獲得する名作アーケードゲーム。戦略とリスクのバランスが鍵！</td>
+                                    <td>★★★★☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
-                    <div class="category-section">
+                    <div class="category-section" id="action">
                         <div class="category-title">アクション・反射神経ゲーム</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="250">ゲーム名</th>
-                                <th width="400">説明</th>
-                                <th width="80">難易度</th>
-                                <th width="60">状態</th>
-                            </tr>
-                            <tr>
-                                <td><a href="games/dodge/" class="game-link">🚀 スペースドッジ</a></td>
-                                <td>宇宙船を操縦して隕石と敵機を避け続けるSF風アクションゲーム。マウス・タッチ操作で直感的にプレイ！</td>
-                                <td>★★★☆☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/bike/" class="game-link">🚀 エスケープ・ラン</a></td>
-                                <td>SFサイバー回避アクションゲーム。未来世界を舞台に敵を避けながら駆け抜ける！</td>
-                                <td>★★★★☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="250">ゲーム名</th>
+                                    <th width="400">説明</th>
+                                    <th width="80">難易度</th>
+                                    <th width="60">状態</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://star-collector-2026-cat.web.app" class="game-link">🐈 星空さんぽ</a>
+                                    </td>
+                                    <td>猫が夜空の星を集める癒やし系アクション。動く星やガチャ要素もあり！</td>
+                                    <td>★★☆☆☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/dodge/" class="game-link">🚀 スペースドッジ</a></td>
+                                    <td>宇宙船を操縦して隕石と敵機を避け続けるSF風アクションゲーム。マウス・タッチ操作で直感的にプレイ！</td>
+                                    <td>★★★☆☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/bike/" class="game-link">🚀 エスケープ・ラン</a></td>
+                                    <td>SFサイバー回避アクションゲーム。未来世界を舞台に敵を避けながら駆け抜ける！</td>
+                                    <td>★★★★☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
 
-                            <tr>
-                                <td><a href="games/shooting/" class="game-link">👾 スペースインベーダー</a></td>
-                                <td>エイリアンの侵略から地球を守るクラシックシューティングゲーム。</td>
-                                <td>★★★☆☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                        </table>
+                                <tr>
+                                    <td><a href="games/shooting/" class="game-link">👾 スペースインベーダー</a></td>
+                                    <td>エイリアンの侵略から地球を守るクラシックシューティングゲーム。</td>
+                                    <td>★★★☆☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
-                    <div class="category-section">
+                    <div class="category-section" id="card">
                         <div class="category-title">カード・テーブルゲーム</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="250">ゲーム名</th>
-                                <th width="400">説明</th>
-                                <th width="80">難易度</th>
-                                <th width="60">状態</th>
-                            </tr>
-                            <tr>
-                                <td><a href="games/cards/high-and-low.html" class="game-link">🎴 ハイアンドロー</a></td>
-                                <td>次のカードが高いか低いかを予想するシンプルなカードゲーム。コイン10枚でスタート！</td>
-                                <td>★★☆☆☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/cards/blackjack.html" class="game-link">🃏 ブラックジャック</a></td>
-                                <td>21に近づけてディーラーに勝負！戦略とランクが組み合わさったカードゲーム。</td>
-                                <td>★★★☆☆</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="250">ゲーム名</th>
+                                    <th width="400">説明</th>
+                                    <th width="80">難易度</th>
+                                    <th width="60">状態</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/cards/high-and-low.html" class="game-link">🎴 ハイアンドロー</a></td>
+                                    <td>次のカードが高いか低いかを予想するシンプルなカードゲーム。コイン10枚でスタート！</td>
+                                    <td>★★☆☆☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/cards/blackjack.html" class="game-link">🃏 ブラックジャック</a></td>
+                                    <td>21に近づけてディーラーに勝負！戦略とランクが組み合わさったカードゲーム。</td>
+                                    <td>★★★☆☆</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="category-section" id="party">
+                        <div class="category-title">協力・パーティーゲーム</div>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="250">ゲーム名</th>
+                                    <th width="400">説明</th>
+                                    <th width="80">人数</th>
+                                    <th width="60">状態</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/numberlink/" class="game-link">🔢 ナンバーリンク</a></td>
+                                    <td>2-20人で遊べるオンライン協力型数字推理ゲーム。テーマに沿ってカードを説明し、順番に並べよう！</td>
+                                    <td>2-20人</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/deepsea/" class="game-link">🌊 ディープダイブ サバイバル</a></td>
+                                    <td>深海に潜っていくオンライン協力型サバイバルゲーム。酸素を管理しながら、敵を倒して深度を目指せ！</td>
+                                    <td>1-4人</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/crane/" class="game-link">🎮 3Dクレーンゲーム</a></td>
+                                    <td>本格3D物理演算のクレーンゲーム！初期資金2000円で景品獲得を目指せ。景品の評価額分お金が戻ってくる！</td>
+                                    <td>1-4人</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/cat-defense/" class="game-link">🐱 ネズミ狩りの夜</a></td>
+                                    <td>猫を操作してネズミからチーズを守る防衛ゲーム！ゲームボーイ風ドット絵、30Wave、スキルツリーシステム搭載。</td>
+                                    <td>1-4人</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
                 <!-- アプリタブ -->
                 <div id="apps" class="tab-content">
                     <div class="breadcrumb">
-                        <a href="#">ホーム</a> > アプリ
+                        <a href="#" onclick="location.reload()">ホーム</a> > アプリ
                     </div>
                     <div class="page-title">📱 アプリ一覧</div>
 
@@ -670,51 +337,61 @@
 
                     <div class="category-section">
                         <div class="category-title">ツール・ユーティリティ</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="250">アプリ名</th>
-                                <th width="400">説明</th>
-                                <th width="80">サイズ</th>
-                                <th width="60">状態</th>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="game-link">📊 データ管理アプリ</a></td>
-                                <td>シンプルで使いやすいデータ管理ツール。軽量で高速動作を実現。</td>
-                                <td>128KB</td>
-                                <td><span class="status-hot">人気!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="game-link">⏰ ポモドーロタイマー</a></td>
-                                <td>作業効率を向上させるタイマーアプリ。集中力アップをサポート。</td>
-                                <td>64KB</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="250">アプリ名</th>
+                                    <th width="400">説明</th>
+                                    <th width="80">サイズ</th>
+                                    <th width="60">状態</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="apps/pixel-converter/" class="game-link">🎨 ドット絵こんばーた</a></td>
+                                    <td>画像をアップロードしてドット絵風に変換するツールです。</td>
+                                    <td>N/A</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="game-link">📊 データ管理アプリ</a></td>
+                                    <td>シンプルで使いやすいデータ管理ツール。軽量で高速動作を実現。</td>
+                                    <td>128KB</td>
+                                    <td><span class="status-hot">人気!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="game-link">⏰ ポモドーロタイマー</a></td>
+                                    <td>作業効率を向上させるタイマーアプリ。集中力アップをサポート。</td>
+                                    <td>64KB</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="category-section">
                         <div class="category-title">メモ・エディタ</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="250">アプリ名</th>
-                                <th width="400">説明</th>
-                                <th width="80">サイズ</th>
-                                <th width="60">状態</th>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="game-link">📝 軽量メモアプリ</a></td>
-                                <td>軽量で高速なメモアプリ。オフラインでも使用可能。</td>
-                                <td>96KB</td>
-                                <td>ベータ版</td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="250">アプリ名</th>
+                                    <th width="400">説明</th>
+                                    <th width="80">サイズ</th>
+                                    <th width="60">状態</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="game-link">📝 軽量メモアプリ</a></td>
+                                    <td>軽量で高速なメモアプリ。オフラインでも使用可能。</td>
+                                    <td>96KB</td>
+                                    <td>ベータ版</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 記事タブ -->
                 <div id="articles" class="tab-content">
                     <div class="breadcrumb">
-                        <a href="#">ホーム</a> > 記事
+                        <a href="#" onclick="location.reload()">ホーム</a> > 記事
                     </div>
                     <div class="page-title">📰 記事一覧</div>
 
@@ -725,57 +402,61 @@
 
                     <div class="category-section">
                         <div class="category-title">Web開発・プログラミング</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="120">投稿日</th>
-                                <th width="300">タイトル</th>
-                                <th width="350">概要</th>
-                                <th width="60">状態</th>
-                            </tr>
-                            <tr>
-                                <td>2024/06/20</td>
-                                <td><a href="#" class="game-link">🚀 Web開発のベストプラクティス</a></td>
-                                <td>モダンなWeb開発における効率的な手法とツールの使い方を詳しく解説。</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td>2024/06/18</td>
-                                <td><a href="#" class="game-link">⚡ パフォーマンス最適化のコツ</a></td>
-                                <td>Webサイトの読み込み速度を向上させるための実践的なテクニック。</td>
-                                <td><span class="status-hot">人気!</span></td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="120">投稿日</th>
+                                    <th width="300">タイトル</th>
+                                    <th width="350">概要</th>
+                                    <th width="60">状態</th>
+                                </tr>
+                                <tr>
+                                    <td>2024/06/20</td>
+                                    <td><a href="#" class="game-link">🚀 Web開発のベストプラクティス</a></td>
+                                    <td>モダンなWeb開発における効率的な手法とツールの使い方を詳しく解説。</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2024/06/18</td>
+                                    <td><a href="#" class="game-link">⚡ パフォーマンス最適化のコツ</a></td>
+                                    <td>Webサイトの読み込み速度を向上させるための実践的なテクニック。</td>
+                                    <td><span class="status-hot">人気!</span></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="category-section">
                         <div class="category-title">デザイン・UI/UX</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="120">投稿日</th>
-                                <th width="300">タイトル</th>
-                                <th width="350">概要</th>
-                                <th width="60">状態</th>
-                            </tr>
-                            <tr>
-                                <td>2024/06/15</td>
-                                <td><a href="#" class="game-link">🎨 UI/UXデザインの基礎</a></td>
-                                <td>ユーザビリティを重視したデザインの考え方と実装方法について。</td>
-                                <td>執筆中</td>
-                            </tr>
-                            <tr>
-                                <td>2024/06/12</td>
-                                <td><a href="#" class="game-link">🎯 レトロデザインの魅力</a></td>
-                                <td>90年代〜2000年代のWebデザインの特徴と現代での活用法。</td>
-                                <td><span class="status-updated">更新済</span></td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="120">投稿日</th>
+                                    <th width="300">タイトル</th>
+                                    <th width="350">概要</th>
+                                    <th width="60">状態</th>
+                                </tr>
+                                <tr>
+                                    <td>2024/06/15</td>
+                                    <td><a href="#" class="game-link">🎨 UI/UXデザインの基礎</a></td>
+                                    <td>ユーザビリティを重視したデザインの考え方と実装方法について。</td>
+                                    <td>執筆中</td>
+                                </tr>
+                                <tr>
+                                    <td>2024/06/12</td>
+                                    <td><a href="#" class="game-link">🎯 レトロデザインの魅力</a></td>
+                                    <td>90年代〜2000年代のWebデザインの特徴と現代での活用法。</td>
+                                    <td><span class="status-updated">更新済</span></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
                 <!-- サイトマップタブ -->
                 <div id="sitemap" class="tab-content">
                     <div class="breadcrumb">
-                        <a href="#">ホーム</a> > サイトマップ
+                        <a href="#" onclick="location.reload()">ホーム</a> > サイトマップ
                     </div>
                     <div class="page-title">🗺️ サイトマップ</div>
 
@@ -786,134 +467,156 @@
 
                     <div class="category-section">
                         <div class="category-title">🎮 ゲームコンテンツ</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="200">カテゴリ</th>
-                                <th width="250">ゲーム名</th>
-                                <th width="350">説明</th>
-                                <th width="80">状態</th>
-                            </tr>
-                            <tr>
-                                <td rowspan="5">パズル・頭脳ゲーム</td>
-                                <td><a href="games/snake/" class="game-link">🐍 スネークゲーム</a></td>
-                                <td>蛇を操作して食べ物を食べ、長く成長させるゲーム</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="200">カテゴリ</th>
+                                    <th width="250">ゲーム名</th>
+                                    <th width="350">説明</th>
+                                    <th width="80">状態</th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="5">パズル・頭脳ゲーム</td>
+                                    <td><a href="games/snake/" class="game-link">🐍 スネークゲーム</a></td>
+                                    <td>蛇を操作して食べ物を食べ、長く成長させるゲーム</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
 
-                            <tr>
-                                <td><a href="games/jewel-puzzle/" class="game-link">💎 宝石パズル</a></td>
-                                <td>3つ以上の宝石を縦横に並べて消すマッチ3パズル</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/minesweeper/" class="game-link">💣 マインスイーパー</a></td>
-                                <td>隠された地雷を避けながら、すべての安全なマスを開く定番パズルゲーム</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/qix/" class="game-link">🎯 Qix - 陣取りパズル</a></td>
-                                <td>線を引いて領域を囲み、75%以上の陣地を獲得する名作アーケードゲーム</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td rowspan="4">アクション・反射神経</td>
-                                <td><a href="games/dodge/" class="game-link">🚀 スペースドッジ</a></td>
-                                <td>宇宙船を操縦して隕石と敵機を避け続けるSF風アクションゲーム</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/bike/" class="game-link">🚀 エスケープ・ラン</a></td>
-                                <td>SFサイバー回避アクションゲーム。未来世界を舞台に敵を避けながら駆け抜ける</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
+                                <tr>
+                                    <td><a href="games/jewel-puzzle/" class="game-link">💎 宝石パズル</a></td>
+                                    <td>3つ以上の宝石を縦横に並べて消すマッチ3パズル</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/minesweeper/" class="game-link">💣 マインスイーパー</a></td>
+                                    <td>隠された地雷を避けながら、すべての安全なマスを開く定番パズルゲーム</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/qix/" class="game-link">🎯 Qix - 陣取りパズル</a></td>
+                                    <td>線を引いて領域を囲み、75%以上の陣地を獲得する名作アーケードゲーム</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="4">アクション・反射神経</td>
+                                    <td><a href="games/dodge/" class="game-link">🚀 スペースドッジ</a></td>
+                                    <td>宇宙船を操縦して隕石と敵機を避け続けるSF風アクションゲーム</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/bike/" class="game-link">🚀 エスケープ・ラン</a></td>
+                                    <td>SFサイバー回避アクションゲーム。未来世界を舞台に敵を避けながら駆け抜ける</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
 
-                            <tr>
-                                <td><a href="games/shooting/" class="game-link">👾 スペースインベーダー</a></td>
-                                <td>エイリアンから地球を守るクラシックゲーム</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">カード・テーブル</td>
-                                <td><a href="games/cards/high-and-low.html" class="game-link">🎴 ハイアンドロー</a></td>
-                                <td>次のカードが高いか低いかを予想するシンプルなカードゲーム</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="games/cards/blackjack.html" class="game-link">🃏 ブラックジャック</a></td>
-                                <td>21に近づけてディーラーに勝負する戦略カードゲーム</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                        </table>
+                                <tr>
+                                    <td><a href="games/shooting/" class="game-link">👾 スペースインベーダー</a></td>
+                                    <td>エイリアンから地球を守るクラシックゲーム</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">カード・テーブル</td>
+                                    <td><a href="games/cards/high-and-low.html" class="game-link">🎴 ハイアンドロー</a></td>
+                                    <td>次のカードが高いか低いかを予想するシンプルなカードゲーム</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/cards/blackjack.html" class="game-link">🃏 ブラックジャック</a></td>
+                                    <td>21に近づけてディーラーに勝負する戦略カードゲーム</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3">協力・パーティー</td>
+                                    <td><a href="games/numberlink/" class="game-link">🔢 ナンバーリンク</a></td>
+                                    <td>2-20人で遊べるオンライン協力型数字推理ゲーム</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/deepsea/" class="game-link">🌊 ディープダイブ サバイバル</a></td>
+                                    <td>深海に潜っていくオンライン協力型サバイバルゲーム</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="games/cat-defense/" class="game-link">🐱 ネズミ狩りの夜</a></td>
+                                    <td>猫を操作してネズミからチーズを守る防衛ゲーム！</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="category-section">
                         <div class="category-title">📱 アプリケーション</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="200">カテゴリ</th>
-                                <th width="250">アプリ名</th>
-                                <th width="350">説明</th>
-                                <th width="80">状態</th>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">ツール・ユーティリティ</td>
-                                <td><a href="#" class="game-link">📊 データ管理アプリ</a></td>
-                                <td>シンプルで使いやすいデータ管理ツール</td>
-                                <td><span class="status-hot">人気!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="game-link">⏰ ポモドーロタイマー</a></td>
-                                <td>作業効率を向上させるタイマーアプリ</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td>メモ・エディタ</td>
-                                <td><a href="#" class="game-link">📝 軽量メモアプリ</a></td>
-                                <td>軽量で高速なメモアプリ</td>
-                                <td>ベータ版</td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="200">カテゴリ</th>
+                                    <th width="250">アプリ名</th>
+                                    <th width="350">説明</th>
+                                    <th width="80">状態</th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">ツール・ユーティリティ</td>
+                                    <td><a href="#" class="game-link">📊 データ管理アプリ</a></td>
+                                    <td>シンプルで使いやすいデータ管理ツール</td>
+                                    <td><span class="status-hot">人気!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="game-link">⏰ ポモドーロタイマー</a></td>
+                                    <td>作業効率を向上させるタイマーアプリ</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td>メモ・エディタ</td>
+                                    <td><a href="#" class="game-link">📝 軽量メモアプリ</a></td>
+                                    <td>軽量で高速なメモアプリ</td>
+                                    <td>ベータ版</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="category-section">
                         <div class="category-title">📰 記事・コンテンツ</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="200">カテゴリ</th>
-                                <th width="250">記事タイトル</th>
-                                <th width="350">内容</th>
-                                <th width="80">状態</th>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">Web開発・プログラミング</td>
-                                <td><a href="#" class="game-link">🚀 Web開発のベストプラクティス</a></td>
-                                <td>モダンなWeb開発における効率的な手法</td>
-                                <td><span class="status-new">NEW!</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="game-link">⚡ パフォーマンス最適化のコツ</a></td>
-                                <td>Webサイトの読み込み速度向上テクニック</td>
-                                <td><span class="status-hot">人気!</span></td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">デザイン・UI/UX</td>
-                                <td><a href="#" class="game-link">🎨 UI/UXデザインの基礎</a></td>
-                                <td>ユーザビリティを重視したデザイン手法</td>
-                                <td>執筆中</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="game-link">🎯 レトロデザインの魅力</a></td>
-                                <td>90年代〜2000年代のWebデザイン特徴</td>
-                                <td><span class="status-updated">更新済</span></td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="200">カテゴリ</th>
+                                    <th width="250">記事タイトル</th>
+                                    <th width="350">内容</th>
+                                    <th width="80">状態</th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">Web開発・プログラミング</td>
+                                    <td><a href="#" class="game-link">🚀 Web開発のベストプラクティス</a></td>
+                                    <td>モダンなWeb開発における効率的な手法</td>
+                                    <td><span class="status-new">NEW!</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="game-link">⚡ パフォーマンス最適化のコツ</a></td>
+                                    <td>Webサイトの読み込み速度向上テクニック</td>
+                                    <td><span class="status-hot">人気!</span></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">デザイン・UI/UX</td>
+                                    <td><a href="#" class="game-link">🎨 UI/UXデザインの基礎</a></td>
+                                    <td>ユーザビリティを重視したデザイン手法</td>
+                                    <td>執筆中</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="game-link">🎯 レトロデザインの魅力</a></td>
+                                    <td>90年代〜2000年代のWebデザイン特徴</td>
+                                    <td><span class="status-updated">更新済</span></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
                 <!-- クレジットタブ -->
                 <div id="credits" class="tab-content">
                     <div class="breadcrumb">
-                        <a href="#">ホーム</a> > クレジット
+                        <a href="#" onclick="location.reload()">ホーム</a> > クレジット
                     </div>
                     <div class="page-title">👥 クレジット・制作者情報</div>
 
@@ -924,87 +627,94 @@
 
                     <div class="category-section">
                         <div class="category-title">🎯 制作者情報</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="150">項目</th>
-                                <th width="650">詳細</th>
-                            </tr>
-                            <tr>
-                                <td><strong>サイト名</strong></td>
-                                <td>SGGame</td>
-                            </tr>
-                            <tr>
-                                <td><strong>制作者名</strong></td>
-                                <td>SPIRAL GEAR GAME</td>
-                            </tr>
-                            <tr>
-                                <td><strong>X (Twitter)</strong></td>
-                                <td><a href="https://x.com/SGGame9" target="_blank" class="game-link">@SGGame9</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>活動内容</strong></td>
-                                <td>ゲーム中心に、玉にアプリなどをのんびり作っています</td>
-                            </tr>
-                            <tr>
-                                <td><strong>サイト特徴</strong></td>
-                                <td>90年代〜2000年代初頭のYahoo! Games風レトロデザイン、軽量・高速・シンプル設計</td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="150">項目</th>
+                                    <th width="650">詳細</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>サイト名</strong></td>
+                                    <td>SGGame</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>制作者名</strong></td>
+                                    <td>SPIRAL GEAR GAME</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>X (Twitter)</strong></td>
+                                    <td><a href="https://x.com/SGGame9" target="_blank" class="game-link">@SGGame9</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>活動内容</strong></td>
+                                    <td>ゲーム中心に、たまにアプリなどをのんびり作っています</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>サイト特徴</strong></td>
+                                    <td>90年代〜2000年代初頭のYahoo! Games風レトロデザイン、軽量・高速・シンプル設計</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="category-section">
                         <div class="category-title">🛠️ 使用技術</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="150">カテゴリ</th>
-                                <th width="650">技術詳細</th>
-                            </tr>
-                            <tr>
-                                <td><strong>フロントエンド</strong></td>
-                                <td>HTML5, CSS3, Vanilla JavaScript (ライブラリ未使用)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>ホスティング</strong></td>
-                                <td>Firebase Hosting</td>
-                            </tr>
-                            <tr>
-                                <td><strong>デザイン</strong></td>
-                                <td>レトロWebデザイン、テーブルレイアウト、軽量CSS</td>
-                            </tr>
-                            <tr>
-                                <td><strong>パフォーマンス</strong></td>
-                                <td>単一ファイル構成、外部依存なし、高速読み込み最適化</td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="150">カテゴリ</th>
+                                    <th width="650">技術詳細</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>フロントエンド</strong></td>
+                                    <td>HTML5, CSS3, Vanilla JavaScript (ライブラリ未使用)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ホスティング</strong></td>
+                                    <td>Firebase Hosting</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>デザイン</strong></td>
+                                    <td>レトロWebデザイン、テーブルレイアウト、軽量CSS</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>パフォーマンス</strong></td>
+                                    <td>単一ファイル構成、外部依存なし、高速読み込み最適化</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="category-section">
                         <div class="category-title">📞 お問い合わせ</div>
-                        <table class="game-table">
-                            <tr>
-                                <th width="150">連絡方法</th>
-                                <th width="650">詳細</th>
-                            </tr>
-                            <tr>
-                                <td><strong>X (Twitter)</strong></td>
-                                <td><a href="https://x.com/SGGame9" target="_blank"
-                                        class="game-link">https://x.com/SGGame9</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>対応内容</strong></td>
-                                <td>ゲーム・アプリに関するご質問、サイトへのご意見・ご要望</td>
-                            </tr>
-                            <tr>
-                                <td><strong>更新情報</strong></td>
-                                <td>新しいゲームやアプリの公開情報もXでお知らせします</td>
-                            </tr>
-                            <tr>
-                                <td><strong>特別企画</strong></td>
-                                <td><a href="/game/01-start.html" target="_blank" class="game-link"
-                                        style="color: #ff6b35; font-weight: bold;">🔍 隠しリンク探し (開発中)</a> -
-                                    Webブラウザの知識を使った探索ゲーム</td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="game-table">
+                                <tr>
+                                    <th width="150">連絡方法</th>
+                                    <th width="650">詳細</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>X (Twitter)</strong></td>
+                                    <td><a href="https://x.com/SGGame9" target="_blank"
+                                            class="game-link">https://x.com/SGGame9</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>対応内容</strong></td>
+                                    <td>ゲーム・アプリに関するご質問、サイトへのご意見・ご要望</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>更新情報</strong></td>
+                                    <td>新しいゲームやアプリの公開情報もXでお知らせします</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>特別企画</strong></td>
+                                    <td><a href="/game/01-start.html" target="_blank" class="game-link"
+                                            style="color: #ff6b35; font-weight: bold;">🔍 隠しリンク探し (開発中)</a> -
+                                        Webブラウザの知識を使った探索ゲーム</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                     <div
@@ -1018,351 +728,26 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
 
         <!-- フッター -->
-        <div class="footer">
+        <footer class="footer">
             &copy; 2024 SGGameSite - Yahoo! Games風レトロゲームサイト | 軽量・高速・シンプル
-        </div>
+            <div id="visitor-stats"
+                style="font-size: 11px; color: #888; margin-top: 8px; font-family: 'MS Gothic', monospace;">
+                <span title="現在の閲覧者数">👤 現在: <span id="stat-online">-</span>人</span> |
+                <span title="今日の訪問者数">📅 今日: <span id="stat-today">-</span>人</span> |
+                <span title="総訪問者数">🌏 累計: <span id="stat-total">-</span>人</span>
+            </div>
+        </footer>
     </div>
 
-    <script>
-
-
-        // コインシステム管理クラス
-        class CoinSystem {
-            constructor() {
-                this.coins = {
-                    gold: 0,
-                    silver: 0,
-                    bronze: 0
-                };
-                this.loadCoins();
-                this.updateDisplay();
-                this.startEggSpawning();
-                this.audioContext = null;
-                this.initAudio();
-            }
-
-            // AudioContextを初期化
-            initAudio() {
-                try {
-                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                } catch (e) {
-                    console.log('Audio not supported');
-                }
-            }
-
-            // 効果音を生成・再生
-            playSound(type) {
-                if (!this.audioContext) return;
-
-                const oscillator = this.audioContext.createOscillator();
-                const gainNode = this.audioContext.createGain();
-
-                oscillator.connect(gainNode);
-                gainNode.connect(this.audioContext.destination);
-
-                if (type === 'crack') {
-                    // 卵が割れる音
-                    oscillator.frequency.setValueAtTime(800, this.audioContext.currentTime);
-                    oscillator.frequency.exponentialRampToValueAtTime(200, this.audioContext.currentTime + 0.1);
-                    gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.2);
-                    oscillator.start(this.audioContext.currentTime);
-                    oscillator.stop(this.audioContext.currentTime + 0.2);
-                } else if (type === 'coin') {
-                    // コイン獲得音
-                    oscillator.frequency.setValueAtTime(523, this.audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(659, this.audioContext.currentTime + 0.1);
-                    gainNode.gain.setValueAtTime(0.2, this.audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
-                    oscillator.start(this.audioContext.currentTime);
-                    oscillator.stop(this.audioContext.currentTime + 0.3);
-                }
-            }
-
-            // コインデータをローカルストレージから読み込み
-            loadCoins() {
-                const saved = localStorage.getItem('sgGameCoins');
-                if (saved) {
-                    this.coins = JSON.parse(saved);
-                }
-            }
-
-            // コインデータをローカルストレージに保存
-            saveCoins() {
-                localStorage.setItem('sgGameCoins', JSON.stringify(this.coins));
-            }
-
-            // コインを追加
-            addCoin(type, amount) {
-                this.coins[type] += amount;
-                this.saveCoins();
-                this.updateDisplay();
-            }
-
-            // 表示を更新
-            updateDisplay() {
-                document.getElementById('gold-count').textContent = this.coins.gold;
-                document.getElementById('silver-count').textContent = this.coins.silver;
-                document.getElementById('bronze-count').textContent = this.coins.bronze;
-            }
-
-            // 卵の出現を開始（ページ読み込み時に1回だけ判定）
-            startEggSpawning() {
-                // ページ読み込み時に即座に出現判定
-                if (Math.random() < 0.4) { // 40%の確率で卵出現
-                    this.createEgg();
-                }
-            }
-
-            // 卵を作成
-            createEgg() {
-                const egg = document.createElement('div');
-
-                // 卵の種類を決定（50%ずつ）
-                const eggType = Math.random() < 0.5 ? 'bronze' : 'silver';
-                egg.className = 'egg';
-                egg.dataset.type = eggType;
-
-                // 卵の画像を追加
-                const eggImg = document.createElement('img');
-                eggImg.src = `shared/images/eggs/${eggType}-egg.svg`;
-                eggImg.alt = `${eggType} egg`;
-
-                // 上下に割れるための構造を作成（最初は非表示）
-                const topHalf = document.createElement('div');
-                const bottomHalf = document.createElement('div');
-                topHalf.className = 'egg-half-top';
-                bottomHalf.className = 'egg-half-bottom';
-                topHalf.style.display = 'none';
-                bottomHalf.style.display = 'none';
-
-                const topImg = document.createElement('img');
-                topImg.src = `shared/images/eggs/${eggType}-shell-top.svg`;
-                topImg.alt = `${eggType} shell top`;
-                topHalf.appendChild(topImg);
-
-                const bottomImg = document.createElement('img');
-                bottomImg.src = `shared/images/eggs/${eggType}-shell-bottom.svg`;
-                bottomImg.alt = `${eggType} shell bottom`;
-                bottomHalf.appendChild(bottomImg);
-
-                egg.appendChild(eggImg);
-                egg.appendChild(topHalf);
-                egg.appendChild(bottomHalf);
-
-                // コンテンツにかぶらない位置に配置（枠外の空いている場所）
-                const container = document.querySelector('.container');
-                const containerRect = container.getBoundingClientRect();
-                const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight;
-
-                let x, y;
-                const positions = [];
-
-                // 左側の余白（コンテナの左側）
-                if (containerRect.left > 60) {
-                    positions.push({
-                        x: Math.random() * (containerRect.left - 60) + 10,
-                        y: Math.random() * (windowHeight - 100) + 50
-                    });
-                }
-
-                // 右側の余白（コンテナの右側）
-                if (windowWidth - containerRect.right > 60) {
-                    positions.push({
-                        x: containerRect.right + 10 + Math.random() * (windowWidth - containerRect.right - 60),
-                        y: Math.random() * (windowHeight - 100) + 50
-                    });
-                }
-
-                // 下部の余白（フッター下）
-                const footer = document.querySelector('.footer');
-                const footerRect = footer ? footer.getBoundingClientRect() : null;
-                if (footerRect && windowHeight - footerRect.bottom > 60) {
-                    positions.push({
-                        x: Math.random() * (containerRect.width - 60) + containerRect.left + 10,
-                        y: footerRect.bottom + 10 + Math.random() * (windowHeight - footerRect.bottom - 60)
-                    });
-                }
-
-                // サイドバーの下部空きスペース
-                const sidebar = document.querySelector('.sidebar');
-                const contentArea = document.querySelector('.content-area');
-                if (sidebar && contentArea) {
-                    const sidebarRect = sidebar.getBoundingClientRect();
-                    const contentRect = contentArea.getBoundingClientRect();
-                    const sidebarBottom = sidebarRect.bottom;
-                    const containerBottom = containerRect.bottom;
-
-                    if (containerBottom - sidebarBottom > 80) {
-                        positions.push({
-                            x: sidebarRect.left + 10 + Math.random() * (sidebarRect.width - 60),
-                            y: sidebarBottom + 10 + Math.random() * (containerBottom - sidebarBottom - 80)
-                        });
-                    }
-                }
-
-                // 利用可能な位置がない場合は、右下角に配置
-                if (positions.length === 0) {
-                    positions.push({
-                        x: windowWidth - 60,
-                        y: windowHeight - 70
-                    });
-                }
-
-                // ランダムに位置を選択
-                const position = positions[Math.floor(Math.random() * positions.length)];
-                x = position.x;
-                y = position.y;
-
-                // スクロール位置を考慮して絶対座標で配置
-                egg.style.left = x + 'px';
-                egg.style.top = (y + window.pageYOffset) + 'px';
-
-                // 自動削除は無し（クリックするかページリロードまで表示し続ける）
-
-                // クリックイベント
-                egg.addEventListener('click', () => {
-                    if (window.audioSystem) window.audioSystem.play('notification');
-                    this.crackEgg(egg, x, y);
-                });
-
-                document.body.appendChild(egg);
-            }
-
-            // 卵を割る
-            crackEgg(egg, x, y) {
-                // クリック無効化
-                egg.style.pointerEvents = 'none';
-
-                // 卵の画像を隠して殻を表示
-                const eggImg = egg.querySelector('img');
-                const topHalf = egg.querySelector('.egg-half-top');
-                const bottomHalf = egg.querySelector('.egg-half-bottom');
-
-                // 割れるアニメーション
-                egg.classList.add('egg-crack');
-
-                // 少し遅れて卵を隠し、殻を表示
-                setTimeout(() => {
-                    if (eggImg) eggImg.style.display = 'none';
-                    if (topHalf) topHalf.style.display = 'block';
-                    if (bottomHalf) bottomHalf.style.display = 'block';
-                }, 400);
-
-                // 卵の種類に基づいてコイン獲得（必ずコインが出る）
-                const eggType = egg.dataset.type;
-                let coinType, amount, text, rewardColor;
-
-                if (eggType === 'silver') {
-                    coinType = 'silver';
-                    amount = 1;
-                    text = '+1 🥈';
-                    rewardColor = '#c0c0c0';
-                } else { // bronze
-                    coinType = 'bronze';
-                    amount = 5;
-                    text = '+5 🥉';
-                    rewardColor = '#cd7f32';
-                }
-
-                // コイン追加
-                this.addCoin(coinType, amount);
-
-                // 少し遅れてコイン獲得音を再生（割れた中から出てくる演出）
-                setTimeout(() => {
-                    if (window.audioSystem) window.audioSystem.play('success');
-                }, 600);
-
-                // 報酬表示アニメーション（卵が割れた中から出てくる）
-                setTimeout(() => {
-                    const reward = document.createElement('div');
-                    reward.className = 'coin-reward';
-                    reward.textContent = text;
-                    // スクロール位置を考慮した絶対座標で配置
-                    reward.style.left = (x + 20) + 'px'; // 卵の中央から
-                    reward.style.top = (y + 25 + window.pageYOffset) + 'px';
-                    reward.style.color = rewardColor;
-
-                    document.body.appendChild(reward);
-
-                    // 報酬アニメーション後にクリーンアップ
-                    setTimeout(() => {
-                        if (reward.parentNode) {
-                            reward.remove();
-                        }
-                    }, 2000);
-                }, 800); // 卵が割れて少し遅れて出現
-
-                // 卵を完全に隠す
-                setTimeout(() => {
-                    egg.classList.add('egg-destroyed');
-                }, 1000);
-
-                // 卵のクリーンアップ
-                setTimeout(() => {
-                    if (egg.parentNode) {
-                        egg.remove();
-                    }
-
-                    // 卵が割れた後、少し時間を置いて新しい卵の出現判定
-                    setTimeout(() => {
-                        if (Math.random() < 0.2) { // 20%の確率で新しい卵出現
-                            this.createEgg();
-                        }
-                    }, Math.random() * 10000 + 5000); // 5-15秒後
-                }, 2000);
-            }
-        }
-
-        // パフォーマンス最適化
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('SGGameSite (Yahoo! Games風) loaded successfully! 🎮');
-
-            // コインシステムを初期化
-            window.coinSystem = new CoinSystem();
-        });
-
-        // ページ離脱時に卵を削除
-        window.addEventListener('beforeunload', function () {
-            const eggs = document.querySelectorAll('.egg');
-            eggs.forEach(egg => egg.remove());
-        });
-
-        // タブ切り替え時にも新しい卵を判定
-        function showTab(tabName) {
-            // すべてのタブとコンテンツを非アクティブにする
-            const tabs = document.querySelectorAll('.nav-tab');
-            const contents = document.querySelectorAll('.tab-content');
-
-            tabs.forEach(tab => tab.classList.remove('active'));
-            contents.forEach(content => content.classList.remove('active'));
-
-            // 選択されたタブをアクティブにする
-            event.target.classList.add('active');
-            document.getElementById(tabName).classList.add('active');
-
-            // 既存の卵を削除
-            const existingEggs = document.querySelectorAll('.egg');
-            existingEggs.forEach(egg => egg.remove());
-
-            // 新しい卵の出現判定
-            if (window.coinSystem && Math.random() < 0.3) {
-                setTimeout(() => {
-                    window.coinSystem.createEgg();
-                }, 500);
-            }
-        }
-
-        // レトロな効果音（オプション）
-        function playRetroSound() {
-            // 将来的にレトロな効果音を追加可能
-        }
-    </script>
+    <!-- スクリプトの読み込み -->
+    <script src="js/coin-system.js"></script>
+    <script src="js/main.js"></script>
+    <!-- 訪問者カウンター (Firebase) -->
+    <script type="module" src="js/visitor-counter.js"></script>
 </body>
 
 </html>

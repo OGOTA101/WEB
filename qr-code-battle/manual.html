@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>遊び方 - QR Code Battle</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* マニュアル専用スタイル */
+        body {
+            background: #1a1a1a;
+            color: #E0E0E0;
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            display: flex;
+            /* Flexboxで中央揃え */
+            justify-content: center;
+            /* コンテンツを中央へ */
+            min-height: 100vh;
+            /* モバイルブラウザのアドレスバー対策 */
+            min-height: 100dvh;
+        }
+
+        .container {
+            /* ゲーム側の9:16コンテナとは異なり、こちらは読み物ページなので縦長許容するが、
+                デザイン統一のために幅は抑える */
+            width: 100%;
+            max-width: 450px;
+            /* スマホ想定＋余白 */
+            background: #2a2a2a;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* ヘッダー・フッター固定用 */
+            height: 100vh;
+            /* フォールバック */
+            height: 100dvh;
+            /* ダイナミックビューポート */
+            border-left: 1px solid #444;
+            /* PC表示時の境界 */
+            border-right: 1px solid #444;
+        }
+
+        .manual-header {
+            background: #111;
+            padding: 15px;
+            color: #E6B422;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            border-bottom: 2px solid #E6B422;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .btn-close {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .manual-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 80px;
+            /* フッター分 */
+            -webkit-overflow-scrolling: touch;
+            /* スムーズスクロール */
+        }
+
+        h2 {
+            border-left: 4px solid #E6B422;
+            padding-left: 10px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #fff;
+            font-size: 20px;
+        }
+
+        h3 {
+            color: #4A90D9;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        p,
+        li {
+            line-height: 1.6;
+            font-size: 15px;
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+
+        .img-placeholder {
+            width: 100%;
+            height: 120px;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px dashed #555;
+        }
+
+        .highlight {
+            color: #E6B422;
+            font-weight: bold;
+        }
+
+        .class-icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #444;
+            color: #fff;
+            text-align: center;
+            line-height: 24px;
+            border-radius: 4px;
+            margin-right: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #111;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            flex-shrink: 0;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="manual-header">
+            <a href="index.html" class="btn-close">戻る</a>
+            遊び方ガイド
+        </header>
+
+        <div class="manual-content">
+            <p style="text-align: center; color: #aaa;">
+                「凸（TOTSU）」の世界へようこそ。<br>
+                身の回りのQRコードが最強の軍隊になる！？<br>
+                シンプルかつ奥深い戦術バトルのルールを解説します。
+            </p>
+
+            <hr style="border-color: #444; margin: 20px 0;">
+
+            <h2>1. 軍隊を作ろう</h2>
+            <p>
+                まずは戦うための「部隊」が必要です。<br>
+                タイトル画面の<span class="highlight">「スキャン」</span>から生成しましょう。
+            </p>
+
+            <h3>📷 QR画像読み込み（無料）</h3>
+            <p>
+                スマホに保存されているQRコードの画像を読み込むと、そのデータに基づいた軍隊が生成されます。<br>
+                同じ画像からは、世界中どこでも<span class="highlight">全く同じ能力の部隊</span>が生まれます。<br>
+                友達と強いQR画像をシェアし合いましょう！
+            </p>
+
+            <h3>💰 人材発掘（ガチャ）</h3>
+            <p>
+                ゲーム内で獲得したコインを使って、ランダムな部隊を探します。<br>
+                運が良ければ、伝説の「神レア」部隊が見つかるかも…？
+            </p>
+
+            <h2>2. デッキを編成しよう</h2>
+            <p>生成した部隊は「ストック」に保存されます。<br>そこから選抜メンバー4部隊を選んで「デッキ」を組みましょう。</p>
+            <p>
+                デッキ画面等で部隊を<span class="highlight">長押し</span>すると詳細が見れます。
+            </p>
+            <div style="background: #333; padding: 10px; border-radius: 4px;">
+                <strong>⚠️ 編成ルール</strong><br>
+                同じIDの部隊は1体しか組み込めません。<br>
+                「同じ最強QRを4つ並べる」といったズルはできませんよ！
+            </div>
+
+            <h2>3. バトルシステム</h2>
+            <p>
+                戦場はリアルタイムに進行します。<br>
+                敵軍を全滅させれば勝利、自軍が全滅すれば敗北です。
+            </p>
+
+            <h3>基本操作</h3>
+            <ul>
+                <li><strong>移動指示</strong>: 味方ユニットをタップしてから、戦場の行きたい場所をタップします。</li>
+                <li><strong>攻撃</strong>: <span class="highlight">オート攻撃</span>です。射程内に敵が入ると勝手に攻撃します。</li>
+                <li><strong>ターゲット</strong>: 敵を直接タップすると、その敵を追いかけます。</li>
+            </ul>
+
+            <h3>🤖 AUTOモード</h3>
+            <p>
+                画面下の「AUTO OFF」ボタンを押して<span class="highlight">ON</span>にするとAIに操作を任せられます。<br>
+                全軍が自動で最適な敵に向かって進軍します。放置プレイや、操作が忙しい時に活用しましょう。
+            </p>
+
+            <h2>4. 兵種とクラス相性</h2>
+            <p>
+                部隊にはステータスに応じて「クラス（兵種）」があります。<br>
+                3すくみの相性関係を理解して戦いましょう。
+            </p>
+
+            <div>
+                <span class="class-icon" style="color: #4A90D9;">凸̲</span>
+                <strong>騎兵 (Cavalry)</strong><br>
+                <span style="font-size:12px;">足が速い。遠距離兵に一気に近づいて倒すのが得意。</span><br>
+                <span class="highlight">有利: 遠距離 / 不利: 重装</span>
+            </div>
+            <br>
+            <div>
+                <span class="class-icon" style="color: #D95050;">凸→</span>
+                <strong>遠距離 (Range)</strong><br>
+                <span style="font-size:12px;">遠くから攻撃できる。足の遅い重装兵を一方的に狙える。</span><br>
+                <span class="highlight">有利: 重装 / 不利: 騎兵</span>
+            </div>
+            <br>
+            <div>
+                <span class="class-icon" style="color: #D4A853;">回</span>
+                <strong>重装 (Tank)</strong><br>
+                <span style="font-size:12px;">防御力が高い。騎兵の突撃を受け止める壁役。</span><br>
+                <span class="highlight">有利: 騎兵 / 不利: 遠距離</span>
+            </div>
+            <br>
+            <div>
+                <span class="class-icon">凸</span>
+                <strong>歩兵 (Infantry)</strong><br>
+                <span style="font-size:12px;">バランス型。相性の有利不利がない安定戦力。</span>
+            </div>
+            <br>
+            <div>
+                <span class="class-icon" style="color: #9B59B6;">凵</span>
+                <strong>忍 (Special)</strong><br>
+                <span style="font-size:12px;">攻撃力特化の特殊兵。守りは弱いが攻撃は最強。</span>
+            </div>
+
+            <h2>5. 必殺スキル</h2>
+            <p>
+                各ユニットは1戦闘に1回だけスキルを使えます。<br>
+                ユニットを選択中、画面下に現れる<span class="highlight">⚡ボタン</span>を押して発動！
+            </p>
+            <ul>
+                <li><strong>歩兵</strong>: HP回復 (RECOVER)</li>
+                <li><strong>騎兵</strong>: 10秒間、速度3倍 (GOD SPEED)</li>
+                <li><strong>遠距離</strong>: 10秒間、射程2倍 (EAGLE EYE)</li>
+                <li><strong>重装</strong>: 10秒間、鉄壁防御 (IRON WALL)</li>
+                <li><strong>忍</strong>: 次の一撃がダメージ3倍 (DEADLY)</li>
+            </ul>
+
+            <hr style="border-color: #444; margin: 30px 0;">
+
+            <p style="text-align: center;">
+                さあ、あなただけの最強の凸軍団を作り上げ<br>
+                天下統一を目指しましょう！
+            </p>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="index.html" class="action-btn" style="
+                    display: inline-block;
+                    padding: 12px 30px;
+                    background: linear-gradient(135deg, #E6B422, #B8860B);
+                    color: #000;
+                    text-decoration: none;
+                    font-weight: bold;
+                    border-radius: 4px;
+                ">タイトルへ戻る</a>
+            </div>
+        </div>
+
+        <footer class="footer">
+            &copy; 2026 QR Code Battle Project
+        </footer>
+    </div>
+</body>
+
+</html>

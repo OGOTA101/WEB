@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bar-Code Tactics: 凸（TOTSU）</title>
+    <meta name="description" content="バーコードをスキャンして軍隊を生成！凸の軍勢を率いて戦うリアルタイム戦術ゲーム">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- タイトル画面 -->
+        <div id="title-screen" class="screen active">
+            <div class="title-container">
+                <div class="title-logo">
+                    <div class="title-symbol">凸</div>
+                    <h1>Bar-Code Tactics</h1>
+                    <p class="subtitle">TOTSU</p>
+                </div>
+                <div class="menu-buttons">
+                    <button id="btn-campaign" class="menu-btn">
+                        <span class="btn-icon">⚔️</span>
+                        <span class="btn-text">天下統一</span>
+                        <span class="btn-sub">シングルプレイ</span>
+                    </button>
+                    <button id="btn-versus" class="menu-btn" disabled>
+                        <span class="btn-icon">🎮</span>
+                        <span class="btn-text">対戦</span>
+                        <span class="btn-sub">準備中...</span>
+                    </button>
+                    <button id="btn-deck" class="menu-btn">
+                        <span class="btn-icon">📋</span>
+                        <span class="btn-text">編成</span>
+                        <span class="btn-sub">デッキ管理</span>
+                    </button>
+                    <button id="btn-scan" class="menu-btn">
+                        <span class="btn-icon">📱</span>
+                        <span class="btn-text">スキャン</span>
+                        <span class="btn-sub">軍隊生成</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ステージ選択画面 -->
+        <div id="stage-select-screen" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-title" class="back-btn">← 戻る</button>
+                <h2>天下統一</h2>
+            </div>
+            <div class="stage-list" id="stage-list">
+                <!-- JSで動的に生成 -->
+            </div>
+        </div>
+
+        <!-- デッキ編成画面 -->
+        <div id="deck-screen" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-title2" class="back-btn">← 戻る</button>
+                <h2>デッキ編成</h2>
+            </div>
+            <div class="deck-container">
+                <div class="deck-section">
+                    <h3>出撃デッキ（4部隊）</h3>
+                    <div class="deck-slots" id="deck-slots">
+                        <!-- JSで動的に生成 -->
+                    </div>
+                </div>
+                <div class="stock-section">
+                    <h3>ストック</h3>
+                    <div class="stock-list" id="stock-list">
+                        <!-- JSで動的に生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- スキャン画面 -->
+        <div id="scan-screen" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-title3" class="back-btn">← 戻る</button>
+                <h2>スキャン</h2>
+            </div>
+            <div class="scan-container">
+                <div id="reader"></div>
+                <p class="scan-hint">バーコードまたはQRコードをカメラに向けてください</p>
+                <div id="scan-result" class="scan-result hidden">
+                    <!-- スキャン結果表示 -->
+                </div>
+                <!-- テスト用：手動入力 -->
+                <div class="manual-input">
+                    <input type="text" id="manual-barcode" placeholder="バーコード番号を入力（テスト用）">
+                    <button id="btn-manual-generate" class="action-btn">生成</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- バトル画面 -->
+        <div id="battle-screen" class="screen">
+            <div class="battle-header">
+                <div class="enemy-info">
+                    <span id="enemy-name">敵軍</span>
+                    <span id="enemy-remaining">残り: 4/4</span>
+                </div>
+            </div>
+            <canvas id="battle-canvas"></canvas>
+            <div class="battle-footer">
+                <div class="cost-bar">
+                    <span>コスト:</span>
+                    <div class="cost-gauge">
+                        <div id="cost-fill" class="cost-fill"></div>
+                    </div>
+                    <span id="cost-value">5/10</span>
+                </div>
+                <div class="deploy-slots" id="deploy-slots">
+                    <!-- JSで動的に生成 -->
+                </div>
+                <div class="battle-controls">
+                    <button id="btn-pause" class="control-btn">⏸ 一時停止</button>
+                    <button id="btn-surrender" class="control-btn danger">🏳 降参</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果画面 -->
+        <div id="result-screen" class="screen">
+            <div class="result-container">
+                <div id="result-title" class="result-title">勝利！</div>
+                <div id="result-stats" class="result-stats">
+                    <!-- JSで動的に生成 -->
+                </div>
+                <button id="btn-result-ok" class="action-btn large">OK</button>
+            </div>
+        </div>
+
+        <!-- ユニット詳細ポップアップ -->
+        <div id="unit-popup" class="popup hidden">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <span id="popup-unit-name">ユニット名</span>
+                    <button id="btn-close-popup" class="close-btn">×</button>
+                </div>
+                <div class="popup-body" id="popup-unit-stats">
+                    <!-- JSで動的に生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 一時停止オーバーレイ -->
+        <div id="pause-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>一時停止</h2>
+                <button id="btn-resume" class="action-btn">再開</button>
+                <button id="btn-quit-battle" class="action-btn danger">戦闘終了</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/seedrandom.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/generator.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/battle.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

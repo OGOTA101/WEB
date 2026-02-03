@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ドット絵こんばーた - SGGameSite</title>
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="../../shared/css/game-base.css">
+    <style>
+        .pixel-converter-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .controls-panel {
+            width: 300px;
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #d0e0f0;
+            height: fit-content;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group h3 {
+            font-size: 16px;
+            color: #316AC5;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+        }
+
+        .control-group select,
+        .control-group button,
+        #fileInput {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        #fileInput-label {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #fileInput-label:hover {
+            background-color: #316AC5;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+
+        .image-preview-area {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-content: flex-start;
+        }
+
+        .image-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            width: calc(50% - 10px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-card h4 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .image-card canvas {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+
+        .processing-indicator {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            color: #316AC5;
+        }
+
+        /* モーダル表示用のスタイル */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        .modal-images {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .modal-image {
+            max-width: 45%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .image-card {
+            position: relative;
+        }
+
+        .download-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .download-btn:hover {
+            background: #218838;
+        }
+
+        .download-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>🎨 ドット絵こんばーた</h1>
+            <p>画像をアップロードしてドット絵に変換するツールです。</p>
+            <div class="header-controls">
+                <a href="/" class="back-to-top">トップへ戻る</a>
+            </div>
+        </header>
+
+        <div class="pixel-converter-container">
+            <div class="controls-panel">
+                <div class="control-group">
+                    <h3>1. 画像を選択</h3>
+                    <label for="fileInput" id="fileInput-label">ファイルを選択 (複数可)</label>
+                    <input type="file" id="fileInput" multiple accept="image/*">
+                </div>
+
+                <div class="control-group">
+                    <h3>2. 変換設定</h3>
+                    <label for="colorCount">色の数: <span id="colorCountValue">16</span></label>
+                    <input type="range" id="colorCount" min="2" max="64" value="16">
+
+                    <label for="dotSize">ドットの大きさ: <span id="dotSizeValue">2</span></label>
+                    <input type="range" id="dotSize" min="1" max="20" value="2">
+
+                    <label for="dithering">ディザリング:</label>
+                    <select id="dithering">
+                        <option value="none" selected>なし</option>
+                        <option value="floyd-steinberg">Floyd-Steinberg</option>
+                        <option value="bayer">Bayer (Ordered)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <h3>3. 画像調整</h3>
+                    <label for="saturation">彩度を上げる: <span id="saturationValue">弱</span></label>
+                    <input type="range" id="saturation" min="0" max="2" value="1" step="1">
+
+                    <label for="contrast">ハイコントラスト: <span id="contrastValue">弱</span></label>
+                    <input type="range" id="contrast" min="0" max="2" value="1" step="1">
+
+                    <label for="transparentCorner" style="margin-top: 10px;">隅を透過する:</label>
+                    <select id="transparentCorner">
+                        <option value="none" selected>なし</option>
+                        <option value="top-left">左上の色</option>
+                        <option value="top-right">右上の色</option>
+                        <option value="bottom-left">左下の色</option>
+                        <option value="bottom-right">右下の色</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <h3>4. 実行と保存</h3>
+                    <button id="convertBtn">ドット絵に変換</button>
+                    <button id="downloadBtn" style="margin-top: 10px; background-color: #28a745;">一括ダウンロード</button>
+                </div>
+            </div>
+
+            <div class="image-preview-area" id="imagePreviewArea">
+                <div class="processing-indicator" id="processingIndicator">
+                    <p>変換中です...</p>
+                </div>
+                <!-- 画像プレビューがここに追加されます -->
+            </div>
+        </div>
+    </div>
+
+    <!-- モーダル -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modalTitle">画像プレビュー</h3>
+            <div class="modal-images">
+                <div>
+                    <h4>元画像</h4>
+                    <img id="modalOriginal" class="modal-image" src="" alt="元画像">
+                </div>
+                <div>
+                    <h4>変換後</h4>
+                    <img id="modalConverted" class="modal-image" src="" alt="変換後画像">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="pixel-converter.js"></script>
+</body>
+
+</html>

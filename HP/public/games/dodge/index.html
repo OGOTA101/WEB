@@ -335,8 +335,24 @@
         <!-- ヘッダー -->
         <div class="header">
             <div class="header-content">
-                <h1>🎮 SGGameSite</h1>
-                <div class="tagline">無料ゲームサイト</div>
+                <div>
+                    <h1><a href="../../index.html" style="color: white; text-decoration: none;">🎮 SGGameSite</a></h1>
+                    <div class="tagline">Yahoo! Games風レトロゲームサイト</div>
+                </div>
+                <div class="coin-display">
+                    <div class="coin-item" title="ゴールドコイン">
+                        <span class="coin-icon coin-gold"></span>
+                        <span id="gold-count">0</span>
+                    </div>
+                    <div class="coin-item" title="シルバーコイン">
+                        <span class="coin-icon coin-silver"></span>
+                        <span id="silver-count">0</span>
+                    </div>
+                    <div class="coin-item" title="ブロンズコイン">
+                        <span class="coin-icon coin-bronze"></span>
+                        <span id="bronze-count">0</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -509,13 +525,30 @@
                 <a href="../../index.html">← ゲーム一覧に戻る</a>
             </div>
         </div>
+
+        <!-- フッター -->
+        <footer class="footer">
+            &copy; 2024 SGGameSite - Yahoo! Games風レトロゲームサイト | 軽量・高速・シンプル
+        </footer>
     </div>
+
+    <!-- コインシステム -->
+    <script src="../../js/coin-system.js"></script>
 
     <!-- 共通フレームワーク -->
     <script src="../../shared/js/game-framework.js"></script>
 
     <!-- ゲーム固有スクリプト -->
     <script src="dodge-game.js"></script>
+    
+    <!-- コインシステム初期化 -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof CoinSystem !== 'undefined') {
+                window.coinSystem = new CoinSystem();
+            }
+        });
+    </script>
 </body>
 
 </html>

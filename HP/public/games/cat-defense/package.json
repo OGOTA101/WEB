@@ -1,0 +1,19 @@
+{
+    "name": "cat-defense",
+    "version": "1.0.0",
+    "description": "ネズミ狩りの夜 - Cat Defense Game",
+    "main": "index.html",
+    "scripts": {
+        "serve": "npx serve -p 5500",
+        "deploy": "firebase deploy"
+    },
+    "keywords": [
+        "game",
+        "defense",
+        "cat",
+        "mouse",
+        "pixel-art"
+    ],
+    "author": "SGGame",
+    "license": "MIT"
+}

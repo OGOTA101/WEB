@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="skyGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#1a1a3a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0a1a;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="100" cy="100" r="90" fill="url(#skyGrad)" stroke="#aa88ff" stroke-width="2"/>
+  
+  <!-- Cat Silhouette -->
+  <path d="M70 130 Q60 100 80 80 L70 50 L90 60 L110 60 L130 50 L120 80 Q140 100 130 130 Z" fill="#333"/>
+  <circle cx="90" cy="90" r="5" fill="#ffd700"/>
+  <circle cx="110" cy="90" r="5" fill="#ffd700"/>
+  
+  <!-- Items -->
+  <!-- Hat -->
+  <path d="M80 60 L120 60 L110 40 L90 40 Z" fill="#ff55aa" stroke="white" stroke-width="1"/>
+  <!-- Ribbon -->
+  <path d="M90 120 L110 120 L115 130 L85 130 Z" fill="#55ffff" stroke="white" stroke-width="1"/>
+  <circle cx="100" cy="120" r="5" fill="#ff5555"/>
+  
+  <!-- Aura -->
+  <circle cx="100" cy="90" r="60" fill="none" stroke="#ffd700" stroke-width="2" stroke-dasharray="5,5">
+    <animateTransform attributeName="transform" type="rotate" from="0 100 90" to="360 100 90" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Sparkles -->
+  <text x="50" y="60" font-size="20" fill="yellow">✨</text>
+  <text x="150" y="100" font-size="20" fill="yellow">✨</text>
+  
+  <!-- Text -->
+  <text x="100" y="160" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">集めた星でガチャ！</text>
+  <text x="100" y="180" font-family="Arial, sans-serif" font-size="12" fill="#aaaaff" text-anchor="middle">お洒落して有利に進もう</text>
+</svg>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>星空さんぽ | Starry Cat</title>
+    <meta name="description" content="眠れない夜は、星を集めて。猫と星空のアクションゲーム。">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- 背景レイヤー (パララックス用) -->
+        <div id="bg-container">
+            <div id="bg-sky" class="bg-layer"></div>
+            <div id="bg-stars" class="bg-layer"></div>
+            <div id="bg-clouds" class="bg-layer"></div>
+        </div>
+
+        <!-- カメラ移動用ワールド -->
+        <div id="world-camera">
+
+            <!-- 中央: ホーム -->
+            <section id="scene-home" class="scene">
+                <div class="scene-content">
+                    <h1 class="title-logo">星空さんぽ</h1>
+                    <div class="tap-guide">
+                        <span>↑ ガチャ</span><br>
+                        <span>← おめかし・START ・記録 →</span><br>
+                        <span>↓ エンドレス</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 右: 通常ゲーム -->
+            <section id="scene-game" class="scene">
+                <div class="scene-content">
+                    <div id="game-area">
+                        <!-- 星はCanvasまたはDOMでここに生成 -->
+                        <canvas id="game-canvas"></canvas>
+                        <div id="start-trigger" class="interactive-star">★ はじめる</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 左: おめかし (装備) -->
+            <section id="scene-equip" class="scene">
+                <div class="scene-content">
+                    <h2>おめかし</h2>
+                    <div class="equip-list">
+                        <!-- JSで生成 -->
+                    </div>
+                    <button class="back-btn">もどる (右へ)</button>
+                </div>
+            </section>
+
+            <!-- 上: ガチャ -->
+            <section id="scene-gacha" class="scene">
+                <div class="scene-content">
+                    <h2>流れ星にお願い</h2>
+                    <div class="gacha-pedestal">
+                        <div class="star-cost">所持スター: <span id="star-wallet">0</span></div>
+                        <button id="btn-gacha-spin">星を100個ささげる</button>
+                    </div>
+                    <button class="back-btn">もどる (下へ)</button>
+                </div>
+            </section>
+
+            <!-- 下: エンドレス -->
+            <section id="scene-endless" class="scene">
+                <div class="scene-content">
+                    <h2>ずっとあつめる</h2>
+                    <p>スタミナを気にせずリラックス。</p>
+                    <div id="start-endless-trigger" class="interactive-star">★ ずっとあつめる</div>
+                    <button class="back-btn">もどる (上へ)</button>
+                </div>
+            </section>
+
+            <!-- さらに右: クレジット -->
+            <section id="scene-credit" class="scene">
+                <div class="scene-content">
+                    <h2>星座の記録</h2>
+                    <p>Designed by AntiGravity</p>
+                    <p>Powered by SpiralGearr</p>
+                    <button class="back-btn" data-dir="left">もどる</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- 猫レイヤー (常に手前・追従) -->
+        <div id="cat-layer">
+            <img src="assets/images/cat_base.png" id="cat-img" alt="Cat">
+            <div id="cat-accessories"></div>
+            <div id="stamina-aura"></div>
+        </div>
+
+        <!-- UIオーバーレイ (共通) -->
+        <div id="ui-overlay">
+            <button id="btn-pause">||</button>
+            <div id="pause-modal" class="hidden">
+                <div class="modal-content">
+                    <p>ちょっと休憩</p>
+                    <button id="btn-resume">つづける</button>
+                    <button id="btn-quit">おうちに帰る</button>
+                </div>
+            </div>
+            <div id="result-modal" class="hidden">
+                <div class="modal-content">
+                    <h2 id="result-title">おやすみなさい</h2>
+                    <p>あつめた星</p>
+                    <p id="result-score" class="score-text">0</p>
+                    <button id="btn-result-ok">ホームへ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script> <!-- アイテムデータ等 -->
+    <script src="js/view.js"></script> <!-- 描画・演出 -->
+    <script src="js/game.js"></script> <!-- ゲームロジック -->
+    <script src="js/background.js"></script> <!-- 背景エフェクト -->
+    <script src="js/main.js"></script> <!-- エントリーポイント -->
+</body>
+
+</html>

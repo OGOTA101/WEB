@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>QR Code Battle: 凸（TOTSU）</title>
+    <meta name="description" content="QRコードをスキャンして軍隊を生成！凸の軍勢を率いて戦うリアルタイム戦術ゲーム">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- コインバー (常時表示・上部固定) -->
+        <div class="coin-bar">
+            <span>所持金: </span>
+            <span id="common-coin-display" style="margin-left: 8px;">
+                💰 <span id="coin-amount">0</span> G
+            </span>
+        </div>
+
+        <!-- タイトル画面 -->
+        <div id="title-screen" class="screen active">
+            <div class="title-container">
+                <div class="title-logo">
+                    <div class="title-symbol">凸</div>
+                    <h1>QR Code Battle</h1>
+                    <p class="subtitle">TOTSU</p>
+                </div>
+                <div class="menu-buttons">
+                    <button id="btn-campaign" class="menu-btn">
+                        <span class="btn-icon">⚔️</span>
+                        <span class="btn-text">天下統一</span>
+                        <span class="btn-sub">シングルプレイ</span>
+                    </button>
+                    <button id="btn-versus" class="menu-btn">
+                        <span class="btn-icon">🎮</span>
+                        <span class="btn-text">対戦</span>
+                        <span class="btn-sub">通信対戦</span>
+                    </button>
+                    <button id="btn-deck" class="menu-btn">
+                        <span class="btn-icon">📋</span>
+                        <span class="btn-text">編成</span>
+                        <span class="btn-sub">デッキ管理</span>
+                    </button>
+                    <button id="btn-scan" class="menu-btn">
+                        <span class="btn-icon">📱</span>
+                        <span class="btn-text">スキャン</span>
+                        <span class="btn-sub">軍隊生成</span>
+                    </button>
+                    <button id="btn-manual" class="menu-btn">
+                        <span class="btn-icon">📖</span>
+                        <span class="btn-text">遊び方</span>
+                        <span class="btn-sub">ルール説明</span>
+                    </button>
+                </div>
+            </div>
+            <div id="app-version"
+                style="position: absolute; bottom: 5px; right: 5px; color: #666; font-size: 10px; font-family: monospace;">
+            </div>
+        </div>
+
+        <!-- ステージ選択画面 -->
+        <div id="stage-select-screen" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-title" class="back-btn">← 戻る</button>
+                <h2>天下統一</h2>
+            </div>
+            <div class="stage-list" id="stage-list">
+                <!-- JSで動的に生成 -->
+            </div>
+        </div>
+
+        <!-- 対戦ロビー画面 -->
+        <div id="pvp-lobby-screen" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-pvp" class="back-btn">← 戻る</button>
+                <h2>通信対戦</h2>
+            </div>
+            <div style="padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <p>全国のプレイヤーとリアルタイム対戦！</p>
+                    <p style="font-size: 12px; color: #aaa;">勝利: 500G / 敗北: 100G</p>
+                </div>
+
+                <div style="width: 100%; max-width: 300px;">
+                    <button id="btn-match-random" class="action-btn large" style="width: 100%; margin-bottom: 30px;">
+                        ランダムマッチ
+                    </button>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
+                        <h3 style="font-size: 14px; margin-bottom: 10px;">合言葉マッチ</h3>
+                        <input type="text" id="match-password" placeholder="合言葉を入力"
+                            style="width: 100%; padding: 10px; margin-bottom: 10px; background: #333; color: white; border: 1px solid #555;">
+                        <button id="btn-match-password" class="action-btn" style="width: 100%;">入室 / 作成</button>
+                    </div>
+                </div>
+
+                <div id="match-status" class="hidden"
+                    style="margin-top: 20px; color: var(--accent-gold); font-weight: bold; animation: pulse 1s infinite;">
+                    対戦相手を探しています...
+                </div>
+            </div>
+        </div>
+
+        <!-- デッキ編成画面 -->
+        <div id="deck-screen" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-title2" class="back-btn">← 戻る</button>
+                <h2>デッキ編成</h2>
+            </div>
+            <div class="deck-container">
+                <div class="deck-section">
+                    <h3>出撃デッキ（4部隊）</h3>
+                    <div class="deck-slots" id="deck-slots">
+                        <!-- JSで動的に生成 -->
+                    </div>
+                </div>
+                <div class="stock-section">
+                    <h3>ストック</h3>
+                    <div class="stock-list" id="stock-list">
+                        <!-- JSで動的に生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- スキャン画面 -->
+        <div id="scan-screen" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-scan" class="back-btn">← 戻る</button>
+                <h2>部隊生成</h2>
+            </div>
+
+            <div class="scan-container">
+                <!-- コインガチャ -->
+                <div class="gacha-section"
+                    style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; width: 100%; max-width: 300px;">
+                    <h3 style="margin-top:0; color: var(--accent-gold);">人材発掘（ガチャ）</h3>
+                    <p style="font-size: 14px; margin-bottom: 10px;">コインを消費して強力なユニットを探します。</p>
+                    <button id="btn-gacha" class="action-btn large"
+                        style="background: linear-gradient(135deg, #FFD700, #DAA520); color: #000; font-weight: bold; width: 100%;">
+                        発掘する (100G)
+                    </button>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #555; width: 100%; margin: 10px 0;">
+
+                <!-- 画像読み込みQR -->
+                <div class="image-scan-section" style="width: 100%; max-width: 300px; text-align: center;">
+                    <h3>QR画像読み込み</h3>
+                    <p style="font-size: 12px; color: #aaa; margin-bottom: 15px;">保存されたQRコード画像から生成</p>
+
+                    <input type="file" id="qr-input-file" accept="image/*" class="hidden">
+                    <button id="btn-scan-image" class="action-btn"
+                        style="background: #4A90D9; width: 100%; padding: 20px 0; font-size: 16px;">
+                        📷 画像を選択してスキャン
+                    </button>
+                    <p style="font-size: 10px; color: #888; margin-top: 8px;">※コイン消費なし</p>
+                    <p id="qr-scan-error"
+                        style="color: #ff4444; font-size: 14px; margin-top: 15px; font-weight: bold; min-height: 20px; display: none;">
+                    </p>
+                </div>
+
+                <!-- 結果表示エリア -->
+                <div id="scan-result" class="scan-result hidden">
+                    <!-- JSで挿入 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 遊び方（マニュアル）画面 -->
+        <div id="manual-screen" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-manual" class="back-btn">← 戻る</button>
+                <h2>遊び方ガイド</h2>
+            </div>
+            <div class="manual-container" style="flex: 1; overflow-y: auto; padding: 20px;">
+                <p style="text-align: center; color: #aaa; margin-bottom: 20px;">
+                    「凸（TOTSU）」の世界へようこそ。<br>
+                    身の回りのQRコードが最強の軍隊になる！？<br>
+                    シンプルかつ奥深い戦術バトルのルールを解説します。
+                </p>
+
+                <hr style="border-color: #444; margin: 20px 0;">
+
+                <h3
+                    style="color: var(--text-primary); border-left: 4px solid var(--accent-gold); padding-left: 10px; margin-top: 30px; margin-bottom: 15px;">
+                    1. 軍隊を作ろう</h3>
+                <p style="color: #ccc; line-height: 1.6; font-size: 14px;">
+                    まずは戦うための「部隊」が必要です。<br>
+                    タイトル画面の<span style="color: var(--accent-gold); font-weight: bold;">「スキャン」</span>から生成しましょう。
+                </p>
+
+                <h4 style="color: var(--accent-blue); margin-top: 20px; margin-bottom: 10px; font-size: 16px;">📷
+                    QR画像読み込み（無料）</h4>
+                <p style="color: #ccc; line-height: 1.6; font-size: 14px;">
+                    スマホに保存されているQRコードの画像を読み込むと、そのデータに基づいた軍隊が生成されます。<br>
+                    同じ画像からは、世界中どこでも<span
+                        style="color: var(--accent-gold); font-weight: bold;">全く同じ能力の部隊</span>が生まれます。<br>
+                    友達と強いQR画像をシェアし合いましょう！
+                </p>
+
+                <h4 style="color: var(--accent-blue); margin-top: 20px; margin-bottom: 10px; font-size: 16px;">💰
+                    人材発掘（ガチャ）</h4>
+                <p style="color: #ccc; line-height: 1.6; font-size: 14px;">
+                    ゲーム内で獲得したコインを使って、ランダムな部隊を探します。<br>
+                    運が良ければ、伝説の「神レア」部隊が見つかるかも…？
+                </p>
+
+                <h3
+                    style="color: var(--text-primary); border-left: 4px solid var(--accent-gold); padding-left: 10px; margin-top: 30px; margin-bottom: 15px;">
+                    2. デッキを編成しよう</h3>
+                <p style="color: #ccc; line-height: 1.6; font-size: 14px;">
+                    生成した部隊は「ストック」に保存されます。<br>そこから選抜メンバー4部隊を選んで「デッキ」を組みましょう。</p>
+                <p style="color: #ccc; line-height: 1.6; font-size: 14px;">
+                    デッキ画面等で部隊を<span style="color: var(--accent-gold); font-weight: bold;">タップ</span>すると詳細が見れます。
+                </p>
+                <div
+                    style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; margin-top: 10px; color: #ccc; font-size: 13px;">
+                    <strong>⚠️ 編成ルール</strong><br>
+                    同じIDの部隊は1体しか組み込めません。<br>
+                    「同じ最強QRを4つ並べる」といったズルはできませんよ！
+                </div>
+
+                <h3
+                    style="color: var(--text-primary); border-left: 4px solid var(--accent-gold); padding-left: 10px; margin-top: 30px; margin-bottom: 15px;">
+                    3. バトルシステム</h3>
+                <p style="color: #ccc; line-height: 1.6; font-size: 14px;">
+                    戦場はリアルタイムに進行します。<br>
+                    敵軍を全滅させれば勝利、自軍が全滅すれば敗北です。
+                </p>
+
+                <h4 style="color: var(--accent-blue); margin-top: 20px; margin-bottom: 10px; font-size: 16px;">基本操作</h4>
+                <ul style="color: #ccc; line-height: 1.6; font-size: 14px; padding-left: 20px;">
+                    <li style="margin-bottom: 5px;"><strong>移動指示</strong>: 味方ユニットをタップしてから、戦場の行きたい場所をタップします。</li>
+                    <li style="margin-bottom: 5px;"><strong>攻撃</strong>: <span
+                            style="color: var(--accent-gold); font-weight: bold;">オート攻撃</span>です。射程内に敵が入ると勝手に攻撃します。</li>
+                    <li style="margin-bottom: 5px;"><strong>ターゲット</strong>: 敵を直接タップすると、その敵を追いかけます。</li>
+                </ul>
+
+                <h4 style="color: var(--accent-blue); margin-top: 20px; margin-bottom: 10px; font-size: 16px;">🤖
+                    AUTOモード</h4>
+                <p style="color: #ccc; line-height: 1.6; font-size: 14px;">
+                    画面下の「AUTO OFF」ボタンを押して<span
+                        style="color: var(--accent-gold); font-weight: bold;">ON</span>にするとAIに操作を任せられます。<br>
+                    全軍が自動で最適な敵に向かって進軍します。放置プレイや、操作が忙しい時に活用しましょう。
+                </p>
+
+                <h3
+                    style="color: var(--text-primary); border-left: 4px solid var(--accent-gold); padding-left: 10px; margin-top: 30px; margin-bottom: 15px;">
+                    4. 兵種とクラス相性</h3>
+                <p style="color: #ccc; line-height: 1.6; font-size: 14px;">
+                    部隊にはステータスに応じて「クラス（兵種）」があります。<br>
+                    3すくみの相性関係を理解して戦いましょう。
+                </p>
+
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #FFF;">騎兵 (Cavalry)</strong><br>
+                    <span style="font-size:12px; color: #aaa;">足が速い。遠距離兵に一気に近づいて倒すのが得意。</span><br>
+                    <span style="color: var(--accent-gold); font-size: 12px; font-weight: bold;">有利: 遠距離 / 不利: 重装</span>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #FFF;">遠距離 (Range)</strong><br>
+                    <span style="font-size:12px; color: #aaa;">遠くから攻撃できる。足の遅い重装兵を一方的に狙える。</span><br>
+                    <span style="color: var(--accent-gold); font-size: 12px; font-weight: bold;">有利: 重装 / 不利: 騎兵</span>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #FFF;">重装 (Tank)</strong><br>
+                    <span style="font-size:12px; color: #aaa;">防御力が高い。騎兵の突撃を受け止める壁役。</span><br>
+                    <span style="color: var(--accent-gold); font-size: 12px; font-weight: bold;">有利: 騎兵 / 不利: 遠距離</span>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #FFF;">歩兵 (Infantry)</strong><br>
+                    <span style="font-size:12px; color: #aaa;">バランス型。相性の有利不利がない安定戦力。</span>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #FFF;">忍 (Special)</strong><br>
+                    <span style="font-size:12px; color: #aaa;">攻撃力特化の特殊兵。守りは弱いが攻撃は最強。</span>
+                </div>
+
+                <h3
+                    style="color: var(--text-primary); border-left: 4px solid var(--accent-gold); padding-left: 10px; margin-top: 30px; margin-bottom: 15px;">
+                    5. 必殺スキル</h3>
+                <p style="color: #ccc; line-height: 1.6; font-size: 14px;">
+                    各ユニットは1戦闘に1回だけスキルを使えます。<br>
+                    ユニットを選択中、画面下に現れる<span style="color: var(--accent-gold); font-weight: bold;">⚡ボタン</span>を押して発動！
+                </p>
+                <ul style="color: #ccc; line-height: 1.6; font-size: 14px; padding-left: 20px;">
+                    <li><strong>歩兵</strong>: HP回復 (RECOVER)</li>
+                    <li><strong>騎兵</strong>: 10秒間、速度3倍 (GOD SPEED)</li>
+                    <li><strong>遠距離</strong>: 10秒間、射程2倍 (EAGLE EYE)</li>
+                    <li><strong>重装</strong>: 10秒間、鉄壁防御 (IRON WALL)</li>
+                    <li><strong>忍</strong>: 次の一撃がダメージ3倍 (DEADLY)</li>
+                </ul>
+
+                <hr style="border-color: #444; margin: 30px 0;">
+
+                <p style="text-align: center; color: #FFF; margin-bottom: 40px;">
+                    さあ、あなただけの最強の凸軍団を作り上げ<br>
+                    天下統一を目指しましょう！
+                </p>
+            </div>
+        </div>
+
+
+        <!-- バトル画面 -->
+        <div id="battle-screen" class="screen">
+            <div class="battle-header">
+                <div class="enemy-info">
+                    <span id="enemy-name">敵軍</span>
+                    <span id="enemy-remaining">残り: 4/4</span>
+                </div>
+            </div>
+            <canvas id="battle-canvas"></canvas>
+
+            <!-- スキルボタン（絶対配置） -->
+            <button id="btn-skill" class="skill-btn hidden">⚡ スキル発動</button>
+
+            <div class="battle-footer">
+                <div id="unit-status-container" class="unit-status-container">
+                    <!-- JSで動的に生成 (4つの自軍ステータス) -->
+                </div>
+                <div class="battle-controls">
+                    <button id="btn-auto-toggle" class="control-btn">AUTO OFF</button>
+                    <button id="btn-pause" class="control-btn">⏸ 一時停止</button>
+                    <button id="btn-surrender" class="control-btn danger">🏳 降参</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果画面 -->
+        <div id="result-screen" class="screen">
+            <div class="result-container">
+                <div id="result-title" class="result-title">勝利！</div>
+                <div id="result-stats" class="result-stats">
+                    <!-- JSで動的に生成 -->
+                </div>
+                <button id="btn-result-ok" class="action-btn large">OK</button>
+            </div>
+        </div>
+
+        <!-- ユニット詳細ポップアップ -->
+        <div id="unit-popup" class="popup hidden">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <span id="popup-unit-name">ユニット名</span>
+                    <button id="btn-close-popup" class="close-btn">×</button>
+                </div>
+                <div class="popup-body" id="popup-unit-stats">
+                    <!-- JSで動的に生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- グローバルフッター -->
+        <footer class="app-footer">
+            <div class="sound-settings-footer">
+                <div class="vol-group">
+                    <span class="vol-label">🎵 BGM</span>
+                    <input type="range" id="vol-bgm" min="0" max="1" step="0.1" value="0.3">
+                </div>
+                <div class="vol-group">
+                    <span class="vol-label">🔊 SE</span>
+                    <input type="range" id="vol-se" min="0" max="1" step="0.1" value="0.5">
+                </div>
+            </div>
+        </footer>
+
+        <!-- 一時停止オーバーレイ -->
+        <div id="pause-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>一時停止</h2>
+                <button id="btn-resume" class="action-btn">再開</button>
+            </div>
+        </div>
+
+        <!-- 汎用確認ダイアログ -->
+        <div id="confirm-dialog" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 id="confirm-message">確認</h2>
+                <div class="overlay-buttons">
+                    <button id="btn-confirm-yes" class="action-btn danger">はい</button>
+                    <button id="btn-confirm-no" class="action-btn">いいえ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 汎用アラートダイアログ -->
+        <div id="alert-dialog" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 id="alert-message">メッセージ</h2>
+                <div class="overlay-buttons">
+                    <button id="btn-alert-ok" class="action-btn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script src="lib/html5-qrcode.min.js"></script>
+    <script src="js/seedrandom.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/scanner.js"></script>
+    <script src="js/generator.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/network.js"></script>
+    <script src="js/battle.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

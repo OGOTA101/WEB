@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Deep Dive Survival - 深海サバイバル</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- 上部 HUD -->
+        <div id="hud-top">
+            <div class="hud-item">
+                <span class="icon">🏆</span>
+                <span id="score-display">0</span>
+            </div>
+            <div class="hud-item">
+                <span class="icon">📏</span>
+                <span id="depth-display">0m</span>
+            </div>
+            <div class="hud-item">
+                <span class="icon">👥</span>
+                <span id="player-count">1</span>
+            </div>
+        </div>
+
+        <!-- ゲームキャンバス -->
+        <canvas id="game-canvas"></canvas>
+
+        <!-- スタート画面オーバーレイ -->
+        <div id="start-screen" class="overlay">
+            <div class="overlay-content">
+                <h1>🌊 Deep Dive Survival</h1>
+                <p>深海を目指せ！協力サバイバル</p>
+                <div class="controls-info">
+                    <p>👈 左タップ: 左移動</p>
+                    <p>👉 右タップ: 右移動</p>
+                    <p>👆 長押し: 浮上</p>
+                    <p>👇 スワイプ: 攻撃</p>
+                </div>
+                <button id="start-btn" class="primary-btn">潜水開始</button>
+            </div>
+        </div>
+
+        <!-- ゲームオーバー画面 -->
+        <div id="game-over-screen" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 id="game-over-title">GAME OVER</h2>
+                <div class="result-stats">
+                    <p>到達深度: <span id="result-depth">0</span>m</p>
+                    <p>スコア: <span id="result-score">0</span></p>
+                </div>
+                <button id="restart-btn" class="primary-btn">再挑戦</button>
+                <button onclick="location.href='/index.html'" class="secondary-btn">ホームへ戻る</button>
+            </div>
+        </div>
+
+        <!-- 下部 HUD -->
+        <div id="hud-bottom">
+            <div class="status-bars">
+                <!-- HP -->
+                <div class="hp-container" id="hp-display">
+                    ❤️❤️❤️
+                </div>
+                <!-- 酸素 -->
+                <div class="oxygen-bar-container">
+                    <div class="label">O₂</div>
+                    <div class="bar-bg">
+                        <div id="oxygen-bar" class="bar-fill" style="width: 100%;"></div>
+                    </div>
+                    <span id="oxygen-text">100%</span>
+                </div>
+            </div>
+            <!-- 弾薬 -->
+            <div class="ammo-display">
+                <span class="icon">🔫</span>
+                <span id="ammo-count">30</span>
+            </div>
+        </div>
+
+        <!-- タッチコントローラー（視覚補助） -->
+        <div id="touch-controls">
+            <div id="left-zone" class="touch-zone"></div>
+            <div id="right-zone" class="touch-zone"></div>
+        </div>
+    </div>
+
+    <!-- 設定ファイル読み込み -->
+    <script src="game-config.js"></script>
+    <!-- メインスクリプト -->
+    <script src="deepsea-script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+[debug] [2026-01-25T17:28:35.081Z] ----------------------------------------------------------------------
+[debug] [2026-01-25T17:28:35.083Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ihogo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2026-01-25T17:28:35.083Z] CLI Version:   15.0.0
+[debug] [2026-01-25T17:28:35.083Z] Platform:      win32
+[debug] [2026-01-25T17:28:35.084Z] Node Version:  v24.11.1
+[debug] [2026-01-25T17:28:35.084Z] Time:          Mon Jan 26 2026 02:28:35 GMT+0900 (日本標準時)
+[debug] [2026-01-25T17:28:35.084Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-01-25T17:28:36.316Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-25T17:28:36.316Z] > authorizing via signed-in user (ogotama@gmail.com)
+[debug] [2026-01-25T17:28:36.317Z] [iam] checking project cat-defense-game for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-01-25T17:28:36.317Z] Checked if tokens are valid: false, expires at: 1769361848907
+[debug] [2026-01-25T17:28:36.317Z] Checked if tokens are valid: false, expires at: 1769361848907
+[debug] [2026-01-25T17:28:36.318Z] > refreshing access token with scopes: []
+[debug] [2026-01-25T17:28:36.319Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-01-25T17:28:36.319Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-25T17:28:36.432Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-01-25T17:28:36.432Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-25T17:28:36.438Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/cat-defense-game:testIamPermissions [none]
+[debug] [2026-01-25T17:28:36.438Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/cat-defense-game:testIamPermissions x-goog-quota-user=projects/cat-defense-game
+[debug] [2026-01-25T17:28:36.438Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cat-defense-game:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-01-25T17:28:37.165Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/cat-defense-game:testIamPermissions 200
+[debug] [2026-01-25T17:28:37.165Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cat-defense-game:testIamPermissions {}
+[debug] [2026-01-25T17:28:37.165Z] [iam] error while checking permissions, command may fail: Authorization failed. This account is missing the following required permissions on project cat-defense-game:
+
+  firebase.projects.get
+  firebasehosting.sites.update
+[debug] [2026-01-25T17:28:37.166Z] Checked if tokens are valid: true, expires at: 1769365715432
+[debug] [2026-01-25T17:28:37.166Z] Checked if tokens are valid: true, expires at: 1769365715432
+[debug] [2026-01-25T17:28:37.166Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cat-defense-game [none]
+[debug] [2026-01-25T17:28:37.714Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cat-defense-game 403
+[debug] [2026-01-25T17:28:37.714Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cat-defense-game {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-01-25T17:28:37.715Z] Request to https://firebase.googleapis.com/v1beta1/projects/cat-defense-game had HTTP Error: 403, The caller does not have permission
+[debug] [2026-01-25T17:28:37.783Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/cat-defense-game had HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\ihogo\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:53:12)
+    at RetryOperation._fn (C:\Users\ihogo\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:322:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+[error] 
+[error] Error: Failed to get Firebase project cat-defense-game. Please make sure the project exists and your account has permission to access it.

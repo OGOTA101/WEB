@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>SFミッション: 協力シューティング</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- フォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- 背景レイヤー -->
+        <div id="stars-bg"></div>
+
+        <!-- ゲームキャンバス -->
+        <canvas id="game-canvas"></canvas>
+
+        <!-- UIレイヤー -->
+        <div id="ui-layer">
+            <div class="hud top-left">
+                <div class="score-box">
+                    <span class="label">スコア</span>
+                    <span id="score-display">0</span>
+                </div>
+            </div>
+
+            <div class="hud top-right">
+                <div class="status-box">
+                    <span class="label">オンライン</span>
+                    <span id="online-count">1</span>
+                </div>
+            </div>
+
+            <div class="hud bottom-left">
+                <div class="hp-bar-container">
+                    <div class="label">シールド残量</div>
+                    <div class="hp-bar">
+                        <div id="hp-fill" style="width: 100%;"></div>
+                    </div>
+                    <div id="hp-text">100%</div>
+                </div>
+            </div>
+
+            <!-- パワーアップ状態 -->
+            <div class="hud bottom-right">
+                <div class="powerup-container">
+                    <div class="label">パワーアップ</div>
+                    <div id="powerup-status">
+                        <div class="powerup-none">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 接続状態 -->
+            <div id="connection-status" class="connecting">
+                サーバーに接続中...
+            </div>
+        </div>
+
+        <!-- スクリーン -->
+
+        <!-- スタート画面 -->
+        <div id="start-screen" class="screen active">
+            <div class="screen-content">
+                <h1 class="game-title">SF ミッション<br><span class="subtitle">協力シューティング</span></h1>
+                <div class="input-group">
+                    <label>パイロット名</label>
+                    <input type="text" id="player-name-input" placeholder="コールサイン" maxlength="12">
+                </div>
+                <button id="start-btn" class="neon-btn">ミッション開始</button>
+                <p class="instructions">
+                    タップで移動 • 停止で射撃<br>
+                    仲間と協力して戦え！
+                </p>
+            </div>
+        </div>
+
+        <!-- ゲームオーバー画面 -->
+        <div id="game-over-screen" class="screen hidden">
+            <div class="screen-content">
+                <h2 class="status-red">ミッション失敗</h2>
+                <div class="final-score">
+                    スコア: <span id="final-score">0</span>
+                </div>
+                <p class="respawn-timer">システム再起動まで <span id="respawn-count">5</span>秒</p>
+            </div>
+        </div>
+
+        <!-- ローディング画面 -->
+        <div id="loading-screen" class="screen hidden">
+            <div class="loader-content">
+                <div class="spinner"></div>
+                <p>アセット読み込み中...</p>
+            </div>
+        </div>
+    </div>
+    <!-- ゲーム設定ファイル -->
+    <script src="game-config.js"></script>
+    <script src="shooting-script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+{
+    "name": "deepsea-firebase",
+    "version": "0.1.0",
+    "description": "ディープダイブ サバイバル - オンライン協力型深海潜水サバイバルゲーム",
+    "main": "index.html",
+    "scripts": {
+        "start": "firebase serve",
+        "deploy": "firebase deploy"
+    },
+    "keywords": [
+        "game",
+        "multiplayer",
+        "firebase",
+        "deep-sea",
+        "survival"
+    ],
+    "author": "SPIRAL GEAR GAME",
+    "license": "MIT"
+}

@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="../../shared/css/common.css">
     <link rel="stylesheet" href="../../shared/css/game-base.css">
 
-    <!-- Phaser.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
-
     <!-- 音響システム -->
     <script src="../../shared/js/audio-system.js"></script>
 
@@ -19,12 +16,6 @@
         .game-title {
             color: #00ffff;
             text-shadow: 2px 2px 4px rgba(0, 255, 255, 0.3);
-        }
-
-        #game-area {
-            border: 3px solid #00ffff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-            background: #000;
         }
 
         .btn {
@@ -190,8 +181,24 @@
         <!-- ヘッダー -->
         <header class="header">
             <div class="header-content">
-                <h1 class="site-title">🎮 SGGameSite</h1>
-                <p class="site-subtitle">無料ゲームサイト</p>
+                <div>
+                    <h1 class="site-title"><a href="../../index.html" style="color: white; text-decoration: none;">🎮 SGGameSite</a></h1>
+                    <p class="site-subtitle">Yahoo! Games風レトロゲームサイト</p>
+                </div>
+                <div class="coin-display">
+                    <div class="coin-item" title="ゴールドコイン">
+                        <span class="coin-icon coin-gold"></span>
+                        <span id="gold-count">0</span>
+                    </div>
+                    <div class="coin-item" title="シルバーコイン">
+                        <span class="coin-icon coin-silver"></span>
+                        <span id="silver-count">0</span>
+                    </div>
+                    <div class="coin-item" title="ブロンズコイン">
+                        <span class="coin-icon coin-bronze"></span>
+                        <span id="bronze-count">0</span>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -249,14 +256,14 @@
         </div>
 
         <!-- ゲーム画面 -->
-        <div class="game-area">
-            <div id="game-area"></div>
+        <div class="game-area" style="text-align: center; margin: 20px 0;">
+            <canvas id="game-canvas" style="border: 3px solid #00ffff; background: #000; display: block; margin: 0 auto; max-width: 100%;"></canvas>
         </div>
 
         <!-- モバイルコントロール -->
         <div class="mobile-controls">
             <button id="leftBtn" class="btn">⬅️</button>
-            <button id="fireBtn" class="btn btn-large">🔥 発射</button>
+            <button id="shootBtn" class="btn btn-large">🔥 発射</button>
             <button id="rightBtn" class="btn">➡️</button>
         </div>
 
@@ -310,9 +317,24 @@
             <p>侵略者に敗北しました...</p>
             <button id="restartBtn" class="btn btn-large">🔄 もう一度</button>
         </div>
+
+        <!-- フッター -->
+        <footer class="footer">
+            &copy; 2024 SGGameSite - Yahoo! Games風レトロゲームサイト | 軽量・高速・シンプル
+        </footer>
     </div>
 
+    <!-- コインシステム -->
+    <script src="../../js/coin-system.js"></script>
+
     <script src="space-invaders.js"></script>
+    
+    <!-- コインシステム初期化 -->
+    <script>
+        if (typeof CoinSystem !== 'undefined') {
+            window.coinSystem = new CoinSystem();
+        }
+    </script>
 </body>
 
 </html>

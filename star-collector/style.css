@@ -1,0 +1,736 @@
+@font-face {
+    font-family: 'Yosugara';
+    src: url('assets/yosugaraver1_2.ttf') format('truetype');
+}
+
+:root {
+    --app-height: 100vh;
+    --primary-color: #ffd700;
+    --text-color: #fff;
+    --bg-dark: #0a0a1a;
+    --bg-light: #1a1a3a;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    overflow: hidden;
+    font-family: 'Yosugara', 'Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', sans-serif;
+    color: var(--text-color);
+}
+
+/* Aspect Ratio Preservation */
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 56.25vh;
+    /* 9:16 Aspect ratio constraint */
+    margin: 0 auto;
+    background: #000;
+    /* Fallback */
+    overflow: hidden;
+    /* Use flex to center content if needed, but absolute positioning is used inside */
+}
+
+/* Background Layers */
+#bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    transition: transform 0.8s ease-out;
+}
+
+#bg-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#bg-stars canvas {
+    display: block;
+    /* Remove inline-block gap */
+    width: 100%;
+    height: 100%;
+}
+
+/* Main Content Wrapper */
+#main-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    /* Let clicks pass through to canvas if no UI element is hit */
+    padding-bottom: 60px;
+    /* Offset for footer */
+}
+
+/* Screens */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    pointer-events: auto;
+    /* Re-enable clicks for UI elements */
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Game Screen Special Handling */
+#screen-game {
+    display: none;
+    /* Default hidden */
+    padding: 0;
+    /* For game screen, we want it explicitly active to show canvas, 
+       but the canvas is actually in #game-area which is inside #screen-game 
+    */
+    pointer-events: none;
+    /* Let clicks pass to canvas */
+}
+
+#screen-game.active {
+    display: block;
+    /* Use block for full canvas coverage */
+}
+
+#game-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    /* Enable game interaction */
+}
+
+#game-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* ... (Rest of styles: Title, Buttons, Modals, Typography) ... */
+
+/* Title Screen */
+#screen-title {
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 30px 100px;
+}
+
+.title-content {
+    text-align: center;
+}
+
+h1.title-logo {
+    font-size: 36px;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    margin-bottom: 10px;
+    letter-spacing: 4px;
+}
+
+.title-subtitle {
+    font-size: 14px;
+    opacity: 0.7;
+    margin: 0;
+}
+
+/* Menu Buttons */
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Reduced gap */
+    width: 100%;
+    max-width: 280px;
+}
+
+.menu-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 16px;
+    /* Reduced padding */
+    border-radius: 30px;
+    font-size: 15px;
+    /* Reduced font size */
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.menu-btn:active {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(0.98);
+}
+
+.menu-btn.primary {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 180, 0, 0.2));
+    border-color: rgba(255, 215, 0, 0.5);
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.back-btn {
+    margin-top: 30px;
+    font-size: 14px;
+    padding: 12px 20px;
+}
+
+/* Wallet */
+.wallet-display {
+    font-size: 14px;
+    opacity: 0.8;
+    text-align: center;
+}
+
+.wallet-display span {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Gacha & Equip */
+#screen-gacha,
+#screen-equip {
+    justify-content: center;
+    gap: 20px;
+}
+
+.gacha-pedestal {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.gacha-cost,
+.equip-list {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.equip-list {
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 10px;
+    min-height: unset !important;
+}
+
+/* Stamina Aura */
+#stamina-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200%;
+    height: 200%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0) 50%);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* UI Overlay */
+#ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    pointer-events: none;
+}
+
+#btn-pause {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 16px;
+    pointer-events: auto;
+    display: none;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+}
+
+/* Modals */
+#pause-modal,
+#result-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: rgba(20, 20, 40, 0.95);
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 250px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.score-text {
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 20px 0;
+}
+
+/* Background Animations */
+.bg-slide-right {
+    transform: translateX(5%);
+}
+
+.bg-slide-left {
+    transform: translateX(-5%);
+}
+
+.bg-slide-up {
+    transform: translateY(-5%);
+}
+
+.bg-slide-down {
+    transform: translateY(5%);
+}
+
+/* How To Modal Styles */
+/* How To Modal Styles Redefined */
+#howto-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    backdrop-filter: blur(8px);
+    z-index: 2100;
+    /* Higher than footer */
+}
+
+.howto-content {
+    max-width: 420px;
+    width: 95%;
+    padding: 25px 20px;
+    background: linear-gradient(135deg, rgba(20, 20, 40, 0.98), rgba(10, 10, 25, 0.98));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+}
+
+.howto-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    min-height: 400px;
+}
+
+.howto-slide h3 {
+    width: 100%;
+    margin: 5px 0 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 20px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.howto-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.howto-row img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    padding: 10px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.howto-text {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.howto-text p {
+    margin: 0;
+}
+
+.howto-text strong {
+    color: #ffd700;
+    font-size: 15px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.howto-details {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 10px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.howto-note {
+    width: 100%;
+    margin-top: auto;
+    color: #ff6b6b;
+    font-weight: bold;
+    text-align: center;
+    background: rgba(255, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.howto-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.menu-btn.small {
+    padding: 10px 0;
+    width: 50px;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#howto-page {
+    font-family: monospace;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Equip UI New Styles */
+.equip-item {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.equip-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.equip-item.equipped {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+}
+
+.equip-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+}
+
+.equip-info {
+    flex: 1;
+    text-align: left;
+}
+
+.equip-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+}
+
+.equip-effects {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.equip-effects .eff {
+    font-size: 11px;
+    padding: 2px 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: #ddd;
+}
+
+.equip-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--primary-color);
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.equip-badge.rare {
+    background: #d050ff;
+    /* Purple for Rare */
+    color: #fff;
+    border: 1px solid #fff;
+    box-shadow: 0 0 5px #d050ff;
+}
+
+/* Audio Footer */
+.global-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    z-index: 2000;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0 0 20px 20px;
+    box-sizing: border-box;
+    pointer-events: auto;
+}
+
+/* Footer Wallet (Left) */
+.footer-wallet {
+    display: flex;
+    align-items: center;
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 14px;
+    gap: 5px;
+}
+
+.star-icon {
+    font-size: 16px;
+    filter: drop-shadow(0 0 5px #ffd700);
+}
+
+/* Footer Audio (Right) */
+.footer-audio {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.audio-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ccc;
+    font-size: 11px;
+}
+
+.audio-group span {
+    width: 25px;
+    text-align: right;
+}
+
+.audio-group input[type="range"] {
+    width: 70px;
+    background: rgba(255, 255, 255, 0.2);
+    height: 4px;
+    border-radius: 2px;
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.audio-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.icon-btn {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.2s;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+}
+
+/* Credit Screen Styles */
+.setting-group {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.setting-group h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: var(--primary-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.bgm-item {
+    padding: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    transition: background 0.2s;
+}
+
+.bgm-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.bgm-item.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* --- User Requested UI Updates --- */
+h1.title-logo {
+    font-size: 56px !important;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6) !important;
+    margin-bottom: 20px !important;
+}
+
+.menu-btn {
+    font-family: 'Yosugara', sans-serif !important;
+}
+
+.start-buttons-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.start-buttons-row .menu-btn {
+    flex: 1;
+    padding: 10px 0 !important;
+    font-size: 14px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Larger How To Text */
+.howto-text {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+}
+
+.howto-text strong {
+    font-size: 18px !important;
+}

@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "sggame-hub"
+  },
+  "targets": {
+    "sggame-hub": {
+      "hosting": {
+        "starry-sanpo": [
+          "starry-sanpo"
+        ]
+      }
+    }
+  }
+}

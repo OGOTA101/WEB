@@ -1,0 +1,10 @@
+{
+    "rules": {
+        "games": {
+            "catdefense": {
+                ".read": true,
+                ".write": true
+            }
+        }
+    }
+}

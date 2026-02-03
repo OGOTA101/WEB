@@ -184,8 +184,24 @@
         <!-- ヘッダー -->
         <header class="header">
             <div class="header-content">
-                <h1 class="site-title">🎮 SGGameSite</h1>
-                <p class="site-subtitle">無料ゲームサイト</p>
+                <div>
+                    <h1 class="site-title"><a href="../../index.html" style="color: white; text-decoration: none;">🎮 SGGameSite</a></h1>
+                    <p class="site-subtitle">Yahoo! Games風レトロゲームサイト</p>
+                </div>
+                <div class="coin-display">
+                    <div class="coin-item" title="ゴールドコイン">
+                        <span class="coin-icon coin-gold"></span>
+                        <span id="gold-count">0</span>
+                    </div>
+                    <div class="coin-item" title="シルバーコイン">
+                        <span class="coin-icon coin-silver"></span>
+                        <span id="silver-count">0</span>
+                    </div>
+                    <div class="coin-item" title="ブロンズコイン">
+                        <span class="coin-icon coin-bronze"></span>
+                        <span id="bronze-count">0</span>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -330,11 +346,24 @@
             </div>
             <button id="closeDialog" class="btn btn-large">✕ 閉じる</button>
         </div>
+
+        <!-- フッター -->
+        <footer class="footer">
+            &copy; 2024 SGGameSite - Yahoo! Games風レトロゲームサイト | 軽量・高速・シンプル
+        </footer>
     </div>
+
+    <!-- コインシステム -->
+    <script src="../../js/coin-system.js"></script>
 
     <script src="qix-game.js"></script>
 
     <script>
+        // コインシステム初期化
+        if (typeof CoinSystem !== 'undefined') {
+            window.coinSystem = new CoinSystem();
+        }
+
         // ゲーム初期化
         let qixGame;
 

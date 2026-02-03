@@ -1,0 +1,12 @@
+{
+    "name": "barcode-tactics",
+    "version": "1.0.0",
+    "description": "Bar-Code Tactics: 凸（TOTSU）",
+    "scripts": {
+        "serve": "firebase serve",
+        "deploy": "firebase deploy"
+    },
+    "dependencies": {
+        "firebase": "^10.0.0"
+    }
+}

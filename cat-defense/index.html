@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🐱 ネズミ狩りの夜 - Cat Defense</title>
+    <meta name="description" content="猫を操作してネズミからチーズを守る防衛ゲーム。スマホ対応、最大4人協力プレイ可能！">
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- 上部 HUD -->
+        <div id="hud-top">
+            <div class="hud-item wave-display">
+                <span class="icon">🌙</span>
+                <span>Wave <span id="wave-display">1</span>/30</span>
+            </div>
+            <div class="hud-item cheese-hp">
+                <span class="icon">🧀</span>
+                <div class="hp-bar-container">
+                    <div id="cheese-hp-bar" class="hp-bar-fill" style="width: 100%;"></div>
+                </div>
+                <span id="cheese-hp-text">100%</span>
+            </div>
+            <div class="hud-item">
+                <span class="icon">👥</span>
+                <span id="player-count">1</span>
+            </div>
+        </div>
+
+        <!-- ゲームキャンバス -->
+        <canvas id="game-canvas"></canvas>
+
+        <!-- タイトル画面オーバーレイ -->
+        <div id="start-screen" class="overlay">
+            <div class="overlay-content">
+                <h1>🐱 ネズミ狩りの夜</h1>
+                <p>主人のチーズを守れ！</p>
+                <div class="controls-info">
+                    <p>🎮 操作方法</p>
+                    <p>📱 タップしたマスに1歩ずつ移動</p>
+                    <p>⚔️ 停止中は周囲の敵を自動攻撃</p>
+                    <p>🐭 ネズミとぶつかると移動停止</p>
+                    <p>🧀 チーズを守り切ろう！</p>
+                </div>
+                <div class="room-input">
+                    <input type="text" id="room-code" placeholder="ルームID（空白で新規作成）" maxlength="6">
+                </div>
+                <button id="start-btn" class="primary-btn">ゲーム開始</button>
+            </div>
+        </div>
+
+        <!-- 昼フェーズ画面 -->
+        <div id="day-screen" class="overlay hidden">
+            <div class="overlay-content day-phase">
+                <h2>☀️ 昼 - 休憩フェーズ</h2>
+                <div class="result-stats">
+                    <p>Wave <span id="day-wave">1</span> クリア！</p>
+                    <p>撃破数: <span id="day-kills">0</span>匹</p>
+                    <p>チーズHP: <span id="day-cheese-hp">100</span>%</p>
+                </div>
+                <p class="sp-display">獲得SP: <span id="day-sp">0</span></p>
+                <div class="day-buttons">
+                    <button id="skill-tree-btn" class="secondary-btn">🌳 スキル強化</button>
+                    <button id="next-wave-btn" class="primary-btn">次の夜へ →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- スキルツリー画面 -->
+        <div id="skill-tree-screen" class="overlay hidden">
+            <div class="overlay-content skill-tree-content">
+                <h2>🌳 スキルツリー</h2>
+                <p class="sp-display">所持SP: <span id="skill-sp">0</span></p>
+
+                <div class="skill-branches">
+                    <!-- 速攻型 -->
+                    <div class="skill-branch speed-branch">
+                        <h3>⚡ 速攻型</h3>
+                        <div class="skill-list">
+                            <button class="skill-btn" data-skill="attackSpeed1" data-cost="2">
+                                <span class="skill-icon">🐾</span>
+                                <span class="skill-name">連打 Lv1</span>
+                                <span class="skill-cost">2SP</span>
+                            </button>
+                            <button class="skill-btn" data-skill="attackSpeed2" data-cost="3"
+                                data-requires="attackSpeed1">
+                                <span class="skill-icon">🐾</span>
+                                <span class="skill-name">連打 Lv2</span>
+                                <span class="skill-cost">3SP</span>
+                            </button>
+                            <button class="skill-btn" data-skill="attackSpeed3" data-cost="4"
+                                data-requires="attackSpeed2">
+                                <span class="skill-icon">🐾</span>
+                                <span class="skill-name">連打 Lv3</span>
+                                <span class="skill-cost">4SP</span>
+                            </button>
+                            <button class="skill-btn" data-skill="multiHit" data-cost="6" data-requires="attackSpeed2">
+                                <span class="skill-icon">✨</span>
+                                <span class="skill-name">乱れ爪</span>
+                                <span class="skill-cost">6SP</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 範囲型 -->
+                    <div class="skill-branch range-branch">
+                        <h3>💥 範囲型</h3>
+                        <div class="skill-list">
+                            <button class="skill-btn" data-skill="range1" data-cost="2">
+                                <span class="skill-icon">🌀</span>
+                                <span class="skill-name">旋風 Lv1</span>
+                                <span class="skill-cost">2SP</span>
+                            </button>
+                            <button class="skill-btn" data-skill="range2" data-cost="3" data-requires="range1">
+                                <span class="skill-icon">🌀</span>
+                                <span class="skill-name">旋風 Lv2</span>
+                                <span class="skill-cost">3SP</span>
+                            </button>
+                            <button class="skill-btn" data-skill="range3" data-cost="4" data-requires="range2">
+                                <span class="skill-icon">🌀</span>
+                                <span class="skill-name">旋風 Lv3</span>
+                                <span class="skill-cost">4SP</span>
+                            </button>
+                            <button class="skill-btn" data-skill="storm" data-cost="10" data-requires="range3">
+                                <span class="skill-icon">🌪️</span>
+                                <span class="skill-name">猫嵐</span>
+                                <span class="skill-cost">10SP</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 守護型 -->
+                    <div class="skill-branch guardian-branch">
+                        <h3>🛡️ 守護型</h3>
+                        <div class="skill-list">
+                            <button class="skill-btn" data-skill="slow1" data-cost="2">
+                                <span class="skill-icon">❄️</span>
+                                <span class="skill-name">威嚇 Lv1</span>
+                                <span class="skill-cost">2SP</span>
+                            </button>
+                            <button class="skill-btn" data-skill="slow2" data-cost="3" data-requires="slow1">
+                                <span class="skill-icon">❄️</span>
+                                <span class="skill-name">威嚇 Lv2</span>
+                                <span class="skill-cost">3SP</span>
+                            </button>
+                            <button class="skill-btn" data-skill="cheeseHP" data-cost="5">
+                                <span class="skill-icon">🧀</span>
+                                <span class="skill-name">チーズ強化</span>
+                                <span class="skill-cost">5SP</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="close-skill-tree" class="primary-btn">閉じる</button>
+            </div>
+        </div>
+
+        <!-- ゲームオーバー画面 -->
+        <div id="game-over-screen" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 id="game-over-title">GAME OVER</h2>
+                <div class="result-stats">
+                    <p>到達Wave: <span id="result-wave">1</span></p>
+                    <p>総撃破数: <span id="result-kills">0</span>匹</p>
+                </div>
+                <button id="restart-btn" class="primary-btn">再挑戦</button>
+                <button onclick="location.href='/index.html'" class="secondary-btn">ホームへ戻る</button>
+            </div>
+        </div>
+
+        <!-- Wave開始アナウンス -->
+        <div id="wave-announce" class="wave-announce hidden">
+            <div class="wave-text">
+                <span id="wave-announce-text">🌙 ネズミ狩りの夜が始まる</span>
+            </div>
+        </div>
+
+        <!-- 下部ステータス -->
+        <div id="hud-bottom">
+            <div class="kill-count">
+                <span class="icon">💀</span>
+                <span id="kill-count">0</span>
+            </div>
+            <div class="sp-count">
+                <span class="icon">⭐</span>
+                <span id="sp-count">0</span> SP
+            </div>
+        </div>
+    </div>
+
+    <!-- 設定ファイル読み込み -->
+    <script src="game-config.js"></script>
+    <!-- メインスクリプト -->
+    <script src="cat-defense.js"></script>
+    <!-- スキルツリーUI -->
+    <script>
+        // スキルツリー画面の制御
+        document.addEventListener('DOMContentLoaded', () => {
+            const skillTreeBtn = document.getElementById('skill-tree-btn');
+            const closeSkillTree = document.getElementById('close-skill-tree');
+            const skillTreeScreen = document.getElementById('skill-tree-screen');
+            const dayScreen = document.getElementById('day-screen');
+
+            if (skillTreeBtn) {
+                skillTreeBtn.addEventListener('click', () => {
+                    dayScreen.classList.add('hidden');
+                    skillTreeScreen.classList.remove('hidden');
+                    updateSkillTreeUI();
+                });
+            }
+
+            if (closeSkillTree) {
+                closeSkillTree.addEventListener('click', () => {
+                    skillTreeScreen.classList.add('hidden');
+                    dayScreen.classList.remove('hidden');
+                });
+            }
+
+            // スキルボタンのクリック処理
+            document.querySelectorAll('.skill-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const skillId = btn.dataset.skill;
+                    const cost = parseInt(btn.dataset.cost);
+                    const requires = btn.dataset.requires;
+
+                    // 既に取得済みかチェック
+                    if (cat.skills[skillId]) {
+                        return;
+                    }
+
+                    // 前提スキルチェック
+                    if (requires && !cat.skills[requires]) {
+                        alert('前提スキルを先に取得してください');
+                        return;
+                    }
+
+                    // SPチェック
+                    if (cat.sp < cost) {
+                        alert('SPが足りません');
+                        return;
+                    }
+
+                    // スキル取得
+                    cat.sp -= cost;
+                    cat.skills[skillId] = true;
+
+                    // チーズHP強化スキル
+                    if (skillId === 'cheeseHP') {
+                        cheese.maxHP += 30;
+                        cheese.hp += 30;
+                    }
+
+                    playSound('levelup');
+                    updateSkillTreeUI();
+                    updateUI();
+                });
+            });
+        });
+
+        function updateSkillTreeUI() {
+            document.getElementById('skill-sp').textContent = cat.sp;
+
+            document.querySelectorAll('.skill-btn').forEach(btn => {
+                const skillId = btn.dataset.skill;
+                const cost = parseInt(btn.dataset.cost);
+                const requires = btn.dataset.requires;
+
+                btn.classList.remove('acquired', 'available', 'locked');
+
+                if (cat.skills[skillId]) {
+                    btn.classList.add('acquired');
+                    btn.disabled = true;
+                } else if (requires && !cat.skills[requires]) {
+                    btn.classList.add('locked');
+                    btn.disabled = true;
+                } else if (cat.sp >= cost) {
+                    btn.classList.add('available');
+                    btn.disabled = false;
+                } else {
+                    btn.classList.add('locked');
+                    btn.disabled = true;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

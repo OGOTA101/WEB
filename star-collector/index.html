@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>星空さんぽ | Starry Cat</title>
+    <meta name="description" content="眠れない夜は、星を集めて。猫と星空のアクションゲーム。">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- 背景レイヤー (パララックス用) -->
+        <div id="bg-container">
+            <div id="bg-sky" class="bg-layer"></div>
+            <div id="bg-stars" class="bg-layer"></div>
+            <div id="bg-clouds" class="bg-layer"></div>
+        </div>
+
+        <!-- メインコンテンツ -->
+        <div id="main-content">
+            <!-- タイトル画面 -->
+            <div id="screen-title" class="screen active">
+                <div class="title-content">
+                    <h1 class="title-logo">星空さんぽ</h1>
+                    <p class="title-subtitle">眠れない夜は、星を集めて。</p>
+                </div>
+                <div class="menu-buttons">
+                    <div class="start-buttons-row">
+                        <button id="btn-slow" class="menu-btn" style="color:#88ff88;">☘ ゆっくり</button>
+                        <button id="btn-normal" class="menu-btn primary">★ ふつう</button>
+                        <button id="btn-fast" class="menu-btn" style="color:#ff8888;">🔥 はやい</button>
+                    </div>
+                    <button id="btn-ranking" class="menu-btn" style="color:#ffff88;">🏆 ランキング</button>
+                    <button id="btn-howto" class="menu-btn">? 遊び方</button>
+                    <button id="btn-gacha" class="menu-btn">✧ ガチャ</button>
+                    <button id="btn-equip" class="menu-btn">🎀 おめかし</button>
+                    <button id="btn-credits" class="menu-btn small-text"
+                        style="margin-top:5px; height:40px; font-size:14px;">(C) Credits</button>
+                </div>
+
+            </div>
+
+            <!-- ガチャ画面 -->
+            <div id="screen-gacha" class="screen">
+                <h2>流れ星にお願い</h2>
+                <div class="gacha-pedestal">
+                    <div class="gacha-cost">100 ★ で回す</div>
+                    <button id="btn-gacha-spin" class="menu-btn primary">星を100個ささげる</button>
+                </div>
+                <button id="btn-gacha-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+
+            <!-- おめかし画面 -->
+            <div id="screen-equip" class="screen">
+                <h2>おめかし</h2>
+                <div class="equip-list">
+                    <p style="opacity:0.6;">アイテムはガチャで手に入れよう！</p>
+                </div>
+                <button id="btn-equip-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+
+            <!-- クレジット＆設定画面 -->
+            <div id="screen-credits" class="screen">
+                <h2>Credits / Settings</h2>
+                <div class="credits-content" style="overflow-y:auto; max-height:60vh; width:100%;">
+                    <div class="setting-group">
+                        <h3>♪ BGM Select</h3>
+                        <div id="bgm-list-container"></div>
+                        <div style="font-size:12px; margin-top:5px; opacity:0.8;">
+                            BGM素材: <a href="https://ontama-m.com/" target="_blank" style="color:#ffd700;">音楽の卵</a> 様
+                        </div>
+                    </div>
+                    <div class="setting-group" style="margin-top:20px;">
+                        <h3>Developer</h3>
+                        <div style="font-size:14px;">
+                            Dev: <a href="https://x.com/SGGame9" target="_blank"
+                                style="color:#00ffff; text-decoration:none;">@SGGame9</a>
+                        </div>
+                    </div>
+                    <div class="setting-group" style="margin-top:20px;">
+                        <h3>Special Thanks</h3>
+                        <div style="font-size:14px; opacity:0.9; line-height:1.6;">
+                            <p>フォント：夜すがら手書きフォント</p>
+                            <p>効果音：効果音ラボ</p>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-credits-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+
+            <!-- ランキング画面 -->
+            <div id="screen-ranking" class="screen">
+                <h2>ランキング</h2>
+                <div class="ranking-container" style="width:100%; max-width:320px; text-align:center;">
+                    <div class="my-score-area"
+                        style="margin-bottom:20px; padding:15px; background:rgba(255,255,255,0.1); border-radius:10px;">
+                        <p style="margin:0; font-size:14px; opacity:0.8;">あなたの最高記録</p>
+                        <p id="ranking-my-score" style="margin:5px 0; font-size:32px; font-weight:bold; color:#ffd700;">
+                            0</p>
+                        <div style="display:flex; gap:5px; justify-content:center; margin-top:10px;">
+                            <input type="text" id="ranking-name" placeholder="名無しさん" maxlength="8"
+                                style="padding:8px; border-radius:5px; border:none; width:120px; text-align:center;">
+                            <button id="btn-ranking-submit" class="menu-btn small"
+                                style="width:auto; padding:8px 15px; font-size:14px;">送信</button>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size:16px; border-bottom:1px solid #555; padding-bottom:5px; margin-bottom:10px;">
+                        TOP 20</h3>
+                    <div id="ranking-list" style="height:35vh; overflow-y:auto; font-size:14px; text-align:left;">
+                        <p style="text-align:center; opacity:0.5;">読み込み中...</p>
+                    </div>
+                </div>
+                <button id="btn-ranking-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+
+            <!-- ゲーム画面 -->
+            <div id="screen-game" class="screen">
+                <div id="game-area">
+                    <canvas id="game-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- スタミナオーラ（画面全体に影響） -->
+        <div id="stamina-aura"></div>
+
+        <!-- UIオーバーレイ (共通) -->
+        <div id="ui-overlay">
+            <button id="btn-pause">||</button>
+            <div id="pause-modal" class="hidden">
+                <div class="modal-content">
+                    <p>ちょっと休憩</p>
+                    <button id="btn-resume" class="menu-btn">つづける</button>
+                    <button id="btn-quit" class="menu-btn">おうちに帰る</button>
+                </div>
+            </div>
+            <div id="result-modal" class="hidden">
+                <div class="modal-content">
+                    <h2 id="result-title">おやすみなさい</h2>
+                    <p>あつめた星</p>
+                    <p id="result-score" class="score-text">0</p>
+                    <button id="btn-result-ok" class="menu-btn primary">ホームへ</button>
+                </div>
+            </div>
+
+            <!-- 遊び方モーダル -->
+            <!-- 遊び方モーダル -->
+            <div id="howto-modal" class="hidden">
+                <div class="modal-content howto-content">
+                    <h2>遊び方</h2>
+
+                    <!-- Page 1: Basic Rules -->
+                    <div class="howto-slide active" data-slide="0">
+                        <h3>基本ルール</h3>
+                        <div class="howto-row">
+                            <img src="assets/images/tutorial_1_tap.svg" alt="Tap">
+                            <div class="howto-text">
+                                <p><strong>★ 星を集めよう</strong><br>星空に現れる星をタップして捕まえてね。<br>光っている星は高得点！</p>
+                            </div>
+                        </div>
+                        <div class="howto-row">
+                            <img src="assets/images/tutorial_2_miss.svg" alt="Miss">
+                            <div class="howto-text">
+                                <p><strong>⚠ お手つき注意</strong><br>何もないところをタップすると<br>スタミナが減ってしまうよ。</p>
+                            </div>
+                        </div>
+                        <p class="howto-note">スタミナが無くなると、お散歩終了です。</p>
+                    </div>
+
+                    <!-- Page 2: Gacha & Equip -->
+                    <div class="howto-slide hidden" data-slide="1">
+                        <h3>ガチャと装備</h3>
+                        <div class="howto-row">
+                            <img src="assets/images/tutorial_3_equip.svg" alt="Equip">
+                            <div class="howto-text">
+                                <p><strong>✧ 星を捧げてガチャ</strong><br>集めた星でアクセサリをゲット！<br>「おめかし」画面で装備できるよ。</p>
+                            </div>
+                        </div>
+                        <div class="howto-details">
+                            <p><strong>🎁 装備の効果</strong><br>
+                                ・判定が広くなる<br>
+                                ・スタミナが増える<br>
+                                ・自動で星を回収する...など<br>
+                                色々な効果の組み合わせを見つけよう！</p>
+                        </div>
+                    </div>
+
+                    <div class="howto-controls">
+                        <button id="btn-howto-prev" class="menu-btn small">←</button>
+                        <span id="howto-page">1/2</span>
+                        <button id="btn-howto-next" class="menu-btn small">→</button>
+                    </div>
+                    <button id="btn-howto-close" class="menu-btn primary" style="margin-top:20px;">わかった！</button>
+                </div>
+            </div>
+            <!-- Global Audio Footer -->
+            <!-- Global Audio Footer -->
+            <div class="global-footer">
+                <div class="footer-wallet">
+                    <span class="star-icon">★</span>
+                    <span id="star-wallet">0</span>
+                </div>
+                <div class="footer-audio">
+                    <div class="audio-group">
+                        <span>BGM</span>
+                        <input type="range" id="vol-bgm" min="0" max="1" step="0.1" value="0.5">
+                    </div>
+                    <div class="audio-group">
+                        <span>SE</span>
+                        <input type="range" id="vol-se" min="0" max="1" step="0.1" value="0.5">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <!-- Firebase SDK (Compat) -->
+        <script src="/__/firebase/10.7.1/firebase-app-compat.js"></script>
+        <script src="/__/firebase/10.7.1/firebase-firestore-compat.js"></script>
+        <script src="/__/firebase/init.js"></script>
+
+        <script src="js/config.js"></script>
+        <script src="js/data.js"></script>
+        <script src="js/audio.js"></script>
+        <script src="js/view.js"></script>
+        <script src="js/ranking.js"></script>
+        <script src="js/game.js"></script>
+        <script src="js/background.js"></script>
+        <script src="js/main.js"></script>
+</body>
+
+</html>

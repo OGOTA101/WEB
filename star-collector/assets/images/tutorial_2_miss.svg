@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="skyGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#1a1a3a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0a1a;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="100" cy="100" r="90" fill="url(#skyGrad)" stroke="#ff5555" stroke-width="2"/>
+  
+  <!-- Empty Tap -->
+  <circle cx="100" cy="80" r="10" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  
+  <!-- Cross Mark -->
+  <g transform="translate(100, 80)">
+    <line x1="-20" y1="-20" x2="20" y2="20" stroke="#ff5555" stroke-width="8" stroke-linecap="round"/>
+    <line x1="20" y1="-20" x2="-20" y2="20" stroke="#ff5555" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Sweat Drops -->
+  <path d="M140 60 Q145 60 145 65 Q145 70 140 75 Q135 70 135 65 Q135 60 140 60" fill="#aaf" opacity="0.8"/>
+  <path d="M60 60 Q65 60 65 65 Q65 70 60 75 Q55 70 55 65 Q55 60 60 60" fill="#aaf" opacity="0.8"/>
+  
+  <!-- Text -->
+  <text x="100" y="160" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">空振りちゅうい！</text>
+  <text x="100" y="180" font-family="Arial, sans-serif" font-size="12" fill="#ffaaaa" text-anchor="middle">スタミナが減っちゃうよ</text>
+</svg>

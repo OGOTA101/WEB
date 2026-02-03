@@ -1,0 +1,288 @@
+/* 基本設定 */
+:root {
+    --primary-color: #00BFFF;
+    --accent-color: #FFD700;
+    --danger-color: #FF4444;
+    --bg-overlay: rgba(13, 31, 51, 0.85);
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: white;
+    font-family: var(--font-main);
+    overflow: hidden;
+    height: 100vh;
+    touch-action: none;
+    /* スクロール無効化 */
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background: linear-gradient(to bottom, #4A90D9, #2D5986);
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* UI オーバーレイ */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-overlay);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+    transition: opacity 0.3s;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay-content {
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    max-width: 90%;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.controls-info {
+    margin: 2rem 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    text-align: left;
+}
+
+/* ボタン */
+button {
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s;
+    font-weight: bold;
+    margin: 0.5rem;
+}
+
+.primary-btn {
+    background: var(--primary-color);
+    color: #003366;
+    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4);
+}
+
+.secondary-btn {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* HUD (Head Up Display) */
+#hud-top {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+}
+
+.hud-item {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#hud-bottom {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 10;
+}
+
+.hp-container {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+.oxygen-bar-container {
+    width: 200px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.bar-bg {
+    flex-grow: 1;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00BFFF, #0080FF);
+    box-shadow: 0 0 10px #00BFFF;
+    transition: width 0.2s;
+}
+
+.label {
+    font-weight: bold;
+    color: #00BFFF;
+}
+
+.ammo-display {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #FFD700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+/* 操作ボタン */
+#control-buttons {
+    position: absolute;
+    bottom: 100px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.control-group {
+    pointer-events: auto;
+}
+
+.left-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.horizontal-btns {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.control-btn {
+    border: none;
+    border-radius: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.1s;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.direction-btn {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 191, 255, 0.6);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.direction-btn:active {
+    background: rgba(0, 191, 255, 0.9);
+    transform: scale(0.9);
+}
+
+.attack-btn {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(145deg, #ff6b6b, #ee5a5a);
+    color: white;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(255, 100, 100, 0.5);
+    font-size: 1.2rem;
+    line-height: 1.2;
+    flex-direction: column;
+    border-radius: 50%;
+}
+
+.attack-btn:active {
+    background: linear-gradient(145deg, #ff8585, #ff6b6b);
+    transform: scale(0.9);
+    box-shadow: 0 2px 8px rgba(255, 100, 100, 0.7);
+}
+
+/* ボタンがタッチ中のハイライト */
+.control-btn.pressed {
+    transform: scale(0.9);
+    opacity: 0.8;
+}
+
+.direction-btn.pressed {
+    background: rgba(0, 255, 255, 0.9);
+}
+
+.attack-btn.pressed {
+    background: linear-gradient(145deg, #ff8585, #ff6b6b);
+}
