@@ -15,5 +15,6 @@ image-cleaner-py/build/
 .playwright-cli/
 
 # ===== 大容量すぎて GitHub(100MB/ファイル制限)へ push できない成果物 =====
-# 【モック】キミコイの仕様書 xlsx（406MB / 111MB）はローカル保管のみ
-kimikoiWEB/【モック】*.xlsx
+# 以下の仕様書 xlsx はサイズが大きいためローカル保管のみ（共有するなら Git LFS を利用）
+kimikoiWEB/【モック】キミコイ_キミコイパート基本仕様V2.xlsx
+kimikoiWEB/【モック】キミコイ_仮想デスクトップ_アプリ_仕様書V3.xlsx
