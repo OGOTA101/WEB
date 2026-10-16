@@ -38,6 +38,7 @@ export const BossSystem = {
     audio.play('bossAppear', { throttle: 0 });
     audio.play('bossMotor', { throttle: 0 });
     audio.play('bossQuake', { throttle: 0 });
+    audio.playBossVoice(st.boss, { throttle: 0, vol: 0.95, tag: 'appear' });
     this.cam.shake = 1.4;
     if (this._triggerScreenFlash) this._triggerScreenFlash('rgba(255,50,70,0.55)');
     if (this._showCinemaBanner) this._showCinemaBanner('WARNING // MASSIVE CLASS', st.bossName, 'danger', 4200);
@@ -91,7 +92,7 @@ export const BossSystem = {
         const variant = b.type === 'prism' ? 'stunner' : b.type === 'omega' ? 'burner' : 'normal';
         for (let k = -1; k <= 1; k++) {
           const d = dir.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), k * 0.16);
-          this._spawnEnemyBullet(corePos.clone(), d, variant, 24, 1.4, { homing: k === 0 ? 0.5 : 0, dmg: 55 });
+          this._spawnEnemyBullet(corePos.clone(), d, variant, 24, 1.4, { homing: k === 0 ? 0.5 : 0, dmg: 55, boss: true });
         }
         this.px.flash(corePos, 0xff4060, 1.8, 0.1);
         audio.play('enemyFire', { pos: corePos, throttle: 0.12, vol: 0.6 });
@@ -115,6 +116,7 @@ export const BossSystem = {
           b.timer = 0;
           b.idleTime = 0.7; // 登場直後にすぐ攻撃開始
           audio.play('bossRoar', { throttle: 0 });
+          audio.playBossVoice(b.type, { throttle: 0, vol: 0.7, tag: 'enter' });
           this.cam.shake = 1.2;
           this.px.sphereWave(corePos, 42, 0xff3050, 0.6);
           this.px.ring(corePos, 55, 0xff5060, 0.7, corePos.y);
@@ -149,6 +151,8 @@ export const BossSystem = {
           this.px.sphereWave(corePos, 60, 0xffaa40, 0.7);
           audio.play('bossDefeat', { throttle: 0 });
           audio.play('bossCollapse', { throttle: 0 });
+          audio.play('bossDeathCrack', { throttle: 0 });
+          audio.playBossVoice(b.type, { throttle: 0, rate: 0.72, vol: 1, tag: 'deathEnd' });
           this.cam.shake = 1.5;
           if (this._triggerScreenFlash) this._triggerScreenFlash('rgba(255,255,255,0.75)');
 
@@ -169,6 +173,15 @@ export const BossSystem = {
         }
         break;
     }
+    if (b.state === 'enter' || b.state === 'idle' || b.state === 'attack') {
+      b.stepCd = (b.stepCd || 0) - dt;
+      const moving = b.state === 'enter' || root.position.distanceTo(home) > 3;
+      if (b.stepCd <= 0 && moving) {
+        b.stepCd = b.state === 'enter' ? 0.48 : 1.15;
+        audio.play(b.type === 'leviathan' ? 'bossMove' : 'bossMoveHeavy', { pos: root.position, throttle: 0 });
+        if (b.state !== 'attack') audio.playBossVoice(b.type, { vol: 0.38, throttle: 1.1, tag: 'move' });
+      }
+    }
     void p;
   },
 
@@ -180,6 +193,8 @@ export const BossSystem = {
     b.timer = 0;
     b.atk = { name, fired: 0, tele: [] };
     audio.play('bossCharge', { throttle: 0 });
+    audio.play('bossTelegraph', { throttle: 0 });
+    audio.playBossVoice(b.type, { throttle: 0, rate: 1.06, vol: 0.82, tag: 'tele' });
   },
 
   _endBossPattern(idle = 1.0) {
@@ -212,10 +227,10 @@ export const BossSystem = {
           const variants = b.type === 'prism' ? ['normal', 'stunner', 'normal'] : b.type === 'omega' ? ['burner', 'normal', 'burner'] : ['normal', 'normal', 'normal'];
           for (let k = -3; k <= 3; k++) {
             const d = base.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), k * 0.13 + (a.fired % 2 ? 0.05 : -0.05));
-            this._spawnEnemyBullet(corePos.clone(), d, variants[Math.abs(k) % 3], 24, 1.8, { dmg: 75 });
+            this._spawnEnemyBullet(corePos.clone(), d, variants[Math.abs(k) % 3], 24, 1.8, { dmg: 75, boss: true });
           }
           // 中央に高威力の誘導プラズマ弾も同時発射
-          this._spawnEnemyBullet(corePos.clone(), base, 'burner', 20, 2.4, { color: 0xff9100, dmg: 95, homing: 0.8, splash: 4.5 });
+          this._spawnEnemyBullet(corePos.clone(), base, 'burner', 20, 2.4, { color: 0xff9100, dmg: 95, homing: 0.8, splash: 4.5, boss: true });
           this.px.flash(corePos, 0xff3050, 4, 0.15);
           audio.play('bossVolley', { throttle: 0.08 });
           this.cam.shake = Math.max(this.cam.shake, 0.35);
@@ -335,7 +350,7 @@ export const BossSystem = {
           const base = tgt.clone().add(new THREE.Vector3(0, 1.5, 0)).sub(corePos).normalize();
           for (let k = -2; k <= 2; k++) {
             const d = base.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), k * 0.16);
-            this._spawnEnemyBullet(corePos.clone(), d, 'normal', 23, 1.6);
+            this._spawnEnemyBullet(corePos.clone(), d, 'normal', 23, 1.6, { boss: true });
           }
         }
         if (t > 1.6) this._endBossPattern(0.9);
@@ -365,12 +380,12 @@ export const BossSystem = {
           root.position.set(x, y, a.bandZ);
           root.rotation.y = b.side * Math.PI / 2;
           root.rotation.z = Math.cos(Math.PI * u) * 0.35 * b.side;
-          if (!a.sfx) { a.sfx = 1; audio.play('bossAppear', { throttle: 0, rate: 1.1 }); this._updateBandTelegraph(a.band, 1); }
+          if (!a.sfx) { a.sfx = 1; audio.play('bossAppear', { throttle: 0, rate: 1.1 }); audio.play('bossMove', { throttle: 0 }); audio.playBossVoice(b.type, { throttle: 0, vol: 0.7, tag: 'leap' }); this._updateBandTelegraph(a.band, 1); }
 
           // 甲板上空を通過中に爆弾を投下
           if (u > 0.25 && u < 0.75 && a.bombs < 5 && u >= 0.25 + a.bombs * 0.1) {
             a.bombs++;
-            this._spawnEnemyBullet(new THREE.Vector3(x, Math.max(6, y - 8), a.bandZ + (Math.random() - 0.5) * 16), new THREE.Vector3(0, -1, 0), 'burner', 18, 1.8, { gravity: 12, splash: 5.0, dmg: 85 });
+            this._spawnEnemyBullet(new THREE.Vector3(x, Math.max(6, y - 8), a.bandZ + (Math.random() - 0.5) * 16), new THREE.Vector3(0, -1, 0), 'burner', 18, 1.8, { gravity: 12, splash: 5.0, dmg: 85, boss: true });
           }
 
           if (!a.hit && !p.dead && Math.abs(p.pos.z - a.bandZ) < 16 && Math.abs(p.pos.x - x) < 18 && Math.abs(p.pos.y - y) < 22) {
@@ -425,7 +440,7 @@ export const BossSystem = {
             // 着地時に全方位10Way衝撃弾
             for (let k = 0; k < 10; k++) {
               const ang = (k / 10) * Math.PI * 2;
-              this._spawnEnemyBullet(a.spot.clone().setY(1.4), new THREE.Vector3(Math.cos(ang), 0, Math.sin(ang)), 'burner', 22, 1.5);
+              this._spawnEnemyBullet(a.spot.clone().setY(1.4), new THREE.Vector3(Math.cos(ang), 0, Math.sin(ang)), 'burner', 22, 1.5, { boss: true });
             }
             const d = Math.hypot(p.pos.x - a.spot.x, p.pos.z - a.spot.z);
             if (!p.dead && d < R + 1 && p.pos.y < 6 && this._damagePlayer(200)) {
@@ -497,6 +512,8 @@ export const BossSystem = {
       b.fxTimer = 0;
       b.onDeck = false;
       audio.play('bossRoar', { throttle: 0, rate: 0.8 });
+      audio.play('bossDeathBreak', { throttle: 0 });
+      audio.playBossVoice(b.type, { throttle: 0, rate: 0.64, vol: 1, tag: 'death' });
       this._hitMarker(true);
       this._onTargetLost(b);
     }
@@ -571,12 +588,12 @@ export const BossSystem = {
     return t;
   },
 
-  _updateLineTelegraph(t, from, to, k) {
+  _updateLineTelegraph(t, from, to, k, widthMul = 1) {
     const g = t.group;
     g.visible = k > 0;
     g.position.copy(from);
     g.lookAt(to);
-    const w = 0.08 + k * 0.35;
+    const w = (0.1 + k * 0.42) * widthMul;
     g.scale.set(1, 1, from.distanceTo(to));
     g.userData.m.scale.set(w, w, 1);
     g.userData.mat.opacity = 0.3 + Math.sin(performance.now() * 0.03) * 0.25 + k * 0.3;

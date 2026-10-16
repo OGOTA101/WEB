@@ -7,6 +7,12 @@
  * UI音のみ従来の金具系の音を継続使用。
  */
 
+/** 効果音ラボの動物声。低く重ね、金属音と混ぜてボスの声にする */
+const VOICE_ANIMALS = ['lion-cry1', 'wolf-howling1', 'elephant1', 'boar-cry1'];
+const VOICE_METAL = ['machine-hard-hit2', 'sword-clash3', 'union2'];
+/** 混ぜた声を、ボスごとにピッチを変えて固有にする */
+const BOSS_VOICE_PITCH = { leviathan: 0.56, prism: 1.24, omega: 0.78 };
+
 export const SE_MAP = {
   // ---- UI（従来どおり） ----
   uiSelect: { file: 'sheath1', vol: 0.5 },
@@ -109,6 +115,9 @@ export const SE_MAP = {
   bossMotor: { file: 'giant-motor1', vol: 0.5, rate: 0.7 },
   bossRoar: { file: 'giant-arm-action1', vol: 0.6 },
   bossCharge: { file: 'beam-gun-charge1', vol: 0.55, rate: 0.6 },
+  bossTelegraph: { file: 'magic-charge1', vol: 0.55, rate: 0.62 },
+  bossMove: { file: 'monster-footstep1', vol: 0.5, rate: 0.58 },
+  bossMoveHeavy: { file: 'machine-deformation1', vol: 0.42, rate: 0.7 },
   bossVolley: { file: 'cannon1', vol: 0.55, rate: 0.8 },
   bossBeam: { file: 'beamgun1', vol: 0.65, rate: 0.6 },
   bossLand: { file: 'union2', vol: 0.85, rate: 0.6 },
@@ -117,6 +126,10 @@ export const SE_MAP = {
   bossHit: { file: 'machine-hit3', vol: 0.35, rate: 0.8 },
   bossDefeat: { file: 'big-explosion2', vol: 0.9 },
   bossCollapse: { file: 'giant-robot-down1', vol: 0.8, rate: 0.7 },
+  bossDeathBreak: { file: 'building-collapse1', vol: 0.75, rate: 0.72 },
+  bossDeathCrack: { file: 'rock-break1', vol: 0.6, rate: 0.8 },
+  guardOn: { file: 'shield1', vol: 0.45 },
+  guardHit: { file: 'sword-clash3', vol: 0.42, rate: 0.85 },
   stageClear: { file: 'magic-statusup2', vol: 0.55 },
   victory: { file: 'magic-cure4', vol: 0.5 }
 };
@@ -126,6 +139,7 @@ class AudioManager {
     this.ctx = null;
     this.master = null;
     this.buffers = new Map();
+    this.bossVoice = null;
     this.lastPlayed = new Map();
     this.volume = parseFloat(localStorage.getItem('sandark_volume') ?? '0.8');
     this.listenerPos = { x: 0, y: 0, z: 0 };
@@ -148,7 +162,7 @@ class AudioManager {
   }
 
   async _loadAll() {
-    const files = [...new Set(Object.values(SE_MAP).map((s) => s.file))];
+    const files = [...new Set([...Object.values(SE_MAP).map((s) => s.file), ...VOICE_ANIMALS, ...VOICE_METAL])];
     await Promise.all(files.map(async (f) => {
       try {
         const res = await fetch(`/se/${f}.mp3`);
@@ -157,6 +171,67 @@ class AudioManager {
         console.warn('SE load failed:', f);
       }
     }));
+    await this._buildBossVoice();
+  }
+
+  /**
+   * ライオン・狼・象・猪の声を低く再生し、金属打撃を重ねた1本の声を作る。
+   * 再生時にボスごとの playbackRate で個体差を付ける。
+   */
+  async _buildBossVoice() {
+    const animals = VOICE_ANIMALS.map((f) => this.buffers.get(f)).filter(Boolean);
+    const metals = VOICE_METAL.map((f) => this.buffers.get(f)).filter(Boolean);
+    if (animals.length < 3 || !metals.length || !this.ctx) return;
+    const seconds = 2.6;
+    const offline = new OfflineAudioContext(2, Math.ceil(this.ctx.sampleRate * seconds), this.ctx.sampleRate);
+    const mix = offline.createGain();
+    mix.gain.value = 0.9;
+    const low = offline.createBiquadFilter();
+    low.type = 'lowpass';
+    low.frequency.value = 340;
+    low.Q.value = 0.7;
+    mix.connect(low).connect(offline.destination);
+    animals.forEach((buf, i) => {
+      const src = offline.createBufferSource();
+      src.buffer = buf;
+      src.playbackRate.value = 0.4 + i * 0.035;
+      const g = offline.createGain();
+      g.gain.value = 0.62;
+      src.connect(g).connect(mix);
+      src.start(i * 0.04);
+    });
+    metals.forEach((buf, i) => {
+      const src = offline.createBufferSource();
+      src.buffer = buf;
+      src.playbackRate.value = 0.5;
+      const g = offline.createGain();
+      g.gain.value = 0.38;
+      src.connect(g).connect(mix);
+      src.start(0.03 * i);
+    });
+    this.bossVoice = await offline.startRendering();
+  }
+
+  /** 合成した獣の声。type は leviathan / prism / omega */
+  playBossVoice(type, opt = {}) {
+    if (!this.ctx || !this.bossVoice) return null;
+    const key = `bossVoice:${type}:${opt.tag || 'v'}`;
+    const now = this.ctx.currentTime;
+    const last = this.lastPlayed.get(key) ?? -1;
+    if (now - last < (opt.throttle ?? 0.55)) return null;
+    this.lastPlayed.set(key, now);
+    const src = this.ctx.createBufferSource();
+    src.buffer = this.bossVoice;
+    const pitch = (BOSS_VOICE_PITCH[type] || 0.8) * (opt.rate ?? 1);
+    src.playbackRate.value = pitch;
+    const gain = this.ctx.createGain();
+    gain.gain.value = opt.vol ?? 0.8;
+    const lp = this.ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 300 + pitch * 160;
+    src.connect(lp).connect(gain).connect(this.master);
+    src.start();
+    return { src, gain };
   }
 
   setVolume(v) {
