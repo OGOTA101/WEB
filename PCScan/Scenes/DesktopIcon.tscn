@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxnd1a2"]
+
+[ext_resource type="Script" path="res://Scripts/DesktopIcon.gd" id="1"]
+
+[node name="DesktopIcon" type="VBoxContainer"]
+offset_right = 64.0
+offset_bottom = 88.0
+script = ExtResource("1")
+
+[node name="Texture" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 2
+text = "IconName"
+horizontal_alignment = 1
+autowrap_mode = 3

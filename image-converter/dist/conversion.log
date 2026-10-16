@@ -1,0 +1,41 @@
+2026-08-05 11:52:52,215 [INFO] START_IMMEDIATE batch=1 count=2 target=PNG compact=False quality=72 destination=source
+2026-08-05 11:52:52,761 [INFO] OK_IMMEDIATE batch=1 source=F:\ぽっちゃりふとらせＣＧ\太らせぽっちゃり 少女CGのコピーのコピーのコピー.png output=F:\ぽっちゃりふとらせＣＧ\太らせぽっちゃり 少女CGのコピーのコピーのコピー_converted.png
+2026-08-05 11:52:52,796 [INFO] OK_IMMEDIATE batch=1 source=F:\ぽっちゃりふとらせＣＧ\太らせぽっちゃり 少女CGのコピーのコピーのコピーのコピー.png output=F:\ぽっちゃりふとらせＣＧ\太らせぽっちゃり 少女CGのコピーのコピーのコピーのコピー_converted.png
+2026-08-05 11:52:52,797 [INFO] DONE_IMMEDIATE batch=1 total=2 success=2 failed=0 elapsed=0.58s
+2026-08-05 11:53:19,072 [INFO] START_IMMEDIATE batch=2 count=2 target=JPG compact=False quality=72 destination=source
+2026-08-05 11:53:19,084 [INFO] OK_IMMEDIATE batch=2 source=F:\ぽっちゃりふとらせＣＧ\太らせぽっちゃり 少女CGのコピーのコピーのコピーのコピー.png output=F:\ぽっちゃりふとらせＣＧ\太らせぽっちゃり 少女CGのコピーのコピーのコピーのコピー.jpg
+2026-08-05 11:53:19,097 [INFO] OK_IMMEDIATE batch=2 source=F:\ぽっちゃりふとらせＣＧ\太らせぽっちゃり 少女CGのコピーのコピーのコピー.png output=F:\ぽっちゃりふとらせＣＧ\太らせぽっちゃり 少女CGのコピーのコピーのコピー.jpg
+2026-08-05 11:53:19,097 [INFO] DONE_IMMEDIATE batch=2 total=2 success=2 failed=0 elapsed=0.02s
+2026-08-17 22:04:01,889 [INFO] START_IMMEDIATE batch=1 count=4 target=PNG compact=False quality=72 destination=downloads
+2026-08-17 22:04:02,079 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\GAI2\pixai-task_2044646667460211049_1.webp output=C:\Users\ihogo\Downloads\pixai-task_2044646667460211049_1.png
+2026-08-17 22:04:02,236 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\GAI2\pixai-task_2044646667460211049_2.webp output=C:\Users\ihogo\Downloads\pixai-task_2044646667460211049_2.png
+2026-08-17 22:04:02,385 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\GAI2\pixai-task_2044648821668412713_2.webp output=C:\Users\ihogo\Downloads\pixai-task_2044648821668412713_2.png
+2026-08-17 22:04:02,530 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\GAI2\pixai-task_2044648821668412713_3.webp output=C:\Users\ihogo\Downloads\pixai-task_2044648821668412713_3.png
+2026-08-17 22:04:02,530 [INFO] DONE_IMMEDIATE batch=1 total=4 success=4 failed=0 elapsed=0.64s
+2026-08-25 23:15:03,596 [INFO] START_IMMEDIATE batch=1 count=4 target=PNG compact=False quality=72 destination=downloads
+2026-08-25 23:15:03,889 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\Cursor\pixai-task_2048257256402276053_3.webp output=C:\Users\ihogo\Downloads\pixai-task_2048257256402276053_3.png
+2026-08-25 23:15:04,042 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\Cursor\pixai-task_2048258281538306183_4.webp output=C:\Users\ihogo\Downloads\pixai-task_2048258281538306183_4.png
+2026-08-25 23:15:04,192 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\Cursor\pixai-task_2048258521198954969_2.webp output=C:\Users\ihogo\Downloads\pixai-task_2048258521198954969_2.png
+2026-08-25 23:15:04,342 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\Cursor\pixai-task_2048258529030758668_4.webp output=C:\Users\ihogo\Downloads\pixai-task_2048258529030758668_4.png
+2026-08-25 23:15:04,342 [INFO] DONE_IMMEDIATE batch=1 total=4 success=4 failed=0 elapsed=0.74s
+2026-09-02 22:56:27,897 [INFO] START_IMMEDIATE batch=1 count=13 target=PNG compact=False quality=72 destination=source
+2026-09-02 22:56:28,097 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261284425516448_4.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261284425516448_4.png
+2026-09-02 22:56:28,240 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261310916314728_1.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261310916314728_1.png
+2026-09-02 22:56:28,389 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261310916314728_2.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261310916314728_2.png
+2026-09-02 22:56:28,536 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261310916314728_3.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261310916314728_3.png
+2026-09-02 22:56:28,686 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261310916314728_4.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261310916314728_4.png
+2026-09-02 22:56:28,831 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261319335236342_1.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261319335236342_1.png
+2026-09-02 22:56:28,975 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261319335236342_2.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261319335236342_2.png
+2026-09-02 22:56:29,122 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048258545772572044_1.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048258545772572044_1.png
+2026-09-02 22:56:29,275 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048258545772572044_2.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048258545772572044_2.png
+2026-09-02 22:56:29,452 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048258554258726506_1.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048258554258726506_1.png
+2026-09-02 22:56:29,634 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048258554258726506_3.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048258554258726506_3.png
+2026-09-02 22:56:29,818 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261284425516448_1.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261284425516448_1.png
+2026-09-02 22:56:29,988 [INFO] OK_IMMEDIATE batch=1 source=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261284425516448_3.webp output=C:\Users\ihogo\Downloads\pixai-tasks_2026-08-24-00-28-46\pixai-task_2048261284425516448_3.png
+2026-09-02 22:56:29,988 [INFO] DONE_IMMEDIATE batch=1 total=13 success=13 failed=0 elapsed=2.09s
+2026-09-02 22:56:58,296 [INFO] START_IMMEDIATE batch=2 count=4 target=PNG compact=False quality=72 destination=downloads
+2026-09-02 22:56:58,461 [INFO] OK_IMMEDIATE batch=2 source=C:\Users\ihogo\Downloads\Cursor\pixai-task_2048261284425516448_4.webp output=C:\Users\ihogo\Downloads\pixai-task_2048261284425516448_4.png
+2026-09-02 22:56:58,662 [INFO] OK_IMMEDIATE batch=2 source=C:\Users\ihogo\Downloads\Cursor\pixai-task_2048261310916314728_1.webp output=C:\Users\ihogo\Downloads\pixai-task_2048261310916314728_1.png
+2026-09-02 22:56:58,807 [INFO] OK_IMMEDIATE batch=2 source=C:\Users\ihogo\Downloads\Cursor\pixai-task_2048261310916314728_2.webp output=C:\Users\ihogo\Downloads\pixai-task_2048261310916314728_2.png
+2026-09-02 22:56:58,970 [INFO] OK_IMMEDIATE batch=2 source=C:\Users\ihogo\Downloads\Cursor\pixai-task_2048261284425516448_1.webp output=C:\Users\ihogo\Downloads\pixai-task_2048261284425516448_1.png
+2026-09-02 22:56:58,971 [INFO] DONE_IMMEDIATE batch=2 total=4 success=4 failed=0 elapsed=0.67s
