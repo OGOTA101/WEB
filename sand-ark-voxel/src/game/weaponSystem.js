@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { audio } from '../audio.js';
-import { $, HW, HL, raySphere, rayAABB, obstacleBox, lerpAngle } from './util.js';
+import { $, HW, HL, ATTACK_HIT_SCALE, raySphere, rayAABB, obstacleBox, lerpAngle } from './util.js';
 
 /**
  * 武器システム（SandArkGame に混ぜ込む）
@@ -367,18 +367,19 @@ export const WeaponSystem = {
     const fwd = new THREE.Vector3(-Math.sin(p.yaw), 0, -Math.cos(p.yaw));
     const chest = p.pos.clone().add(new THREE.Vector3(0, 1.8, 0));
     const center = def.melee === 'hammer' ? p.pos.clone().addScaledVector(fwd, 3.2) : chest;
+    const reach = def.range * ATTACK_HIT_SCALE;
     const inArc = (pos, extra = 0) => {
       const d = pos.clone().sub(def.melee === 'hammer' ? center : chest);
       const flat = Math.hypot(d.x, d.z);
-      if (flat > def.range + extra || Math.abs(d.y) > 4.5) return false;
+      if (flat > reach + extra || Math.abs(d.y) > 4.5 * ATTACK_HIT_SCALE) return false;
       if (def.arc >= 6) return true;
       const ang = Math.acos(THREE.MathUtils.clamp((d.x * fwd.x + d.z * fwd.z) / Math.max(0.001, flat), -1, 1));
-      return ang <= def.arc / 2 || flat < 1.6;
+      return ang <= def.arc / 2 || flat < 1.6 * ATTACK_HIT_SCALE;
     };
 
     let hits = 0;
     for (const e of [...this.enemies]) {
-      if (inArc(e.mesh.position, 1.4)) {
+      if (inArc(e.mesh.position, 1.4 * ATTACK_HIT_SCALE)) {
         hits++;
         const kb = e.mesh.position.clone().sub(p.pos).setY(0).normalize().multiplyScalar(def.knockback * 0.7);
         if (def.melee === 'hammer') kb.y = def.knockback * 0.6;
@@ -399,7 +400,7 @@ export const WeaponSystem = {
     if (def.melee !== 'pile') {
       for (let i = this.enemyBullets.length - 1; i >= 0; i--) {
         const b = this.enemyBullets[i];
-        if (inArc(b.mesh.position, 1.0)) {
+        if (inArc(b.mesh.position, (b.boss ? 1.0 : 1.0 * ATTACK_HIT_SCALE))) {
           this.px.spark(b.mesh.position, b.vel.clone().normalize().negate(), 0xffffff, 10, 12, 0.8);
           audio.play('deflect', { throttle: 0.05, pos: b.mesh.position });
           this.scene.remove(b.mesh);
@@ -411,7 +412,7 @@ export const WeaponSystem = {
     // 演出
     const color = def.color;
     if (def.melee === 'blade') {
-      this._slashArc(chest, p.yaw, def.range, def.arc, color, false);
+      this._slashArc(chest, p.yaw, reach, def.arc, color, false);
       if (hits) audio.play('meleeHit', { throttle: 0.05 });
       this.cam.shake = Math.max(this.cam.shake, hits ? 0.45 : 0.15);
     } else if (def.melee === 'pile') {
@@ -426,7 +427,7 @@ export const WeaponSystem = {
       this.player.knock.addScaledVector(fwd, -6); // 反動
     } else {
       const impact = center.clone().setY(0.2);
-      this.px.ring(impact, def.range * 1.4, 0x8fb6ff, 0.5);
+      this.px.ring(impact, reach * 1.4, 0x8fb6ff, 0.5);
       this.px.explosion(impact, 0x8fb6ff, 0.8, { noDebris: false });
       audio.play('hammerHit', { throttle: 0.05 });
       audio.play('land', { throttle: 0.05 });
@@ -559,7 +560,7 @@ export const WeaponSystem = {
     this.scene.add(g);
     this.bullets.push({
       mesh: g, kind, def,
-      vel: opt.vel ? opt.vel.clone() : dir.clone().multiplyScalar(def.speed || 80),
+      vel: opt.vel ? opt.vel.clone() : dir.clone().multiplyScalar(def.speed || 240),
       life: def.life || (kind === 'missile' ? 5.5 : kind === 'gravity' ? 2.4 : kind === 'mortar' ? 5.5 : 4.2),
       damage: opt.damage ?? def.damage,
       power: def.power ?? 1,
@@ -606,7 +607,7 @@ export const WeaponSystem = {
   _raycastWorld(o, d, maxDist) {
     let best = { t: maxDist, enemy: null, boss: false, wall: false };
     for (const e of this.enemies) {
-      const t = raySphere(o, d, e.mesh.position, 1.5);
+      const t = raySphere(o, d, e.mesh.position, 1.5 * ATTACK_HIT_SCALE);
       if (t < best.t) best = { t, enemy: e, boss: false, wall: false };
     }
     if (this.boss && this.boss.state !== 'dying') {
@@ -632,7 +633,8 @@ export const WeaponSystem = {
   _clearBulletsOnLine(o, d, len, r = 1.2) {
     for (let i = this.enemyBullets.length - 1; i >= 0; i--) {
       const b = this.enemyBullets[i];
-      if (raySphere(o, d, b.mesh.position, r + b.size * 0.4) < len) {
+      const rad = (r + b.size * 0.4) * (b.boss ? 1 : ATTACK_HIT_SCALE);
+      if (raySphere(o, d, b.mesh.position, rad) < len) {
         this.px.hitEnergy(b.mesh.position, b.color, 0.6);
         audio.play('bulletClash', { throttle: 0.08, pos: b.mesh.position });
         this.scene.remove(b.mesh);
@@ -668,7 +670,7 @@ export const WeaponSystem = {
     this._clearBulletsOnLine(muzzle, dir, wallT, 1.6);
     let hits = 0;
     for (const e of [...this.enemies]) {
-      if (raySphere(muzzle, dir, e.mesh.position, 1.8) < wallT) {
+      if (raySphere(muzzle, dir, e.mesh.position, 1.8 * ATTACK_HIT_SCALE) < wallT) {
         hits++;
         e.vel.addScaledVector(dir, def.knockback * 0.5);
         this._damageEnemy(e, def.damage, { pos: e.mesh.position.clone(), energy: def.color });
@@ -734,7 +736,8 @@ export const WeaponSystem = {
       let destroyed = false;
       for (let j = this.enemyBullets.length - 1; j >= 0; j--) {
         const eb = this.enemyBullets[j];
-        const r = 0.7 + eb.size * 0.45 + (b.kind === 'gravity' ? 1.5 : 0);
+        const r0 = 0.7 + eb.size * 0.45 + (b.kind === 'gravity' ? 1.5 : 0);
+        const r = r0 * (eb.boss ? 1 : ATTACK_HIT_SCALE);
         if (pos.distanceToSquared(eb.mesh.position) > r * r) continue;
         const contact = pos.clone().lerp(eb.mesh.position, 0.5);
         this.px.spark(contact, b.vel.clone().normalize().negate(), 0xffffff, 8, 10, 1);
@@ -759,9 +762,9 @@ export const WeaponSystem = {
       }
 
       let hitEnemy = null, hitBoss = false, hitWall = false;
-      const er = b.kind === 'plasma' || b.kind === 'gravity' ? 4 : 2.6;
+      const hitR = (b.kind === 'plasma' || b.kind === 'gravity' ? 2 : Math.sqrt(2.6)) * ATTACK_HIT_SCALE;
       for (const e of this.enemies) {
-        if (this.wasm.distSq3D(pos.x, pos.y, pos.z, e.mesh.position.x, e.mesh.position.y, e.mesh.position.z) < er) { hitEnemy = e; break; }
+        if (this.wasm.distSq3D(pos.x, pos.y, pos.z, e.mesh.position.x, e.mesh.position.y, e.mesh.position.z) < hitR * hitR) { hitEnemy = e; break; }
       }
       if (!hitEnemy && this.boss && this.boss.state !== 'dying') {
         for (const hp of this.boss.worldHits) if (pos.distanceTo(hp) < this.boss.hitR) { hitBoss = true; break; }
@@ -882,7 +885,7 @@ export const WeaponSystem = {
       f.mesh.scale.setScalar(0.25 + (1 - f.life / f.max) * 1.6);
       for (const e of this.enemies) {
         if (f.hit.has(e)) continue;
-        if (f.mesh.position.distanceTo(e.mesh.position) < 2.2) {
+        if (f.mesh.position.distanceTo(e.mesh.position) < 2.2 * ATTACK_HIT_SCALE) {
           f.hit.add(e);
           if (e.burn <= 0) audio.play('burn', { pos: e.mesh.position, throttle: 0.3, vol: 0.5 });
           e.burn = 3.0;
@@ -899,7 +902,7 @@ export const WeaponSystem = {
       }
       if (this.boss && this.boss.state !== 'dying' && !f.hit.has(this.boss)) {
         for (const hp of this.boss.worldHits) {
-          if (f.mesh.position.distanceTo(hp) < this.boss.hitR + 1) {
+          if (f.mesh.position.distanceTo(hp) < this.boss.hitR + ATTACK_HIT_SCALE) {
             f.hit.add(this.boss);
             this._damageBoss(f.def.damage * 1.5, f.mesh.position.clone(), true);
             break;
@@ -917,16 +920,17 @@ export const WeaponSystem = {
     let hit = false;
     for (const e of [...this.enemies]) {
       const d = e.mesh.position.distanceTo(pos);
-      if (d < radius + 1.2) {
+      const splashR = (radius + 1.2) * ATTACK_HIT_SCALE;
+      if (d < splashR) {
         hit = true;
-        const f = 1 - Math.min(1, d / (radius + 1.2)) * 0.6;
+        const f = 1 - Math.min(1, d / splashR) * 0.6;
         if (knock) e.vel.addScaledVector(e.mesh.position.clone().sub(pos).normalize(), knock * 0.6);
         this._damageEnemy(e, damage * f, { silent: true, noFx: true });
       }
     }
     if (this.boss && this.boss.state !== 'dying') {
       for (const hp of this.boss.worldHits) {
-        if (hp.distanceTo(pos) < radius + this.boss.hitR) { this._damageBoss(damage, pos, true); hit = true; break; }
+        if (hp.distanceTo(pos) < radius * ATTACK_HIT_SCALE + this.boss.hitR) { this._damageBoss(damage, pos, true); hit = true; break; }
       }
     }
     if (hit) this._hitMarker(false);

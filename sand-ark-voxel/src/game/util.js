@@ -7,6 +7,8 @@ export const HL = SHIP_BOUNDS.halfLength;
 export const GRAVITY = 26;
 export const MECH_LENGTH = 3.2;      // 回避距離 ≒ 機体1機分
 export const BOSS_SCALE = 4;         // ボスの大きさ（さらに2倍＝初期比4倍の超巨大サイズ）
+/** プレイヤーと雑魚の攻撃判定。ボス本体の攻撃はこの倍率を掛けない */
+export const ATTACK_HIT_SCALE = 1 / 3;
 export const WRECK_TIME = 30;        // 残骸が残る時間
 export const REDEPLOY_TIME = 30;     // ガレージからの再出撃にかかる時間
 export const REVIVE_TIME = 5;        // 仲間が近くにいて復旧完了するまでの時間

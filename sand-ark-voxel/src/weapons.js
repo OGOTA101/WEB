@@ -19,19 +19,19 @@ export const WEAPONS = [
   // ===================== 射撃（腕） =====================
   {
     id: 'w_cannon', name: 'HC-88 重装榴弾キャノン', short: 'CANNON', category: '実弾 / 爆発', icon: '💥',
-    behavior: 'shell', damage: 240, fireRate: 1.25, speed: 46, splash: 4.5, knockback: 10, power: 3,
+    behavior: 'shell', damage: 240, fireRate: 1.25, speed: 138, splash: 4.5, knockback: 10, power: 3,
     mag: 6, reload: 2.6, color: 0xff8a00, recoil: 0.9, fireSE: 'fireCannon',
     desc: '重い砲弾が放物線を描き、着弾点を吹き飛ばす。敵弾も押し潰す高出力弾。'
   },
   {
     id: 'w_gatling', name: 'GT-6 回転式重機関砲', short: 'GATLING', category: '実弾 / 連射', icon: '⚙',
-    behavior: 'gatling', damage: 26, fireRate: 0.09, speed: 82, spread: 0.035, knockback: 1, power: 0.6,
+    behavior: 'gatling', damage: 26, fireRate: 0.09, speed: 246, spread: 0.035, knockback: 1, power: 0.6,
     mag: 120, reload: 3.0, color: 0xffe066, recoil: 0.12, fireSE: 'fireGatling',
     desc: '6本のバレルが回転して弾幕を張る。撃ち始めは回転が上がるまで遅い。'
   },
   {
     id: 'w_pulse', name: 'LZ-2 パルスレーザー', short: 'PULSE', category: '光学 / バースト', icon: '✦',
-    behavior: 'pulse', damage: 58, fireRate: 0.7, speed: 120, burst: 3, knockback: 2, power: 1,
+    behavior: 'pulse', damage: 58, fireRate: 0.7, speed: 360, burst: 3, knockback: 2, power: 1,
     mag: 18, reload: 2.0, color: 0x40f0ff, recoil: 0.25, fireSE: 'firePulse',
     desc: '高速の光弾を3点バースト。弾速が速く遠くの敵に当てやすい。'
   },
@@ -43,7 +43,7 @@ export const WEAPONS = [
   },
   {
     id: 'w_missile', name: 'MP-4 誘導ミサイルポッド', short: 'MISSILE', category: '爆発 / 誘導', icon: '🚀',
-    behavior: 'missile', damage: 75, fireRate: 1.6, speed: 32, count: 4, splash: 2.6, knockback: 4, power: 1.5,
+    behavior: 'missile', damage: 75, fireRate: 1.6, speed: 96, count: 4, splash: 2.6, knockback: 4, power: 1.5,
     mag: 16, reload: 3.5, color: 0xff5050, recoil: 0.4, fireSE: 'fireMissile',
     desc: '4発を扇状に発射。[F]でロックオンした敵へ誘導する。'
   },
@@ -55,25 +55,25 @@ export const WEAPONS = [
   },
   {
     id: 'w_plasma', name: 'PL-3 プラズマランチャー', short: 'PLASMA', category: '光学 / 爆発', icon: '◉',
-    behavior: 'plasma', damage: 150, fireRate: 0.95, speed: 34, splash: 3.6, knockback: 6, power: 2.5,
+    behavior: 'plasma', damage: 150, fireRate: 0.95, speed: 102, splash: 3.6, knockback: 6, power: 2.5,
     mag: 8, reload: 2.4, color: 0x5dff8a, recoil: 0.45, fireSE: 'firePlasma',
     desc: '低速の大きなプラズマ球。ロック中の敵へ緩やかに引き寄せられ炸裂する。'
   },
   {
     id: 'w_shotgun', name: 'SG-12 重散弾砲', short: 'SHOTGUN', category: '実弾 / 近距離', icon: '✸',
-    behavior: 'shotgun', damage: 34, fireRate: 1.0, speed: 72, pellets: 9, spread: 0.09, life: 0.55, knockback: 3, power: 0.8,
+    behavior: 'shotgun', damage: 34, fireRate: 1.0, speed: 216, pellets: 9, spread: 0.09, life: 0.55, knockback: 3, power: 0.8,
     mag: 6, reload: 2.8, color: 0xffc46b, recoil: 0.8, fireSE: 'fireShotgun',
     desc: '9発の散弾。射程は短いが、接近した敵を一撃で押し返す。'
   },
   {
     id: 'w_flame', name: 'FT-5 火炎放射器', short: 'FLAME', category: '特殊 / 炎上', icon: '🔥',
-    behavior: 'flame', damage: 9, fireRate: 0.045, speed: 22, life: 0.6, knockback: 0, power: 0.5,
+    behavior: 'flame', damage: 9, fireRate: 0.045, speed: 66, life: 0.6, knockback: 0, power: 0.5,
     mag: 100, drain: 20, reload: 3.0, color: 0xff6a1a, recoil: 0.02, fireSE: null,
     desc: '押し続ける間、炎を噴射。当たった敵を炎上させ継続ダメージ。'
   },
   {
     id: 'w_gravity', name: 'GV-0 重力崩壊砲', short: 'GRAVITY', category: '特殊 / 範囲', icon: '◎',
-    behavior: 'gravity', damage: 280, fireRate: 2.2, speed: 20, pullRadius: 11, splash: 7, knockback: 0, power: 6,
+    behavior: 'gravity', damage: 280, fireRate: 2.2, speed: 60, pullRadius: 11, splash: 7, knockback: 0, power: 6,
     mag: 2, reload: 4.0, color: 0x9b5cff, recoil: 0.6, fireSE: 'fireGravity',
     desc: '重力球が敵と敵弾を吸い寄せ、一気に圧壊させる。'
   },
@@ -109,13 +109,13 @@ export const WEAPONS = [
 export const BUILTIN_WEAPONS = {
   b_vulcan: {
     id: 'b_vulcan', name: '頭部バルカン', short: 'VULCAN', category: '内蔵 / 牽制', icon: '⁘', mount: 'head',
-    behavior: 'vulcan', damage: 14, fireRate: 0.07, speed: 95, spread: 0.05, knockback: 0, power: 0.4,
+    behavior: 'vulcan', damage: 14, fireRate: 0.07, speed: 285, spread: 0.05, knockback: 0, power: 0.4,
     mag: 60, reload: 2.5, color: 0xfff1a8, recoil: 0.03, fireSE: 'fireVulcan',
     desc: '頭部の小口径機関砲。威力は低いが、迫る敵弾の迎撃に使える。'
   },
   b_micromissile: {
     id: 'b_micromissile', name: '肩部マイクロミサイル', short: 'μ-MISSILE', category: '内蔵 / 誘導', icon: '⇶', mount: 'shoulder',
-    behavior: 'missile', damage: 42, fireRate: 2.0, speed: 30, count: 6, splash: 2.0, knockback: 2, power: 1,
+    behavior: 'missile', damage: 42, fireRate: 2.0, speed: 90, count: 6, splash: 2.0, knockback: 2, power: 1,
     mag: 18, reload: 4.0, color: 0xff7070, recoil: 0.2, fireSE: 'fireMissile',
     desc: '肩の小型ミサイルを6連射。ロックオン中の敵へ群がる。'
   },

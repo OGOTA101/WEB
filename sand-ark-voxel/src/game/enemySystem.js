@@ -3,7 +3,7 @@ import { createFloatingVoxelEnemy, createDropContainerModel } from '../voxelBuil
 import { WEAPONS, getWeapon } from '../weapons.js';
 import { pickDropPart, SLOT_LABELS } from '../partsData.js';
 import { audio } from '../audio.js';
-import { $, HW, HL, RED, easeOutCubic, lerpAngle, disposeObject } from './util.js';
+import { $, HW, HL, RED, ATTACK_HIT_SCALE, easeOutCubic, lerpAngle, disposeObject } from './util.js';
 
 /** 敵タイプごとに装備しうるプレイヤー武器IDリスト */
 const ENEMY_WEAPON_POOLS = {
@@ -30,8 +30,8 @@ export const EnemySystem = {
     const side = Math.random() < 0.5 ? -1 : 1;
     const ref = this._livePlayerPos();
     const pos = near
-      ? near.clone().add(new THREE.Vector3((Math.random() - 0.5) * 14, 2.5 + Math.random() * 3.5, (Math.random() - 0.5) * 14))
-      : new THREE.Vector3(side * (HW + 18 + Math.random() * 10), 6 + Math.random() * 5, ref.z + (Math.random() - 0.5) * 44);
+      ? near.clone().add(new THREE.Vector3((Math.random() - 0.5) * 36, 3 + Math.random() * 7, (Math.random() - 0.5) * 36))
+      : new THREE.Vector3(side * (HW + 34 + Math.random() * 26), 5 + Math.random() * 10, ref.z + (Math.random() - 0.5) * 110);
     mesh.position.copy(pos);
     mesh.scale.setScalar(0.01);
     this.scene.add(mesh);
@@ -73,7 +73,7 @@ export const EnemySystem = {
     const ref = e.tgt && e.tgt.ally ? e.tgt.ally.mesh.position : this._livePlayerPos();
     const isClose = e.weapon.behavior === 'melee' || e.weapon.behavior === 'shotgun' || e.weapon.behavior === 'flame';
     const a = Math.random() * Math.PI * 2;
-    const r = isClose ? (7 + Math.random() * 7) : (12 + Math.random() * 11);
+    const r = isClose ? (16 + Math.random() * 16) : (30 + Math.random() * 28);
     e.anchor.set(
       THREE.MathUtils.clamp(ref.x + Math.cos(a) * r, -(HW + 8), HW + 8),
       3.0 + Math.random() * 3.5,
@@ -141,15 +141,15 @@ export const EnemySystem = {
           heat = Math.min(1, e.timer / dur);
           e.aimDir.lerp(aimNorm, Math.min(1, dt * 5)).normalize();
           if (e.teleLine) {
-            this._updateLineTelegraph(e.teleLine, pos, pos.clone().addScaledVector(e.aimDir, 90), heat);
+            this._updateLineTelegraph(e.teleLine, pos, pos.clone().addScaledVector(e.aimDir, 90), heat, 1.7);
           }
           if (Math.random() < heat * 0.45) {
             this.px.glow.spawn(pos.clone().add(new THREE.Vector3((Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2)), new THREE.Vector3(), 0xff2020, 0.08, 0.22, { intensity: 3 });
           }
           if (e.timer >= dur) {
             e.timer = 0;
-            if (e.teleLine) { this._removeTelegraph(e.teleLine); e.teleLine = null; }
             if (e.weapon.behavior === 'melee' || e.type === 'rammer' && e.weapon.behavior === 'none') {
+              if (e.teleLine) { this._removeTelegraph(e.teleLine); e.teleLine = null; }
               e.state = 'rush';
               e.rushDir = aimNorm.clone();
               e.hitPlayer = false;
@@ -164,6 +164,7 @@ export const EnemySystem = {
           maxSpeed = 0.8;
           heat = 0.85;
           e.aimDir.lerp(aimNorm, Math.min(1, dt * 3.5)).normalize();
+          if (e.teleLine) this._updateLineTelegraph(e.teleLine, pos, pos.clone().addScaledVector(e.aimDir, 90), 0.9, 1.7);
           if (ud.weaponModel?.spinner) ud.weaponModel.spinner.rotation.z += dt * 32;
           e.shotTimer -= dt;
           if (e.shotTimer <= 0 && e.shotsLeft > 0) {
@@ -172,6 +173,7 @@ export const EnemySystem = {
             this._fireEnemyWeaponShot(e, e.aimDir);
           }
           if (e.shotsLeft <= 0 && e.timer > 0.25) {
+            if (e.teleLine) { this._removeTelegraph(e.teleLine); e.teleLine = null; }
             e.state = 'recover';
             e.timer = 0;
           }
@@ -182,13 +184,13 @@ export const EnemySystem = {
           e.vel.copy(e.rushDir).multiplyScalar(19);
           desired = null;
           if (Math.random() < 0.5) this.px.glow.spawn(pos, e.rushDir.clone().multiplyScalar(-4), e.weapon.color || 0xff5c7a, 0.3, 0.2, { intensity: 2 });
-          if (!e.hitPlayer && e.tgt && e.tgt.ally && e.tgt.ally.state === 'alive' && pos.distanceTo(e.tgt.ally.mesh.position.clone().add(new THREE.Vector3(0, 1.5, 0))) < 3.0) {
+          if (!e.hitPlayer && e.tgt && e.tgt.ally && e.tgt.ally.state === 'alive' && pos.distanceTo(e.tgt.ally.mesh.position.clone().add(new THREE.Vector3(0, 1.5, 0))) < 3.0 * ATTACK_HIT_SCALE) {
             e.hitPlayer = true;
             this._damageAlly(e.tgt.ally, e.weapon.behavior === 'melee' ? Math.round(e.weapon.damage * 0.55) : 120);
             this.px.hitMetal(pos, e.rushDir.clone().negate(), e.weapon.color || 0xffc46b, 1.6);
             audio.play('meleeHit', { pos, throttle: 0.1 });
           }
-          if (!e.hitPlayer && !p.dead && pos.distanceTo(p.pos.clone().add(new THREE.Vector3(0, 1.5, 0))) < 3.0) {
+          if (!e.hitPlayer && !p.dead && pos.distanceTo(p.pos.clone().add(new THREE.Vector3(0, 1.5, 0))) < 3.0 * ATTACK_HIT_SCALE) {
             e.hitPlayer = true;
             const dmg = e.weapon.behavior === 'melee' ? Math.round(e.weapon.damage * 0.55) : 120;
             if (this._damagePlayer(dmg)) this._knockPlayer(e.rushDir.clone().setY(0.32).normalize().multiplyScalar(19));
@@ -228,7 +230,7 @@ export const EnemySystem = {
         if (o === e) continue;
         const d = pos.clone().sub(o.mesh.position);
         const l = d.length();
-        if (l < 4 && l > 0.01) e.vel.addScaledVector(d.normalize(), (4 - l) * dt * 2);
+        if (l < 18 && l > 0.01) e.vel.addScaledVector(d.normalize(), (18 - l) * dt * 3.2);
       }
       pos.addScaledVector(e.vel, dt);
 
@@ -360,9 +362,12 @@ export const EnemySystem = {
   },
 
   _spawnEnemyBullet(pos, dir, variant, speed, size = 1, opt = {}) {
-    const color = opt.color || (variant === 'stunner' ? 0x40e0ff : variant === 'burner' ? 0xff6a1a : 0xff2a4a);
+    const raw = opt.color || (variant === 'stunner' ? 0x40e0ff : variant === 'burner' ? 0xff6a1a : 0xff2a4a);
+    const boss = !!opt.boss;
+    const color = boss ? raw : new THREE.Color(raw).lerp(new THREE.Color(0xff1830), 0.42).getHex();
+    const shotSpeed = speed * 3;
     const g = new THREE.Group();
-    const core = new THREE.Mesh(this.geo.sphere, this.glowMat(0xffffff, 1, 3));
+    const core = new THREE.Mesh(this.geo.sphere, this.glowMat(boss ? 0xffffff : 0xffc4c8, 1, 3));
     core.scale.setScalar(0.25 * size);
     const outer = new THREE.Mesh(this.geo.sphere, this.glowMat(color, 0.65, 2.5));
     outer.scale.setScalar(0.6 * size);
@@ -371,8 +376,8 @@ export const EnemySystem = {
     this.scene.add(g);
     const power = opt.power ?? ((variant === 'burner' ? 1.2 : 1) * (size > 1.2 ? 2.5 : 1));
     this.enemyBullets.push({
-      mesh: g, outer, vel: dir.clone().multiplyScalar(speed), speed,
-      variant, color, life: opt.life ?? 6.5, size, power,
+      mesh: g, outer, vel: dir.clone().multiplyScalar(shotSpeed), speed: shotSpeed,
+      variant, color, life: opt.life ?? 6.5, size, power, boss,
       dmg: opt.dmg ?? (variant === 'normal' ? 65 : 52),
       homing: opt.homing || 0, gravity: opt.gravity || 0, splash: opt.splash || 0, pull: !!opt.pull
     });
@@ -408,7 +413,8 @@ export const EnemySystem = {
         if (b.splash) {
           this.px.explosion(pos.clone().setY(0.2), b.color, 0.9, { noDebris: true });
           audio.play('explosionSmall', { pos, throttle: 0.08 });
-          if (!p.dead && pos.distanceTo(chest) < b.splash + 1.2) {
+          const splashR = (b.splash + 1.2) * (b.boss ? 1 : ATTACK_HIT_SCALE);
+          if (!p.dead && pos.distanceTo(chest) < splashR) {
             if (this._damagePlayer(b.dmg * 0.8)) {
               this._knockPlayer(p.pos.clone().sub(pos).setY(0.3).normalize().multiplyScalar(8));
             }
@@ -418,7 +424,8 @@ export const EnemySystem = {
           this.px.scorch(pos, 0.6);
         }
       }
-      if (!remove && !p.dead && pos.distanceTo(chest) < 1.55 + b.size * 0.4) {
+      const bodyR = (1.55 + b.size * 0.4) * (b.boss ? 1 : ATTACK_HIT_SCALE);
+      if (!remove && !p.dead && pos.distanceTo(chest) < bodyR) {
         if (p.invuln > 0) continue;
         remove = true;
         if (this._damagePlayer(b.dmg)) {
@@ -432,7 +439,7 @@ export const EnemySystem = {
       if (!remove) {
         for (const a of this.allies) {
           if (a.state !== 'alive') continue;
-          if (pos.distanceTo(a.mesh.position.clone().add(new THREE.Vector3(0, 1.5, 0))) < 1.6 + b.size * 0.4) {
+          if (pos.distanceTo(a.mesh.position.clone().add(new THREE.Vector3(0, 1.5, 0))) < (1.6 + b.size * 0.4) * (b.boss ? 1 : ATTACK_HIT_SCALE)) {
             remove = true;
             this._damageAlly(a, b.dmg);
             this.px.hitMetal(pos, b.vel.clone().normalize().negate(), b.color, 1.0);
