@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ライフロード・オンライン</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <section id="lobby" class="lobby-screen" aria-labelledby="gameTitle">
+        <div class="lobby-art" aria-hidden="true">
+          <img src="./assets/generated/map_concept.png" alt="" />
+        </div>
+        <div class="lobby-panel">
+          <div class="brand-row">
+            <div class="brand-mark">L</div>
+            <div>
+              <h1 id="gameTitle">ライフロード・オンライン</h1>
+              <p>Life Notesを集めてゴールを目指そう</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <label>
+              <span>プレイヤー名</span>
+              <input id="playerNameInput" maxlength="12" value="あなた" />
+            </label>
+            <label>
+              <span>参加人数</span>
+              <select id="totalPlayersSelect"></select>
+            </label>
+            <label>
+              <span>人間プレイヤー</span>
+              <select id="humanPlayersSelect"></select>
+            </label>
+            <label>
+              <span>ゲーム長</span>
+              <select id="gameLengthSelect">
+                <option value="56">ショート</option>
+                <option value="72" selected>スタンダード</option>
+                <option value="88">ロング</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="lobby-actions">
+            <button id="startGameButton" class="primary-button">ゲーム開始</button>
+            <button id="loadDemoButton" class="ghost-button">7人で開始</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="game-screen is-hidden" aria-label="ゲーム画面">
+        <header class="topbar">
+          <div class="room-chip">
+            <span>ルーム</span>
+            <strong id="roomCodeLabel">LOCAL</strong>
+          </div>
+          <div class="status-chip">
+            <span>ターン</span>
+            <strong id="turnLabel">1</strong>
+          </div>
+          <div class="status-chip">
+            <span>株価</span>
+            <strong id="stockLabel">10,000L</strong>
+          </div>
+          <div class="topbar-spacer"></div>
+          <label class="speed-toggle">
+            <input id="fastModeToggle" type="checkbox" />
+            <span>高速</span>
+          </label>
+          <button id="showResultsButton" class="icon-text-button" type="button">成績</button>
+          <button id="restartButton" class="icon-text-button danger" type="button">新規</button>
+        </header>
+
+        <main class="play-layout">
+          <section class="board-panel" aria-label="ボード">
+            <div id="boardViewport" class="board-viewport">
+              <img class="board-image" src="./assets/generated/map_concept.png" alt="ライフロードのマップ" />
+              <svg id="routeSvg" class="route-svg" viewBox="0 0 100 100" aria-hidden="true"></svg>
+              <div id="spacesLayer" class="spaces-layer" aria-hidden="true"></div>
+              <div id="tokensLayer" class="tokens-layer" aria-hidden="true"></div>
+            </div>
+          </section>
+
+          <aside class="side-panel" aria-label="プレイヤー情報">
+            <div class="side-heading">
+              <h2>順位</h2>
+              <span id="phaseLabel">準備中</span>
+            </div>
+            <div id="playersList" class="players-list"></div>
+            <div class="log-panel">
+              <div class="log-heading">
+                <h2>ログ</h2>
+                <button id="clearLogButton" type="button">整理</button>
+              </div>
+              <div id="eventLog" class="event-log"></div>
+            </div>
+          </aside>
+        </main>
+
+        <footer class="action-bar">
+          <section class="current-card">
+            <span id="currentPlayerDot" class="player-dot"></span>
+            <div>
+              <p id="currentPlayerLabel" class="eyeline">現在の番</p>
+              <h2 id="currentEventTitle">ゲーム開始</h2>
+              <p id="currentEventText">ルーレットを回してください</p>
+            </div>
+          </section>
+          <section class="roulette-card">
+            <div id="rouletteWheel" class="roulette-wheel">
+              <span id="spinValueLabel">?</span>
+            </div>
+            <button id="spinButton" class="spin-button" type="button">スピン</button>
+          </section>
+          <section class="asset-card">
+            <div class="asset-mini">
+              <span>職業</span>
+              <strong id="careerLabel">未定</strong>
+            </div>
+            <div class="asset-mini">
+              <span>家族</span>
+              <strong id="familyLabel">0</strong>
+            </div>
+            <div class="asset-mini">
+              <span>お宝</span>
+              <strong id="treasureLabel">0</strong>
+            </div>
+            <div class="asset-mini">
+              <span>借金</span>
+              <strong id="debtLabel">0L</strong>
+            </div>
+          </section>
+        </footer>
+      </section>
+
+      <div id="choiceModal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="choiceTitle">
+        <div class="choice-modal">
+          <div class="choice-head">
+            <h2 id="choiceTitle">選択</h2>
+            <p id="choiceMessage"></p>
+          </div>
+          <div id="choiceOptions" class="choice-options"></div>
+        </div>
+      </div>
+
+      <div id="resultsModal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="resultsTitle">
+        <div class="results-modal">
+          <div class="choice-head">
+            <h2 id="resultsTitle">成績表</h2>
+            <p id="resultsMessage"></p>
+          </div>
+          <div id="resultsTable" class="results-table"></div>
+          <div class="modal-actions">
+            <button id="closeResultsButton" class="ghost-button" type="button">閉じる</button>
+            <button id="resultsNewGameButton" class="primary-button" type="button">新規ゲーム</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/main.js" defer></script>
+  </body>
+</html>

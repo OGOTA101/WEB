@@ -1,0 +1,29 @@
+:root {
+  font-family: 'Noto Sans JP', 'Yu Gothic UI', system-ui, sans-serif;
+  color: #4d3f53;
+  background: #fff8fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(255, 222, 238, 0.75), transparent 35%),
+    linear-gradient(180deg, #fff9fb 0%, #fff3f8 100%);
+}
+
+button {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+  height: 100vh;
+}

@@ -1,0 +1,13 @@
+[
+  {"id":"intro","kind":"story","text":"魔王が倒れたその日から、娘は剣ではなく甘さで世界を奪うと決めていた。"},
+  {"id":"sweet-rumor","kind":"flavor","text":"焼き菓子の評判が、恋文みたいに街から街へ渡っている。"},
+  {"id":"soft-start","kind":"flavor","text":"街では『少しふっくらしたかも』と笑う声が増えた。まだ誰も、それを異変とは呼ばない。"},
+  {"id":"hidden-fat","kind":"flavor","text":"見た目は変わらないのに、身体の奥では静かに数字だけが丸くなっている。"},
+  {"id":"research-warning","kind":"warning","text":"各国の賢者たちが、甘い靄の正体を疑い始めた。"},
+  {"id":"research-start","kind":"danger","text":"瘦身魔法《リデュース》の共同研究が始まった。"},
+  {"id":"holy-alert","kind":"warning","text":"ルミナスの神殿が、節制布告の準備に入った。"},
+  {"id":"port-boom","kind":"flavor","text":"港町では新作菓子の屋台に列ができ、昼にはもう売り切れている。"},
+  {"id":"fairy-sweets","kind":"flavor","text":"妖精郷では蜜菓子が大流行。茶会の時間が少しずつ長くなっている。"},
+  {"id":"win","kind":"victory","text":"世界は甘く鈍り、魔王の娘の再侵攻は成った。"},
+  {"id":"lose","kind":"danger","text":"瘦身魔法が完成し、肥満魔瘴は浄化されてしまった。"}
+]

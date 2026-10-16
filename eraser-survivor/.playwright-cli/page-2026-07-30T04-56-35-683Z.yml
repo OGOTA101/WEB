@@ -1,0 +1,107 @@
+- generic [ref=f2e3]:
+  - banner:
+    - generic:
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+    - generic: 0:00
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:00
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/8 (0)
+    - generic:
+      - generic: CASE
+      - strong: BARE
+    - generic:
+      - generic: BODY
+      - strong: ■■■■■■■■
+    - generic:
+      - generic: HIGH
+      - strong: "12"
+  - generic:
+    - button "AUTO OFF"
+    - button "MAP OPEN"
+    - button "リトライ"
+    - button "タイトルへ戻る"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - paragraph: SPACE / P / ESC で停止。Eで全体MAP
+  - generic:
+    - generic:
+      - generic: ARMS
+      - strong: 通常攻撃 LV1
+    - list:
+      - listitem:
+        - generic: 通常攻撃
+        - generic: 威力 5、盾防御無視
+    - paragraph: 一時効果なし
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+      - generic:
+        - button "弓ガード 停止中にケースを構え、弓矢だけを防ぐ。ガード中は攻撃不可 GUARD":
+          - generic: 弓ガード
+          - generic: 停止中にケースを構え、弓矢だけを防ぐ。ガード中は攻撃不可
+          - generic: GUARD
+        - button "マシンガン 威力4。貫通なし、ノックバックあり LV 1":
+          - generic: マシンガン
+          - generic: 威力4。貫通なし、ノックバックあり
+          - generic: LV 1
+        - button "消しゴムコンパス 威力5。2個の弾丸が周回 LV 1":
+          - generic: 消しゴムコンパス
+          - generic: 威力5。2個の弾丸が周回
+          - generic: LV 1
+        - button "スナイパー弾 威力50。盾防御を無視する完全貫通弾を前へ1本 LV 1":
+          - generic: スナイパー弾
+          - generic: 威力50。盾防御を無視する完全貫通弾を前へ1本
+          - generic: LV 1
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - generic:
+        - term: SCORE
+        - definition: "12"
+        - term: TIME
+        - definition: 0:17
+        - term: KILLS
+        - definition: "12"
+        - term: HIGH
+        - definition: "12"
+      - paragraph
+      - button "リトライ"
+      - button "タイトルへ"
+  - dialog "最初からリトライしますか？":
+    - generic:
+      - paragraph: CONFIRM
+      - heading "最初からリトライしますか？" [level=1]
+      - paragraph: 現在のプレイを終了し、敵・弾・消しカスをすべて消して最初から開始します。
+      - generic:
+        - button "リトライする" [active]
+        - button "キャンセル"
+  - paragraph: "WASD: 移動 / マウス: 照準 / クリック: 固定 / SPACE: ポーズ"

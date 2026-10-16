@@ -1,0 +1,103 @@
+- generic [ref=f3e3]:
+  - generic [ref=f3e7]:
+    - generic "消しゴムサバイバー" [ref=f3e8]:
+      - img "消しゴムサバイバー" [ref=f3e9]
+      - generic: 槍
+      - generic: 弓
+      - generic: 盾
+      - generic: 龍
+      - generic: 盾
+      - generic: 兵
+      - generic: 兵
+      - img "主人公の消しゴム君"
+      - img "鉛筆のボス"
+    - generic [ref=f3e10]:
+      - generic [ref=f3e11]:
+        - generic [ref=f3e12]:
+          - generic [ref=f3e13]: NAME
+          - textbox "NAME" [ref=f3e14]
+        - generic [ref=f3e15]:
+          - generic [ref=f3e16]: BEST SCORE
+          - strong [ref=f3e17]: "0"
+      - generic [ref=f3e18]:
+        - button "PLAY" [ref=f3e19] [cursor=pointer]
+        - button "RANKING" [ref=f3e20] [cursor=pointer]
+        - button "合成図鑑" [ref=f3e21] [cursor=pointer]
+        - button "遊び方" [ref=f3e22] [cursor=pointer]
+      - generic "タイトル音量設定" [ref=f3e23]:
+        - generic [ref=f3e24]:
+          - generic [ref=f3e25]:
+            - text: SE
+            - strong [ref=f3e26]: "3"
+          - slider "SE 3" [ref=f3e27]: "3"
+        - generic [ref=f3e28]:
+          - generic [ref=f3e29]:
+            - text: BGM
+            - strong [ref=f3e30]: "5"
+          - slider "BGM 5" [ref=f3e31]: "5"
+      - paragraph [ref=f3e32]: "音楽: 魔王魂"
+  - banner:
+    - generic: 0:00
+    - generic [ref=f3e33]:
+      - button "AUTO ON" [ref=f3e34] [cursor=pointer]
+      - button "PAUSE" [ref=f3e35] [cursor=pointer]
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:00
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/5
+    - generic:
+      - generic: CASE
+      - strong: CASE
+    - generic:
+      - generic: BODY
+      - strong: ■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO ON"
+    - button "MAP OPEN"
+    - button "リトライ"
+    - button "タイトルへ戻る"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - paragraph: PAUSE中に設定変更。Eで全体MAP
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "リトライ"
+      - button "タイトルへ"
+  - dialog "確認":
+    - generic:
+      - paragraph: CONFIRM
+      - heading "確認" [level=1]
+      - paragraph
+      - generic:
+        - button "実行する"
+        - button "キャンセル"
+  - paragraph: "左半分: 移動 / 右半分: 攻撃方向固定"

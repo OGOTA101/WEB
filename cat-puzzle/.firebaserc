@@ -1,0 +1,14 @@
+{
+    "projects": {
+        "default": "sggame-hub"
+    },
+    "targets": {
+        "sggame-hub": {
+            "hosting": {
+                "neko-puzzle": [
+                    "sggame-neko-link"
+                ]
+            }
+        }
+    }
+}

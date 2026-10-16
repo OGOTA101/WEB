@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071216">
+  <meta name="description" content="TETRIS // REN — 空白を残さない列重力テトリス">
+  <title>TETRIS // REN</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand-block">
+        <p class="eyebrow">ARCADE SYSTEM <span>//</span> 07</p>
+        <h1>TETRIS <span>// REN</span></h1>
+      </div>
+      <section class="score-panel" aria-label="Score">
+        <span class="score-label">SCORE</span>
+        <strong class="score-value" id="scoreValue">0000000</strong>
+        <div class="score-rule"><span id="scorePulse"></span></div>
+      </section>
+    </header>
+
+    <section class="game-layout" aria-label="TETRIS REN game">
+      <section class="playfield-column">
+        <div class="playfield-status">
+          <span class="status-chip" id="statusChip"><i></i>READY</span>
+          <span class="status-tip" id="statusTip">↑ / SPACE = HARD DROP</span>
+        </div>
+        <div class="playfield-frame" id="playfieldFrame">
+          <div class="frame-corner corner-tl"></div>
+          <div class="frame-corner corner-tr"></div>
+          <div class="frame-corner corner-bl"></div>
+          <div class="frame-corner corner-br"></div>
+          <canvas id="gameCanvas" width="300" height="600" aria-label="Tetris playfield"></canvas>
+          <div class="ren-callout" id="renCallout" aria-live="polite">
+            <span class="ren-callout-label">COMBO</span>
+            <strong id="renCalloutValue">REN 00</strong>
+          </div>
+          <div class="game-overlay" id="gameOverlay">
+            <p class="overlay-kicker" id="overlayKicker">READY</p>
+            <h2 id="overlayTitle">PLAY</h2>
+            <p id="overlayCopy">↑ / SPACEで即落下<br>ラインをつないでREN。</p>
+            <button class="primary-button" id="overlayAction" type="button">START <span>↵</span></button>
+          </div>
+        </div>
+        <div class="playfield-footer">
+          <div class="drop-meter"><span id="dropMeter"></span></div>
+          <span>↑ / SPACE HARD DROP</span>
+        </div>
+      </section>
+
+      <p class="gesture-guide">画面左／右タップで移動　↓スワイプで即落下　↑スワイプで回転</p>
+
+      <section class="touch-controls" aria-label="スマホ操作">
+        <button class="touch-button" type="button" data-action="left" aria-label="左へ移動">←</button>
+        <button class="touch-button" type="button" data-action="right" aria-label="右へ移動">→</button>
+        <button class="touch-button rotate" type="button" data-action="rotate" aria-label="回転">↻</button>
+        <button class="touch-button utility" type="button" data-action="down" aria-label="ソフトドロップ">SOFT</button>
+        <button class="touch-button hard" type="button" data-action="hard" aria-label="即落下">DROP</button>
+      </section>
+
+      <section class="quick-bar" aria-label="Game information">
+        <section class="quick-card status-card">
+          <div class="compact-stats">
+            <div><span>LEVEL</span><strong id="levelValue">01</strong></div>
+            <div><span>LINES</span><strong id="linesValue">000</strong></div>
+            <div><span>PIECES</span><strong id="piecesValue">000</strong></div>
+          </div>
+          <div class="ren-line">
+            <span class="ren-caption">REN</span>
+            <strong id="renValue">00</strong>
+            <span class="chain-state" id="chainState">IDLE</span>
+          </div>
+          <div class="ren-meter"><span id="renMeter"></span></div>
+          <p class="chain-message" id="chainMessage">次の消去でチェイン開始</p>
+          <div class="event-line" id="eventLine">盤面を初期化しました</div>
+          <div class="event-subline" id="eventSubline">列重力オンライン</div>
+          <div class="best-row"><span>BEST REN</span><strong id="bestRenValue">00</strong></div>
+        </section>
+
+        <section class="quick-card preview-card next-card">
+          <div class="quick-label"><span>NEXT</span><b>03</b></div>
+          <canvas id="nextCanvas" width="224" height="56" aria-label="Next pieces preview"></canvas>
+        </section>
+      </section>
+    </section>
+
+    <footer class="help-bar">
+      <p class="desktop-guide"><b>PC</b> ← → 移動　↓ ソフト　↑ / SPACE 即落下　X 回転　Z 逆回転　P 停止</p>
+      <p class="mobile-guide"><b>スマホ</b> 画面左／右タップで移動　下スワイプで即落下　上スワイプで回転</p>
+    </footer>
+  </main>
+  <script src="game.js" defer></script>
+</body>
+</html>

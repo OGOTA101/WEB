@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>60秒防衛線</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+    </style>
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- ヘッダーUI -->
+        <div id="ui-header">
+            <div class="ui-item">Wave: <span id="wave-display">1/3</span></div>
+            <div class="ui-item">♥ <span id="defense-display">10</span></div>
+            <div class="ui-item">⏱ <span id="time-display">60</span></div>
+            <div class="ui-item">🐱 <span id="lives-display">3</span></div>
+            <div id="btn-reload" class="ui-btn">🔄</div>
+            <div id="btn-pause" class="ui-btn">⏸</div>
+        </div>
+
+        <!-- ゲームキャンバス -->
+        <canvas id="game-canvas" width="360" height="640"></canvas>
+
+        <!-- フッターUI -->
+        <div id="ui-footer">
+            <div class="vol-control">
+                <span>BGM</span>
+                <input type="range" id="vol-bgm" min="0" max="1" step="0.1" value="0.5">
+            </div>
+            <div class="vol-control">
+                <span>SE</span>
+                <input type="range" id="vol-se" min="0" max="1" step="0.1" value="0.5">
+            </div>
+        </div>
+
+        <!-- 画面オーバーレイ -->
+        <div id="screen-overlay" class="hidden">
+            <div id="screen-title" class="screen active">
+                <h1>60秒防衛線</h1>
+                <p class="subtitle">Time Loop Defense</p>
+                <div class="btn-group">
+                    <button id="btn-start" class="menu-btn">ゲーム開始</button>
+                    <button id="btn-howto" class="menu-btn">遊び方</button>
+                </div>
+                <p class="version">v1.0.0</p>
+            </div>
+
+            <div id="screen-result" class="screen hidden">
+                <h2 id="result-title">GAME CLEAR!</h2>
+                <div class="result-stats">
+                    <p>Wave: <span id="res-wave">3</span></p>
+                    <p>Score: <span id="res-score">12345</span></p>
+                </div>
+                <button id="btn-title" class="menu-btn">タイトルへ</button>
+            </div>
+
+            <div id="screen-howto" class="screen hidden">
+                <h2>遊び方</h2>
+                <div class="howto-content">
+                    <p>1. 猫を操作して砲弾を運ぼう</p>
+                    <p>2. 弾薬庫で弾を拾う（止まるだけ）</p>
+                    <p>3. 大砲に弾を込める（止まるだけ）</p>
+                    <p>4. 発射エリアで撃つ（止まるだけ）</p>
+                    <p>5. 失敗しても「リロード」で<br>過去の自分と協力できる！</p>
+                </div>
+                <button id="btn-back-title" class="menu-btn">戻る</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: leaderboard
+    // Document ID: auto-generated
+    // Fields:
+    //   - name: string (required, 1-16 chars) - display name shown in ranking
+    //   - score: int (required, 0-999999) - total collected crumb score
+    //   - kills: int (required, 0-999999) - defeated enemy count
+    //   - level: int (required, 1-999) - final level reached
+    //   - timeSeconds: int (required, 0-99999) - survival time in seconds
+    //   - build: string (required, 0-80 chars) - weapon/fusion summary
+    //   - sessionId: string (required, 8-40 chars) - local client session marker
+    //   - createdAt: timestamp (required, server timestamp) - submission time
+    //
+    // ===============================================================
+
+    function isValidName(name) {
+      return name is string &&
+        name.size() >= 1 &&
+        name.size() <= 16 &&
+        !name.matches('.*[<>].*');
+    }
+
+    function isValidLeaderboardEntry(data) {
+      return data.keys().hasOnly(['name', 'score', 'kills', 'level', 'timeSeconds', 'build', 'sessionId', 'createdAt']) &&
+        data.keys().hasAll(['name', 'score', 'kills', 'level', 'timeSeconds', 'build', 'sessionId', 'createdAt']) &&
+        isValidName(data.name) &&
+        data.score is int && data.score >= 0 && data.score <= 999999 &&
+        data.kills is int && data.kills >= 0 && data.kills <= 999999 &&
+        data.level is int && data.level >= 1 && data.level <= 999 &&
+        data.timeSeconds is int && data.timeSeconds >= 0 && data.timeSeconds <= 99999 &&
+        data.build is string && data.build.size() <= 80 &&
+        data.sessionId is string && data.sessionId.size() >= 8 && data.sessionId.size() <= 40 &&
+        data.createdAt == request.time;
+    }
+
+    function isValidReferral(data) {
+      return data.keys().hasOnly(['source', 'sessionId', 'createdAt']) &&
+        data.keys().hasAll(['source', 'sessionId', 'createdAt']) &&
+        (data.source == 'x' || data.source == 'line' || data.source == 'share') &&
+        data.sessionId is string && data.sessionId.size() >= 8 && data.sessionId.size() <= 40 &&
+        data.createdAt == request.time;
+    }
+
+    match /leaderboard/{entryId} {
+      allow read: if true;
+      allow create: if isValidLeaderboardEntry(request.resource.data);
+      allow update, delete: if false;
+    }
+
+    match /referrals/{eventId} {
+      allow create: if isValidReferral(request.resource.data);
+      allow read, update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

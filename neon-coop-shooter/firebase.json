@@ -1,0 +1,18 @@
+{
+    "hosting": {
+        "target": "neon-coop-shooter",
+        "public": "dist",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**",
+            "SPECIFICATION.md"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    }
+}

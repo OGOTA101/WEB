@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "sggame-hub"
+  },
+  "targets": {
+    "sggame-hub": {
+      "hosting": {
+        "cat-catch": [
+          "cat-catch-sg"
+        ]
+      }
+    }
+  }
+}

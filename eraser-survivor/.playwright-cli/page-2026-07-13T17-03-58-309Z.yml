@@ -1,0 +1,80 @@
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - img "消しゴムサバイバー" [ref=e8]
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: NAME
+          - textbox "NAME" [ref=e12]
+        - generic [ref=e13]:
+          - generic [ref=e14]: BEST SCORE
+          - strong [ref=e15]: "0"
+      - generic [ref=e16]:
+        - button "PLAY" [ref=e17] [cursor=pointer]
+        - button "RANKING" [ref=e18] [cursor=pointer]
+    - generic "タイトル音量設定" [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - text: SE
+          - strong [ref=e22]: "3"
+        - slider "SE 3" [ref=e23]: "3"
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - text: BGM
+          - strong [ref=e26]: "5"
+        - slider "BGM 5" [ref=e27]: "5"
+  - banner:
+    - generic [ref=e28]:
+      - button "AUTO ON" [ref=e29] [cursor=pointer]
+      - button "PAUSE" [ref=e30] [cursor=pointer]
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:00
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/5
+    - generic:
+      - generic: CASE
+      - strong: CASE
+    - generic:
+      - generic: BODY
+      - strong: ■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO ON"
+    - button "HITBOX OFF"
+    - button "MAP OPEN"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - paragraph: PAUSE中に設定変更。Eで全体MAP
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "もう一回"
+      - button "タイトルへ"
+  - paragraph: "左半分: 移動 / 右半分: 攻撃方向固定"

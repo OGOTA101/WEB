@@ -1,0 +1,76 @@
+{
+  "importedAt": "2026-06-11",
+  "note": "Raw imported assets. Not wired into gameplay yet.",
+  "files": [
+    {
+      "source": "名称未設定のアートワーク.mov",
+      "file": "source-animation.mov",
+      "type": "video"
+    },
+    {
+      "source": "9ae3167bbf4520be.png",
+      "file": "effect-crumb-ring-small.png",
+      "type": "image"
+    },
+    {
+      "source": "a7c3922b3ad877d6.png",
+      "file": "effect-blue-swipe.png",
+      "type": "image"
+    },
+    {
+      "source": "e4d0eda0f28eb12e.png",
+      "file": "item-gray-crumb.png",
+      "type": "image"
+    },
+    {
+      "source": "b886440e55360d0f.png",
+      "file": "effect-crumb-burst-large.png",
+      "type": "image"
+    },
+    {
+      "source": "54d9bfe6790075a1.png",
+      "file": "projectile-orange-pencil.png",
+      "type": "image"
+    },
+    {
+      "source": "d5717cee060fa7f3.png",
+      "file": "projectile-purple-pencil.png",
+      "type": "image"
+    },
+    {
+      "source": "f88f01afa750a9a3.png",
+      "file": "projectile-black-pencil-large.png",
+      "type": "image"
+    },
+    {
+      "source": "060edc8bdd9b66e5.png",
+      "file": "ui-green-pointer.png",
+      "type": "image"
+    },
+    {
+      "source": "4f6590c5e47e0b63.png",
+      "file": "projectile-blue-pencil.png",
+      "type": "image"
+    },
+    {
+      "source": "79f3f05fe013955b.png",
+      "file": "projectile-blue-vertical.png",
+      "type": "image"
+    },
+    {
+      "source": "33f6cc30f1d56105.png",
+      "file": "blank-black-frame.png",
+      "type": "image"
+    },
+    {
+      "source": "004fdfa4b374a99c.png",
+      "file": "effect-gray-speedline.png",
+      "type": "image"
+    },
+    {
+      "source": "6ffe06c795188840.png",
+      "file": "effect-orange-spark.png",
+      "type": "image"
+    }
+  ]
+}

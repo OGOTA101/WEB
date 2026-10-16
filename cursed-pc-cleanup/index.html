@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>呪いのPCクリーナー</title>
+    <link rel="stylesheet" href="style.css?v=4">
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- Title Screen -->
+        <div id="screen-title" class="screen active">
+            <h1>呪いのPCクリーナー</h1>
+            <p>※ホラー表現が含まれます</p>
+            <button id="btn-start">アルバイトを始める</button>
+        </div>
+
+        <!-- ADV Screen -->
+        <div id="screen-adv" class="screen">
+            <div id="adv-text-box">
+                <p id="adv-text"></p>
+                <div id="adv-next">▼ クリックして次へ</div>
+            </div>
+        </div>
+
+        <!-- Desk View -->
+        <div id="screen-desk" class="screen">
+            <div class="desk-background"></div>
+            <div class="monitor-stand"></div>
+            <div class="monitor-base"></div>
+            <div id="monitor-clickable" class="clickable-area">
+                <div id="monitor-content">
+                    <div id="desk-pc-off" class="active"></div>
+                    <div id="desk-pc-on"></div>
+                </div>
+            </div>
+            <div id="smartphone-clickable" class="clickable-area">
+                <div id="smartphone-sprite">
+                    <div class="smartphone-screen-mini"></div>
+                    <div class="smartphone-button-mini"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PC Zoom View -->
+        <div id="screen-pc" class="screen">
+            <div id="os-desktop"></div>
+            <div id="os-taskbar">
+                <div id="start-button">開始</div>
+                <div id="taskbar-apps"></div>
+                <div id="taskbar-tray">
+                    <div class="tray-icon" title="IME">A</div>
+                    <div class="tray-icon" title="ネットワーク">🌐</div>
+                    <div class="tray-icon" title="クラウド同期">☁️</div>
+                    <div class="tray-icon" title="音量">🔊</div>
+                    <div id="taskbar-time">12:00</div>
+                </div>
+            </div>
+            <div id="os-windows"></div>
+            <div id="pc-power-overlay" class="active">
+                <button id="btn-pc-power" class="power-btn">電源を入れる</button>
+            </div>
+            <div id="screen-fx" class="pointer-pass"></div>
+            <button id="btn-back-desk" class="ui-btn">机に戻る</button>
+        </div>
+
+        <!-- Smartphone View -->
+        <div id="screen-phone" class="screen">
+            <div id="phone-container">
+                <div class="phone-screen">
+                    <h2>完了報告アプリ</h2>
+                    <p>対象PCの不要なデータをすべて「ごみ箱」に入れ、空にしてください。</p>
+                    <p style="color:#d00;">※作業が完全に終わった場合のみ、下のボタンを押してください。</p>
+                    <button id="btn-report">作業完了を報告する</button>
+                </div>
+                <button id="btn-close-phone" class="ui-btn"
+                    style="bottom: 20px; top: auto; right: 50%; transform: translateX(50%);">スマホを置く</button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="screen-result" class="screen">
+            <h1 id="result-title">RESULT</h1>
+            <p id="result-desc"></p>
+            <div id="result-gauge-container" style="width: 100%; margin-bottom: 30px;"></div>
+            <button id="btn-retry">もう一度</button>
+        </div>
+    </div>
+    <script type="module" src="js/main.js?v=5"></script>
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>キャットキャッチ | Cat Catch</title>
+    <meta name="description" content="UFOに乗った猫ちゃんが、お城を守る防衛ゲーム！ドット絵で描かれたレトロな世界へようこそ。">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- 背景レイヤー -->
+        <div id="bg-container">
+            <div id="bg-sky" class="bg-layer"></div>
+        </div>
+
+        <!-- メインコンテンツ -->
+        <div id="main-content">
+            <!-- タイトル画面 -->
+            <div id="screen-title" class="screen active">
+                <div class="title-content">
+                    <h1 class="title-logo">キャットキャッチ</h1>
+                    <p class="title-subtitle">UFO猫の防衛ゲーム</p>
+                </div>
+                <div class="menu-buttons">
+                    <button id="btn-start" class="menu-btn primary">▶ ゲームスタート</button>
+                    <button id="btn-continue" class="menu-btn" style="display:none;">▶ 続きから</button>
+                    <button id="btn-upgrade" class="menu-btn">⚙ 強化工房</button>
+                    <button id="btn-gacha" class="menu-btn">✧ ガチャ</button>
+                    <button id="btn-howto" class="menu-btn">? 遊び方</button>
+                    <button id="btn-credits" class="menu-btn small-text" style="margin-top:10px;">© Credits</button>
+                </div>
+                <div class="currency-display">
+                    <span class="currency-icon">💎</span>
+                    <span id="title-currency">0</span>
+                </div>
+            </div>
+
+            <!-- ゲーム画面 -->
+            <div id="screen-game" class="screen">
+                <div id="game-header">
+                    <div id="hp-container">
+                        <span id="hp-display">♥♥♥</span>
+                    </div>
+                    <div id="wave-container">
+                        <span id="wave-display">Wave 1</span>
+                    </div>
+                    <div id="score-container">
+                        <span>💎</span>
+                        <span id="score-display">0</span>
+                    </div>
+                    <button id="btn-pause">⏸</button>
+                </div>
+                <div id="game-area">
+                    <canvas id="game-canvas"></canvas>
+                </div>
+                <div id="game-actions">
+                    <div id="capacity-container">
+                        <span>格納:</span>
+                        <span id="capacity-display">0/3</span>
+                    </div>
+                    <button id="btn-capture" class="action-btn capture-btn">格納</button>
+                    <button id="btn-eject" class="action-btn eject-btn">射出</button>
+                </div>
+            </div>
+
+            <!-- 強化画面 -->
+            <div id="screen-upgrade" class="screen">
+                <h2>⚙ 強化工房</h2>
+                <div class="upgrade-container">
+                    <div class="upgrade-section">
+                        <h3>🛸 UFO性能</h3>
+                        <div id="upgrade-list-ufo" class="upgrade-list"></div>
+                    </div>
+                    <div class="upgrade-section">
+                        <h3>🏰 城強化</h3>
+                        <div id="upgrade-list-castle" class="upgrade-list"></div>
+                    </div>
+                    <div class="upgrade-section">
+                        <h3>⚡ スキル</h3>
+                        <div id="upgrade-list-skill" class="upgrade-list"></div>
+                    </div>
+                </div>
+                <div class="currency-display">
+                    <span class="currency-icon">💎</span>
+                    <span id="upgrade-currency">0</span>
+                </div>
+                <button id="btn-upgrade-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+
+            <!-- ガチャ画面 -->
+            <div id="screen-gacha" class="screen">
+                <h2>✧ ガチャ</h2>
+                <div class="gacha-content">
+                    <p style="opacity:0.7;">準備中...</p>
+                </div>
+                <button id="btn-gacha-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+
+            <!-- 遊び方画面 -->
+            <div id="screen-howto" class="screen">
+                <h2>遊び方</h2>
+                <div class="howto-content">
+                    <div class="howto-section">
+                        <h3>🎮 基本ルール</h3>
+                        <p>UFOに乗った猫を操作して、お城を守ろう！</p>
+                    </div>
+                    <div class="howto-section">
+                        <h3>🐭 ネズミを捕まえよう</h3>
+                        <p>画面をタップしてUFOを移動。<br>「格納」ボタンで近くの敵を吸い込む！</p>
+                    </div>
+                    <div class="howto-section">
+                        <h3>🌋💧 属性に注意</h3>
+                        <p>🔥炎ネズミ → 湖に落とそう<br>💧水ネズミ → 火山に落とそう</p>
+                    </div>
+                    <div class="howto-section">
+                        <h3>🏰 城を守れ！</h3>
+                        <p>ネズミが城に到達するとダメージ。<br>HPが0になるとゲームオーバー！</p>
+                    </div>
+                </div>
+                <button id="btn-howto-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+
+            <!-- クレジット画面 -->
+            <div id="screen-credits" class="screen">
+                <h2>Credits</h2>
+                <div class="credits-content">
+                    <div class="setting-group">
+                        <h3>♪ BGM</h3>
+                        <div id="bgm-list-container"></div>
+                        <div style="font-size:12px; margin-top:5px; opacity:0.8;">
+                            BGM素材: <a href="https://ontama-m.com/" target="_blank" style="color:#ffd700;">音楽の卵</a> 様
+                        </div>
+                    </div>
+                    <div class="setting-group" style="margin-top:20px;">
+                        <h3>Developer</h3>
+                        <div style="font-size:14px;">
+                            <a href="https://x.com/SGGame9" target="_blank" style="color:#00ffff;">@SGGame9</a>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-credits-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+
+            <!-- リザルト画面 -->
+            <div id="screen-result" class="screen">
+                <div class="result-content">
+                    <h2 id="result-title">ゲームオーバー</h2>
+                    <p id="result-new-record" class="new-record" style="display:none;">🏆 NEW RECORD!</p>
+                    <div class="result-stats">
+                        <p>到達ウェーブ</p>
+                        <p id="result-wave" class="result-value">1</p>
+                        <p>スコア</p>
+                        <p id="result-score" class="result-value">0</p>
+                        <p>獲得コイン</p>
+                        <p id="result-coins" class="result-value">+0</p>
+                    </div>
+                    <button id="btn-result-ok" class="menu-btn primary">ホームへ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ポーズモーダル -->
+        <div id="pause-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>ポーズ</h2>
+                <button id="btn-resume" class="menu-btn primary">つづける</button>
+                <button id="btn-quit" class="menu-btn">ホームへ戻る</button>
+            </div>
+        </div>
+
+        <!-- グローバルフッター（BGM/SE） -->
+        <div class="global-footer">
+            <div class="footer-audio">
+                <div class="audio-group">
+                    <span>BGM</span>
+                    <input type="range" id="vol-bgm" min="0" max="1" step="0.1" value="0.5">
+                </div>
+                <div class="audio-group">
+                    <span>SE</span>
+                    <input type="range" id="vol-se" min="0" max="1" step="0.1" value="0.5">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Firebase SDK (Compat) -->
+    <script src="/__/firebase/10.7.1/firebase-app-compat.js"></script>
+    <script src="/__/firebase/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <script src="js/config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

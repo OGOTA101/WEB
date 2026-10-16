@@ -1,0 +1,81 @@
+- generic [ref=e3]:
+  - banner:
+    - generic:
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "empty life"
+    - generic: 0:09
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - generic [ref=e85]:
+    - generic [ref=e86]:
+      - generic [ref=e87]: TIME
+      - strong [ref=e88]: 0:09
+    - generic [ref=e89]:
+      - generic [ref=e90]: KILLS
+      - strong [ref=e91]: "3"
+    - generic [ref=e92]:
+      - generic [ref=e93]: LV
+      - strong [ref=e94]: "1"
+    - generic [ref=e95]:
+      - generic [ref=e96]: KASU
+      - strong [ref=e97]: 3/8 (3)
+    - generic [ref=e98]:
+      - generic [ref=e99]: CASE
+      - strong [ref=e100]: BARE
+    - generic [ref=e101]:
+      - generic [ref=e102]: BODY
+      - strong [ref=e103]: ■■■■■■■
+    - generic [ref=e104]:
+      - generic [ref=e105]: HIGH
+      - strong [ref=e106]: "0"
+  - generic [ref=e107]:
+    - button "AUTO OFF" [ref=e108] [cursor=pointer]
+    - button "MAP OPEN" [ref=e109] [cursor=pointer]
+    - button "リトライ" [ref=e110] [cursor=pointer]
+    - button "タイトルへ戻る" [active] [ref=e111] [cursor=pointer]
+    - generic [ref=e112]:
+      - generic [ref=e113]:
+        - text: SE
+        - strong [ref=e114]: "3"
+      - slider "SE 3" [ref=e115]: "3"
+    - generic [ref=e116]:
+      - generic [ref=e117]:
+        - text: BGM
+        - strong [ref=e118]: "5"
+      - slider "BGM 5" [ref=e119]: "5"
+    - paragraph [ref=e120]: SPACE / P / ESC で停止。Eで全体MAP
+  - generic [ref=e121]:
+    - generic [ref=e139]:
+      - generic [ref=e140]: ARMS
+      - strong [ref=e141]: 通常攻撃 LV1
+    - list [ref=e142]:
+      - listitem [ref=e143]:
+        - generic [ref=e144]: 通常攻撃
+        - generic [ref=e145]: 威力 5、盾防御無視
+    - paragraph [ref=e146]: 一時効果なし
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "リトライ"
+      - button "タイトルへ"
+  - dialog [ref=e147]:
+    - generic [ref=e132]:
+      - paragraph [ref=e133]: CONFIRM
+      - heading "タイトルへ戻りますか？" [level=1] [ref=e148]
+      - paragraph [ref=e135]: 現在のプレイを終了してタイトル画面へ戻ります。
+      - generic [ref=e136]:
+        - button "タイトルへ戻る" [ref=e149] [cursor=pointer]
+        - button "キャンセル" [ref=e138] [cursor=pointer]
+  - paragraph [ref=e130]: "WASD: 移動 / マウス: 照準 / クリック: 固定 / SPACE: ポーズ"

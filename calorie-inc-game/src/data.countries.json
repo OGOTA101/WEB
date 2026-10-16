@@ -1,0 +1,382 @@
+[
+  {
+    "id": "aurelia",
+    "name": "アウレリア",
+    "race": "人間族",
+    "role": "王都国家",
+    "populationWeight": 27,
+    "researchWeight": 26,
+    "spreadEase": 4,
+    "concealEase": 4,
+    "detectionEase": 5,
+    "holdout": 2,
+    "x": 51,
+    "y": 42,
+    "connections": [
+      "grau",
+      "luminas",
+      "eldina",
+      "marchelle"
+    ],
+    "tags": [
+      "urban",
+      "wealthy",
+      "court"
+    ],
+    "summary": "白い宮殿と劇場街がきらめく、人間諸国の中心。昼は政務、夜は舞踏会。流行も恋も、一番先にここへ降りてくる。",
+    "leader": {
+      "name": "セレスティア",
+      "title": "女王"
+    },
+    "bodyProfile": {
+      "height": 160,
+      "weight": 51.5,
+      "bust": 84,
+      "waist": 61,
+      "hips": 88,
+      "bodyFat": 22
+    },
+    "leaderLines": {
+      "calm": [
+        "「今日の夜会も楽しみですわ。甘いものは、心まで華やがせてくれますもの」",
+        "「流行は王都から始まるのです。ならば、可愛いものほど歓迎しなくては」"
+      ],
+      "suspicious": [
+        "「最近、ドレスの留め具が悲鳴を上げる令嬢が多いとか……ただの流行、では済まない気がします」",
+        "「鏡に映る姿は同じなのに、数字だけが少しずつ違う。嫌な予感がしますわ」"
+      ],
+      "resisting": [
+        "「王都は共同研究へ全面協力します。甘い夢に沈むほど、私は呑気ではありません」",
+        "「可愛らしい丸みと、誰かに与えられた堕落は別物です」"
+      ],
+      "corrupted": [
+        "「少しくらい柔らかくなった方が、ドレスも優しく映えるでしょう？」",
+        "「豊かさは、街にも心にも……そして身体にも満ちてこそですわ」"
+      ]
+    },
+    "illustration": "aurelia-scene.svg"
+  },
+  {
+    "id": "marchelle",
+    "name": "マルシェル",
+    "race": "人間族",
+    "role": "商業共和国",
+    "populationWeight": 15,
+    "researchWeight": 12,
+    "spreadEase": 5,
+    "concealEase": 4,
+    "detectionEase": 4,
+    "holdout": 1,
+    "x": 57,
+    "y": 65,
+    "connections": [
+      "aurelia",
+      "feiria"
+    ],
+    "tags": [
+      "urban",
+      "market",
+      "port"
+    ],
+    "summary": "運河と露店が幾重にも走る港の共和国。旅人、香辛料、焼き菓子、噂話が、朝にはもう街じゅうを巡っている。",
+    "leader": {
+      "name": "リゼット",
+      "title": "執政官"
+    },
+    "bodyProfile": {
+      "height": 158,
+      "weight": 52.0,
+      "bust": 82,
+      "waist": 63,
+      "hips": 89,
+      "bodyFat": 23
+    },
+    "leaderLines": {
+      "calm": [
+        "「売れるものが正義です。今日も蜜菓子の屋台は大繁盛ですね」",
+        "「港風に甘い匂いが混じると、なんだか一日が機嫌よく始まります」"
+      ],
+      "suspicious": [
+        "「菓子の出荷だけ、帳簿の伸び方が綺麗すぎる。商人の勘が騒ぎます」",
+        "「働き者のはずの子たちが、昼下がりにうとうとしてるんです。妙でしょう？」"
+      ],
+      "resisting": [
+        "「流通は血管です。なら、どこで甘さが混じったか必ず突き止めます」",
+        "「市場を守るのは、儲けより先に暮らしです」"
+      ],
+      "corrupted": [
+        "「欲しい人がいるなら売るだけです。丸くなった笑顔も、悪くないでしょう？」",
+        "「今日はもう少し仕入れましょう。みんな、まだ食べたそうですから」"
+      ]
+    },
+    "illustration": "marchelle-scene.svg"
+  },
+  {
+    "id": "luminas",
+    "name": "ルミナス",
+    "race": "人間族",
+    "role": "聖堂国",
+    "populationWeight": 11,
+    "researchWeight": 28,
+    "spreadEase": 2,
+    "concealEase": 3,
+    "detectionEase": 5,
+    "holdout": 4,
+    "x": 76,
+    "y": 42,
+    "connections": [
+      "aurelia"
+    ],
+    "tags": [
+      "holy",
+      "disciplined"
+    ],
+    "summary": "白塔と鐘楼が澄んだ空へ伸びる戒律の国。朝の祈り、整えられた食卓、几帳面な記録が人々の暮らしを支えている。",
+    "leader": {
+      "name": "エステル",
+      "title": "大司教"
+    },
+    "bodyProfile": {
+      "height": 161,
+      "weight": 49.0,
+      "bust": 81,
+      "waist": 58,
+      "hips": 85,
+      "bodyFat": 20
+    },
+    "leaderLines": {
+      "calm": [
+        "「節度は、心を整える最初の祈りです」",
+        "「小さな乱れほど、早く正すべきものです」"
+      ],
+      "suspicious": [
+        "「これはただの食べすぎではありません。意志の外から、何かが撫でています」",
+        "「細いままの者にも、体脂だけが静かに増えている……見過ごせません」"
+      ],
+      "resisting": [
+        "「共同術式《リデュース》を起動します。どうか、甘い靄に惑わされないで」",
+        "「飢えではなく、欲の歪みを祓うのです」"
+      ],
+      "corrupted": [
+        "「満たされることもまた……祝福のひとつ、なのでしょうか」",
+        "「この柔らかな安堵を罪と呼ぶには、少し惜しいですね」"
+      ]
+    },
+    "illustration": "luminas-scene.svg"
+  },
+  {
+    "id": "grau",
+    "name": "グラウ",
+    "race": "人間族",
+    "role": "辺境王国",
+    "populationWeight": 18,
+    "researchWeight": 5,
+    "spreadEase": 3,
+    "concealEase": 4,
+    "detectionEase": 2,
+    "holdout": 2,
+    "x": 28,
+    "y": 44,
+    "connections": [
+      "aurelia",
+      "valk"
+    ],
+    "tags": [
+      "rural",
+      "festival"
+    ],
+    "summary": "麦畑と牧草地がどこまでも続く辺境国。大鍋の湯気と収穫祭の笑い声が、旅人まで家族にしてしまう。",
+    "leader": {
+      "name": "ミレーヌ",
+      "title": "辺境伯"
+    },
+    "bodyProfile": {
+      "height": 159,
+      "weight": 55.0,
+      "bust": 86,
+      "waist": 65,
+      "hips": 92,
+      "bodyFat": 25
+    },
+    "leaderLines": {
+      "calm": [
+        "「よく食べる子は、よく笑う。うちはそれでいいんです」",
+        "「収穫祭の鍋は、今年も底が見えませんねぇ」"
+      ],
+      "suspicious": [
+        "「冬でもないのに、村じゅうが蓄えすぎてる気がします」",
+        "「祭りの後も腹が減る？ それはちょっと、妙ですね」"
+      ],
+      "resisting": [
+        "「村ごとに食卓の記録をつけましょう。親切と甘やかしは、別物です」",
+        "「みんなの暮らしは守ります。腹まで誰かに決めさせません」"
+      ],
+      "corrupted": [
+        "「ふっくらした頬も、丸いお腹も、実りの証みたいで可愛いじゃないですか」",
+        "「お腹いっぱいで眠る子を見ると、なぜだか安心するんですよ」"
+      ]
+    },
+    "illustration": "grau-scene.svg"
+  },
+  {
+    "id": "eldina",
+    "name": "エルディナ",
+    "race": "エルフ族",
+    "role": "森域",
+    "populationWeight": 10,
+    "researchWeight": 16,
+    "spreadEase": 2,
+    "concealEase": 5,
+    "detectionEase": 4,
+    "holdout": 4,
+    "x": 50,
+    "y": 19,
+    "connections": [
+      "aurelia"
+    ],
+    "tags": [
+      "elf",
+      "illusion",
+      "traditional"
+    ],
+    "summary": "古木の枝上に家々が連なる森域。風のような衣と幻術の美学を愛し、長い午後を木漏れ日の中で過ごす。",
+    "leader": {
+      "name": "アリエル",
+      "title": "森王女"
+    },
+    "bodyProfile": {
+      "height": 166,
+      "weight": 50.0,
+      "bust": 80,
+      "waist": 56,
+      "hips": 84,
+      "bodyFat": 19
+    },
+    "leaderLines": {
+      "calm": [
+        "「森は、過ぎたるものを好みません」",
+        "「姿も心も、風のように軽やかでありたいものです」"
+      ],
+      "suspicious": [
+        "「幻影を解いてもなお残る違和感……これは、ただの装いではありません」",
+        "「細く見えるのに、枝渡りで息が上がる者が増えています」"
+      ],
+      "resisting": [
+        "「鏡樹を開きます。隠された重みまで、森に映してもらいましょう」",
+        "「見えない変化ほど、早く見つけねばなりません」"
+      ],
+      "corrupted": [
+        "「輪郭さえ美しければ、少しくらい柔らかくても……構わないのでしょうか」",
+        "「幻も真実も、愛でられるなら同じことかもしれません」"
+      ]
+    },
+    "illustration": "eldina-scene.svg"
+  },
+  {
+    "id": "valk",
+    "name": "ヴァルク",
+    "race": "獣人族",
+    "role": "獣人連邦",
+    "populationWeight": 14,
+    "researchWeight": 8,
+    "spreadEase": 3,
+    "concealEase": 3,
+    "detectionEase": 4,
+    "holdout": 3,
+    "x": 22,
+    "y": 72,
+    "connections": [
+      "grau"
+    ],
+    "tags": [
+      "active",
+      "beastfolk"
+    ],
+    "summary": "狩りと競技を誇る獣人連邦。朝は鍛錬、昼は大皿、夜は焚き火。生きることそのものが少し眩しい国。",
+    "leader": {
+      "name": "ルゥナ",
+      "title": "連邦長"
+    },
+    "bodyProfile": {
+      "height": 163,
+      "weight": 57.0,
+      "bust": 88,
+      "waist": 64,
+      "hips": 93,
+      "bodyFat": 24
+    },
+    "leaderLines": {
+      "calm": [
+        "「食うなら走れ。走るならまた食え。それでいい」",
+        "「腹が鳴るのは元気な証拠だ！」"
+      ],
+      "suspicious": [
+        "「訓練後の戻りが遅い。筋より先に脂がついてる」",
+        "「腹は満ちてるのに、まだ食いたがる奴が多すぎる」"
+      ],
+      "resisting": [
+        "「競技場を開け。鈍った身体は、動かして見抜く」",
+        "「欲に負けるな。脚が残ってるうちは走れ！」"
+      ],
+      "corrupted": [
+        "「今日は休め。丸くなるのも、たまには悪くない」",
+        "「狩りのあとに寝転ぶ時間が、こんなに甘いとはな」"
+      ]
+    },
+    "illustration": "valk-scene.svg"
+  },
+  {
+    "id": "feiria",
+    "name": "フェイリア",
+    "race": "妖精族",
+    "role": "妖精郷",
+    "populationWeight": 5,
+    "researchWeight": 5,
+    "spreadEase": 1,
+    "concealEase": 5,
+    "detectionEase": 3,
+    "holdout": 5,
+    "x": 84,
+    "y": 72,
+    "connections": [
+      "marchelle"
+    ],
+    "tags": [
+      "fairy",
+      "festival",
+      "island"
+    ],
+    "summary": "花粉の橋と蜜の湖に囲まれた小さな妖精郷。お茶会と音楽を愛し、急がない時間が羽音のように流れている。",
+    "leader": {
+      "name": "ティタニア",
+      "title": "花冠女王"
+    },
+    "bodyProfile": {
+      "height": 148,
+      "weight": 43.0,
+      "bust": 78,
+      "waist": 54,
+      "hips": 80,
+      "bodyFat": 21
+    },
+    "leaderLines": {
+      "calm": [
+        "「蜜は少しずつ舐めるから、長く甘いのです」",
+        "「急がなくても大丈夫。花は、自分の時に開きますから」"
+      ],
+      "suspicious": [
+        "「お茶会のあと、羽ばたきが重い子が増えています」",
+        "「蜜の香りに、知らない魔力が混じっていますね」"
+      ],
+      "resisting": [
+        "「花粉の門を閉じます。郷の中で、ゆっくり調べましょう」",
+        "「小さな変化ほど、妖精は見逃しません」"
+      ],
+      "corrupted": [
+        "「ふわりと丸くなるのも、花の季節らしくて素敵です」",
+        "「羽が少し重くても、お茶の時間はもっと甘くできますもの」"
+      ]
+    },
+    "illustration": "feiria-scene.svg"
+  }
+]

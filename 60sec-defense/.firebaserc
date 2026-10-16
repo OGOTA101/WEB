@@ -1,0 +1,14 @@
+{
+    "projects": {
+        "default": "sggame-hub"
+    },
+    "targets": {
+        "sggame-hub": {
+            "hosting": {
+                "60sec-defense": [
+                    "60sec-defense-line"
+                ]
+            }
+        }
+    }
+}

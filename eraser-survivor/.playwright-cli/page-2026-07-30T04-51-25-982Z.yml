@@ -1,0 +1,118 @@
+- generic [ref=e3]:
+  - generic [ref=e7]:
+    - generic "消しゴムサバイバー" [ref=e8]:
+      - img "消しゴムサバイバー" [ref=e9]
+      - generic: 槍
+      - generic: 弓
+      - generic: 盾
+      - generic: 龍
+      - generic: 盾
+      - generic: 兵
+      - generic: 兵
+      - img "主人公の消しゴム君"
+      - img "鉛筆のボス"
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - generic [ref=e13]: NAME
+          - textbox "NAME" [ref=e14]: けし1404
+        - generic [ref=e15]:
+          - generic [ref=e16]: BEST SCORE
+          - strong [ref=e17]: "0"
+      - generic [ref=e18]:
+        - button "PLAY" [ref=e19] [cursor=pointer]
+        - button "RANKING" [ref=e20] [cursor=pointer]
+        - button "合成図鑑" [ref=e21] [cursor=pointer]
+        - button "遊び方" [ref=e22] [cursor=pointer]
+      - generic "タイトル音量設定" [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - text: SE
+            - strong [ref=e26]: "3"
+          - slider "SE 3" [ref=e27]: "3"
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - text: BGM
+            - strong [ref=e30]: "5"
+          - slider "BGM 5" [ref=e31]: "5"
+      - paragraph [ref=e32]: "音楽: 魔王魂"
+  - banner:
+    - generic:
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+    - generic: 0:00
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:00
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/8 (0)
+    - generic:
+      - generic: CASE
+      - strong: BARE
+    - generic:
+      - generic: BODY
+      - strong: ■■■■■■■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO OFF"
+    - button "MAP OPEN"
+    - button "リトライ"
+    - button "タイトルへ戻る"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - paragraph: SPACE / P / ESC で停止。Eで全体MAP
+  - generic:
+    - generic:
+      - generic: ARMS
+      - strong: 通常攻撃 LV1
+    - list:
+      - listitem:
+        - generic: 通常攻撃
+        - generic: 威力 5、盾防御無視
+    - paragraph: 一時効果なし
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "リトライ"
+      - button "タイトルへ"
+  - dialog "タイトルへ戻りますか？":
+    - generic:
+      - paragraph: CONFIRM
+      - heading "タイトルへ戻りますか？" [level=1]
+      - paragraph: 現在のプレイを終了してタイトル画面へ戻ります。
+      - generic:
+        - button "タイトルへ戻る" [active]
+        - button "キャンセル"
+  - paragraph: "WASD: 移動 / マウス: 照準 / クリック: 固定 / SPACE: ポーズ"

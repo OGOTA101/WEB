@@ -1,0 +1,261 @@
+@font-face {
+    font-family: 'Yosugara';
+    src: url('assets/yosugaraver1_2.ttf') format('truetype');
+}
+
+:root {
+    --primary-color: #ffd700;
+    --accent-color: #ff88aa;
+    --text-color: #fff;
+    --bg-start: #fdfbf7;
+    --bg-end: #e6e9f0;
+    --ui-bg: rgba(255, 255, 255, 0.8);
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    font-family: 'Yosugara', sans-serif;
+    color: #444;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 56.25vh;
+    /* 9:16 Aspect ratio constraint */
+    margin: 0 auto;
+    background: linear-gradient(to bottom, #0d1b2a 0%, #1b263b 40%, #2f2a40 100%);
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    image-rendering: pixelated;
+    /* Keep pixel art style */
+}
+
+#bg-container,
+#main-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#bg-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#main-content {
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Screens */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 20;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    pointer-events: auto;
+    /* Re-enable clicks for UI elements */
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Title Screen */
+#screen-title {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.title-logo {
+    font-size: 64px;
+    color: #ff9a9e;
+    text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.title-subtitle {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 200px;
+}
+
+.menu-btn {
+    background: #fff;
+    border: 2px solid #ff9a9e;
+    color: #ff9a9e;
+    padding: 12px;
+    border-radius: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: 'Yosugara', sans-serif;
+    transition: transform 0.1s;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+.menu-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.menu-btn.primary {
+    background: #ff9a9e;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 0 #e08286;
+}
+
+.menu-btn.primary:active {
+    box-shadow: 0 2px 0 #e08286;
+}
+
+/* Game Screen Special Handling */
+#screen-game {
+    display: none;
+    padding: 0;
+    pointer-events: none;
+    /* Let clicks pass to canvas */
+}
+
+#screen-game.active {
+    display: block;
+    /* Use block for full canvas coverage */
+}
+
+#game-header {
+    width: 100%;
+    height: 80px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.score-box {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 2px solid #ff9a9e;
+}
+
+.score-box .label {
+    font-size: 12px;
+    color: #ff9a9e;
+    margin-right: 5px;
+}
+
+#game-score {
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+}
+
+#btn-pause {
+    background: #fff;
+    border: 2px solid #999;
+    color: #999;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#game-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+}
+
+canvas {
+    display: block;
+    /* Canvas size is managed by JS */
+}
+
+/* Modals */
+.hidden {
+    display: none !important;
+}
+
+#result-modal,
+#pause-modal,
+#howto-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    width: 85%;
+    max-width: 320px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border: 4px solid #fff;
+}
+
+#result-score {
+    font-size: 48px;
+    color: #ff9a9e;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.howto-text {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}

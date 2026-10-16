@@ -1,0 +1,77 @@
+- generic [ref=e3]:
+  - banner:
+    - generic:
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:01
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/5 (0)
+    - generic:
+      - generic: CASE
+      - strong: CASE
+    - generic:
+      - generic: BODY
+      - strong: ■■■■■■■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO OFF"
+    - button "HITBOX OFF"
+    - button "MAP OPEN"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - paragraph: SPACE / P / ESC で停止。Eで全体MAP
+  - generic:
+    - generic:
+      - generic: ARMS
+      - strong: 通常攻撃 LV1
+    - list:
+      - listitem:
+        - generic: 通常攻撃
+        - generic: 威力 5
+    - paragraph: 一時効果なし
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "もう一回"
+      - button "タイトルへ"
+  - paragraph: "WASD: 移動 / マウス: 照準 / クリック: 固定 / SPACE: ポーズ"
+  - complementary [ref=e22]:
+    - paragraph [ref=e23]: WASDで移動 / マウスで照準 / クリックで向き固定 / SPACEでポーズ
+    - generic [ref=e24]:
+      - checkbox "以降表示しない" [ref=e25]
+      - text: 以降表示しない
+    - button "OK" [ref=e26] [cursor=pointer]

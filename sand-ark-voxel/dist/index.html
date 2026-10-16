@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAND ARK : VOXEL ARMOR</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='2' y='2' width='12' height='12' fill='%2300e5ff'/></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/index-B2FB_4Ar.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BkI4SOmt.css">
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <div id="fade"></div>
+
+  <div id="screen-effects">
+    <div id="sandstorm-overlay"></div>
+    <div id="damage-vignette"></div>
+    <div id="stun-overlay"></div>
+    <div id="burn-overlay"></div>
+    <div id="screen-flash"></div>
+    <div id="cinema-banner" class="cinema-banner hidden">
+      <div class="cb-stripe top"></div>
+      <div class="cb-body">
+        <div class="cb-sub" id="cb-sub">WARNING</div>
+        <div class="cb-main" id="cb-main">MASSIVE SIGNATURE</div>
+      </div>
+      <div class="cb-stripe bottom"></div>
+    </div>
+  </div>
+
+  <!-- ===================== ゲーム中HUD ===================== -->
+  <div id="hud" class="hidden">
+    <div id="drop-toast" class="drop-toast"></div>
+    <div class="hud-top-left">
+      <div class="hud-wave-row">
+        <span class="wave-tag" id="wave-phase-text">WAVE 1</span>
+        <span class="wave-sub" id="wave-sub-text"></span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">HP</span>
+        <div class="bar-track"><div class="bar-damage" id="hp-damage-bar"></div><div class="bar-fill hp-fill" id="hp-bar"></div></div>
+        <span class="bar-value" id="hp-text">0</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">EP</span>
+        <div class="bar-track"><div class="bar-fill ep-fill" id="ep-bar"></div></div>
+        <span class="bar-value" id="ep-text">0</span>
+      </div>
+
+      <!-- 武器スロット（1〜4キー） -->
+      <div class="weapon-slots" id="weapon-slots"></div>
+
+      <div class="lock-row hidden" id="lock-row">◆ LOCK <span id="lock-target-name"></span></div>
+
+      <div class="boss-compact hidden" id="boss-hud">
+        <div class="boss-row"><span id="boss-name"></span><span id="boss-hp-text"></span></div>
+        <div class="bar-track boss-track"><div class="boss-bar-fill" id="boss-hp-bar"></div></div>
+      </div>
+
+      <div class="status-effects">
+        <div class="status-badge stun hidden" id="badge-stun">⚡ STUN <span id="stun-timer"></span></div>
+        <div class="status-badge burn hidden" id="badge-burn">🔥 BURN <span id="burn-timer"></span></div>
+        <div class="status-badge danger hidden" id="badge-edge">⚠ 船端</div>
+      </div>
+      <div class="squad-compact" id="squad-list"></div>
+      <div class="hud-hint" id="heal-count"></div>
+      <div class="hud-hint">1-4 武器切替 ／ R リロード ／ 右クリック 照準 ／ F ロック ／ WASD×2 回避</div>
+    </div>
+
+    <!-- 照準（TPS肩越し） -->
+    <div class="reticle" id="reticle">
+      <svg viewBox="0 0 200 200" class="reticle-svg">
+        <!-- 左：EPゲージ ／ 右：残弾ゲージ -->
+        <path class="arc-bg" d="M 62 150 A 62 62 0 0 1 62 50" />
+        <path class="arc-ep" id="arc-ep" d="M 62 150 A 62 62 0 0 1 62 50" />
+        <path class="arc-bg" d="M 138 50 A 62 62 0 0 1 138 150" />
+        <path class="arc-ammo" id="arc-ammo" d="M 138 150 A 62 62 0 0 0 138 50" />
+        <circle class="charge-progress" id="charge-circle" cx="100" cy="100" r="30" />
+      </svg>
+      <div class="ret-tick t" id="tick-t"></div>
+      <div class="ret-tick b" id="tick-b"></div>
+      <div class="ret-tick l" id="tick-l"></div>
+      <div class="ret-tick r" id="tick-r"></div>
+      <div class="ret-dot" id="ret-dot"></div>
+      <div class="hitmarker" id="hitmarker"><i></i><i></i><i></i><i></i></div>
+      <div class="ret-info">
+        <span class="ret-weapon" id="ret-weapon">CANNON</span>
+        <span class="ret-ammo" id="ret-ammo">6 / 6</span>
+      </div>
+      <div class="ret-reload hidden" id="ret-reload">RELOAD</div>
+    </div>
+
+    <div id="target-box" class="target-box hidden">
+      <div class="tb-corner tl"></div><div class="tb-corner tr"></div>
+      <div class="tb-corner bl"></div><div class="tb-corner br"></div>
+      <div class="tb-dist" id="target-dist"></div>
+    </div>
+
+    <!-- 大破・救援待機パネル -->
+    <div class="wreck-panel hidden" id="wreck-panel">
+      <div class="wreck-title" id="wreck-title">機体大破</div>
+      <div class="wreck-sub" id="wreck-sub">仲間が近くに来ると復旧できます</div>
+      <div class="wreck-bar"><div id="wreck-revive-bar"></div></div>
+      <div class="wreck-timer" id="wreck-timer">残骸保持 30s</div>
+      <div class="wreck-action" id="wreck-action">[G] ガレージから再出撃（30秒）</div>
+    </div>
+
+    <div class="click-hint hidden" id="click-hint">クリックして操作開始</div>
+
+    <div class="center-announce hidden" id="center-announce">
+      <h2 id="announce-title"></h2>
+      <p id="announce-desc"></p>
+    </div>
+  </div>
+
+  <!-- ===================== ガレージ ===================== -->
+  <div id="garage-ui">
+    <div class="g-topbar">
+      <div class="g-logo">SAND ARK <span>HANGAR 03</span></div>
+      <div class="g-tabs">
+        <button class="g-tab active" data-tab="assemble">ASSEMBLE ─ 機体組換</button>
+        <button class="g-tab" data-tab="sortie">SORTIE ─ 出撃</button>
+      </div>
+      <div class="g-sys">
+        <span class="backend" id="backend-label">RENDERER: -</span>
+        <label>SE <input type="range" id="volume-slider" min="0" max="1" step="0.05" /></label>
+      </div>
+    </div>
+
+    <!-- 左：部位スロット＋スペック -->
+    <div class="g-left">
+      <div class="g-panel">
+        <div class="g-panel-title">FRAME SLOTS</div>
+        <div class="slot-list" id="slot-list"></div>
+      </div>
+      <div class="g-panel">
+        <div class="g-panel-title">SPEC <span class="hint">（カーソルを合わせると比較）</span></div>
+        <div class="spec-list" id="spec-list"></div>
+      </div>
+      <div class="g-panel">
+        <div class="g-panel-title">WEAPON KEYS</div>
+        <div class="wkey-list" id="wkey-list"></div>
+      </div>
+    </div>
+
+    <!-- 右：倉庫 -->
+    <div class="g-right" id="g-assemble">
+      <div class="g-panel grow">
+        <div class="g-panel-title">STORAGE ─ <span id="storage-title">頭部</span></div>
+        <div class="inv-grid" id="inv-grid"></div>
+      </div>
+      <div class="g-panel detail" id="inv-detail"></div>
+    </div>
+
+    <!-- 右：出撃 -->
+    <div class="g-right hidden" id="g-sortie">
+      <div class="g-panel grow">
+        <div class="g-panel-title">MISSION SELECT</div>
+        <div class="stage-list" id="stage-list"></div>
+        <div class="stage-detail" id="stage-detail"></div>
+      </div>
+      <div class="g-panel">
+        <div class="g-panel-title">SQUAD</div>
+        <div class="mp-compact">
+          <select id="select-ai-allies" title="AI僚機数">
+            <option value="0">ソロ</option>
+            <option value="2" selected>AI僚機 2機</option>
+            <option value="5">AI僚機 5機</option>
+          </select>
+          <button id="btn-create-room" class="btn-sub">部屋作成</button>
+          <input type="text" id="input-room-id" placeholder="ROOM ID" />
+          <button id="btn-join-room" class="btn-sub">参加</button>
+        </div>
+        <div class="mp-status" id="mp-status-text"></div>
+        <button id="btn-launch" class="btn-primary-launch">SORTIE ─ 出撃</button>
+      </div>
+      <div class="credit">効果音：<a href="https://soundeffect-lab.info/" target="_blank" rel="noopener">効果音ラボ</a></div>
+    </div>
+  </div>
+
+  <!-- ポーズ -->
+  <div id="pause" class="overlay hidden">
+    <div class="overlay-card">
+      <h2>PAUSE</h2>
+      <button id="btn-resume" class="btn-primary-launch">再開</button>
+      <button id="btn-retreat" class="btn-sub wide">撤退してガレージへ</button>
+    </div>
+  </div>
+
+  <!-- リザルト -->
+  <div id="result" class="overlay hidden">
+    <div class="overlay-card">
+      <h2 id="result-title">STAGE CLEAR</h2>
+      <p id="result-stage"></p>
+      <div class="result-stats" id="result-stats"></div>
+      <button id="btn-result-menu" class="btn-primary-launch">ガレージへ戻る</button>
+    </div>
+  </div>
+
+</body>
+</html>

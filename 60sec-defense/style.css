@@ -1,0 +1,178 @@
+:root {
+    --bg-color: #222;
+    --game-bg: #000;
+    --text-color: #fff;
+    --accent-color: #fceabb;
+    --ui-bg: rgba(0, 0, 0, 0.8);
+    --font-main: 'DotGothic16', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 50vh;
+    /* 9:16 aspect ratio roughly */
+    aspect-ratio: 9/16;
+    background-color: var(--game-bg);
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    /* ドット絵用 */
+}
+
+/* UI Header */
+#ui-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 10px;
+    z-index: 10;
+    font-size: 18px;
+    pointer-events: none;
+    /* 下のキャンバスをタップできるように */
+}
+
+.ui-item {
+    text-shadow: 1px 1px 0 #000;
+}
+
+.ui-btn {
+    pointer-events: auto;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.ui-btn:active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* UI Footer */
+#ui-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 10;
+    font-size: 12px;
+}
+
+.vol-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+input[type=range] {
+    width: 80px;
+}
+
+/* Screens */
+#screen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#screen-overlay.hidden {
+    display: none;
+}
+
+.screen {
+    width: 80%;
+    text-align: center;
+    background: #333;
+    padding: 20px;
+    border: 4px solid #fff;
+    border-radius: 10px;
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+h1 {
+    margin: 10px 0;
+    color: var(--accent-color);
+    font-size: 32px;
+}
+
+.subtitle {
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.menu-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    font-family: inherit;
+    font-size: 20px;
+    background: #555;
+    color: #fff;
+    border: 2px solid #888;
+    cursor: pointer;
+}
+
+.menu-btn:active {
+    background: #777;
+    transform: translateY(2px);
+}
+
+.howto-content {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}

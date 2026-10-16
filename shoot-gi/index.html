@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>合戦伝 ― 将棋×カードゲーム</title>
+  <meta name="description" content="将棋の駒をカードとして操り、盤面を制圧せよ。3つのクラスで戦う和風タクティカルカードゲーム。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Antique+Soft&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ===== Title / Class Selection Screen ===== -->
+  <div id="title-screen" class="screen active">
+    <div class="title-bg"></div>
+    <div class="title-content">
+      <h1 class="game-title">合戦伝</h1>
+      <p class="game-subtitle">― 将棋×カードゲーム ―</p>
+
+      <div class="class-selection-area">
+        <h2 class="section-label">あなたのクラスを選べ</h2>
+        <div class="class-cards" id="player-class-cards">
+          <div class="class-card" data-class="mononofu">
+            <div class="class-card-inner">
+              <div class="class-icon">武</div>
+              <h3>武士<small>モノノフ</small></h3>
+              <p class="class-desc">正統派・機動力・妨害<br>堅実な陣形で圧倒する</p>
+              <div class="class-keywords">
+                <span>持続強化</span><span>スキル封じ</span>
+              </div>
+            </div>
+          </div>
+          <div class="class-card" data-class="shura">
+            <div class="class-card-inner">
+              <div class="class-icon">修</div>
+              <h3>修羅<small>シュラ</small></h3>
+              <p class="class-desc">破壊・広範囲除去・自爆<br>盤面を焼き尽くす</p>
+              <div class="class-keywords">
+                <span>全体除去</span><span>自爆リスク</span>
+              </div>
+            </div>
+          </div>
+          <div class="class-card" data-class="shinobi">
+            <div class="class-card-inner">
+              <div class="class-icon">忍</div>
+              <h3>忍<small>シノビ</small></h3>
+              <p class="class-desc">反撃・位置交換・奇襲<br>トリッキーに翻弄する</p>
+              <div class="class-keywords">
+                <span>カウンター</span><span>位置入替</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-label" style="margin-top:2rem;">敵軍のクラス</h2>
+        <div class="class-cards" id="enemy-class-cards">
+          <div class="class-card" data-class="mononofu">
+            <div class="class-card-inner">
+              <div class="class-icon">武</div>
+              <h3>武士<small>モノノフ</small></h3>
+            </div>
+          </div>
+          <div class="class-card" data-class="shura">
+            <div class="class-card-inner">
+              <div class="class-icon">修</div>
+              <h3>修羅<small>シュラ</small></h3>
+            </div>
+          </div>
+          <div class="class-card" data-class="shinobi">
+            <div class="class-card-inner">
+              <div class="class-icon">忍</div>
+              <h3>忍<small>シノビ</small></h3>
+            </div>
+          </div>
+        </div>
+
+        <button id="btn-start" class="btn-start" disabled>出 陣</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Game Screen ===== -->
+  <div id="game-screen" class="screen">
+    <!-- Skill Cut-In Overlay -->
+    <div id="skill-cutin" class="skill-cutin hidden">
+      <div class="cutin-bg"></div>
+      <div class="cutin-text" id="cutin-text"></div>
+    </div>
+
+    <!-- Game Over Overlay -->
+    <div id="game-over-overlay" class="game-over-overlay hidden">
+      <div class="game-over-content">
+        <h2 id="game-over-text"></h2>
+        <button id="btn-restart" class="btn-start">再戦</button>
+      </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="player-info enemy-info">
+        <span class="player-label">敵軍</span>
+        <span class="class-badge" id="enemy-class-badge"></span>
+        <span class="deck-count">山札: <span id="enemy-deck-count">14</span></span>
+        <span class="grave-count">墓地: <span id="enemy-grave-count">0</span></span>
+      </div>
+      <div class="turn-info">
+        <span id="turn-number">第1陣</span>
+        <span id="current-player-label"></span>
+      </div>
+    </div>
+
+    <!-- Enemy Hand (hidden, shows card backs) -->
+    <div class="hand-area enemy-hand-area">
+      <div id="enemy-hand" class="hand"></div>
+    </div>
+
+    <!-- Main Board Area -->
+    <div class="board-container">
+      <div class="board" id="board"></div>
+    </div>
+
+    <!-- Phase Controls -->
+    <div class="phase-bar">
+      <div class="phase-indicator">
+        <span class="phase-step" data-phase="draw">軍議</span>
+        <span class="phase-arrow">▸</span>
+        <span class="phase-step" data-phase="move">進軍</span>
+        <span class="phase-arrow">▸</span>
+        <span class="phase-step" data-phase="place">召集</span>
+        <span class="phase-arrow">▸</span>
+        <span class="phase-step" data-phase="activate">計略</span>
+      </div>
+      <div class="phase-actions">
+        <button id="btn-skip-place" class="btn-phase hidden">召集を省略</button>
+        <button id="btn-skip-activate" class="btn-phase hidden">計略を省略</button>
+        <button id="btn-end-turn" class="btn-phase hidden">ターン終了</button>
+      </div>
+    </div>
+
+    <!-- Player Hand -->
+    <div class="hand-area player-hand-area">
+      <div id="player-hand" class="hand"></div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+      <div class="player-info">
+        <span class="player-label">自軍</span>
+        <span class="class-badge" id="player-class-badge"></span>
+        <span class="deck-count">山札: <span id="player-deck-count">14</span></span>
+        <span class="grave-count">墓地: <span id="player-grave-count">0</span></span>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="log-panel" id="log-panel">
+      <div class="log-header">戦況</div>
+      <div class="log-body" id="log-body"></div>
+    </div>
+
+    <!-- Piece Detail Tooltip -->
+    <div id="piece-tooltip" class="piece-tooltip hidden">
+      <div class="tooltip-header" id="tooltip-header"></div>
+      <div class="tooltip-body" id="tooltip-body"></div>
+    </div>
+
+    <!-- Effects Layer -->
+    <div id="effects-layer" class="effects-layer"></div>
+    
+    <!-- Phase Banner -->
+    <div id="phase-banner" class="phase-banner hidden">
+      <div class="phase-banner-bg"></div>
+      <div class="phase-banner-text" id="phase-banner-text">軍議</div>
+    </div>
+
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

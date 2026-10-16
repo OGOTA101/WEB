@@ -1,0 +1,1001 @@
+[
+  {
+    "id": "SPR-01",
+    "name": "蜜菓子のささやき I",
+    "tree": "spread",
+    "tier": 1,
+    "cost": 4,
+    "prerequisites": [],
+    "effects": {
+      "tagSpread": {
+        "urban": 0.15,
+        "market": 0.15
+      }
+    },
+    "description": "一口だけの甘さが街角へ染み、太り始めの入口を広げる。",
+    "devolvable": true
+  },
+  {
+    "id": "SPR-02",
+    "name": "蜜菓子のささやき II",
+    "tree": "spread",
+    "tier": 2,
+    "cost": 7,
+    "prerequisites": [
+      "SPR-01"
+    ],
+    "effects": {
+      "spreadRate": 0.08,
+      "tagSpread": {
+        "urban": 0.12
+      }
+    },
+    "description": "おやつが日課になり、丸みの芽があちこちへ運ばれる。",
+    "devolvable": true
+  },
+  {
+    "id": "SPR-03",
+    "name": "夜更けのひとくち",
+    "tree": "spread",
+    "tier": 2,
+    "cost": 6,
+    "prerequisites": [
+      "SPR-01"
+    ],
+    "effects": {
+      "tagActualFat": {
+        "urban": 0.03
+      },
+      "awarenessRate": 0.05
+    },
+    "description": "眠る前の甘味が習慣化し、静かな下腹の変化を早める。",
+    "devolvable": true
+  },
+  {
+    "id": "SPR-04",
+    "name": "宅配使い魔",
+    "tree": "spread",
+    "tier": 3,
+    "cost": 10,
+    "prerequisites": [
+      "SPR-03"
+    ],
+    "effects": {
+      "adjacentSpread": 0.2
+    },
+    "description": "温かい菓子を扉先まで届け、国境越しの誘惑を増幅する。",
+    "devolvable": true
+  },
+  {
+    "id": "SPR-05",
+    "name": "祝い膳の甘味",
+    "tree": "spread",
+    "tier": 2,
+    "cost": 6,
+    "prerequisites": [
+      "SPR-01"
+    ],
+    "effects": {
+      "tagSpread": {
+        "festival": 0.25,
+        "holy": 0.15
+      }
+    },
+    "description": "祝祭の卓に濃い甘さを忍ばせ、幸福と食欲を結びつける。",
+    "devolvable": true
+  },
+  {
+    "id": "SPR-06",
+    "name": "長宴の慣習",
+    "tree": "spread",
+    "tier": 3,
+    "cost": 9,
+    "prerequisites": [
+      "SPR-05"
+    ],
+    "effects": {
+      "tagSpread": {
+        "rural": 0.22,
+        "festival": 0.22
+      },
+      "tagActualFat": {
+        "rural": 0.02,
+        "festival": 0.02
+      }
+    },
+    "description": "満腹の後にも皿が続き、祝祭と農村で脂肪の蓄えが進む。",
+    "devolvable": true
+  },
+  {
+    "id": "SPR-07",
+    "name": "巡礼土産",
+    "tree": "spread",
+    "tier": 3,
+    "cost": 9,
+    "prerequisites": [
+      "SPR-05"
+    ],
+    "effects": {
+      "countrySpread": {
+        "luminas": 0.18
+      }
+    },
+    "description": "祈りの帰り道に小箱の甘味を持たせ、聖堂国へ芽を運ぶ。",
+    "devolvable": true
+  },
+  {
+    "id": "SPR-08",
+    "name": "宮廷デセール",
+    "tree": "spread",
+    "tier": 3,
+    "cost": 11,
+    "prerequisites": [
+      "SPR-02"
+    ],
+    "effects": {
+      "countrySpread": {
+        "aurelia": 0.25
+      },
+      "countryAcceptance": {
+        "aurelia": 8
+      }
+    },
+    "description": "夜会の最後を甘く支配し、王都の上流から柔らかく崩す。",
+    "devolvable": true
+  },
+  {
+    "id": "SPR-09",
+    "name": "港湾流通",
+    "tree": "spread",
+    "tier": 1,
+    "cost": 5,
+    "prerequisites": [],
+    "effects": {
+      "seaSpread": 0.25
+    },
+    "description": "海路に蜜菓子を乗せ、離れた島へも誘惑を渡す。",
+    "devolvable": true
+  },
+  {
+    "id": "SPR-10",
+    "name": "海上菓子便",
+    "tree": "spread",
+    "tier": 2,
+    "cost": 8,
+    "prerequisites": [
+      "SPR-09"
+    ],
+    "effects": {
+      "countrySpread": {
+        "feiria": 0.3
+      }
+    },
+    "description": "妖精郷へ香り高い蜜菓子を届け、閉じた郷にも入口を作る。",
+    "devolvable": true
+  },
+  {
+    "id": "MAN-01",
+    "name": "食欲のほころび I",
+    "tree": "manifestation",
+    "tier": 1,
+    "cost": 4,
+    "prerequisites": [],
+    "effects": {
+      "actualFatPerDay": 0.02,
+      "bodyPartGrowth": {
+        "abdomen": 0.01,
+        "hips": 0.005,
+        "thighs": 0.005
+      }
+    },
+    "description": "いつもの一皿では少し足りなくなり、日々の摂取がゆるむ。",
+    "devolvable": true,
+    "mutationWeight": 1.0
+  },
+  {
+    "id": "MAN-02",
+    "name": "食欲のほころび II",
+    "tree": "manifestation",
+    "tier": 2,
+    "cost": 7,
+    "prerequisites": [
+      "MAN-01"
+    ],
+    "effects": {
+      "actualFatPerDay": 0.03,
+      "mpGain": 0.05,
+      "bodyPartGrowth": {
+        "abdomen": 0.012,
+        "hips": 0.008,
+        "thighs": 0.008
+      }
+    },
+    "description": "食べる量が確かに増え、変化から得る魔力も高まる。",
+    "devolvable": true,
+    "mutationWeight": 0.8
+  },
+  {
+    "id": "MAN-03",
+    "name": "満腹感の霞",
+    "tree": "manifestation",
+    "tier": 3,
+    "cost": 9,
+    "prerequisites": [
+      "MAN-02"
+    ],
+    "effects": {
+      "actualFatPerDay": 0.04,
+      "visibleFatPerDay": 0.01,
+      "bodyPartGrowth": {
+        "abdomen": 0.018
+      }
+    },
+    "description": "もう一口だけ、が重なり、腹の奥に静かな重みを残す。",
+    "devolvable": true,
+    "mutationWeight": 0.7
+  },
+  {
+    "id": "MAN-04",
+    "name": "甘やかな順応",
+    "tree": "manifestation",
+    "tier": 4,
+    "cost": 14,
+    "prerequisites": [
+      "MAN-03"
+    ],
+    "effects": {
+      "fatGrowthOver40": 0.2,
+      "acceptance": 6
+    },
+    "description": "増えた丸みを違和感より心地よさとして受け入れやすくする。",
+    "devolvable": true
+  },
+  {
+    "id": "MAN-05",
+    "name": "代謝の鈍り",
+    "tree": "manifestation",
+    "tier": 3,
+    "cost": 10,
+    "prerequisites": [
+      "MAN-02"
+    ],
+    "effects": {
+      "actualFatPerDay": 0.05,
+      "visibleFatPerDay": 0.01,
+      "bodyPartGrowth": {
+        "abdomen": 0.01,
+        "hips": 0.01,
+        "thighs": 0.01
+      }
+    },
+    "description": "食べた分が抜けにくくなり、戻りづらい身体へ寄せる。",
+    "devolvable": true,
+    "mutationWeight": 0.55
+  },
+  {
+    "id": "MAN-06",
+    "name": "脂肪の定着",
+    "tree": "manifestation",
+    "tier": 4,
+    "cost": 14,
+    "prerequisites": [
+      "MAN-05"
+    ],
+    "effects": {
+      "actualFatPerDay": 0.08,
+      "bodyPartGrowth": {
+        "abdomen": 0.015,
+        "hips": 0.014,
+        "thighs": 0.014,
+        "face": 0.008,
+        "arms": 0.006
+      }
+    },
+    "description": "体脂肪がはっきり積み上がり、肉付きの基礎を厚くする。",
+    "devolvable": true
+  },
+  {
+    "id": "MAN-07",
+    "name": "下腹の先触れ I",
+    "tree": "manifestation",
+    "tier": 4,
+    "cost": 13,
+    "prerequisites": [
+      "MAN-06"
+    ],
+    "effects": {
+      "visibleFatPerDay": 0.05,
+      "awarenessRate": 0.08,
+      "bodyPartGrowth": {
+        "abdomen": 0.055
+      },
+      "visibilityRisk": 0.12
+    },
+    "description": "衣の下で、まず下腹から柔らかな丸みが育ちはじめる。",
+    "devolvable": true,
+    "mutationWeight": 0.7
+  },
+  {
+    "id": "MAN-08",
+    "name": "下腹の先触れ II",
+    "tree": "manifestation",
+    "tier": 5,
+    "cost": 18,
+    "prerequisites": [
+      "MAN-07"
+    ],
+    "effects": {
+      "visibleFatPerDay": 0.08,
+      "bodyPartGrowth": {
+        "abdomen": 0.08
+      },
+      "visibilityRisk": 0.18
+    },
+    "description": "座るたび腹肉の存在が分かるほど、変化が前へ出る。",
+    "devolvable": true,
+    "mutationWeight": 0.45
+  },
+  {
+    "id": "MAN-09",
+    "name": "やわ腹質",
+    "tree": "manifestation",
+    "tier": 5,
+    "cost": 16,
+    "prerequisites": [
+      "MAN-06"
+    ],
+    "effects": {
+      "visibleFatPerDay": 0.04,
+      "acceptance": 5,
+      "awarenessRate": -0.04,
+      "bodyPartGrowth": {
+        "abdomen": 0.025,
+        "hips": 0.012,
+        "thighs": 0.012
+      },
+      "visibilityRisk": 0.08
+    },
+    "description": "増えた肉が柔らかく馴染み、初期のぽっちゃり感を魅力に変える。",
+    "devolvable": true,
+    "mutationWeight": 0.4
+  },
+  {
+    "id": "MAN-10",
+    "name": "運動の億劫",
+    "tree": "manifestation",
+    "tier": 2,
+    "cost": 7,
+    "prerequisites": [
+      "MAN-01"
+    ],
+    "effects": {
+      "tagActualFat": {
+        "active": 0.02
+      },
+      "countryResistance": {
+        "valk": -0.15,
+        "aurelia": -0.05
+      },
+      "bodyPartGrowth": {
+        "abdomen": 0.006,
+        "thighs": 0.01
+      }
+    },
+    "description": "階段や訓練が少し面倒になり、活動量が目に見えず落ちる。",
+    "devolvable": true,
+    "mutationWeight": 0.45
+  },
+  {
+    "id": "MAN-11",
+    "name": "長椅子の誘惑",
+    "tree": "manifestation",
+    "tier": 3,
+    "cost": 10,
+    "prerequisites": [
+      "MAN-10"
+    ],
+    "effects": {
+      "countryActualFat": {
+        "valk": 0.05
+      },
+      "awarenessRate": 0.03,
+      "bodyPartGrowth": {
+        "abdomen": 0.01,
+        "hips": 0.012,
+        "thighs": 0.012
+      }
+    },
+    "description": "座って過ごす時間が増え、獣人たちの俊敏さまで鈍らせる。",
+    "devolvable": true,
+    "mutationWeight": 0.3
+  },
+  {
+    "id": "COR-01",
+    "name": "豊かな食卓礼賛",
+    "tree": "corruption",
+    "tier": 1,
+    "cost": 5,
+    "prerequisites": [],
+    "effects": {
+      "acceptance": 6,
+      "visibleAwarenessRate": -0.05
+    },
+    "description": "よく食べることを美徳に変え、満たされた身体への抵抗を薄める。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-02",
+    "name": "ぽっちゃり美の兆し",
+    "tree": "corruption",
+    "tier": 2,
+    "cost": 8,
+    "prerequisites": [
+      "COR-01"
+    ],
+    "effects": {
+      "acceptance": 10,
+      "earlyVisibleAwarenessRate": -0.2
+    },
+    "description": "頬や腹の初期の丸みが、愛らしさとして語られはじめる。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-03",
+    "name": "健やか体型の建前",
+    "tree": "corruption",
+    "tier": 3,
+    "cost": 11,
+    "prerequisites": [
+      "COR-02"
+    ],
+    "effects": {
+      "acceptance": 12,
+      "awarenessRate": -0.1
+    },
+    "description": "軽い肉付きなら問題ない、という空気を社会に根づかせる。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-04",
+    "name": "節制崩し",
+    "tree": "corruption",
+    "tier": 2,
+    "cost": 8,
+    "prerequisites": [
+      "COR-01"
+    ],
+    "effects": {
+      "tagSpread": {
+        "holy": 0.15
+      }
+    },
+    "description": "禁欲の言葉を古臭く見せ、戒律の国に甘い隙を作る。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-05",
+    "name": "祝祭依存",
+    "tree": "corruption",
+    "tier": 3,
+    "cost": 10,
+    "prerequisites": [
+      "COR-04"
+    ],
+    "effects": {
+      "tagSpread": {
+        "festival": 0.2
+      },
+      "tagActualFat": {
+        "festival": 0.03
+      }
+    },
+    "description": "祭りの主役を食へ寄せ、幸福の記憶を満腹と結び直す。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-06",
+    "name": "伝統改竄",
+    "tree": "corruption",
+    "tier": 4,
+    "cost": 14,
+    "prerequisites": [
+      "COR-04"
+    ],
+    "effects": {
+      "countrySpread": {
+        "eldina": 0.15,
+        "luminas": 0.15
+      },
+      "researchSpeed": -0.05
+    },
+    "description": "古い美徳の意味を書き換え、森と聖堂の抵抗を鈍らせる。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-07",
+    "name": "高級嗜好化",
+    "tree": "corruption",
+    "tier": 2,
+    "cost": 8,
+    "prerequisites": [
+      "COR-01"
+    ],
+    "effects": {
+      "tagSpread": {
+        "wealthy": 0.2,
+        "court": 0.2
+      }
+    },
+    "description": "贅沢な皿ほど価値があると信じさせ、上流階級を先に蕩かす。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-08",
+    "name": "怠惰の正当化",
+    "tree": "corruption",
+    "tier": 2,
+    "cost": 8,
+    "prerequisites": [
+      "MAN-10"
+    ],
+    "effects": {
+      "tagActualFat": {
+        "active": 0.03
+      },
+      "visibleAwarenessRate": -0.05
+    },
+    "description": "休むことを洗練に見せ、動かない暮らしへの罪悪感を剥がす。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-09",
+    "name": "獣性の甘やかし",
+    "tree": "corruption",
+    "tier": 3,
+    "cost": 11,
+    "prerequisites": [
+      "COR-08"
+    ],
+    "effects": {
+      "countrySpread": {
+        "valk": 0.2
+      },
+      "countryActualFat": {
+        "valk": 0.04
+      }
+    },
+    "description": "旺盛な食欲ばかりを肯定し、獣人文化を飽食側へ傾ける。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-10",
+    "name": "妖精菓子の汚染",
+    "tree": "corruption",
+    "tier": 3,
+    "cost": 10,
+    "prerequisites": [
+      "SPR-09"
+    ],
+    "effects": {
+      "countrySpread": {
+        "feiria": 0.25
+      }
+    },
+    "description": "小さな蜜菓子へ魔瘴を混ぜ、茶会のたびに郷を染める。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-11",
+    "name": "研究攪乱",
+    "tree": "corruption",
+    "tier": 4,
+    "cost": 15,
+    "prerequisites": [],
+    "effects": {
+      "researchSpeed": -0.12
+    },
+    "description": "原因の焦点をぼかし、瘦身魔法の完成を遠ざける。",
+    "devolvable": true
+  },
+  {
+    "id": "COR-12",
+    "name": "研究攪乱 II",
+    "tree": "corruption",
+    "tier": 5,
+    "cost": 20,
+    "prerequisites": [
+      "COR-11"
+    ],
+    "effects": {
+      "researchSpeed": -0.18
+    },
+    "description": "諸国の知見を食い違わせ、共同研究そのものを迷わせる。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-01",
+    "name": "隠れ脂肪の種",
+    "tree": "concealment",
+    "tier": 1,
+    "cost": 5,
+    "prerequisites": [],
+    "effects": {
+      "actualFatPerDay": 0.03,
+      "visibleFatRate": -0.15,
+      "bodyPartGrowth": {
+        "abdomen": 0.006
+      }
+    },
+    "description": "見た目を保ったまま体脂肪だけを増やし、発覚を遅らせる。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-02",
+    "name": "内側だけの重み",
+    "tree": "concealment",
+    "tier": 2,
+    "cost": 8,
+    "prerequisites": [
+      "CON-01"
+    ],
+    "effects": {
+      "actualFatPerDay": 0.04,
+      "visibleFatRate": -0.1,
+      "awarenessRate": -0.05,
+      "bodyPartGrowth": {
+        "abdomen": 0.006
+      }
+    },
+    "description": "外見より先に内側へ蓄えさせ、細身の印象を長く残す。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-03",
+    "name": "筋肉の脂肪置換",
+    "tree": "concealment",
+    "tier": 3,
+    "cost": 11,
+    "prerequisites": [
+      "CON-02"
+    ],
+    "effects": {
+      "visibleFatRate": -0.08,
+      "countryAwareness": {
+        "valk": -0.12
+      }
+    },
+    "description": "輪郭は変えず、身体能力だけを静かに柔らげる。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-04",
+    "name": "柔らかな馴染み",
+    "tree": "concealment",
+    "tier": 2,
+    "cost": 8,
+    "prerequisites": [
+      "CON-01"
+    ],
+    "effects": {
+      "acceptance": 5,
+      "earlyVisibleAwarenessRate": -0.15
+    },
+    "description": "太り始めの触感を自然なものに見せ、違和感を薄める。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-05",
+    "name": "補正下着の流行",
+    "tree": "concealment",
+    "tier": 1,
+    "cost": 5,
+    "prerequisites": [],
+    "effects": {
+      "concealment": 8,
+      "earlyVisibleAwarenessRate": -0.1
+    },
+    "description": "衣の上からはまだ分からず、腹の膨らみを穏やかに隠す。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-06",
+    "name": "コルセット文化の復権",
+    "tree": "concealment",
+    "tier": 2,
+    "cost": 8,
+    "prerequisites": [
+      "CON-05"
+    ],
+    "effects": {
+      "concealment": 12,
+      "countryConcealment": {
+        "aurelia": 6,
+        "luminas": 6
+      }
+    },
+    "description": "増えた肉を押し込み、礼装の下に変化を閉じ込める。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-07",
+    "name": "貴族服飾の誇張",
+    "tree": "concealment",
+    "tier": 3,
+    "cost": 11,
+    "prerequisites": [
+      "CON-06"
+    ],
+    "effects": {
+      "countryConcealment": {
+        "aurelia": 15
+      },
+      "countryAcceptance": {
+        "aurelia": 6
+      }
+    },
+    "description": "飾り布と膨らみで、本当の輪郭をさらに読みにくくする。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-08",
+    "name": "ゆったり衣装の流行",
+    "tree": "concealment",
+    "tier": 1,
+    "cost": 5,
+    "prerequisites": [],
+    "effects": {
+      "concealment": 7,
+      "countrySpread": {
+        "marchelle": 0.1
+      }
+    },
+    "description": "布の落ち感で太り始めを包み、街の違和感を鈍らせる。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-09",
+    "name": "重ね着様式",
+    "tree": "concealment",
+    "tier": 2,
+    "cost": 7,
+    "prerequisites": [
+      "CON-08"
+    ],
+    "effects": {
+      "concealment": 10,
+      "visibleAwarenessRate": -0.08
+    },
+    "description": "ふくらみを衣装の構造に見せ、観測そのものを曖昧にする。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-10",
+    "name": "幻影化粧",
+    "tree": "concealment",
+    "tier": 1,
+    "cost": 6,
+    "prerequisites": [],
+    "effects": {
+      "concealment": 9,
+      "countryConcealment": {
+        "eldina": 5
+      }
+    },
+    "description": "鏡と視線にだけ細さを残し、実際の肉付きとの差を広げる。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-11",
+    "name": "姿見の祝福",
+    "tree": "concealment",
+    "tier": 2,
+    "cost": 9,
+    "prerequisites": [
+      "CON-10"
+    ],
+    "effects": {
+      "awarenessRate": -0.1
+    },
+    "description": "本人の認識まで甘く撫で、変化への自覚を遅らせる。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-12",
+    "name": "輪郭ぼかし",
+    "tree": "concealment",
+    "tier": 3,
+    "cost": 12,
+    "prerequisites": [
+      "CON-11"
+    ],
+    "effects": {
+      "concealment": 14,
+      "earlyVisibleAwarenessRate": -0.18
+    },
+    "description": "近くでは柔らかく、遠目には細く見える曖昧さを与える。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-13",
+    "name": "舞踏会の幻装",
+    "tree": "concealment",
+    "tier": 2,
+    "cost": 9,
+    "prerequisites": [
+      "CON-10"
+    ],
+    "effects": {
+      "countryAwareness": {
+        "aurelia": -0.08,
+        "eldina": -0.08
+      }
+    },
+    "description": "社交の場を幻術で包み、王都と森域の観測を逃れる。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-14",
+    "name": "集団認識改竄",
+    "tree": "concealment",
+    "tier": 4,
+    "cost": 16,
+    "prerequisites": [
+      "CON-12"
+    ],
+    "effects": {
+      "worldAwarenessRate": -0.12
+    },
+    "description": "社会全体の目を鈍らせ、異常を日常の一部に溶かす。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-15",
+    "name": "記録改竄",
+    "tree": "concealment",
+    "tier": 2,
+    "cost": 9,
+    "prerequisites": [],
+    "effects": {
+      "researchTriggerDelay": 10
+    },
+    "description": "統計上の異変まで遅らせ、発覚の時計を巻き戻す。",
+    "devolvable": true
+  },
+  {
+    "id": "CON-16",
+    "name": "不調の個人責任化",
+    "tree": "concealment",
+    "tier": 3,
+    "cost": 11,
+    "prerequisites": [
+      "CON-15"
+    ],
+    "effects": {
+      "visibleAwarenessRate": -0.2,
+      "researchSpeed": -0.04
+    },
+    "description": "息切れや服のきつさを体質のせいにし、調査の熱を奪う。",
+    "devolvable": true
+  },
+  {
+    "id": "MAN-12",
+    "name": "腰回りのやわらぎ I",
+    "tree": "manifestation",
+    "tier": 3,
+    "cost": 10,
+    "prerequisites": [
+      "MAN-02"
+    ],
+    "effects": {
+      "visibleFatPerDay": 0.02,
+      "bodyPartGrowth": {
+        "hips": 0.05
+      },
+      "visibilityRisk": 0.08
+    },
+    "description": "スカートの線をわずかに押し広げる、腰回りの柔らかな厚みを育てる。",
+    "mutationWeight": 0.5,
+    "devolvable": true
+  },
+  {
+    "id": "MAN-13",
+    "name": "腰回りのやわらぎ II",
+    "tree": "manifestation",
+    "tier": 4,
+    "cost": 14,
+    "prerequisites": [
+      "MAN-12"
+    ],
+    "effects": {
+      "visibleFatPerDay": 0.03,
+      "bodyPartGrowth": {
+        "hips": 0.075
+      },
+      "visibilityRisk": 0.12
+    },
+    "description": "横姿の丸みが増し、服の上からも腰の甘い厚さが伝わる。",
+    "mutationWeight": 0.35,
+    "devolvable": true
+  },
+  {
+    "id": "MAN-14",
+    "name": "太ももの重み I",
+    "tree": "manifestation",
+    "tier": 3,
+    "cost": 10,
+    "prerequisites": [
+      "MAN-02"
+    ],
+    "effects": {
+      "visibleFatPerDay": 0.02,
+      "bodyPartGrowth": {
+        "thighs": 0.05
+      },
+      "visibilityRisk": 0.07
+    },
+    "description": "歩くたびに布が触れ合う、むっちりした太ももの兆しを生む。",
+    "mutationWeight": 0.5,
+    "devolvable": true
+  },
+  {
+    "id": "MAN-15",
+    "name": "太ももの重み II",
+    "tree": "manifestation",
+    "tier": 4,
+    "cost": 14,
+    "prerequisites": [
+      "MAN-14"
+    ],
+    "effects": {
+      "visibleFatPerDay": 0.03,
+      "bodyPartGrowth": {
+        "thighs": 0.075
+      },
+      "visibilityRisk": 0.11
+    },
+    "description": "座った時の広がりが増し、脚線の印象がはっきり変わる。",
+    "mutationWeight": 0.35,
+    "devolvable": true
+  },
+  {
+    "id": "MAN-16",
+    "name": "頬のまるみ",
+    "tree": "manifestation",
+    "tier": 3,
+    "cost": 9,
+    "prerequisites": [
+      "MAN-02"
+    ],
+    "effects": {
+      "visibleFatPerDay": 0.018,
+      "bodyPartGrowth": {
+        "face": 0.045
+      },
+      "visibilityRisk": 0.1,
+      "acceptance": 4
+    },
+    "description": "笑うと頬がふわりと持ち上がり、太り始めの可愛さが顔に出る。",
+    "mutationWeight": 0.45,
+    "devolvable": true
+  },
+  {
+    "id": "MAN-17",
+    "name": "二の腕のふわり",
+    "tree": "manifestation",
+    "tier": 3,
+    "cost": 9,
+    "prerequisites": [
+      "MAN-02"
+    ],
+    "effects": {
+      "visibleFatPerDay": 0.016,
+      "bodyPartGrowth": {
+        "arms": 0.045
+      },
+      "visibilityRisk": 0.08
+    },
+    "description": "袖口にやわらかな余韻が宿り、抱えた腕にも肉付きが出る。",
+    "mutationWeight": 0.4,
+    "devolvable": true
+  }
+]

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ねこリン | Neko Link</title>
+    <meta name="description" content="つながると、猫になる。新感覚パズルゲーム。">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- 背景レイヤー -->
+        <div id="bg-container">
+            <div id="bg-sky" class="bg-layer"></div>
+            <div id="bg-clouds" class="bg-layer"></div>
+        </div>
+
+        <!-- メインコンテンツ -->
+        <div id="main-content">
+            <!-- タイトル画面 -->
+            <div id="screen-title" class="screen active">
+                <div class="title-content">
+                    <h1 class="title-logo">ねこリン</h1>
+                    <p class="title-subtitle">つながると、猫になる。</p>
+                </div>
+                <div class="menu-buttons">
+                    <button id="btn-start" class="menu-btn primary">🐾 スタート</button>
+                    <button id="btn-ranking" class="menu-btn" style="color:#ffff88;">🏆 ランキング</button>
+                    <button id="btn-howto" class="menu-btn">? 遊び方</button>
+                    <button id="btn-credits" class="menu-btn small-text"
+                        style="margin-top:5px; height:40px; font-size:14px;">(C) Credits</button>
+                </div>
+            </div>
+
+            <!-- ランキング画面 -->
+            <div id="screen-ranking" class="screen">
+                <h2>ランキング</h2>
+                <div class="ranking-container">
+                    <div class="my-score-area">
+                        <p style="opacity:0.8; font-size:14px;">あなたのハイスコア</p>
+                        <p id="ranking-my-score" style="font-size:32px; font-weight:bold; color:#ffd700;">0</p>
+                    </div>
+                </div>
+                <button id="btn-ranking-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+
+            <!-- ゲーム画面 -->
+            <div id="screen-game" class="screen">
+                <div id="game-header">
+                    <div class="score-box">
+                        <span class="label">SCORE</span>
+                        <span id="game-score">0</span>
+                    </div>
+                    <button id="btn-pause">❚❚</button>
+                </div>
+
+                <div id="game-area">
+                    <canvas id="game-canvas"></canvas>
+                </div>
+            </div>
+
+            <!-- リザルトモーダル -->
+            <div id="result-modal" class="hidden">
+                <div class="modal-content">
+                    <h2>おしまい！</h2>
+                    <p>今回のスコア</p>
+                    <p id="result-score" class="score-text">0</p>
+                    <button id="btn-result-ok" class="menu-btn primary">ホームへ</button>
+                </div>
+            </div>
+
+            <!-- ポーズモーダル -->
+            <div id="pause-modal" class="hidden">
+                <div class="modal-content">
+                    <p>ちょっと休憩</p>
+                    <button id="btn-resume" class="menu-btn">つづける</button>
+                    <button id="btn-quit" class="menu-btn">やめる</button>
+                </div>
+            </div>
+
+            <!-- 遊び方モーダル -->
+            <div id="howto-modal" class="hidden">
+                <div class="modal-content howto-content">
+                    <h2>遊び方</h2>
+                    <div class="howto-text">
+                        <p><strong>🐾 タップして消そう</strong><br>同じ色のブロックが2つ以上つながっている場所をタップすると消せます。</p>
+                        <br>
+                        <p><strong>🐈 猫をつくろう</strong><br>たくさんつなげると、大きな猫の形になります。<br>一度にたくさん消すと高得点！</p>
+                    </div>
+                    <button id="btn-howto-close" class="menu-btn primary" style="margin-top:20px;">わかった！</button>
+                </div>
+            </div>
+
+            <!-- クレジット画面 -->
+            <div id="screen-credits" class="screen">
+                <h2>Credits</h2>
+                <div class="credits-content">
+                    <p>Designed & Developed by AntiGravity</p>
+                    <p>Font: 夜すがら手書きフォント</p>
+                </div>
+                <button id="btn-credits-back" class="menu-btn back-btn">← もどる</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/api-mock.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

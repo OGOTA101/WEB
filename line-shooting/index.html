@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>LINE SHOOTING: Neon Rift</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="game-root" aria-label="LINE SHOOTING playfield"></div>
+
+      <div id="hud" class="hud hidden">
+        <div class="hud-top">
+          <div>
+            <span class="micro">SCORE</span>
+            <strong id="hud-score">0</strong>
+          </div>
+          <div>
+            <span class="micro">HP</span>
+            <strong id="hud-hp">1</strong>
+          </div>
+          <div>
+            <span class="micro">GACHA</span>
+            <strong id="hud-ticket">0</strong>
+          </div>
+        </div>
+        <div class="hud-bottom">
+          <button id="btn-pause" class="icon-btn" title="ポーズ">II</button>
+          <div class="cool">
+            <span>SP</span>
+            <i id="sp-cool"></i>
+          </div>
+          <div class="cool">
+            <span>EV</span>
+            <i id="ev-cool"></i>
+          </div>
+          <div id="room-chip" class="room-chip"></div>
+        </div>
+      </div>
+
+      <main id="menu" class="menu">
+        <section id="screen-title" class="screen active">
+          <div class="brand">
+            <p class="kicker">CO-OP GRID RUNNER</p>
+            <h1>LINE SHOOTING</h1>
+            <p class="subtitle">Neon Rift</p>
+          </div>
+          <div class="actions">
+            <button data-action="single">シングル出撃</button>
+            <button data-action="multi">マルチ出撃</button>
+            <button data-action="customize">機体編成</button>
+            <button data-action="gacha">パーツガチャ</button>
+            <button data-action="parts">パーツ一覧</button>
+            <button data-action="credits">クレジット</button>
+          </div>
+          <div class="status-row">
+            <span>BEST <b id="best-score">0</b></span>
+            <span>TICKET <b id="ticket-count">0</b></span>
+          </div>
+        </section>
+
+        <section id="screen-multi" class="screen">
+          <h2>マルチ出撃</h2>
+          <label class="field">ROOM ID<input id="room-input" maxlength="18" placeholder="例: neon01" /></label>
+          <label class="field">CALL SIGN<input id="name-input" maxlength="12" placeholder="PLAYER" /></label>
+          <div class="actions">
+            <button data-action="join-room">ルーム参加 / 作成</button>
+            <button data-action="back-title">戻る</button>
+          </div>
+          <p id="online-status" class="note">Firebase 接続準備中...</p>
+          <div id="lobby-list" class="lobby-list"></div>
+        </section>
+
+        <section id="screen-customize" class="screen wide">
+          <h2>機体編成</h2>
+          <div class="garage">
+            <canvas id="preview" width="220" height="220"></canvas>
+            <div class="slot-tabs">
+              <button data-slot="main">主砲</button>
+              <button data-slot="sub">副砲</button>
+              <button data-slot="engine">機関</button>
+              <button data-slot="hull">船体</button>
+              <button data-slot="bridge">艦橋</button>
+            </div>
+            <div id="slot-list" class="slot-list"></div>
+          </div>
+          <div class="actions">
+            <button data-action="back-title">戻る</button>
+          </div>
+        </section>
+
+        <section id="screen-gacha" class="screen">
+          <h2>パーツガチャ</h2>
+          <p class="note">スコア 5 ごとに 1 回。重複パーツはチケットに還元されます。</p>
+          <div id="gacha-result" class="gacha-result">READY</div>
+          <div class="actions">
+            <button data-action="roll-gacha">1回まわす</button>
+            <button data-action="back-title">戻る</button>
+          </div>
+        </section>
+
+        <section id="screen-parts" class="screen wide">
+          <h2>パーツ一覧</h2>
+          <div id="parts-grid" class="parts-grid"></div>
+          <div class="actions">
+            <button data-action="back-title">戻る</button>
+          </div>
+        </section>
+
+        <section id="screen-result" class="screen">
+          <h2 id="result-title">RESULT</h2>
+          <div class="result-score"><span id="result-score">0</span> LINES</div>
+          <p id="result-note" class="note"></p>
+          <div class="actions">
+            <button data-action="retry">再出撃</button>
+            <button data-action="back-title">タイトルへ</button>
+          </div>
+        </section>
+
+        <section id="screen-credits" class="screen">
+          <h2>クレジット</h2>
+          <p class="note">Game design, code-generated neon visuals, procedural BGM/SE: Codex + ihogo.</p>
+          <p class="note">Firebase Realtime Database sync / Phaser renderer / Vite build.</p>
+          <div class="actions">
+            <button data-action="back-title">戻る</button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,635 @@
+/**
+ * Cat Catch - Styles
+ * ドット絵風レトロゲームスタイル
+ */
+
+/* ========================================
+   リセット & ベース
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
+    background: #1a1a2e;
+    color: #ffffff;
+}
+
+/* ========================================
+   ゲームコンテナ
+   ======================================== */
+#game-container {
+    width: 100%;
+    height: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #2d3a4a 0%, #1a2634 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* ========================================
+   背景レイヤー
+   ======================================== */
+#bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#bg-sky {
+    background: linear-gradient(180deg,
+            #87ceeb 0%,
+            #98d8e8 30%,
+            #b8e4f0 60%,
+            #d4f0d4 100%);
+}
+
+/* ========================================
+   メインコンテンツ
+   ======================================== */
+#main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 60px;
+    /* フッター用のスペース */
+}
+
+/* ========================================
+   画面
+   ======================================== */
+.screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* ========================================
+   タイトル画面
+   ======================================== */
+.title-content {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.title-logo {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow:
+        3px 3px 0 #b8860b,
+        -1px -1px 0 #fffacd,
+        0 0 20px rgba(255, 215, 0, 0.5);
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+}
+
+.title-subtitle {
+    font-size: 14px;
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 280px;
+}
+
+.currency-display {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.currency-icon {
+    font-size: 18px;
+}
+
+/* ========================================
+   ボタン
+   ======================================== */
+.menu-btn {
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background: linear-gradient(180deg, #4a5568 0%, #2d3748 100%);
+    border: 3px solid #718096;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow:
+        0 4px 0 #1a202c,
+        0 6px 10px rgba(0, 0, 0, 0.3);
+    /* ピクセル感を出すため */
+    image-rendering: pixelated;
+}
+
+.menu-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 0 #1a202c,
+        0 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.menu-btn:active {
+    transform: translateY(2px);
+    box-shadow:
+        0 2px 0 #1a202c,
+        0 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn.primary {
+    background: linear-gradient(180deg, #48bb78 0%, #2f855a 100%);
+    border-color: #68d391;
+}
+
+.menu-btn.back-btn {
+    margin-top: auto;
+    background: linear-gradient(180deg, #718096 0%, #4a5568 100%);
+}
+
+.menu-btn.small-text {
+    font-size: 12px;
+    padding: 10px 16px;
+}
+
+/* ========================================
+   ゲーム画面
+   ======================================== */
+#screen-game {
+    padding: 0;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+#screen-game.active {
+    display: flex;
+    flex-direction: column;
+}
+
+#game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+#hp-container {
+    font-size: 20px;
+    color: #ff6b6b;
+}
+
+#wave-container {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffd700;
+}
+
+#score-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #48bb78;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+#btn-pause {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+#game-area {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+}
+
+#game-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+#game-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+#capacity-container {
+    font-size: 14px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.action-btn {
+    width: 80px;
+    height: 60px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid;
+    transition: all 0.1s ease;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.action-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.capture-btn {
+    background: linear-gradient(180deg, #4299e1 0%, #2b6cb0 100%);
+    border-color: #63b3ed;
+    color: #ffffff;
+}
+
+.eject-btn {
+    background: linear-gradient(180deg, #ed8936 0%, #c05621 100%);
+    border-color: #f6ad55;
+    color: #ffffff;
+}
+
+/* ========================================
+   強化画面
+   ======================================== */
+.upgrade-container {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.upgrade-section {
+    margin-bottom: 20px;
+}
+
+.upgrade-section h3 {
+    font-size: 14px;
+    color: #ffd700;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.upgrade-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.upgrade-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 12px;
+    border-radius: 6px;
+}
+
+.upgrade-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.upgrade-item-name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.upgrade-item-level {
+    font-size: 12px;
+    color: #a0aec0;
+}
+
+.upgrade-item-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    background: linear-gradient(180deg, #48bb78 0%, #2f855a 100%);
+    border: 2px solid #68d391;
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.upgrade-item-btn:disabled {
+    background: #4a5568;
+    border-color: #718096;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   遊び方画面
+   ======================================== */
+.howto-content {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.howto-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.howto-section h3 {
+    font-size: 16px;
+    color: #ffd700;
+    margin-bottom: 8px;
+}
+
+.howto-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #e2e8f0;
+}
+
+/* ========================================
+   クレジット画面
+   ======================================== */
+.credits-content {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-group h3 {
+    font-size: 14px;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+/* ========================================
+   リザルト画面
+   ======================================== */
+.result-content {
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+}
+
+.result-content h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #ffd700;
+}
+
+.result-stats {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.result-stats p {
+    margin: 8px 0;
+}
+
+.result-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #48bb78;
+}
+
+.new-record {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffd700;
+    animation: pulse 1s infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+.upgrade-item-effect {
+    font-size: 11px;
+    color: #68d391;
+}
+
+/* ========================================
+   モーダル
+   ======================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%);
+    padding: 30px;
+    border-radius: 12px;
+    border: 3px solid #4a5568;
+    text-align: center;
+    min-width: 280px;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: #ffd700;
+}
+
+.modal-content .menu-btn {
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* ========================================
+   グローバルフッター
+   ======================================== */
+.global-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    transition: opacity 0.3s ease;
+}
+
+/* ゲーム画面ではフッターを非表示 */
+#screen-game.active~.global-footer,
+body.game-active .global-footer {
+    display: none;
+}
+
+.footer-audio {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.audio-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #a0aec0;
+}
+
+.audio-group input[type="range"] {
+    width: 80px;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    outline: none;
+}
+
+.audio-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #48bb78;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* ========================================
+   ユーティリティ
+   ======================================== */
+.hidden {
+    display: none !important;
+}
+
+/* スクロールバーのスタイル */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+/* ========================================
+   レスポンシブ
+   ======================================== */
+@media (max-height: 600px) {
+    .title-logo {
+        font-size: 28px;
+    }
+
+    .menu-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}

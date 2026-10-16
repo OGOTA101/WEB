@@ -1,0 +1,58 @@
+- generic [ref=e3]:
+  - generic [ref=e7]:
+    - img "消しゴムサバイバー" [ref=e8]
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]: NAME
+        - textbox "NAME" [ref=e12]
+      - generic [ref=e13]:
+        - generic [ref=e14]: BEST SCORE
+        - strong [ref=e15]: "0"
+    - generic [ref=e16]:
+      - button "PLAY" [ref=e17] [cursor=pointer]
+      - button "RANKING" [ref=e18] [cursor=pointer]
+  - banner:
+    - generic [ref=e19]:
+      - button "AUTO ON" [ref=e20] [cursor=pointer]
+      - button "PAUSE" [ref=e21] [cursor=pointer]
+  - progressbar "経験値ゲージ"
+  - complementary "ミニマップ"
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:00
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/10
+    - generic:
+      - generic: CASE
+      - strong: CASE
+    - generic:
+      - generic: BODY
+      - strong: ■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO ON"
+    - button "HITBOX OFF"
+    - button "MINIMAP ON"
+    - paragraph: PAUSE中にAUTOとHITBOXを切替
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "もう一回"
+      - button "タイトルへ"
+  - paragraph: "左半分: 移動 / 右半分: 攻撃方向固定"

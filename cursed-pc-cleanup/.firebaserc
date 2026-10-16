@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "sggame-hub"
+  },
+  "targets": {
+    "sggame-hub": {
+      "hosting": {
+        "cursed-pc-cleanup": [
+          "cursed-pc-cleanup"
+        ]
+      }
+    }
+  }
+}

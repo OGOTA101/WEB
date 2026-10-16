@@ -1,0 +1,15 @@
+{
+    "hosting": {
+        "target": "cat-catch",
+        "public": ".",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**",
+            "SPECIFICATION.md"
+        ]
+    },
+    "firestore": {
+        "rules": "firestore.rules"
+    }
+}

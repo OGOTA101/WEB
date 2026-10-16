@@ -1,0 +1,148 @@
+- generic [ref=e3]:
+  - generic [ref=e11]:
+    - generic "消しゴムサバイバー" [ref=e12]:
+      - img "消しゴムサバイバー" [ref=e13]
+      - generic: 槍
+      - generic: 弓
+      - generic: 盾
+      - generic: 龍
+      - generic: 盾
+      - generic: 兵
+      - generic: 兵
+      - img "主人公の消しゴム君"
+      - img "鉛筆のボス"
+      - button "ゲームを共有" [ref=e14] [cursor=pointer]
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - generic [ref=e20]: NAME
+          - textbox "NAME" [ref=e21]: けし6964
+        - generic [ref=e22]:
+          - generic [ref=e23]: BEST SCORE
+          - strong [ref=e24]: "0"
+      - generic [ref=e25]:
+        - button "PLAY" [ref=e26] [cursor=pointer]
+        - button "RANKING" [ref=e27] [cursor=pointer]
+        - button "合成図鑑" [ref=e28] [cursor=pointer]
+        - button "遊び方" [ref=e29] [cursor=pointer]
+      - generic "タイトル音量設定" [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - text: SE
+            - strong [ref=e33]: "3"
+          - slider "SE 3" [ref=e34]: "3"
+        - generic [ref=e35]:
+          - generic [ref=e36]:
+            - text: BGM
+            - strong [ref=e37]: "5"
+          - slider "BGM 5" [ref=e38]: "5"
+        - generic [ref=e39]:
+          - generic [ref=e40]:
+            - text: VOICE
+            - strong [ref=e41]: "8"
+          - slider "VOICE 8" [ref=e42]: "8"
+      - generic "クレジット" [ref=e43]:
+        - paragraph [ref=e44]:
+          - generic [ref=e45]: 企画・仕様・デザイン
+          - link "@BeatsKirito" [ref=e46] [cursor=pointer]:
+            - /url: https://x.com/BeatsKirito
+        - paragraph [ref=e47]:
+          - generic [ref=e48]: プログラム
+          - link "@SGGame9" [ref=e49] [cursor=pointer]:
+            - /url: https://x.com/SGGame9
+        - paragraph [ref=e50]:
+          - generic [ref=e51]: ボイス
+          - link "@h_katsui" [ref=e52] [cursor=pointer]:
+            - /url: https://x.com/h_katsui
+      - paragraph [ref=e53]:
+        - generic [ref=e54]: 音楽：
+        - generic [ref=e55]: 魔王魂
+  - banner:
+    - generic:
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+    - generic: 0:00
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - button "全マップの消しカスを回収（0個）" [disabled]:
+    - generic: ↓
+    - generic: 消しカス全回収
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:00
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/8 (0)
+    - generic:
+      - generic: CASE
+      - strong: BARE
+    - generic:
+      - generic: BODY
+      - strong: ■■■■■■■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO OFF"
+    - button "MAP OPEN"
+    - button "リトライ"
+    - button "タイトルへ戻る"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - generic:
+      - generic:
+        - text: VOICE
+        - strong: "8"
+      - slider "VOICE 8": "8"
+    - paragraph: SPACE / P / ESC で停止。Eで全体MAP
+  - generic:
+    - generic:
+      - generic: ARMS
+      - strong: 通常攻撃 LV1
+    - list:
+      - listitem:
+        - generic: 通常攻撃
+        - generic: 威力 5、盾防御無視
+    - paragraph: 一時効果なし
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "リトライ"
+      - button "タイトルへ"
+    - paragraph
+  - dialog "確認":
+    - generic:
+      - paragraph: CONFIRM
+      - heading "確認" [level=1]
+      - paragraph
+      - generic:
+        - button "実行する"
+        - button "キャンセル"
+  - paragraph: "WASD: 移動 / マウス: 照準 / クリック: 固定 / SPACE: ポーズ"

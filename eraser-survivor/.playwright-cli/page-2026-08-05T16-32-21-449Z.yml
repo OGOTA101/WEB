@@ -1,0 +1,96 @@
+- generic [ref=e3]:
+  - banner:
+    - generic:
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+    - generic: 0:01
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - button "全マップの消しカスを回収（0個）" [disabled] [ref=e93]:
+    - generic [ref=e45]: ↓
+    - generic [ref=e48]: 消しカス全回収
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:01
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/8 (0)
+    - generic:
+      - generic: CASE
+      - strong: BARE
+    - generic:
+      - generic: BODY
+      - strong: ■■■■■■■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO OFF"
+    - button "MAP OPEN"
+    - button "リトライ"
+    - button "タイトルへ戻る"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - generic:
+      - generic:
+        - text: VOICE
+        - strong: "8"
+      - slider "VOICE 8": "8"
+    - paragraph: SPACE / P / ESC で停止。Eで全体MAP
+  - generic:
+    - generic:
+      - generic: ARMS
+      - strong: 通常攻撃 LV1
+    - list:
+      - listitem:
+        - generic: 通常攻撃
+        - generic: 威力 5、盾防御無視
+    - paragraph: 一時効果なし
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "リトライ"
+      - button "タイトルへ"
+    - paragraph
+  - dialog "確認":
+    - generic:
+      - paragraph: CONFIRM
+      - heading "確認" [level=1]
+      - paragraph
+      - generic:
+        - button "実行する"
+        - button "キャンセル"
+  - paragraph: "WASD: 移動 / マウス: 照準 / クリック: 固定 / SPACE: ポーズ"
+  - complementary [ref=e94]:
+    - paragraph [ref=e95]: WASDで移動 / マウスで照準 / クリックで向き固定 / SPACEでポーズ
+    - generic [ref=e96]:
+      - checkbox "以降表示しない" [ref=e97]
+      - text: 以降表示しない
+    - button "OK" [ref=e98] [cursor=pointer]

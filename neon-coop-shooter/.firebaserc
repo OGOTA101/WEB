@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "sggame-hub"
+  },
+  "targets": {
+    "sggame-hub": {
+      "hosting": {
+        "neon-coop-shooter": [
+          "neon-coop-shooter"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

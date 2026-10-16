@@ -1,0 +1,272 @@
+- generic [ref=e3]:
+  - generic [ref=e7]:
+    - generic "消しゴムサバイバー" [ref=e8]:
+      - img "消しゴムサバイバー" [ref=e9]
+      - generic: 槍
+      - generic: 弓
+      - generic: 盾
+      - generic: 龍
+      - generic: 盾
+      - generic: 兵
+      - generic: 兵
+      - img "主人公の消しゴム君"
+      - img "鉛筆のボス"
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - generic [ref=e13]: NAME
+          - textbox "NAME" [ref=e14]: けし1404
+        - generic [ref=e15]:
+          - generic [ref=e16]: BEST SCORE
+          - strong [ref=e17]: "0"
+      - generic [ref=e18]:
+        - button "PLAY" [ref=e19] [cursor=pointer]
+        - button "RANKING" [active] [ref=e20] [cursor=pointer]
+        - button "合成図鑑" [ref=e21] [cursor=pointer]
+        - button "遊び方" [ref=e22] [cursor=pointer]
+      - generic "タイトル音量設定" [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - text: SE
+            - strong [ref=e26]: "3"
+          - slider "SE 3" [ref=e27]: "3"
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - text: BGM
+            - strong [ref=e30]: "5"
+          - slider "BGM 5" [ref=e31]: "5"
+      - paragraph [ref=e32]: "音楽: 魔王魂"
+  - generic [ref=e151]:
+    - generic [ref=e152]:
+      - button "CLOSE" [ref=e153] [cursor=pointer]
+      - generic [ref=e154]:
+        - paragraph [ref=e155]: ONLINE
+        - heading "ランキング" [level=1] [ref=e156]
+    - region "ランキング一覧。1位から順に下へスライドして閲覧できます" [ref=e157]:
+      - paragraph [ref=e158]
+      - list [ref=e159]:
+        - listitem [ref=e160]:
+          - generic [ref=e161]: "1"
+          - strong [ref=e164]: スマホ7/29ヒコーキ
+          - generic [ref=e165]: "633"
+          - generic [ref=e166]:
+            - emphasis [ref=e167]: Level 14
+            - emphasis [ref=e168]: 3:04
+            - emphasis [ref=e169]: 消しゴム弾丸3 / マシンガン3 / マシンガンダメ13 / マシンガン散射
+        - listitem [ref=e170]:
+          - generic [ref=e171]: "2"
+          - strong [ref=e174]: スマホ7/29ヒコーキ
+          - generic [ref=e175]: "587"
+          - generic [ref=e176]:
+            - emphasis [ref=e177]: Level 14
+            - emphasis [ref=e178]: 3:14
+            - emphasis [ref=e179]: 通常攻撃3 / 消しゴム弾丸1 / スナイパー弾3 / 消しゴム散弾1 / 消しゴム大砲2 / スナイパー3列射撃
+        - listitem [ref=e180]:
+          - generic [ref=e181]: "3"
+          - strong [ref=e184]: PC紙ヒコーキ2回目
+          - generic [ref=e185]: "586"
+          - generic [ref=e186]:
+            - emphasis [ref=e187]: Level 15
+            - emphasis [ref=e188]: 3:09
+            - emphasis [ref=e189]: 消しゴム散弾3 / マシンガン3 / 消しゴム大砲1 / マシンガン散射 / マシンガンダメ13
+        - listitem [ref=e190]:
+          - generic [ref=e191]: "4"
+          - strong [ref=e192]: けし3188
+          - generic [ref=e193]: "572"
+          - generic [ref=e194]:
+            - emphasis [ref=e195]: Level 19
+            - emphasis [ref=e196]: 3:38
+            - emphasis [ref=e197]: マシンガン貫通 / 散弾ダメ20
+        - listitem [ref=e198]:
+          - generic [ref=e199]: "5"
+          - strong [ref=e200]: けし6261
+          - generic [ref=e201]: "562"
+          - generic [ref=e202]:
+            - emphasis [ref=e203]: Level 14
+            - emphasis [ref=e204]: 3:24
+            - emphasis [ref=e205]: 通常攻撃1 / 消しゴム散弾3 / マシンガン2 / 消しゴムコンパス3 / 弓ガード / 散弾貫通
+        - listitem [ref=e206]:
+          - generic [ref=e207]: "6"
+          - strong [ref=e208]: けし9042
+          - generic [ref=e209]: "541"
+          - generic [ref=e210]:
+            - emphasis [ref=e211]: Level 17
+            - emphasis [ref=e212]: 3:56
+            - emphasis [ref=e213]: スナイパー連射 / 大砲ダメ40
+        - listitem [ref=e214]:
+          - generic [ref=e215]: "7"
+          - strong [ref=e216]: PC紙ヒコーキ
+          - generic [ref=e217]: "540"
+          - generic [ref=e218]:
+            - emphasis [ref=e219]: Level 15
+            - emphasis [ref=e220]: 3:11
+            - emphasis [ref=e221]: 通常攻撃1 / 消しゴム弾丸2 / 消しゴム散弾3 / 消しゴムコンパス1 / マシンガン散射 / 散弾連射
+        - listitem [ref=e222]:
+          - generic [ref=e223]: "8"
+          - strong [ref=e224]: スマホ7/29ヒコーキ
+          - generic [ref=e225]: "517"
+          - generic [ref=e226]:
+            - emphasis [ref=e227]: Level 15
+            - emphasis [ref=e228]: 3:13
+            - emphasis [ref=e229]: マシンガン3 / マシンガンダメ13 / マシンガン散射 / マシンガン大砲サイズ
+        - listitem [ref=e230]:
+          - generic [ref=e231]: "9"
+          - strong [ref=e232]: けし1175
+          - generic [ref=e233]: "509"
+          - generic [ref=e234]:
+            - emphasis [ref=e235]: Level 18
+            - emphasis [ref=e236]: 4:01
+            - emphasis [ref=e237]: 散弾貫通 / コンパスダメ10
+        - listitem [ref=e238]:
+          - generic [ref=e239]: "10"
+          - strong [ref=e240]: けし5603
+          - generic [ref=e241]: "487"
+          - generic [ref=e242]:
+            - emphasis [ref=e243]: Level 18
+            - emphasis [ref=e244]: 3:47
+            - emphasis [ref=e245]: 大砲連射 / コンパス大砲サイズ
+        - listitem [ref=e246]:
+          - generic [ref=e247]: "11"
+          - strong [ref=e248]: けし6261
+          - generic [ref=e249]: "484"
+          - generic [ref=e250]:
+            - emphasis [ref=e251]: Level 18
+            - emphasis [ref=e252]: 3:45
+            - emphasis [ref=e253]: 通常攻撃1 / 消しゴム弾丸3 / 消しゴム散弾3 / 消しゴムコンパス3 / 大砲連射 / コンパス大砲サイズ
+        - listitem [ref=e254]:
+          - generic [ref=e255]: "12"
+          - strong [ref=e256]: けし7420
+          - generic [ref=e257]: "458"
+          - generic [ref=e258]:
+            - emphasis [ref=e259]: Level 16
+            - emphasis [ref=e260]: 4:13
+            - emphasis [ref=e261]: 大砲サイズダメ30 / マシンガン散射
+        - listitem [ref=e262]:
+          - generic [ref=e263]: "13"
+          - strong [ref=e264]: スマホ7/29ヒコーキ
+          - generic [ref=e265]: "444"
+          - generic [ref=e266]:
+            - emphasis [ref=e267]: Level 17
+            - emphasis [ref=e268]: 3:38
+            - emphasis [ref=e269]: 消しゴム弾丸2 / スナイパー弾3 / 消しゴム大砲1 / 消しゴムコンパス3 / ？？？ / スナイパーダメ50
+        - listitem [ref=e270]:
+          - generic [ref=e271]: "14"
+          - strong [ref=e272]: スマホ7/29ヒコーキ
+          - generic [ref=e273]: "284"
+          - generic [ref=e274]:
+            - emphasis [ref=e275]: Level 15
+            - emphasis [ref=e276]: 3:13
+            - emphasis [ref=e277]: スナイパー弾1 / 消しゴム散弾3 / マシンガン3 / マシンガンダメ13 / マシンガン貫通
+        - listitem [ref=e278]:
+          - generic [ref=e279]: "15"
+          - strong [ref=e280]: PC紙ヒコーキ2回目
+          - generic [ref=e281]: "266"
+          - generic [ref=e282]:
+            - emphasis [ref=e283]: Level 15
+            - emphasis [ref=e284]: 3:17
+            - emphasis [ref=e285]: 消しゴム散弾3 / マシンガン2 / 消しゴム大砲2 / 散弾連射 / 散弾ダメ20
+        - listitem [ref=e286]:
+          - generic [ref=e287]: "16"
+          - strong [ref=e288]: スマホ7/29ヒコーキ
+          - generic [ref=e289]: "261"
+          - generic [ref=e290]:
+            - emphasis [ref=e291]: Level 14
+            - emphasis [ref=e292]: 3:07
+            - emphasis [ref=e293]: 消しゴム弾丸2 / マシンガン3 / 弓ガード / マシンガンダメ13 / マシンガン貫通
+        - listitem [ref=e294]:
+          - generic [ref=e295]: "17"
+          - strong [ref=e296]: iPad
+          - generic [ref=e297]: "195"
+          - generic [ref=e298]:
+            - emphasis [ref=e299]: Level 11
+            - emphasis [ref=e300]: 2:38
+            - emphasis [ref=e301]: 消しゴム弾丸3 / 消しゴムコンパス3 / 弓ガード / コンパスダメ10
+        - listitem [ref=e302]:
+          - generic [ref=e303]: "18"
+          - strong [ref=e304]: スマホ7/29ヒコーキ
+          - generic [ref=e305]: "27"
+          - generic [ref=e306]:
+            - emphasis [ref=e307]: Level 3
+            - emphasis [ref=e308]: 0:33
+            - emphasis [ref=e309]: 通常攻撃3
+      - button "CLOSE" [ref=e310] [cursor=pointer]
+  - banner:
+    - generic:
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+    - generic: 0:00
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:00
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/8 (0)
+    - generic:
+      - generic: CASE
+      - strong: BARE
+    - generic:
+      - generic: BODY
+      - strong: ■■■■■■■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO OFF"
+    - button "MAP OPEN"
+    - button "リトライ"
+    - button "タイトルへ戻る"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - paragraph: SPACE / P / ESC で停止。Eで全体MAP
+  - generic:
+    - generic:
+      - generic: ARMS
+      - strong: 通常攻撃 LV1
+    - list:
+      - listitem:
+        - generic: 通常攻撃
+        - generic: 威力 5、盾防御無視
+    - paragraph: 一時効果なし
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "リトライ"
+      - button "タイトルへ"
+  - dialog "タイトルへ戻りますか？":
+    - generic:
+      - paragraph: CONFIRM
+      - heading "タイトルへ戻りますか？" [level=1]
+      - paragraph: 現在のプレイを終了してタイトル画面へ戻ります。
+      - generic:
+        - button "タイトルへ戻る"
+        - button "キャンセル"
+  - paragraph: "WASD: 移動 / マウス: 照準 / クリック: 固定 / SPACE: ポーズ"

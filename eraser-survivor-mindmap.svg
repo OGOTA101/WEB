@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">消しゴムサバイバー マインドマップ</title>
+  <desc id="desc">文房具と爽快感を中心に、ゲーム要素とランキング、ローグライクの関係を整理したマインドマップ</desc>
+  <style>
+    .jp { font-family: "Yu Gothic", "Meiryo", sans-serif; fill: #211a13; font-weight: 700; }
+    .small { font-size: 22px; }
+    .node { stroke: #211a13; stroke-width: 3; }
+    .line { fill: none; stroke: #665746; stroke-width: 4; stroke-linecap: round; }
+    .dash { stroke-dasharray: 10 9; }
+    .tag { font-size: 17px; letter-spacing: 2px; font-weight: 900; }
+  </style>
+
+  <rect width="1600" height="1000" fill="#171a1d"/>
+  <rect x="28" y="28" width="1544" height="944" fill="#f8f3e8" stroke="#211a13" stroke-width="5"/>
+  <path d="M28 112H1572 M28 196H1572 M28 280H1572 M28 364H1572 M28 448H1572 M28 532H1572 M28 616H1572 M28 700H1572 M28 784H1572 M28 868H1572" stroke="#cfd8df" stroke-width="2" opacity=".45"/>
+  <path d="M116 28V972" stroke="#ec8991" stroke-width="4" opacity=".38"/>
+  <text x="82" y="78" class="jp tag" fill="#2574d5">ERASER SURVIVOR / CORE MAP</text>
+
+  <!-- connectors from the two core ideas -->
+  <path class="line" d="M560 430 C440 360 360 300 260 250"/>
+  <path class="line" d="M560 500 C420 540 350 610 260 690"/>
+  <path class="line" d="M1040 430 C1160 360 1240 300 1340 250"/>
+  <path class="line" d="M1040 500 C1170 550 1240 640 1340 710"/>
+  <path class="line dash" d="M800 390 C800 300 800 250 800 190"/>
+  <path class="line dash" d="M800 610 C800 700 800 750 800 830"/>
+  <path class="line" d="M1060 760 C1130 820 1200 850 1290 850"/>
+  <text x="1110" y="806" class="jp small" fill="#7a4f00">ランキングと結合</text>
+
+  <!-- core -->
+  <rect x="500" y="370" width="300" height="125" rx="8" class="node" fill="#dcecff"/>
+  <rect x="800" y="370" width="300" height="125" rx="8" class="node" fill="#ffe28b"/>
+  <text x="650" y="420" text-anchor="middle" class="jp" font-size="34">文房具</text>
+  <text x="650" y="462" text-anchor="middle" class="jp small">消す / 書く / 道具</text>
+  <text x="950" y="420" text-anchor="middle" class="jp" font-size="34">爽快感</text>
+  <text x="950" y="462" text-anchor="middle" class="jp small">連射 / 撃破 / 演出</text>
+
+  <!-- top -->
+  <rect x="610" y="112" width="380" height="104" rx="8" class="node" fill="#fff8e5"/>
+  <text x="800" y="150" text-anchor="middle" class="jp tag" fill="#c92820">GAME LOOP</text>
+  <text x="800" y="188" text-anchor="middle" class="jp small">敵出現 → 強化 → 合成 → 生存</text>
+
+  <!-- stationery branch -->
+  <rect x="140" y="165" width="300" height="170" rx="8" class="node" fill="#dcecff"/>
+  <text x="170" y="205" class="jp" font-size="29">主人公</text>
+  <text x="170" y="246" class="jp small">消しゴム君</text>
+  <text x="170" y="281" class="jp small">ケース / 裸状態</text>
+  <text x="170" y="316" class="jp small">頭突き / 弓ガード</text>
+
+  <rect x="140" y="600" width="300" height="170" rx="8" class="node" fill="#dcecff"/>
+  <text x="170" y="640" class="jp" font-size="29">敵と素材</text>
+  <text x="170" y="681" class="jp small">兵 / 槍 / 弓 / 盾</text>
+  <text x="170" y="716" class="jp small">馬 / 龍 / 鉛筆ボス</text>
+  <text x="170" y="751" class="jp small">消しカス / アイテム</text>
+
+  <!-- excitement branch -->
+  <rect x="1160" y="165" width="300" height="170" rx="8" class="node" fill="#ffe28b"/>
+  <text x="1190" y="205" class="jp" font-size="29">攻撃</text>
+  <text x="1190" y="246" class="jp small">通常弾 / 散弾 / 連射</text>
+  <text x="1190" y="281" class="jp small">スナイパー / 大砲</text>
+  <text x="1190" y="316" class="jp small">コンパス / ミサイル</text>
+
+  <rect x="1160" y="600" width="300" height="190" rx="8" class="node" fill="#ffe28b"/>
+  <text x="1190" y="640" class="jp" font-size="29">演出</text>
+  <text x="1190" y="681" class="jp small">爆発 / 火花 / 軌道</text>
+  <text x="1190" y="716" class="jp small">画面揺れ / SE / BGM</text>
+  <text x="1190" y="751" class="jp small">大量撃破 / ボス戦</text>
+
+  <!-- roguelike -->
+  <rect x="590" y="825" width="420" height="110" rx="8" class="node" fill="#eadcff"/>
+  <text x="800" y="866" text-anchor="middle" class="jp" font-size="29">ローグライク</text>
+  <text x="800" y="906" text-anchor="middle" class="jp small">ランダム4択 / レベルアップ / 合成 / ビルド</text>
+
+  <!-- ranking -->
+  <rect x="1290" y="810" width="260" height="120" rx="8" class="node" fill="#d9f0df"/>
+  <text x="1420" y="850" text-anchor="middle" class="jp" font-size="28">ランキング</text>
+  <text x="1420" y="888" text-anchor="middle" class="jp small">スコア / 時間 / ライフ</text>
+  <text x="1420" y="916" text-anchor="middle" class="jp small">600点演出</text>
+
+  <!-- web constraints -->
+  <rect x="55" y="840" width="400" height="90" rx="8" class="node" fill="#f2e5d4"/>
+  <text x="255" y="876" text-anchor="middle" class="jp" font-size="25">WEB版の挑戦</text>
+  <text x="255" y="910" text-anchor="middle" class="jp small">軽量化 / スマホ操作 / Firebase</text>
+</svg>

@@ -1,0 +1,107 @@
+- generic [ref=f1e3]:
+  - banner:
+    - generic:
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "life"
+      - img "empty life"
+      - img "empty life"
+      - img "empty life"
+      - img "empty life"
+    - generic: 0:16
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:16
+    - generic:
+      - generic: KILLS
+      - strong: "12"
+    - generic:
+      - generic: LV
+      - strong: "2"
+    - generic:
+      - generic: KASU
+      - strong: 2/10 (10)
+    - generic:
+      - generic: CASE
+      - strong: BARE
+    - generic:
+      - generic: BODY
+      - strong: ■■■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO OFF"
+    - button "MAP OPEN"
+    - button "リトライ"
+    - button "タイトルへ戻る"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - paragraph: SPACE / P / ESC で停止。Eで全体MAP
+  - generic:
+    - generic:
+      - generic: ARMS
+      - strong: 通常攻撃 LV1 / スナイパー弾 LV1
+    - list:
+      - listitem:
+        - generic: 通常攻撃
+        - generic: 威力 5、盾防御無視
+      - listitem:
+        - generic: スナイパー弾
+        - generic: 威力 50、盾防御無視、前へ1本、完全貫通
+    - paragraph: 一時効果なし
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+      - generic:
+        - button "スナイパー弾 威力50。盾防御を無視する完全貫通弾を前へ1本 LV 1" [active]:
+          - generic: スナイパー弾
+          - generic: 威力50。盾防御を無視する完全貫通弾を前へ1本
+          - generic: LV 1
+        - button "消しゴム弾丸 威力5。貫通なしの基本弾 LV 1":
+          - generic: 消しゴム弾丸
+          - generic: 威力5。貫通なしの基本弾
+          - generic: LV 1
+        - button "消しゴムコンパス 威力5。2個の弾丸が周回 LV 1":
+          - generic: 消しゴムコンパス
+          - generic: 威力5。2個の弾丸が周回
+          - generic: LV 1
+        - button "通常攻撃 威力15。盾防御を無視する頭突き LV 2":
+          - generic: 通常攻撃
+          - generic: 威力15。盾防御を無視する頭突き
+          - generic: LV 2
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "リトライ"
+      - button "タイトルへ"
+  - dialog "確認":
+    - generic:
+      - paragraph: CONFIRM
+      - heading "確認" [level=1]
+      - paragraph
+      - generic:
+        - button "実行する"
+        - button "キャンセル"
+  - paragraph: "WASD: 移動 / マウス: 照準 / クリック: 固定 / SPACE: ポーズ"
+  - complementary [ref=f1e36]:
+    - paragraph [ref=f1e37]: WASDで移動 / マウスで照準 / クリックで向き固定 / SPACEでポーズ
+    - generic [ref=f1e38]:
+      - checkbox "以降表示しない" [ref=f1e39]
+      - text: 以降表示しない
+    - button "OK" [ref=f1e40] [cursor=pointer]

@@ -1,0 +1,19 @@
+{
+  "name": "sand-ark-voxel",
+  "version": "1.0.0",
+  "description": "SAND ARK: VOXEL ARMOR - 3D Voxel High-Speed Desert Ship TPS powered by WebGPU & WebAssembly",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "peerjs": "^1.5.4",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  }
+}

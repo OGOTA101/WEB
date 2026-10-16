@@ -1,0 +1,147 @@
+- generic [ref=e3]:
+  - region "ゲーム開始" [ref=e6]:
+    - button "タイトル画面へ進む" [ref=e7] [cursor=pointer]:
+      - img "消しゴムサバイバー" [ref=e8]
+      - generic [ref=e9]: START
+  - generic [ref=e11]:
+    - generic "消しゴムサバイバー" [ref=e12]:
+      - img "消しゴムサバイバー" [ref=e13]
+      - generic: 槍
+      - generic: 弓
+      - generic: 盾
+      - generic: 龍
+      - generic: 盾
+      - generic: 兵
+      - generic: 兵
+      - img "主人公の消しゴム君"
+      - img "鉛筆のボス"
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - generic [ref=e17]: NAME
+          - textbox "NAME" [ref=e18]
+        - generic [ref=e19]:
+          - generic [ref=e20]: BEST SCORE
+          - strong [ref=e21]: "0"
+      - generic [ref=e22]:
+        - button "PLAY" [ref=e23] [cursor=pointer]
+        - button "RANKING" [ref=e24] [cursor=pointer]
+        - button "合成図鑑" [ref=e25] [cursor=pointer]
+        - button "遊び方" [ref=e26] [cursor=pointer]
+      - generic "タイトル音量設定" [ref=e27]:
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - text: カメラ距離
+            - strong [ref=e30]: "6"
+          - slider "カメラ距離 6" [ref=e31]: "6"
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - text: SE
+            - strong [ref=e34]: "3"
+          - slider "SE 3" [ref=e35]: "3"
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - text: BGM
+            - strong [ref=e38]: "5"
+          - slider "BGM 5" [ref=e39]: "5"
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - text: VOICE
+            - strong [ref=e42]: "8"
+          - slider "VOICE 8" [ref=e43]: "8"
+      - generic "クレジット" [ref=e44]:
+        - paragraph [ref=e45]:
+          - generic [ref=e46]: 企画・仕様・デザイン
+          - link "@BeatsKirito" [ref=e47] [cursor=pointer]:
+            - /url: https://x.com/BeatsKirito
+        - paragraph [ref=e48]:
+          - generic [ref=e49]: プログラム
+          - link "@SGGame9" [ref=e50] [cursor=pointer]:
+            - /url: https://x.com/SGGame9
+        - paragraph [ref=e51]:
+          - generic [ref=e52]: ボイス
+          - link "@h_katsui" [ref=e53] [cursor=pointer]:
+            - /url: https://x.com/h_katsui
+      - paragraph [ref=e54]:
+        - generic [ref=e55]: 音楽：
+        - generic [ref=e56]: 魔王魂
+  - paragraph [ref=e58]: 横向きにしてプレイ
+  - banner:
+    - generic: 0:00
+    - generic [ref=e59]:
+      - button "AUTO ON" [ref=e60] [cursor=pointer]
+      - button "PAUSE" [ref=e61] [cursor=pointer]
+  - progressbar "経験値ゲージ"
+  - complementary "全体マップ"
+  - button "全マップの消しカスを回収" [ref=e62] [cursor=pointer]:
+    - generic [ref=e63]: ↓
+    - generic [ref=e66]: 消しカス全回収
+  - generic:
+    - generic:
+      - generic: TIME
+      - strong: 0:00
+    - generic:
+      - generic: KILLS
+      - strong: "0"
+    - generic:
+      - generic: LV
+      - strong: "1"
+    - generic:
+      - generic: KASU
+      - strong: 0/5
+    - generic:
+      - generic: CASE
+      - strong: CASE
+    - generic:
+      - generic: BODY
+      - strong: ■■
+    - generic:
+      - generic: HIGH
+      - strong: "0"
+  - generic:
+    - button "AUTO ON"
+    - button "MAP OPEN"
+    - button "リトライ"
+    - button "タイトルへ戻る"
+    - generic:
+      - generic:
+        - text: SE
+        - strong: "3"
+      - slider "SE 3": "3"
+    - generic:
+      - generic:
+        - text: BGM
+        - strong: "5"
+      - slider "BGM 5": "5"
+    - generic:
+      - generic:
+        - text: VOICE
+        - strong: "8"
+      - slider "VOICE 8": "8"
+    - generic:
+      - generic:
+        - text: CAM
+        - strong: "6"
+      - slider "CAM 6": "6"
+    - paragraph: PAUSE中に設定変更。Eで全体MAP
+  - generic:
+    - generic:
+      - paragraph: LEVEL UP
+      - heading "強化を選択" [level=1]
+  - generic:
+    - generic:
+      - paragraph: GAME OVER
+      - heading "けしごむ、削られた。" [level=1]
+      - paragraph
+      - button "リトライ"
+      - button "タイトルへ"
+    - paragraph
+  - dialog "確認":
+    - generic:
+      - paragraph: CONFIRM
+      - heading "確認" [level=1]
+      - paragraph
+      - generic:
+        - button "実行する"
+        - button "キャンセル"
+  - paragraph: "左半分: 移動 / 右半分: 攻撃方向固定"

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10182f" />
+    <meta
+      name="description"
+      content="脳内の神経回路を一筆書きでつなぐ、10週間の誘惑パズルゲーム。"
+    />
+    <title>誘惑のシナプス — 10週間の脳内パズル</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="game.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient ambient-left" aria-hidden="true"></div>
+    <div class="ambient ambient-right" aria-hidden="true"></div>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">🧠</div>
+          <div>
+            <p class="eyebrow">INTERNAL NETWORK / TEMPTATION PROTOCOL</p>
+            <h1>誘惑のシナプス</h1>
+            <p class="brand-subtitle">女の子の脳内で、食欲への道をつなぐ。</p>
+          </div>
+        </div>
+
+        <div class="week-progress" aria-label="10週間の進行状況">
+          <div class="progress-copy">
+            <span id="weekLabel">準備中</span>
+            <strong id="weekTitle">脳内ネットワークを起動</strong>
+            <span id="weekProgressText">00 / 10</span>
+          </div>
+          <div id="weekDots" class="week-dots"></div>
+          <div class="progress-track" aria-hidden="true">
+            <i id="weekProgressBar"></i>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section id="introScreen" class="intro-screen">
+          <div class="intro-copy">
+            <p class="eyebrow coral-text">WEEKLY BRAIN PUZZLE / 10 STAGES</p>
+            <h2>遠回りするほど、<br /><em>身体が変わる。</em></h2>
+            <p class="intro-lede">
+              空腹信号から食欲中枢まで、シナプスを一筆書き。<br />
+              🍔を集めて、🥗と🏋️を避けて、10週間の誘惑を完成させよう。
+            </p>
+            <button id="startButton" class="primary-button large-button">
+              <span>今週の脳内へ</span>
+              <small>WEEK 01 を開始</small>
+            </button>
+          </div>
+
+          <div class="intro-card-grid">
+            <article class="intro-card accent-coral">
+              <span class="intro-card-icon">🍔</span>
+              <div>
+                <strong>高カロリーを拾う</strong>
+                <p>規定数以上の誘惑を通ると、体内にしっかり残る。</p>
+              </div>
+            </article>
+            <article class="intro-card accent-mint">
+              <span class="intro-card-icon">🥗</span>
+              <div>
+                <strong>理性を避ける</strong>
+                <p>野菜や運動に触れると、正解ルートではなくなる。</p>
+              </div>
+            </article>
+            <article class="intro-card accent-gold">
+              <span class="intro-card-icon">↝</span>
+              <div>
+                <strong>近道をしない</strong>
+                <p>最低歩数に届かないと、満たされないままゴールする。</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="intro-note">
+            <span class="note-dot"></span>
+            <span>1面は数十秒。失敗した週は、その場ですぐやり直せます。</span>
+          </div>
+        </section>
+
+        <section id="gameScreen" class="game-screen is-hidden" aria-live="polite">
+          <div class="game-heading-row">
+            <div>
+              <p id="levelEyebrow" class="eyebrow coral-text">WEEK 01 / FIRST SIGNAL</p>
+              <h2 id="levelHeading">はじめての空腹</h2>
+              <p id="levelDescription" class="level-description"></p>
+            </div>
+            <div class="heading-actions">
+              <button id="hintButton" class="ghost-button">💡 ヒント</button>
+              <button id="fullResetButton" class="ghost-button subtle">最初から</button>
+            </div>
+          </div>
+
+          <div class="game-layout">
+            <aside class="panel body-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">BODY SIGNAL</p>
+                  <h3>身体変化</h3>
+                </div>
+                <span class="live-chip"><i></i>LIVE</span>
+              </div>
+
+              <div class="body-avatar" aria-label="脳内にいる女の子の身体変化">
+                <div class="avatar-orbit orbit-one"></div>
+                <div class="avatar-orbit orbit-two"></div>
+                <div class="avatar-glow">✦</div>
+                <div class="avatar-emoji">🧍‍♀️</div>
+                <span>脳内から<br />指令中</span>
+              </div>
+
+              <div class="body-stat-grid">
+                <div class="body-stat">
+                  <span>体重変化</span>
+                  <strong id="weightValue">+0.0 <small>kg</small></strong>
+                </div>
+                <div class="body-stat">
+                  <span>お腹まわり</span>
+                  <strong id="waistValue">+0.0 <small>cm</small></strong>
+                </div>
+                <div class="body-stat">
+                  <span>満腹度</span>
+                  <strong id="fullnessValue">0 <small>%</small></strong>
+                </div>
+                <div class="body-stat">
+                  <span>誘惑週数</span>
+                  <strong id="completedValue">0 <small>/ 10</small></strong>
+                </div>
+              </div>
+
+              <div class="body-meter-block">
+                <div class="meter-label-row">
+                  <span>今のふくらみ</span>
+                  <strong id="bodyMeterLabel">まだ静か</strong>
+                </div>
+                <div class="meter-track body-meter"><i id="bodyMeter"></i></div>
+              </div>
+
+              <div class="body-quote" id="bodyQuote">「まだ、何も決まっていない。」</div>
+            </aside>
+
+            <section class="panel board-panel">
+              <div class="board-toolbar">
+                <div>
+                  <p class="eyebrow">NEURAL MAP</p>
+                  <h3 id="boardTitle">信号をつなぐ</h3>
+                </div>
+                <div class="current-signal" id="currentSignal">空腹信号から開始</div>
+              </div>
+
+              <div class="board-instruction">
+                <span class="instruction-icon">↗</span>
+                <span id="boardInstruction">空腹信号から、上下左右の隣へ進んでください。</span>
+              </div>
+
+              <div id="boardWrap" class="board-wrap">
+                <svg id="pathLayer" class="path-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+                <div id="boardGrid" class="board-grid"></div>
+                <div id="invalidFlash" class="invalid-flash" aria-hidden="true">そのシナプスにはつながらない</div>
+              </div>
+
+              <div class="board-actions">
+                <button id="undoButton" class="secondary-button">↩ ひとつ戻る</button>
+                <button id="resetRouteButton" class="secondary-button">⟳ ルートを引き直す</button>
+              </div>
+            </section>
+
+            <aside class="panel status-panel">
+              <div class="panel-heading compact-heading">
+                <div>
+                  <p class="eyebrow">ROUTE READOUT</p>
+                  <h3>現在のルート</h3>
+                </div>
+                <span id="routeStateChip" class="route-state-chip">接続中</span>
+              </div>
+
+              <p id="routeStatusMessage" class="route-status-message">空腹信号から最初の一手を選ぶ。</p>
+
+              <div class="route-score-grid">
+                <div class="route-score coral-score">
+                  <span>🍔 高カロリー</span>
+                  <strong><b id="calorieCount">0</b><small id="calorieTarget"> / 4</small></strong>
+                </div>
+                <div class="route-score gold-score">
+                  <span>↝ 歩数</span>
+                  <strong><b id="stepCount">1</b><small id="stepTarget"> / 8以上</small></strong>
+                </div>
+                <div class="route-score mint-score">
+                  <span>🥗 ダイエット</span>
+                  <strong><b id="dietCount">0</b><small> 個</small></strong>
+                </div>
+              </div>
+
+              <div class="condition-list">
+                <div class="condition-row" id="calorieCondition">
+                  <i>○</i>
+                  <span>高カロリーを規定数集める</span>
+                </div>
+                <div class="condition-row" id="stepCondition">
+                  <i>○</i>
+                  <span>最低歩数まで遠回りする</span>
+                </div>
+                <div class="condition-row" id="dietCondition">
+                  <i>○</i>
+                  <span>ダイエットパネルを0個にする</span>
+                </div>
+              </div>
+
+              <div class="legend-block">
+                <p class="eyebrow">PANEL LEGEND</p>
+                <div class="legend-list">
+                  <div><span class="legend-icon food-icon">🍔</span><span><strong>高カロリー</strong><small>誘惑 +1</small></span></div>
+                  <div><span class="legend-icon diet-icon">🥗</span><span><strong>ダイエット</strong><small>踏むと不正解</small></span></div>
+                  <div><span class="legend-icon neutral-icon">✦</span><span><strong>中継シナプス</strong><small>ルートを伸ばす</small></span></div>
+                </div>
+              </div>
+
+              <div class="activity-block">
+                <div class="meter-label-row">
+                  <span>脳内ログ</span>
+                  <span id="logCount">01</span>
+                </div>
+                <ul id="activityLog" class="activity-log"></ul>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer-note">
+        <span>誘惑のシナプス / prototype 01</span>
+        <span>画像なし・アイコンと文字だけで遊べます</span>
+      </footer>
+    </div>
+
+    <div id="feedbackModal" class="modal-backdrop is-hidden" role="presentation">
+      <section id="feedbackCard" class="feedback-card" role="dialog" aria-modal="true" aria-labelledby="feedbackTitle">
+        <div class="feedback-icon" id="feedbackIcon">🍔</div>
+        <p id="feedbackKicker" class="eyebrow coral-text">正解ルート</p>
+        <h2 id="feedbackTitle">誘惑がつながった。</h2>
+        <p id="feedbackBody" class="feedback-body"></p>
+        <div id="feedbackStats" class="feedback-stats"></div>
+        <div id="feedbackDelta" class="feedback-delta"></div>
+        <button id="feedbackAction" class="primary-button"></button>
+        <button id="feedbackSecondary" class="text-button">ルートを見直す</button>
+      </section>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

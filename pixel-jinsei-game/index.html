@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ピクセル人生ゲーム DX - 6人オンライン＆CPUボードゲーム</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+    <!-- PeerJS (WebRTC P2Pオンライン通信用 / ローカルBroadcastChannelとハイブリッド動作) -->
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
+  </head>
+  <body>
+    <div id="app" class="pixel-app">
+      <!-- ==================== ロビー＆セットアップ画面 ==================== -->
+      <section id="lobbyScreen" class="lobby-screen">
+        <div class="lobby-container pixel-window">
+          <header class="lobby-header">
+            <div class="title-badge-row">
+              <span class="pixel-chip gold">8-BIT / 16-BIT BOARD GAME</span>
+              <span class="pixel-chip cyan">MAX 6 PLAYERS ONLINE &amp; CPU</span>
+              <span class="pixel-chip pink">FULL 108 SPACES</span>
+            </div>
+            <h1 class="game-main-title">🚗 ピクセル人生ゲーム DX 🏰</h1>
+            <p class="game-subtitle">
+              進路選択・就職・昇進・結婚・出産・マイホーム・株・保険・約束手形（借金）・決算日！<br />
+              ルーレット(1〜10)とサイコロ(1D6/2D6)を使い分けて億万長者の館を目指そう！
+            </p>
+          </header>
+
+          <!-- モード切替タブ -->
+          <div class="lobby-tabs">
+            <button type="button" class="pixel-tab-btn is-active" data-lobby-tab="local">
+              🎮 ソロ（CPU対戦）＆ 1台でみんなと遊ぶ
+            </button>
+            <button type="button" class="pixel-tab-btn" data-lobby-tab="online">
+              🌐 オンライン通信対戦（ルームコード共有・最大6人）
+            </button>
+          </div>
+
+          <!-- タブ1: ソロ＆ローカル対戦パネル -->
+          <div id="localLobbyPanel" class="lobby-panel">
+            <div class="panel-intro-bar">
+              <span>👥 参加プレイヤー設定（2〜6人：人間とCPUを自由に組み合わせられます）</span>
+              <div class="intro-actions">
+                <button type="button" id="startSixPlayersBtn" class="pixel-btn secondary">
+                  👑 6人フル対戦（人間1＋CPU5）で即開始
+                </button>
+              </div>
+            </div>
+
+            <div id="localSlotsContainer" class="slots-grid"></div>
+
+            <div class="lobby-start-bar">
+              <button type="button" id="startLocalGameBtn" class="pixel-btn primary huge-btn">
+                🚀 このメンバーで人生ゲームを開始する！
+              </button>
+            </div>
+          </div>
+
+          <!-- タブ2: オンライン通信対戦パネル -->
+          <div id="onlineLobbyPanel" class="lobby-panel is-hidden">
+            <div id="onlineStatusBanner" class="online-status-banner">
+              🌐 ルームを作成するか、友達から教えてもらった6文字のルームコードを入力して参加してください（別タブ間でも即接続できます）
+            </div>
+
+            <div class="online-setup-grid">
+              <div class="pixel-subbox">
+                <h3>👤 あなたのプロフィール</h3>
+                <label class="pixel-field">
+                  <span>プレイヤー名</span>
+                  <input type="text" id="onlinePlayerNameInput" class="pixel-input" maxlength="10" value="プレイヤー1" />
+                </label>
+                <label class="pixel-field">
+                  <span>ドット絵アバター</span>
+                  <select id="onlineAvatarSelect" class="pixel-select">
+                    <option value="0">01: フレッシュ若者</option>
+                    <option value="1">02: ツインテール</option>
+                    <option value="2">03: メガネ知性派</option>
+                    <option value="3">04: 熱血キャップ</option>
+                    <option value="4">05: エレガントお嬢様</option>
+                    <option value="5">06: ダンディ社長</option>
+                    <option value="6">07: ファンキースター</option>
+                    <option value="7">08: サイバー飛行士</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="pixel-subbox">
+                <h3>🏠 ホストとして部屋を作る</h3>
+                <p class="box-note">6文字のルームコードを発行し、最大6人（人間＋CPU）で対戦を開始できます。</p>
+                <button type="button" id="createOnlineRoomBtn" class="pixel-btn primary full-w">
+                  ✨ 新しいオンラインルームを作成
+                </button>
+              </div>
+
+              <div class="pixel-subbox">
+                <h3>🔑 ルームコードで参加する</h3>
+                <label class="pixel-field">
+                  <span>6文字ルームコード</span>
+                  <input type="text" id="joinRoomCodeInput" class="pixel-input code-input" maxlength="8" placeholder="例: JNS824" />
+                </label>
+                <button type="button" id="joinOnlineRoomBtn" class="pixel-btn secondary full-w">
+                  🚀 ルームに参加する
+                </button>
+              </div>
+            </div>
+
+            <!-- ルーム待機室 -->
+            <div id="onlineRoomPanel" class="online-room-box pixel-subbox is-hidden">
+              <div class="room-box-header">
+                <div>
+                  <span>ルームコード：</span>
+                  <strong id="activeRoomCodeBadge" class="room-code-big">------</strong>
+                </div>
+                <div class="room-header-btns">
+                  <button type="button" id="copyRoomCodeBtn" class="pixel-btn">📋 招待URL・コードをコピー</button>
+                  <button type="button" id="addOnlineCpuBtn" class="pixel-btn secondary">🤖 CPUを1人追加</button>
+                  <button type="button" id="startOnlineGameBtn" class="pixel-btn primary">🚀 オンライン対戦開始！</button>
+                </div>
+              </div>
+              <div id="onlinePlayersList" class="online-players-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== メインゲーム画面 ==================== -->
+      <section id="gameScreen" class="game-screen is-hidden">
+        <!-- トップバー -->
+        <header class="game-topbar pixel-window">
+          <div class="topbar-left">
+            <span class="brand-mini">🚗 ピクセル人生ゲーム DX</span>
+            <span class="hud-chip">ROOM: <b id="hudRoomCode">LOCAL</b></span>
+            <span class="hud-chip gold"><b id="hudTurnCount">TURN 1</b></span>
+          </div>
+
+          <div class="topbar-center">
+            <button type="button" id="zoomOutBtn" class="pixel-mini-btn" title="縮小">🔍-</button>
+            <button type="button" id="zoomInBtn" class="pixel-mini-btn" title="拡大">🔍+</button>
+            <button type="button" id="focusCurrentBtn" class="pixel-mini-btn" title="現在の手番へ追従">🎯 現在地</button>
+            <button type="button" id="viewWholeMapBtn" class="pixel-mini-btn" title="ボード全体を見る">🗺️ 全体マップ</button>
+            <button type="button" id="openCatalogBtn" class="pixel-mini-btn accent">📖 全108マス図鑑</button>
+            <button type="button" id="openBankModalBtn" class="pixel-mini-btn green">🏦 銀行・手形・保険・資産</button>
+          </div>
+
+          <div class="topbar-right">
+            <label class="fast-toggle">
+              <input type="checkbox" id="fastModeCheck" />
+              <span>⚡高速</span>
+            </label>
+            <button type="button" id="soundToggleBtn" class="pixel-mini-btn">🔊 音ON</button>
+            <button type="button" id="openFinalResultBtn" class="pixel-mini-btn">🏆 成績表</button>
+            <button type="button" id="backToLobbyBtn" class="pixel-mini-btn danger">🚪 ロビー</button>
+          </div>
+        </header>
+
+        <!-- メイン2カラム：左ボードCanvas / 右インスペクター＆プレイヤー順位 -->
+        <main class="game-main-layout">
+          <!-- ボードビューポート -->
+          <section class="board-viewport-wrap pixel-window">
+            <canvas id="boardCanvas"></canvas>
+
+            <!-- 盤面操作ガイドオーバーレイ -->
+            <div class="board-help-pill">
+              🖱️ ドラッグで盤面移動 ／ ホイールで拡大縮小 ／ マスにカーソルを合わせると右上にイベント詳細を表示！
+            </div>
+
+            <!-- 通過・CPUイベント用トーストバナー -->
+            <div id="toastBanner" class="toast-banner pixel-window is-hidden">
+              <img id="toastSceneImg" src="" alt="" />
+              <div class="toast-text">
+                <strong id="toastTitle">イベント発生</strong>
+                <span id="toastSub">詳細</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 右サイドパネル -->
+          <aside class="game-side-panel">
+            <!-- 1. マス目イベント詳細インスペクター（いつでもマスの内容がしっかり読める！） -->
+            <section class="inspector-card pixel-window">
+              <div class="panel-title-bar">
+                <span>🔍 マス目イベント詳細（ホバー/クリックで確認）</span>
+              </div>
+              <div class="inspector-content">
+                <div class="inspector-top-row">
+                  <img id="inspectorSceneImg" class="inspector-scene-img" alt="scene" />
+                  <div class="inspector-head-info">
+                    <div class="inspector-title-line">
+                      <img id="inspectorSpaceIcon" class="inspector-icon" alt="" />
+                      <h3 id="inspectorSpaceTitle">#0 人生スタート</h3>
+                    </div>
+                    <div id="inspectorSpaceSub" class="inspector-sub-badge">初期資金$10,000</div>
+                    <div id="inspectorDistBadge" class="inspector-dist-badge">第1章エリア</div>
+                  </div>
+                </div>
+                <p id="inspectorSpaceDesc" class="inspector-desc-text">
+                  マス目にカーソルを合わせるかクリックすると、ここにそのマスの詳しいイベント内容・金額・条件が表示されます。
+                </p>
+              </div>
+            </section>
+
+            <!-- 2. プレイヤー順位・ステータス一覧（最大6人） -->
+            <section class="scoreboard-card pixel-window">
+              <div class="panel-title-bar">
+                <span>👥 プレイヤー情報（クリックでカメラ移動）</span>
+              </div>
+              <div id="playersScoreList" class="players-score-list"></div>
+            </section>
+
+            <!-- 3. イベントログ ＆ スタンプチャット -->
+            <section class="log-card pixel-window">
+              <div class="panel-title-bar">
+                <span>📜 人生ログ ＆ スタンプ</span>
+                <div class="stamp-bar">
+                  <button type="button" class="stamp-btn" data-stamp="🎉 やったー！">🎉</button>
+                  <button type="button" class="stamp-btn" data-stamp="😱 ひええ〜！">😱</button>
+                  <button type="button" class="stamp-btn" data-stamp="💰 大金持ち！">💰</button>
+                  <button type="button" class="stamp-btn" data-stamp="🎲 勝負だ！">🎲</button>
+                </div>
+              </div>
+              <div id="gameEventLog" class="game-event-log"></div>
+            </section>
+          </aside>
+        </main>
+
+        <!-- 下部アクションドック（現在の手番プレイヤー ＋ ルーレット＆ダイス両搭載！） -->
+        <footer class="game-action-dock pixel-window">
+          <!-- 左：現在手番の車コマ＆ステータス -->
+          <div class="dock-player-status">
+            <div class="dock-car-box">
+              <img id="turnPlayerCarImg" alt="car" />
+              <span class="car-pin-caption">▲家族ピン乗車中</span>
+            </div>
+            <div class="dock-player-details">
+              <h2 id="turnPlayerName">プレイヤー1 の番です</h2>
+              <div class="dock-stats-grid">
+                <div><span>職業:</span> <strong id="turnPlayerJob">フリーター</strong></div>
+                <div><span>所持現金:</span> <strong id="turnPlayerCash" class="gold-text">$10,000</strong></div>
+                <div><span>家族構成:</span> <strong id="turnPlayerFamily">独身 / 子ども 0人</strong></div>
+                <div><span>約束手形(借金):</span> <strong id="turnPlayerDebt">なし ($0)</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 中央：ドット絵ルーレット (1〜10) -->
+          <div class="dock-widget-unit">
+            <canvas id="rouletteCanvas" width="112" height="112"></canvas>
+            <div class="widget-controls">
+              <span class="widget-caption">標準移動 (1〜10マス)</span>
+              <button type="button" id="spinRouletteBtn" class="pixel-btn primary action-main-btn">
+                🎡 ルーレット (1〜10)
+              </button>
+            </div>
+          </div>
+
+          <!-- 右：ドット絵ダイス (1D6 / 2D6) -->
+          <div class="dock-widget-unit">
+            <canvas id="diceCanvas" width="112" height="112"></canvas>
+            <div class="widget-controls">
+              <span class="widget-caption">ダイス切替券: <b id="turnPlayerTickets" class="cyan-text">残り 3 枚</b></span>
+              <div class="dice-btn-group">
+                <button type="button" id="rollSingleDiceBtn" class="pixel-btn secondary" title="1〜6マスを精密に狙って進む">
+                  🎲 精密1D6 (1〜6)
+                </button>
+                <button type="button" id="rollDoubleDiceBtn" class="pixel-btn accent" title="2個のサイコロで2〜12マス進む">
+                  🎲🎲 2D6 (2〜12)
+                </button>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </section>
+
+      <!-- ==================== モーダル1: イベントカットイン演出 ==================== -->
+      <div id="eventCutinModal" class="modal-backdrop is-hidden">
+        <div class="pixel-modal cutin-modal pixel-window">
+          <div class="cutin-top">
+            <span id="cutinPlayerBadge" class="cutin-player-badge">プレイヤー1</span>
+            <span id="cutinAmountBadge" class="cutin-amount-badge is-plus">+$10,000</span>
+          </div>
+          <div class="cutin-art-frame">
+            <img id="cutinArtImg" alt="Event Scene" />
+          </div>
+          <h2 id="cutinHeadline" class="cutin-headline">イベント発生！</h2>
+          <p id="cutinDetailText" class="cutin-detail-text"></p>
+          <div class="modal-footer-btns">
+            <button type="button" id="cutinOkBtn" class="pixel-btn primary huge-btn">▶ 確認して次へ</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== モーダル2: 分岐・就職・家購入・株・保険選択 ==================== -->
+      <div id="choiceModal" class="modal-backdrop is-hidden">
+        <div class="pixel-modal choice-modal pixel-window">
+          <h2 id="choiceModalTitle" class="modal-title">選択してください</h2>
+          <div class="choice-art-row">
+            <img id="choiceModalArt" class="choice-scene-img" alt="scene" />
+            <p id="choiceModalDesc" class="choice-modal-desc"></p>
+          </div>
+          <div id="choiceModalOptions" class="choice-options-list"></div>
+        </div>
+      </div>
+
+      <!-- ==================== モーダル3: 全108マス＆ルート図鑑 ==================== -->
+      <div id="catalogModal" class="modal-backdrop is-hidden">
+        <div class="pixel-modal wide-modal pixel-window">
+          <div class="modal-header-bar">
+            <h2>📖 全108マス・イベント図鑑（クリックでそのマスへカメラ移動）</h2>
+            <button type="button" id="closeCatalogBtn" class="pixel-btn danger">✖ 閉じる</button>
+          </div>
+          <div id="catalogSpacesGrid" class="catalog-spaces-grid"></div>
+        </div>
+      </div>
+
+      <!-- ==================== モーダル4: 銀行・約束手形・保険・資産窓口 ==================== -->
+      <div id="bankModal" class="modal-backdrop is-hidden">
+        <div class="pixel-modal bank-modal pixel-window">
+          <div class="modal-header-bar">
+            <h2>🏦 ピクセル銀行（約束手形・保険・保有資産）</h2>
+            <button type="button" id="closeBankModalBtn" class="pixel-btn danger">✖ 閉じる</button>
+          </div>
+          <div id="bankModalBody" class="bank-modal-body"></div>
+        </div>
+      </div>
+
+      <!-- ==================== モーダル5: 最終資産精算・ランキング表 ==================== -->
+      <div id="resultModal" class="modal-backdrop is-hidden">
+        <div class="pixel-modal wide-modal pixel-window">
+          <div class="modal-header-bar">
+            <h2 id="resultModalTitle">🏆 総資産ランキング＆成績表</h2>
+            <button type="button" id="closeResultModalBtn" class="pixel-btn">✖ 盤面へ戻る</button>
+          </div>
+          <div id="resultStandingsTable" class="result-standings-table"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/sound.js"></script>
+    <script src="./js/pixel-art.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/network.js"></script>
+    <script src="./js/widgets.js"></script>
+    <script src="./js/board-renderer.js"></script>
+    <script src="./js/game.js"></script>
+  </body>
+</html>
