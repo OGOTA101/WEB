@@ -1,0 +1,37 @@
+[
+  {
+    "path": "C:\\Users\\ihogo\\Desktop\\WEB\\kimikoiWEB\\outputs\\work_reports_20261009\\エンジニア作業報告書_2026年10月第2週.xlsx",
+    "sheet": "2026年10月第2週",
+    "print_area": "'2026年10月第2週'!$A$1:$H$28",
+    "portrait_fit": "1x1",
+    "formula_errors": [],
+    "native_styles_preserved": true,
+    "complete_rows": [
+      8,
+      10,
+      11,
+      12,
+      14,
+      19,
+      20,
+      22
+    ],
+    "working_rows": [
+      9,
+      13,
+      15,
+      21
+    ],
+    "B_max_lines": 3,
+    "G_max_lines": 4,
+    "G_max_pixels": 125.0
+  },
+  {
+    "path": "C:\\Users\\ihogo\\Desktop\\WEB\\kimikoiWEB\\outputs\\work_reports_20260508\\エンジニア作業報告書_テンプレート_改訂版.xlsx",
+    "sheet": "作業報告テンプレート",
+    "print_area": "'作業報告テンプレート'!$A$1:$H$28",
+    "portrait_fit": "1x1",
+    "formula_errors": [],
+    "native_styles_preserved": true
+  }
+]
