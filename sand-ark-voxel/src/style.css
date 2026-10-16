@@ -79,6 +79,8 @@ body, html { width: 100%; height: 100%; overflow: hidden; background: #05080f; c
 .bar-damage { z-index: 1; background: #ff5252; transition: width 0.5s ease-out; }
 .hp-fill { background: var(--accent-green); }
 .ep-fill { background: var(--accent-cyan); }
+.guard-fill { background: #7ee8ff; width: 100%; }
+.guard-fill.on { box-shadow: 0 0 8px rgba(126, 232, 255, 0.8); }
 .bar-value { font-family: var(--font-tech); font-size: 11px; text-align: right; }
 
 .weapon-slots { display: flex; flex-direction: column; gap: 3px; }

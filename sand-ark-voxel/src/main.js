@@ -610,6 +610,7 @@ class SandArkGame {
 
   _updatePlayer(dt) {
     const p = this.player;
+    this._updateGuard(dt);
     if (p.dead) { this._updateDown(dt); return; }
     p.invuln = Math.max(0, p.invuln - dt);
     p.dodgeCd = Math.max(0, p.dodgeCd - dt);
@@ -789,9 +790,71 @@ class SandArkGame {
     audio.setListener(p.pos);
   }
 
+  /** Qガード。頭部で軽減率と持続が変わる */
+  _guardSpec() {
+    return this.stats?.parts?.head?.guard || { reduce: 0.5, hold: null };
+  }
+
+  _updateGuard(dt) {
+    const p = this.player;
+    const spec = this._guardSpec();
+    const headId = this.loadout.head;
+    if (p.guardHead !== headId) {
+      p.guardHead = headId;
+      p.guardEnergy = spec.hold ?? 1;
+      p.guardLock = false;
+    }
+    const holding = !!this.keys.KeyQ && this.state === 'playing' && !p.dead;
+    let active = false;
+    if (spec.hold == null) {
+      active = holding;
+    } else if (!holding) {
+      p.guardLock = false;
+      p.guardEnergy = Math.min(spec.hold, (p.guardEnergy ?? spec.hold) + dt);
+    } else if (!p.guardLock && p.guardEnergy > 0) {
+      active = true;
+      p.guardEnergy = Math.max(0, p.guardEnergy - dt);
+      if (p.guardEnergy <= 0) p.guardLock = true;
+    }
+    if (active && !p.guarding) audio.play('guardOn', { throttle: 0.05 });
+    p.guarding = active;
+    p.guardReduce = active ? spec.reduce : 0;
+    this._syncGuardMesh(active, spec, p);
+    const bar = $('guard-bar');
+    const text = $('guard-text');
+    if (bar) {
+      const ratio = spec.hold == null ? 1 : Math.max(0, (p.guardEnergy ?? 0) / spec.hold);
+      bar.style.width = `${ratio * 100}%`;
+      bar.classList.toggle('on', active);
+    }
+    if (text) text.textContent = `${Math.round(spec.reduce * 100)}%`;
+  }
+
+  _syncGuardMesh(active, spec, p) {
+    if (!this.guardMesh) {
+      const mat = new THREE.MeshBasicMaterial({
+        color: 0x8eefff, transparent: true, opacity: 0.16, depthWrite: false, side: THREE.DoubleSide
+      });
+      this.guardMesh = new THREE.Mesh(new THREE.SphereGeometry(2.15, 22, 16), mat);
+      this.scene.add(this.guardMesh);
+    }
+    this.guardMesh.visible = active;
+    if (!active) return;
+    this.guardMesh.position.copy(p.pos).add(new THREE.Vector3(0, 1.55, 0));
+    const col = spec.reduce >= 1 ? 0xf4f7ff : spec.reduce >= 0.75 ? 0xffd36a : 0x7ee8ff;
+    this.guardMesh.material.color.setHex(col);
+    this.guardMesh.material.opacity = 0.12 + Math.sin(performance.now() * 0.012) * 0.05;
+  }
+
   _damagePlayer(amount, opt = {}) {
     const p = this.player;
     if (p.dead || p.invuln > 0) return false;
+    if (p.guarding && p.guardReduce > 0) {
+      audio.play('guardHit', { throttle: 0.06 });
+      this.px.spark(p.pos.clone().add(new THREE.Vector3(0, 1.7, 0)), new THREE.Vector3(0, 0.3, 0), 0xbff6ff, 8, 8, 0.7);
+      amount *= (1 - p.guardReduce);
+      if (amount <= 0.01) return false;
+    }
     p.hp = Math.max(0, p.hp - amount);
     if (opt.flash !== false) {
       const v = $('damage-vignette');
@@ -1132,7 +1195,7 @@ class SandArkGame {
         dir.x += (Math.random() - 0.5) * 0.03;
         dir.y += (Math.random() - 0.5) * 0.03;
         dir.normalize();
-        this._fireProjectile('ally', { speed: 75, damage: 38, knockback: 1, color: 0x7dff9a, power: 0.8 }, muzzle, dir, { owner: 'ally' });
+        this._fireProjectile('ally', { speed: 225, damage: 38, knockback: 1, color: 0x7dff9a, power: 0.8 }, muzzle, dir, { owner: 'ally' });
         this.px.flash(muzzle, 0x7dff9a, 0.4, 0.05);
         audio.play('fireGatling', { pos: muzzle, throttle: 0.15, vol: 0.5 });
       }
@@ -1176,7 +1239,7 @@ class SandArkGame {
   }
 
   _spawnRemoteShot(s) {
-    this._fireProjectile('ally', { speed: s.speed || 80, damage: s.damage || 40, color: s.color, power: 1 }, new THREE.Vector3(...s.pos), new THREE.Vector3(...s.dir), { owner: 'remote' });
+    this._fireProjectile('ally', { speed: s.speed || 240, damage: s.damage || 40, color: s.color, power: 1 }, new THREE.Vector3(...s.pos), new THREE.Vector3(...s.dir), { owner: 'remote' });
   }
 
   // =========================================================================

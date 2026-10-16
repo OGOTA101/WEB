@@ -12,10 +12,10 @@ export const SLOT_LABELS = {
 
 export const PARTS_CATALOG = {
   head: [
-    { id: 'head_sensor', name: 'ARGUS 広域センサー', processing: 100, color: 0x4d7ea8, eyeColor: 0x00e5ff, style: 'visor', desc: '標準的なセンサーヘッド。' },
-    { id: 'head_quantum', name: 'QUANTUM 高速演算', processing: 160, color: 0x8c3b6e, eyeColor: 0xffab00, style: 'antenna', desc: 'ロックオン追従とスタン回復が速い。' },
-    { id: 'head_bunker', name: 'CYCLOPS モノアイ重装', processing: 80, color: 0x5c6b57, eyeColor: 0xff3d57, style: 'mono', desc: '頑丈だが処理は遅い。' },
-    { id: 'head_vulcan', name: 'VULCAN-EYE 機関砲頭', processing: 95, color: 0x6a5a48, eyeColor: 0xfff1a8, style: 'visor', rare: true, builtin: 'b_vulcan', desc: '側頭部に小口径バルカンを内蔵。' }
+    { id: 'head_sensor', name: 'ARGUS 広域センサー', processing: 100, color: 0x4d7ea8, eyeColor: 0x00e5ff, style: 'visor', guard: { reduce: 0.5, hold: null }, desc: '標準センサー。Qガードは軽減50%で、押している間ずっと張れる。' },
+    { id: 'head_quantum', name: 'QUANTUM 高速演算', processing: 160, color: 0x8c3b6e, eyeColor: 0xffab00, style: 'antenna', guard: { reduce: 0.75, hold: 5 }, desc: 'ロックオンが速い。Qガードは軽減75%で、押している間最大5秒。' },
+    { id: 'head_bunker', name: 'CYCLOPS モノアイ重装', processing: 80, color: 0x5c6b57, eyeColor: 0xff3d57, style: 'mono', guard: { reduce: 1, hold: 1 }, desc: '重装モノアイ。Qガードは軽減100%で、押している間最大1秒。' },
+    { id: 'head_vulcan', name: 'VULCAN-EYE 機関砲頭', processing: 95, color: 0x6a5a48, eyeColor: 0xfff1a8, style: 'visor', rare: true, builtin: 'b_vulcan', guard: { reduce: 0.5, hold: null }, desc: '側頭部バルカン。Qガードは軽減50%で、押している間ずっと張れる。' }
   ],
   body: [
     { id: 'body_std', name: 'TYPE-80 デザートコア', hp: 1800, ep: 1000, color: 0x3b6e8c, subColor: 0x24435a, style: 'standard', desc: 'バランスの良い標準胴体。' },
