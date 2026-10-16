@@ -1,5 +1,5 @@
 import { PARTS_CATALOG, SLOT_LABELS, computeMechStats } from '../partsData.js';
-import { BUILTIN_WEAPONS } from '../weapons.js';
+import { BUILTIN_WEAPONS, weaponRange } from '../weapons.js';
 import { STAGES } from '../stages.js';
 import { partIcon } from '../iconRenderer.js';
 import { audio } from '../audio.js';
@@ -19,17 +19,33 @@ const SPEC_DEF = [
   { k: 'processing', label: '処理速度', max: 180 }
 ];
 
+/** 有効射程の表示用テキスト（近接は踏込距離を表示） */
+function rangeText(w) {
+  if (!w) return '──';
+  if (w.behavior === 'none') return '──';
+  if (w.behavior === 'melee') return `${w.range}m ＋踏込 ${w.lunge}m`;
+  const r = weaponRange(w);
+  return r ? `約${r}m` : '──';
+}
+
 function weaponSpecText(w) {
   if (w.behavior === 'none') return `機動力 +${w.mobilityBonus}`;
-  if (w.behavior === 'beam') return `DPS ${w.dps} ／ 照射 ${(w.mag / w.drain).toFixed(1)}s ／ 冷却 ${w.reload}s`;
-  if (w.behavior === 'flame') return `炎上付与 ／ 燃料 ${(w.mag / w.drain).toFixed(1)}s`;
-  if (w.behavior === 'melee') return `威力 ${w.damage} ／ 間隔 ${w.fireRate}s ／ 踏込 ${w.lunge}m${w.mag ? ` ／ 装填 ${w.mag}` : ''}`;
+  if (w.behavior === 'beam') return `DPS ${w.dps} ／ 照射 ${(w.mag / w.drain).toFixed(1)}s ／ 冷却 ${w.reload}s ／ 射程 ${w.range}m`;
+  if (w.behavior === 'flame') return `炎上付与 ／ 燃料 ${(w.mag / w.drain).toFixed(1)}s ／ 有効射程 ${rangeText(w)}`;
+  if (w.behavior === 'melee') return `威力 ${w.damage} ／ 間隔 ${w.fireRate}s ／ リーチ ${rangeText(w)}${w.mag ? ` ／ 装填 ${w.mag}` : ''}`;
   const mul = w.burst || w.count || w.pellets;
-  return `威力 ${w.damage}${mul ? '×' + mul : ''} ／ 弾数 ${w.mag} ／ 装填 ${w.reload}s ／ 出力 ${w.power}`;
+  const speed = w.speed ? ` ／ 弾速 ${w.speed}` : '';
+  return `威力 ${w.damage}${mul ? '×' + mul : ''} ／ 弾数 ${w.mag} ／ 装填 ${w.reload}s ／ 出力 ${w.power}${speed}<br>有効射程 ${rangeText(w)}`;
 }
 
 function partSpecText(slot, p) {
-  if (slot === 'head') return `処理速度 ${p.processing}`;
+  if (slot === 'head') {
+    const g = p.guard;
+    const gt = g
+      ? `${g.reduce >= 1 ? '完全防御' : `軽減 ${Math.round(g.reduce * 100)}%`} ／ ${g.hold ? `持続 ${g.hold}s` : '持続 無制限'}`
+      : '──';
+    return `処理速度 ${p.processing} ／ ガード ${gt}`;
+  }
   if (slot === 'body') return `HP ${p.hp} ／ EP ${p.ep}`;
   if (slot === 'legs') return `機動 ${p.mobility} ／ 跳躍 ${p.jump}`;
   if (slot === 'booster') return `機動 +${p.mobilityBonus} ／ 跳躍 +${p.jumpBonus}`;
@@ -208,9 +224,16 @@ export const GarageUI = {
       const row = document.createElement('div');
       const empty = !slot || slot.def.behavior === 'none';
       row.className = `wkey${empty ? ' empty' : ''}`;
-      row.innerHTML = `<kbd>${i + 1}</kbd><span class="wm">${slot ? slot.label : '---'}</span><span>${slot && !empty ? slot.def.name : '未装備'}</span>`;
+      const rng = empty ? '' : `<span class="rng">${rangeText(slot.def)}</span>`;
+      row.innerHTML = `<kbd>${i + 1}</kbd><span class="wm">${slot ? slot.label : '---'}</span><span>${slot && !empty ? slot.def.name : '未装備'}</span>${rng}`;
       list.appendChild(row);
     }
+    // Qガード（頭部パーツの性能）
+    const g = this.stats.parts.head?.guard;
+    const grow = document.createElement('div');
+    grow.className = `wkey${g ? '' : ' empty'}`;
+    grow.innerHTML = `<kbd>Q</kbd><span class="wm">GUARD</span><span>${g ? (g.reduce >= 1 ? '完全防御' : `被ダメ軽減 ${Math.round(g.reduce * 100)}%`) : 'ガード不可'}</span><span class="rng">${g ? (g.hold ? `持続 ${g.hold}s` : '持続 無制限') : ''}</span>`;
+    list.appendChild(grow);
     if (this.stats.isDualLinked) {
       const row = document.createElement('div');
       row.className = 'wkey';
@@ -257,7 +280,9 @@ export const GarageUI = {
       list.appendChild(div);
     }
     const s = STAGES.find((x) => x.id === this.selectedStage);
-    $('stage-detail').innerHTML = `${s.desc}<br>BOSS : <strong>${s.bossName}</strong>　／　WAVE × 3`;
+    const enemies = s.waves.reduce((a, w) => a + w.length, 0);
+    const threat = '★'.repeat(Math.min(3, s.id)) + '☆'.repeat(Math.max(0, 3 - s.id));
+    $('stage-detail').innerHTML = `${s.desc}<br>BOSS : <strong>${s.bossName}</strong>　／　HP ${s.bossHp.toLocaleString()}<br>WAVE × 3（雑魚 ${enemies} 体）　／　難易度 ${threat}`;
   },
 
   /** 出撃：シャッターが開き、暗転して砂上船へ */

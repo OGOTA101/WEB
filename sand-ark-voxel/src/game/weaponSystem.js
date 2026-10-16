@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { audio } from '../audio.js';
+import { weaponRange } from '../weapons.js';
 import { $, HW, HL, ATTACK_HIT_SCALE, raySphere, rayAABB, obstacleBox, lerpAngle } from './util.js';
 
 /**
@@ -133,12 +134,39 @@ export const WeaponSystem = {
       }
       if (def.behavior === 'none' || !model) return;
       const muzzle = model.group.localToWorld(model.muzzle.clone());
-      const dir = aim.point.clone().sub(muzzle).normalize();
+      const dir = this._fireDir(def, muzzle, aim);
       const isFiring = firing.has(i) && want;
       this._runWeapon(def, ws, i, isFiring, muzzle, dir, model, arm, dt, aim);
     });
 
     this._updateReticle(dt, aim);
+  },
+
+  /**
+   * 射撃方向。ロックオン中は「偏差撃ち」して実際に当たる方向を返す。
+   * 有効射程外（弾が届かない距離）のときは偏差を掛けず素直に目標を狙う。
+   */
+  _fireDir(def, muzzle, aim) {
+    const t = this.lock.target;
+    if (t && aim.hit && def.speed > 0) {
+      const p = this._leadPoint(t, muzzle, def.speed, def);
+      if (p) return p.sub(muzzle).normalize();
+    }
+    return aim.point.clone().sub(muzzle).normalize();
+  },
+
+  /** 目標位置＋速度から「弾が到達する未来位置」を反復で解く（届かない距離なら null） */
+  _leadPoint(t, from, speed, def) {
+    const tp = this._targetPos(t).clone();
+    if (t.isBoss || !t.vel) return tp;           // ボスは速度を持たないので現在位置
+    const vel = t.vel.clone();
+    if (vel.length() > 30) vel.setLength(30);    // 吹き飛ばし中の過剰な偏差を防止
+    let time = tp.distanceTo(from) / speed;
+    for (let i = 0; i < 3; i++) time = tp.clone().addScaledVector(vel, time).distanceTo(from) / speed;
+    const lead = tp.clone().addScaledVector(vel, time);
+    // 有効射程（弾速×寿命）より遠い＝弾が届かない距離なら偏差を掛けない
+    if (time > (def.life || 5.5) || lead.distanceTo(from) > (weaponRange(def) || speed * 4.2)) return null;
+    return lead;
   },
 
   _runWeapon(def, ws, i, want, muzzle, dir, model, arm, dt, aim) {
@@ -461,7 +489,7 @@ export const WeaponSystem = {
     const d = this.cam.look.clone().sub(o).normalize();
     let best = 230, hit = false;
     for (const e of this.enemies) {
-      const t = raySphere(o, d, e.mesh.position, 1.6);
+      const t = raySphere(o, d, e.mesh.position, 1.6 * ATTACK_HIT_SCALE);
       if (t < best) { best = t; hit = true; }
     }
     if (this.boss && this.boss.state !== 'dying') {
@@ -699,10 +727,14 @@ export const WeaponSystem = {
       if (b.gravity) b.vel.y -= b.gravity * dt;
       if (b.kind === 'missile') {
         const sp = b.vel.length();
-        const want = Math.min(b.def.speed, sp + 30 * dt);
-        if (b.target && b.target.hp > 0 && !b.target.dying) {
-          const desired = this._targetPos(b.target).clone().sub(b.mesh.position).normalize().multiplyScalar(want);
-          b.vel.lerp(desired, Math.min(1, dt * 2.4));
+        const want = Math.min(b.def.speed, sp + 120 * dt);
+        const tgt = b.target;
+        const alive = tgt && (tgt.isBoss ? tgt.state !== 'dying' : tgt.hp > 0 && !tgt.dying);
+        if (alive) {
+          // ロックオン中：目標の未来位置へ機首を向ける（旋回を強化して確実に追尾）
+          const aimPt = this._leadPoint(tgt, b.mesh.position, Math.max(want, 1), b.def) || this._targetPos(tgt).clone();
+          const desired = aimPt.sub(b.mesh.position).normalize().multiplyScalar(want);
+          b.vel.lerp(desired, Math.min(1, dt * 7));
         } else b.vel.setLength(want);
         b.trail -= dt;
         if (b.trail <= 0) {
@@ -712,9 +744,11 @@ export const WeaponSystem = {
         }
       }
       if (b.kind === 'plasma') {
-        if (this.lock.target) {
-          const desired = this._targetPos(this.lock.target).clone().sub(b.mesh.position).normalize().multiplyScalar(b.def.speed);
-          b.vel.lerp(desired, Math.min(1, dt * 0.9));
+        const tgt = b.target || this.lock.target;
+        if (tgt) {
+          const aimPt = this._leadPoint(tgt, b.mesh.position, b.def.speed, b.def) || this._targetPos(tgt).clone();
+          const desired = aimPt.sub(b.mesh.position).normalize().multiplyScalar(b.def.speed);
+          b.vel.lerp(desired, Math.min(1, dt * 2.4));
         }
         b.mesh.userData.pulse.scale.setScalar(0.85 + Math.sin(performance.now() * 0.02) * 0.12);
         if (Math.random() < 0.5) this.px.glow.spawn(b.mesh.position, new THREE.Vector3(), b.def.color, 0.25, 0.25, { intensity: 1.5 });
@@ -774,6 +808,20 @@ export const WeaponSystem = {
           if (pos.x > ob.minX && pos.x < ob.maxX && pos.z > ob.minZ && pos.z < ob.maxZ && pos.y > 0 && pos.y < ob.maxY) { hitWall = true; break; }
         }
         if (pos.y < 0 && Math.abs(pos.x) < HW && Math.abs(pos.z) < HL) hitWall = true;
+      }
+      // ---- 近接信管：追尾弾は目標に十分近づいた時点で起爆（高速ですれ違っても取りこぼさない） ----
+      // 壁に当たっているときは起爆しない＝遮蔽物の陰の敵には当たらない
+      if (!hitWall && !hitEnemy && !hitBoss && (b.kind === 'missile' || b.kind === 'plasma')) {
+        const ft = b.target;
+        if (ft && !ft.isBoss && ft.hp > 0 && !ft.dying) {
+          const fuze = Math.max(1.6, (b.def.splash || 0) * 0.75);
+          if (pos.distanceTo(this._targetPos(ft)) < fuze) {
+            this._bulletImpact(b, ft, false, false, false);
+            this.scene.remove(b.mesh);
+            this.bullets.splice(i, 1);
+            continue;
+          }
+        }
       }
       const expired = b.life <= 0 || pos.y < -15;
       if (hitEnemy || hitBoss || hitWall || expired) {
@@ -1014,6 +1062,14 @@ export const WeaponSystem = {
       el.textContent = w.reloading ? 'RELOAD' : s.def.drain ? `${Math.ceil(w.ammo)}%` : `${Math.ceil(w.ammo)}/${s.def.mag}`;
       el.classList.toggle('low', !w.reloading && w.ammo / s.def.mag < 0.25);
     });
+
+    // ロック中の距離表示：有効射程外（＝当たらない距離）なら警告色にする
+    const distEl = $('target-dist');
+    if (distEl) {
+      const reach = def ? weaponRange(def) + (def.lunge || 0) : 0;
+      const dist = this.lock.target ? this._targetPos(this.lock.target).distanceTo(p.pos) : 0;
+      distEl.classList.toggle('far', !!this.lock.target && reach > 0 && dist > reach);
+    }
     void lerpAngle;
   }
 };

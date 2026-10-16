@@ -257,7 +257,7 @@ export const BossSystem = {
           }
         }
         const dir = a.aim.clone().sub(corePos).normalize();
-        this._updateLineTelegraph(a.line, corePos, corePos.clone().addScaledVector(dir, 260), t < tele ? t / tele : 0);
+        this._updateLineTelegraph(a.line, corePos, corePos.clone().addScaledVector(dir, 260), t < tele ? t / tele : 0, 1.7);
         if (t >= tele) {
           if (!b.beamMesh) {
             b.beamMesh = this._createBeamMesh(0xff3050, 1.3, 3.8);
@@ -575,13 +575,29 @@ export const BossSystem = {
     t.group.userData.edgeMat.opacity = 0.5 + Math.sin(performance.now() * 0.02) * 0.4;
   },
 
-  _lineTelegraph() {
-    const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xff2a3a).multiplyScalar(2), transparent: true, opacity: 0.6, depthWrite: false, blending: THREE.AdditiveBlending });
+  /**
+   * 攻撃予兆ライン：極細＋点線＋流れるアニメーション。
+   * 実際の攻撃（太い実体ビーム／弾）と一目で区別できるようにする。
+   * WebGPU では ShaderMaterial が使えないため、点線はテクスチャ（アルファ）で表現する。
+   */
+  _lineTelegraph(color = 0xffb020) {
+    if (!this._dashSource) this._dashSource = makeDashTexture();
+    const tex = this._dashSource.clone();
+    tex.needsUpdate = true;
+    const mat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(color),
+      map: tex,
+      transparent: true,
+      opacity: 0.9,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+      toneMapped: false
+    });
     const m = new THREE.Mesh(this.geo.cyl, mat);
     const g = new THREE.Group();
     m.position.z = 0.5;
     g.add(m);
-    g.userData = { m, mat };
+    g.userData = { m, mat, tex };
     this.scene.add(g);
     const t = { group: g };
     this.telegraphs.push(t);
@@ -590,19 +606,55 @@ export const BossSystem = {
 
   _updateLineTelegraph(t, from, to, k, widthMul = 1) {
     const g = t.group;
-    g.visible = k > 0;
+    const dist = from.distanceTo(to);
+    g.visible = k > 0.02;
+    if (!g.visible) return;
     g.position.copy(from);
     g.lookAt(to);
-    const w = (0.1 + k * 0.42) * widthMul;
-    g.scale.set(1, 1, from.distanceTo(to));
+    // 極細：直径4cm→最大17cm（旧実装は最大1.8mあった）
+    const w = (0.012 + k * 0.038) * widthMul;
+    g.scale.set(1, 1, dist);
     g.userData.m.scale.set(w, w, 1);
-    g.userData.mat.opacity = 0.3 + Math.sin(performance.now() * 0.03) * 0.25 + k * 0.3;
+    const u = g.userData;
+    u.tex.repeat.y = Math.max(1, dist / DASH_PITCH);
+    u.tex.offset.y = -(performance.now() * 0.001 * 3.4) / DASH_PITCH;  // 目標へ流れる
+    u.mat.opacity = 0.5 + k * 0.45;
   },
 
   _removeTelegraph(t) {
     if (!t) return;
+    const u = t.group.userData;
+    if (u) {
+      for (const m of [u.mat, u.ringMat, u.fillMat, u.edgeMat]) m?.dispose?.();
+      u.tex?.dispose?.();
+    }
     this.scene.remove(t.group);
     const i = this.telegraphs.indexOf(t);
     if (i >= 0) this.telegraphs.splice(i, 1);
   }
 };
+
+/** 予兆ライン用の点線テクスチャ（縦＝ライン軸方向。白＋アルファで、色は material.color で付ける） */
+const DASH_PITCH = 1.7;   // 点線1周期の長さ(m)
+function makeDashTexture() {
+  const cv = document.createElement('canvas');
+  cv.width = 8;
+  cv.height = 128;
+  const c = cv.getContext('2d');
+  c.clearRect(0, 0, 8, 128);
+  const dash = 54;                                   // 128px中54px＝約42%だけ描く＝点線
+  const grd = c.createLinearGradient(0, 0, 0, dash);
+  grd.addColorStop(0, 'rgba(255,255,255,0)');
+  grd.addColorStop(0.3, 'rgba(255,255,255,1)');
+  grd.addColorStop(0.7, 'rgba(255,255,255,1)');
+  grd.addColorStop(1, 'rgba(255,255,255,0)');
+  c.fillStyle = grd;
+  c.fillRect(0, 0, 8, dash);
+  const tex = new THREE.CanvasTexture(cv);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.generateMipmaps = false;                 // ミップマップで点線が潰れて実線に見えるのを防ぐ
+  tex.minFilter = THREE.LinearFilter;
+  tex.magFilter = THREE.LinearFilter;
+  return tex;
+}

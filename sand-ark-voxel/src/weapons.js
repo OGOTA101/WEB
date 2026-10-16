@@ -127,6 +127,18 @@ export const BUILTIN_WEAPONS = {
   }
 };
 
+/**
+ * 有効射程（m）：弾速×弾の寿命から概算。ビーム／レール／近接は固定射程。
+ * これを超える距離では弾が消えてしまうため、ロックオンしていても当たらない。
+ */
+export function weaponRange(def) {
+  if (!def) return 0;
+  if (def.range) return def.range;
+  if (!def.speed) return 0;
+  const life = def.life || (def.behavior === 'missile' ? 5.5 : def.behavior === 'gravity' ? 2.4 : 4.2);
+  return Math.round(def.speed * life);
+}
+
 // ----------------------------------------------------------------------------
 // 武器モデル（細かいボクセル 0.12m 単位）
 // ----------------------------------------------------------------------------

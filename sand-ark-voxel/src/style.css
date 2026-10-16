@@ -151,6 +151,8 @@ body, html { width: 100%; height: 100%; overflow: hidden; background: #05080f; c
 .tb-corner.bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
 .tb-corner.br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
 .tb-dist { position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); font-family: var(--font-tech); font-size: 9px; color: var(--accent-red); }
+.tb-dist.far { color: var(--accent-amber); opacity: 0.75; }
+.tb-dist.far::after { content: ' 射程外'; }
 
 .wreck-panel {
   position: absolute; left: 50%; top: 62%; transform: translateX(-50%); width: 380px; text-align: center;
@@ -222,7 +224,8 @@ body, html { width: 100%; height: 100%; overflow: hidden; background: #05080f; c
 .spec .v .d.down { color: var(--accent-red); }
 
 .wkey-list { display: flex; flex-direction: column; gap: 3px; font-size: 11px; }
-.wkey { display: grid; grid-template-columns: 22px 44px 1fr; gap: 6px; align-items: center; }
+.wkey { display: grid; grid-template-columns: 22px 44px 1fr auto; gap: 6px; align-items: center; }
+.wkey .rng { font-family: var(--font-tech); font-size: 10px; color: var(--accent-cyan); opacity: 0.85; white-space: nowrap; }
 .wkey kbd { font-family: var(--font-tech); font-size: 10px; text-align: center; border: 1px solid rgba(255,171,0,0.6); border-radius: 3px; color: var(--accent-amber); padding: 1px 0; }
 .wkey .wm { color: var(--text-sub); font-size: 10px; }
 .wkey.empty { opacity: 0.3; }

@@ -141,7 +141,9 @@ export const EnemySystem = {
           heat = Math.min(1, e.timer / dur);
           e.aimDir.lerp(aimNorm, Math.min(1, dt * 5)).normalize();
           if (e.teleLine) {
-            this._updateLineTelegraph(e.teleLine, pos, pos.clone().addScaledVector(e.aimDir, 90), heat, 1.7);
+            // ラインは「自分 → プレイヤー」で終端（撃たれる場所が一目で分かる）
+            const len = Math.min(90, pos.distanceTo(p.pos) + 3);
+            this._updateLineTelegraph(e.teleLine, pos, pos.clone().addScaledVector(e.aimDir, len), heat, 1.7);
           }
           if (Math.random() < heat * 0.45) {
             this.px.glow.spawn(pos.clone().add(new THREE.Vector3((Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2)), new THREE.Vector3(), 0xff2020, 0.08, 0.22, { intensity: 3 });
@@ -164,7 +166,7 @@ export const EnemySystem = {
           maxSpeed = 0.8;
           heat = 0.85;
           e.aimDir.lerp(aimNorm, Math.min(1, dt * 3.5)).normalize();
-          if (e.teleLine) this._updateLineTelegraph(e.teleLine, pos, pos.clone().addScaledVector(e.aimDir, 90), 0.9, 1.7);
+          if (e.teleLine) this._updateLineTelegraph(e.teleLine, pos, pos.clone().addScaledVector(e.aimDir, Math.min(90, pos.distanceTo(p.pos) + 3)), 0.9, 1.7);
           if (ud.weaponModel?.spinner) ud.weaponModel.spinner.rotation.z += dt * 32;
           e.shotTimer -= dt;
           if (e.shotTimer <= 0 && e.shotsLeft > 0) {
