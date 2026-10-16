@@ -1,0 +1,685 @@
+﻿=== Sheet: ���ʐ݌v_�t�H���g ===
+             0                            1       2           3
+0          NaN                          NaN     NaN         NaN
+1   �@���ʐ݌v_�t�H���g                          NaN     NaN         NaN
+2          NaN                           �T�v     NaN         NaN
+3          NaN                   ���t�H���g�I�胋�[��     NaN         NaN
+4          NaN  �@�E�e�\����Ŏ��F���A�Q�[���̕��͋C�ɓK������͉̂���     NaN         NaN
+5          NaN                          NaN     NaN         NaN
+6          NaN                           �ڍ�     NaN         NaN
+7          NaN                          NaN     NaN         NaN
+8          NaN                           ����  �g�p�t�H���g          ���l
+9          NaN                          ���{��   �����ɋL��  �\����ɂ���ĕ�����
+10         NaN                           �p��     �@�Ȃ�         NaN
+11         NaN                          �ȑ̎�     �@�Ȃ�         NaN
+12         NaN                          �ɑ̎�     �@�Ȃ�         NaN
+13         NaN                          NaN     NaN         NaN
+14         NaN                         �����{��     NaN         NaN
+15         NaN                     �E�L�~�R�C�p�[�g     NaN         NaN
+16         NaN               �@�EPixelMplus12     NaN         NaN
+17         NaN                       �E�����p�[�g     NaN         NaN
+18         NaN               �@�E����G���Sv2 Bold     NaN         NaN
+19         NaN                   �E�V�X�e�����b�Z�[�W     NaN         NaN
+20         NaN                         �@�E����     NaN         NaN
+
+=== Sheet: ���ʐ݌v_�X�N���[�� ===
+              0                                                               1
+0           NaN                                                             NaN
+1   �@���ʐ݌v_�X�N���[��                                                             NaN
+2           NaN                                                              �T�v
+3           NaN                                                �X�N���[���̃��[���܂Ƃ߂��y�[�W
+4           NaN                                                             NaN
+5           NaN                                                             NaN
+6           NaN                                                        �X�N���[�����[��
+7           NaN                                                   ���X�N���[���J�n�E��~���
+8           NaN  �E�E�B���h�E���A�N�e�B�u���A�}�E�X�z�C�[������ŃX�N���[���\�ȕ\���̈�ŃX�N���[���𑀍��s�����ۂɃX�N���[����J�n����
+9           NaN                                  �E�X�N���[���o�[��h���b�O�ŃX�N���[����s�����Ƃ�\�ɂ���
+10          NaN     �@�E�h���b�O���ɃX�N���[���o�[�̗̈悩��J�[�\��������Ă�h���b�O��N���b�N��ێ����Ă���Ȃ�X�N���[�������ێ�����
+11          NaN                                                   �E�����X�N���[���͍s��Ȃ�
+12          NaN            �@�E�h���b�O�X�N���[���ŃX�N���[���o�[������悤�ȓ����s���Ă�N���b�N�����ꂽ�n�_�ŃX�N���[����~�߂�
+13          NaN                                  �@�E�}�E�X�z�C�[���̓��͂��~�܂����n�_�ŃX�N���[�����~����
+14          NaN                                                             NaN
+15          NaN                                                   ���X�N���[���ŉ������̋���
+16          NaN       �E�X�N���[���ł���\���悪�ŉ����܂ŗ��Ă����ԂŃX�N���[�������s�����ꍇ�o�E���h�Ȃǂ̃A�j���[�V�����͍s��Ȃ�
+17          NaN                                                             NaN
+18          NaN                                                     ���X�N���[���o�[�̕\��
+19          NaN                    �EGoogru��LIME�Ȃǂ̃X�N���[�����\�ȃy�[�W�ł̓X�N���[���o�[�̕\�����ɍs��
+20          NaN                                                             NaN
+21          NaN                                                 ���X�N���[���o�[�̈ʒu�ɂ���
+22          NaN                                           �E�X�N���[���o�[�̕\���ʒu�̕ۑ��͍s��Ȃ�
+23          NaN                                      �E�u����v�����s������̓X�N���[���ʒu�͌��ɖ߂�
+
+=== Sheet: ���ʐ݌v_�_�C�A���O ===
+              0                                                   1
+0           NaN                                                 NaN
+1   �@���ʐ݌v_�_�C�A���O                                                 NaN
+2           NaN                                                  �T�v
+3           NaN                                 �_�C�A���O�̕\�����[����܂Ƃ߂��y�[�W
+4           NaN                                                 NaN
+5           NaN                                                 NaN
+6           NaN                                            �_�C�A���O���[��
+7           NaN                                                 NaN
+8           NaN                                                 NaN
+9           NaN                                                 NaN
+10          NaN                                                 NaN
+11          NaN                                                 NaN
+12          NaN                                                 NaN
+13          NaN                                                 NaN
+14          NaN                                                 NaN
+15          NaN                                                 NaN
+16          NaN                                                 NaN
+17          NaN         �E�Q�[���I�����ȂǃV�X�e�����b�Z�[�W��\������悤�Ȕėp�_�C�A���O����ʂƂ��Đ݌v����
+18          NaN                �E�ŗL�̃_�C�A���O�Ȃǂ͕ʓr�@�\���̌ŗL�_�C�A���O�Ƃ��Ďd�l�ɂċL�ڂ���
+19          NaN                                                 NaN
+20          NaN                                             ���\�����̏��
+21          NaN                           �E�����ɕ\���ł���V�X�e���_�C�A���O�͌���1�܂�
+22          NaN                                                 NaN
+23          NaN                                          ���\���A�j���[�V����
+24          NaN               �E���ʂȃA�j���[�V�����͍s�킸�s�����x0��100��0�Əu�ԓI�ɊJ��s�� 
+25          NaN                                                 NaN
+26          NaN                                       ���_�C�A���O��̃X�N���[��
+27          NaN                                 �E�_�C�A���O��̓X�N���[����\�ɂ���
+28          NaN  �E�X�N���[���͌����Ƃ��ăe�L�X�g��\���������܂�Ȃ��ꍇ�̃C���M�����[�Ƃ��Ċ�{�͎��܂�悤�ɓw�߂�
+29          NaN                                                 NaN
+30          NaN                                        ���_�C�A���O�\�����̔w�i
+31          NaN                    �E�_�C�A���O��\�����͌����_�C�A���O����ȊO��s���Ȃ��悤�ɂ���
+32          NaN                  �E�_�C�A���O�\����O��N���b�N�Ń_�C�A���O���\���ɂ��邱�Ƃ��ł���
+
+=== Sheet: 1_�Q�[���N�� ===
+        0                                              1                    2      3
+0     NaN                                            NaN                  NaN    NaN
+1   �@�T�v_1                                            NaN                  NaN    NaN
+2     ������                                            NaN                  NaN    NaN
+3     NaN                                           �d�lID                    1  �Q�[���N��
+4     NaN                                          �����D��x                    ��    NaN
+5     NaN                                           �쐬��                 ��FIX    NaN
+6     NaN                                          �ŏI�X�V��  2026-04-13 00:00:00    NaN
+7     NaN                                            �X�V��                   ���q    NaN
+8     NaN                                            NaN                  NaN    NaN
+9     NaN                                      �����Ӑ}/�����ړI                  NaN    NaN
+10    NaN                                       �E�e�탍�S�̕\��                  NaN    NaN
+11    NaN                                   �E�Q�[���̐��E�ς̓��킹                  NaN    NaN
+12    NaN                                            NaN                  NaN    NaN
+13    NaN                                            NaN                  NaN    NaN
+14    NaN                                           �@�\�v��                  NaN    NaN
+15    NaN                                    �E�Q�[���̋N�����ł���                  NaN    NaN
+16    NaN               �E�Q�[���̋N�����烍�S�̕\���܂ő҂����Ԃ̃X�g���X�Ȃ��ڍs�ł���                  NaN    NaN
+17    NaN                                �E��ƁAUnity�����S�̕\��                  NaN    NaN
+18    NaN                                �E���S�͈�莞�Ԍo�߂Ŏ���\��                  NaN    NaN
+19    NaN                         �@�E���S�\�����ɉ�ʃN���b�N�Ń��S���΂���                  NaN    NaN
+20    NaN                                     �E���ӎ�����ʂ̕\��                  NaN    NaN
+21    NaN                      �E���S�̕\���ɍ��킹�ăm�C�Y�G�t�F�N�g���Đ������                  NaN    NaN
+22    NaN  �@�E�m�C�Y�����郍�S�͊J���`�[�����S�Ƃ��đ����S�̃��M�����[�V�����ɂ͒�G���Ȃ��悤�ɂ���                  NaN    NaN
+23    NaN                                     �E�^�C�g����ʂ֑J��                  NaN    NaN
+
+=== Sheet: 2_�^�C�g����� ===
+        0                                      1                    2              3
+0     NaN                                    NaN                  NaN            NaN
+1   �@�T�v_2                                    NaN                  NaN            NaN
+2     ������                                    NaN                  NaN            NaN
+3     NaN                                   �d�lID                    2  �^�C�g�����(����N����)
+4     NaN                                  �����D��x                    ��            NaN
+5     NaN                                   �쐬��                 ��FIX            NaN
+6     NaN                                  �ŏI�X�V��  2026-04-13 00:00:00            NaN
+7     NaN                                    �X�V��                   ���q            NaN
+8     NaN                                    NaN                  NaN            NaN
+9     NaN                              �����Ӑ}/�����ړI                  NaN            NaN
+10    NaN                          �E�{��i�̐��E�ςɐZ�点��                  NaN            NaN
+11    NaN                                    NaN                  NaN            NaN
+12    NaN                                    NaN                  NaN            NaN
+13    NaN                                   �@�\�v��                  NaN            NaN
+14    NaN                          �E�^�C�g����ʂ̕\����s��                  NaN            NaN
+15    NaN                    �@�E����̏�����ŕύX�ł���悤�ɂ���                  NaN            NaN
+16    NaN                       �E�Z�[�u���[�h�@�\�͎������Ȃ��A                  NaN            NaN
+17    NaN           �E�uSTART�v�uCONFIG�v�uEXIT�v�̋@�\/�\��                  NaN            NaN
+18    NaN                              �@�E�uSTART�v                  NaN            NaN
+19    NaN                           �@�@�E�C���Q�[���ւ̑J��                  NaN            NaN
+20    NaN                             �@�E�uCONFIG�v                  NaN            NaN
+21    NaN              �@�@�E���ʁA�O���t�B�b�N��1�̃y�[�W�ŕ\���ł���                  NaN            NaN
+22    NaN                               �@�E�uEXIT�v                  NaN            NaN
+23    NaN                            �@�@�E�Q�[����I������                  NaN            NaN
+24    NaN                        �@�@�EY/N�m�F���[�_���Ői�s                  NaN            NaN
+25    NaN                         �EBGM��Đ�/���[�v/��~                  NaN            NaN
+26    NaN         �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN            NaN
+27    NaN  �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN            NaN
+28    NaN                      �E�����\�L���̕K�v�ȕ\�L��\������                  NaN            NaN
+29    NaN       �E�^�C�g����ʂ���C���Q�[���܂ő҂����Ԃ̃X�g���X�Ȃ��ڍs�ł���                  NaN            NaN
+
+=== Sheet: 3_START ===
+       0                                      1                    2      3
+0    NaN                                    NaN                  NaN    NaN
+1   �@�T�v_                                    NaN                  NaN    NaN
+2    ������                                    NaN                  NaN    NaN
+3    NaN                                   �d�lID                    3  START
+4    NaN                                  �����D��x                    ��    NaN
+5    NaN                                   �쐬��                 ��FIX    NaN
+6    NaN                                  �ŏI�X�V��  2026-04-13 00:00:00    NaN
+7    NaN                                    �X�V��                   ���q    NaN
+8    NaN                                    NaN                  NaN    NaN
+9    NaN                              �����Ӑ}/�����ړI                  NaN    NaN
+10   NaN       �E�v���C���[�C�ӂ̃^�C�~���O�ŃC���Q�[���ւƑJ�ڂł���悤�ɂ���                  NaN    NaN
+11   NaN                           �E�Q�[���J�n�̎�i�̖���                  NaN    NaN
+12   NaN                                    NaN                  NaN    NaN
+13   NaN                                    NaN                  NaN    NaN
+14   NaN                                   �@�\�v��                  NaN    NaN
+15   NaN                         �EUI���������\������Ă���                  NaN    NaN
+16   NaN                      �E�N���b�N�ŃC���Q�[���ւƑJ�ڂ���                  NaN    NaN
+17   NaN         �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN    NaN
+18   NaN  �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN    NaN
+19   NaN                       �E�x���Ȃ��C���Q�[���֑J�ڂł���                  NaN    NaN
+
+=== Sheet: 4_EXIT ===
+       0                                      1                    2     3
+0    NaN                                    NaN                  NaN   NaN
+1   �@�T�v_                                    NaN                  NaN   NaN
+2    ������                                    NaN                  NaN   NaN
+3    NaN                                   �d�lID                    4  EXIT
+4    NaN                                  �����D��x                    ��   NaN
+5    NaN                                   �쐬��                 ��FIX   NaN
+6    NaN                                  �ŏI�X�V��  2026-04-13 00:00:00   NaN
+7    NaN                                    �X�V��                   ���q   NaN
+8    NaN                                    NaN                  NaN   NaN
+9    NaN                              �����Ӑ}/�����ړI                  NaN   NaN
+10   NaN               �E�v���C���[�C�ӂ̃^�C�~���O�ŃQ�[����I���ł���                  NaN   NaN
+11   NaN                                    NaN                  NaN   NaN
+12   NaN                                    NaN                  NaN   NaN
+13   NaN                                    NaN                  NaN   NaN
+14   NaN                                   �@�\�v��                  NaN   NaN
+15   NaN                         �EUI���������\������Ă���                  NaN   NaN
+16   NaN                         �E�N���b�N�ŃQ�[����I������                  NaN   NaN
+17   NaN         �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN   NaN
+18   NaN  �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN   NaN
+19   NaN                          �E�m�F���[�_����\������                   NaN   NaN
+20   NaN                           �@�EYes�F�Q�[���̏I��                  NaN   NaN
+21   NaN                     �@�ENo�F�|�b�v�A�b�v���\���ɂ���                  NaN   NaN
+
+=== Sheet: 5_CONFIG ===
+       0                                       1                    2       3
+0    NaN                                     NaN                  NaN     NaN
+1   �@�T�v_                                     NaN                  NaN     NaN
+2    ������                                     NaN                  NaN     NaN
+3    NaN                                    �d�lID                    5  CONFIG
+4    NaN                                   �����D��x                    ��     NaN
+5    NaN                                    �쐬��                 ��FIX     NaN
+6    NaN                                   �ŏI�X�V��  2026-04-13 00:00:00     NaN
+7    NaN                                     �X�V��                   ���q     NaN
+8    NaN                                     NaN                  NaN     NaN
+9    NaN                               �����Ӑ}/�����ړI                  NaN     NaN
+10   NaN             �E�v���C���[���]�ފ��ŃQ�[����v���C�ł���悤�ɂ���                  NaN     NaN
+11   NaN                                     NaN                  NaN     NaN
+12   NaN                                     NaN                  NaN     NaN
+13   NaN                                     NaN                  NaN     NaN
+14   NaN                                    �@�\�v��                  NaN     NaN
+15   NaN                          �EUI���������\������Ă���                  NaN     NaN
+16   NaN          �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN     NaN
+17   NaN   �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN     NaN
+18   NaN                  �E�ݒ荀�ڂ��\�����ꂽ�E�B���h�E��\���ł���                  NaN     NaN
+19   NaN                        �@�E�u���ʁA�O���t�B�b�N�v�̕\��                  NaN     NaN
+20   NaN             �@�E�E�B���h�E�́~�{�^����N���b�N�ŕ��邱�Ƃ��ł���                  NaN     NaN
+21   NaN                  �E�e���ڂ͈ꖇ�̃E�B���h�E�ɏW�񂵂ĕ\������                  NaN     NaN
+22   NaN               �E�u�L�����Z���v�uOK�v���\������Đ������@�\����                  NaN     NaN
+23   NaN                        �@�E�N���b�N�ŕύX��e��K�p����                  NaN     NaN
+24   NaN  �@�E�K�p�����u�L�����Z���v�u����v�N���b�N����ƃ��[�_����Y/N�m�F��s��                  NaN     NaN
+
+=== Sheet: 6_���ʐݒ� ===
+       0                                          1                    2     3
+0    NaN                                        NaN                  NaN   NaN
+1   �@�T�v_                                        NaN                  NaN   NaN
+2    ������                                        NaN                  NaN   NaN
+3    NaN                                       �d�lID                    6  ���ʐݒ�
+4    NaN                                      �����D��x                    ��   NaN
+5    NaN                                       �쐬��                 ��FIX   NaN
+6    NaN                                      �ŏI�X�V��  2026-04-13 00:00:00   NaN
+7    NaN                                        �X�V��                   ���q   NaN
+8    NaN                                        NaN                  NaN   NaN
+9    NaN                                  �����Ӑ}/�����ړI                  NaN   NaN
+10   NaN                �E�v���C���[���]�ފ��ŃQ�[����v���C�ł���悤�ɂ���                  NaN   NaN
+11   NaN                                        NaN                  NaN   NaN
+12   NaN                                        NaN                  NaN   NaN
+13   NaN                                        NaN                  NaN   NaN
+14   NaN                                       �@�\�v��                  NaN   NaN
+15   NaN                             �EUI���������\������Ă���                  NaN   NaN
+16   NaN                            �E�X���C�h�o�[�`���Œ����ł���                  NaN   NaN
+17   NaN               �@�E�X���C�h�o�[�̑���œ��I�ɉ��ʂ�ύX���邱�Ƃ��ł���                  NaN   NaN
+18   NaN                           �EBGM/SE��ʂŕύX�ł���                  NaN   NaN
+19   NaN          �@�EBGM���ʂ��ύX���ꂽ�瑦������Ă���BGM���ʂ��ύX�����                   NaN   NaN
+20   NaN               �@�ESE���ʂ��ύX���ꂽ�瑦���������p��SE���Đ������                  NaN   NaN
+21   NaN                      �E�����́u0�`100�v�ň�̈ʂ܂Œ����\                  NaN   NaN
+22   NaN                                �E�ύX�͑������f������                  NaN   NaN
+23   NaN  �E�X���C�h�o�[��h���b�O���̓h���b�O���A�N�e�B�u�ł��邱�Ƃ��`���UI�ω��������                  NaN   NaN
+24   NaN                     �@�E�X���C�h�o�[�̑���A�C�R����Â�����Ȃ�                  NaN   NaN
+
+=== Sheet: 7_�O���t�B�b�N�ݒ� ===
+       0                                         1                    2         3
+0    NaN                                       NaN                  NaN       NaN
+1   �@�T�v_                                       NaN                  NaN       NaN
+2    ������                                       NaN                  NaN       NaN
+3    NaN                                      �d�lID                    7  �O���t�B�b�N�ݒ�
+4    NaN                                     �����D��x                    ��       NaN
+5    NaN                                      �쐬��                 ��FIX       NaN
+6    NaN                                     �ŏI�X�V��  2026-04-13 00:00:00       NaN
+7    NaN                                       �X�V��                   ���q       NaN
+8    NaN                                       NaN                  NaN       NaN
+9    NaN                                 �����Ӑ}/�����ړI                  NaN       NaN
+10   NaN               �E�v���C���[���]�ފ��ŃQ�[����v���C�ł���悤�ɂ���                  NaN       NaN
+11   NaN                                       NaN                  NaN       NaN
+12   NaN                                       NaN                  NaN       NaN
+13   NaN                                       NaN                  NaN       NaN
+14   NaN                                      �@�\�v��                  NaN       NaN
+15   NaN                            �EUI���������\������Ă���                  NaN       NaN
+16   NaN                 �E�u�L�����Z���v�uOK�v���\������Đ������@�\����                  NaN       NaN
+17   NaN                          �@�E�N���b�N�ŕύX��e��K�p����                  NaN       NaN
+18   NaN    �@�E�K�p�����u�L�����Z���v�u����v�N���b�N����ƃ��[�_����Y/N�m�F��s��                  NaN       NaN
+19   NaN                              �E��ʃT�C�Y��ύX�ł���                  NaN       NaN
+20   NaN                      �@�E�ύX�́uOK�v�Ŕ��f����ĕ`�悳���                  NaN       NaN
+21   NaN  �@�E�u1920*1080(�t���X�N���[���\��)/1280*720�v����ύX�ł���                  NaN       NaN
+
+=== Sheet: 8_���z�f�X�N�g�b�v ===
+       0                                                         1                    2         3
+0    NaN                                                       NaN                  NaN       NaN
+1   �@�T�v_                                                       NaN                  NaN       NaN
+2    ������                                                       NaN                  NaN       NaN
+3    NaN                                                      �d�lID                    8  ���z�f�X�N�g�b�v
+4    NaN                                                     �����D��x                    ��       NaN
+5    NaN                                                      �쐬��                 ��FIX       NaN
+6    NaN                                                     �ŏI�X�V��  2026-04-13 00:00:00       NaN
+7    NaN                                                       �X�V��                   ���q       NaN
+8    NaN                                                       NaN                  NaN       NaN
+9    NaN                                                 �����Ӑ}/�����ړI                  NaN       NaN
+10   NaN                 �E���A����PC����̃f�B�e�B�[����Q�l�ɂ��z���[�v�f����o�ł���N�I���e�B��ڎw��                  NaN       NaN
+11   NaN                                                       NaN                  NaN       NaN
+12   NaN                                                       NaN                  NaN       NaN
+13   NaN                                                       NaN                  NaN       NaN
+14   NaN                                                      �@�\�v��                  NaN         �@
+15   NaN                                              �E�G�t�F�N�g��Đ��ł���                  NaN       NaN
+16   NaN                                          �E�e�A�v���̃A�C�R����\���ł���                  NaN       NaN
+17   NaN                                 �@�E�L�~�R�C�A�v���A�S�~���AGoogru�ALIME                  NaN       NaN
+18   NaN                                              �E�E�B���h�E��\���ł���                  NaN       NaN
+19   NaN                      �@�E�L�~�R�C�A�v���A�S�~���AGoogru�ALIME�A�􂢂̖��p�����[�^�[                  NaN       NaN
+20   NaN                            �@�E�e�A�v���̃A�C�R����N���b�N�ŃE�B���h�E�Ƃ��ēW�J�ł���                  NaN       NaN
+21   NaN                                     �@�E�E�B���h�E�͏㕔��h���b�O�ňړ��ł���                  NaN       NaN
+22   NaN                       �@�E�E�B���h�E�͉�ʕ\���悩��E�B���h�E�̏㉺���E���������͂ݏo�Ȃ�                  NaN       NaN
+23   NaN           �@�E�E�B���h�E�ɂ́u�ŏ����v�u����v���\������Ă���N���b�N�ŋ@�\����(�ő剻�͎������Ȃ�)                  NaN       NaN
+24   NaN   �@�@�E�ŏ����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ̓A�C�R�����\������Ă��肻���N���b�N�ōēx�\���ł���                   NaN       NaN
+25   NaN  �@�@�E����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ�\�����ꂸ�f�X�N�g�b�v�̃A�C�R������łȂ��ƍĕ\���ł��Ȃ�                  NaN       NaN
+26   NaN                           �@�@�@�E�A�v���ɂ���Ă̓��[�U�[�̑����҂�������ĕ\���ł���                  NaN       NaN
+27   NaN                                       �E��l���Ǝ􂢂̖��̃Z���t��\���ł���                  NaN       NaN
+28   NaN                            �@�E�e�L�X�g�̓N���b�Nor��莞�Ԍo�߂Ŏ��֑��邱�Ƃ��ł���                  NaN       NaN
+29   NaN                                            �E�w�i�̃f�U�C����ύX�ł���                  NaN       NaN
+30   NaN                                    �E�􂢂̖���Spine���o��s�����Ƃ��ł���                  NaN       NaN
+31   NaN                                       �@�ESpine�����G�̕\���A�����̍Đ�                  NaN       NaN
+32   NaN                                �@�E���z�f�X�N�g�b�v��̍Ŗʃ��C���[�ɕ\������Ă���                  NaN       NaN
+33   NaN                                         �E�􂢂̖��p�����[�^�[��\���ł���                  NaN       NaN
+34   NaN                                             �@�E�ϓ����͑������f������                  NaN       NaN
+35   NaN                                    �E�Q�[���p�̃}�E�X�J�[�\����\���A����ł���                  NaN       NaN
+36   NaN                                         �@�E�J�[�\���̃f�U�C����ύX�ł���                  NaN       NaN
+37   NaN                            �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN       NaN
+38   NaN                     �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN       NaN
+
+=== Sheet: 9_���p�����[�^�[ ===
+                  0                                                       1                    2        3
+0               NaN                                                     NaN                  NaN      NaN
+1              �@�T�v_                                                     NaN                  NaN      NaN
+2               ������                                                     NaN                  NaN      NaN
+3               NaN                                                    �d�lID                    9  ���p�����[�^�[
+4               NaN                                                   �����D��x                    ��      NaN
+5               NaN                                                    �쐬��                 ��FIX      NaN
+6               NaN                                                   �ŏI�X�V��  2026-04-15 00:00:00      NaN
+7               NaN                                                     �X�V��                   �]��      NaN
+8               NaN                                                     NaN                  NaN      NaN
+9               NaN                                               �����Ӑ}/�����ړI                  NaN      NaN
+10              NaN                                    �E���L�����N�^�[�̃p�����[�^�[��\������                  NaN      NaN
+11              NaN                       �E�p�����[�^�[�ɂ���ăG���h�����򂷂�̂Ŏ��o�I�ɕ�����₷������                  NaN      NaN
+12              NaN                                                     NaN                  NaN      NaN
+13              NaN                                                     NaN                  NaN      NaN
+14              NaN                                                    �@�\�v��                  NaN        �@
+15              NaN                                            �E�G�t�F�N�g��Đ��ł���                  NaN      NaN
+16              NaN                                            �E�E�B���h�E��\���ł���                  NaN      NaN
+17              NaN                                    �@�E�p�����[�^�[�E�B���h�E�͈ړ��ł��Ȃ�                  NaN      NaN
+18              NaN                                 �@�E�E�B���h�E�㕔�N���b�N�ōŏ����E�W�J�ł���                  NaN      NaN
+19              NaN                     �@�E�E�B���h�E�͉�ʕ\���悩��E�B���h�E�̏㉺���E���������͂ݏo�Ȃ�                  NaN      NaN
+20              NaN       �@�E�E�B���h�E�ɂ́u�ŏ����v���\������Ă���N���b�N�ŋ@�\����(�u����v�u�ő剻�v�͎������Ȃ�)                  NaN      NaN
+21              NaN  �@�@�E�ŏ����F�E�B���h�E�㕔��c���ŏ�������(��\���ɂ͂��Ȃ�)�A�ēx�E�B���h�E�㕔��N���b�N�ōēW�J�ł���                  NaN      NaN
+22              NaN                                       �E�􂢂̖��̃X�e�[�^�X��\���ł���                  NaN      NaN
+23              NaN                                         �@�E�����ƃo�[�̑����ŕ\������                  NaN      NaN
+24              NaN                      �@�E�X�e�[�^�X�́u���O�x�A���炢��x�A�Ƃ��߂��x�A����炢�x�v��4��                  NaN      NaN
+25              NaN                               �@�E�u0�`100�v�͈̔͂ň�̈ʂ̒P�ʂŕϓ��ł���                  NaN      NaN
+26              NaN                                           �@�E�ϓ����͑������f������                  NaN      NaN
+27  20260415\n �]���X�V                                   �E���Ԍo�߂Ŏw��̃p�����[�^���������Ă���                  NaN      NaN
+28              NaN                                  �E�X�e�[�^�X�㉺�̃A�j���[�V������Đ��ł���                  NaN      NaN
+29              NaN                          �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN      NaN
+30              NaN                   �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN      NaN
+31              NaN                            �EUI��O���b�W�m�C�Y�Ńf�U�C���ɍ����ւ��邱�Ƃ��ł���                  NaN      NaN
+
+=== Sheet: 10_�L�~�R�C�A�v�� ===
+       0                                                         1                    2        3
+0    NaN                                                       NaN                  NaN      NaN
+1   �@�T�v_                                                       NaN                  NaN      NaN
+2    ������                                                       NaN                  NaN      NaN
+3    NaN                                                      �d�lID                   10  �L�~�R�C�A�v��
+4    NaN                                                     �����D��x                    ��      NaN
+5    NaN                                                      �쐬��                 ��FIX      NaN
+6    NaN                                                     �ŏI�X�V��  2026-04-13 00:00:00      NaN
+7    NaN                                                       �X�V��                   ���q      NaN
+8    NaN                                                       NaN                  NaN      NaN
+9    NaN                                                 �����Ӑ}/�����ړI                  NaN      NaN
+10   NaN                                          �E�쒆��X�g�[���[�𖡂�킹��B                  NaN      NaN
+11   NaN                                                       NaN                  NaN      NaN
+12   NaN                                                       NaN                  NaN      NaN
+13   NaN                                                       NaN                  NaN      NaN
+14   NaN                                                      �@�\�v��                  NaN        �@
+15   NaN                                              �E�E�B���h�E��\���ł���                  NaN      NaN
+16   NaN                                     �@�E�E�B���h�E�͏㕔��h���b�O�ňړ��ł���                  NaN      NaN
+17   NaN                       �@�E�E�B���h�E�͉�ʕ\���悩��E�B���h�E�̏㉺���E���������͂ݏo�Ȃ�                  NaN      NaN
+18   NaN         �@�E�E�B���h�E�ɂ́u�ŏ����v�u����v���\������Ă���N���b�N�ŋ@�\����(�u�ő剻�v�͎������Ȃ�)                  NaN      NaN
+19   NaN   �@�@�E�ŏ����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ̓A�C�R�����\������Ă��肻���N���b�N�ōēx�\���ł���                   NaN      NaN
+20   NaN  �@�@�E����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ�\�����ꂸ�f�X�N�g�b�v�̃A�C�R������łȂ��ƍĕ\���ł��Ȃ�                  NaN      NaN
+21   NaN                           �@�@�@�E�A�v���ɂ���Ă̓��[�U�[�̑����҂�������ĕ\���ł���                  NaN      NaN
+22   NaN                                              �E�G�t�F�N�g��Đ��ł���                  NaN      NaN
+23   NaN           �E���t�A�j���A�ꏊ�A�e�L�X�g�{�b�N�X�A�e�L�X�g�A�I����A�����G�A�w�i�A�C�x���gCG��\���ł���                  NaN      NaN
+24   NaN                    �@�E���t�A�j���A�ꏊ�A�����G�A�w�i�A�C�x���gCG�̓V�i���I�ɉ����ĕύX�ł���                  NaN      NaN
+25   NaN                                       �@�E�V�i���I�e�L�X�g��\���A�Đ��ł���                  NaN      NaN
+26   NaN                         �E�v���C���[�����R���͂Ŗ��O����͂��邱�Ƃ��ł���i�Ђ炪�Ȃ̂݁j                  NaN      NaN
+27   NaN                           �@�E���͂ł��Ȃ��������܂܂�Ă��邱�Ƃ�����e�L�X�g��\������                  NaN      NaN
+28   NaN                            �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN      NaN
+29   NaN                     �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN      NaN
+30   NaN                                       �E�����o�߂̃g�����W�V������Đ��ł���                  NaN      NaN
+31   NaN                  �EUI��O���b�W�m�C�Y�ŁE�������A�v���ŕύX�����f�U�C���ɍ����ւ��邱�Ƃ��ł���                  NaN      NaN
+
+=== Sheet: 11_�S�~�� ===
+       0                                                         1                    2    3
+0    NaN                                                       NaN                  NaN  NaN
+1   �@�T�v_                                                       NaN                  NaN  NaN
+2    ������                                                       NaN                  NaN  NaN
+3    NaN                                                      �d�lID                   11  �S�~��
+4    NaN                                                     �����D��x                    ��  NaN
+5    NaN                                                      �쐬��                 ��FIX  NaN
+6    NaN                                                     �ŏI�X�V��  2026-04-13 00:00:00  NaN
+7    NaN                                                       �X�V��                   ���q  NaN
+8    NaN                                                       NaN                  NaN  NaN
+9    NaN                                                 �����Ӑ}/�����ړI                  NaN  NaN
+10   NaN                                         �E��蕝�L�����o��s����悤�ɂ���                  NaN  NaN
+11   NaN                                                       NaN                  NaN  NaN
+12   NaN                                                       NaN                  NaN  NaN
+13   NaN                                                       NaN                  NaN  NaN
+14   NaN                                                      �@�\�v��                  NaN    �@
+15   NaN                                              �E�E�B���h�E��\���ł���                  NaN  NaN
+16   NaN                                     �@�E�E�B���h�E�͏㕔��h���b�O�ňړ��ł���                  NaN  NaN
+17   NaN                       �@�E�E�B���h�E�͉�ʕ\���悩��E�B���h�E�̏㉺���E���������͂ݏo�Ȃ�                  NaN  NaN
+18   NaN         �@�E�E�B���h�E�ɂ́u�ŏ����v�u����v���\������Ă���N���b�N�ŋ@�\����(�u�ő剻�v�͎������Ȃ�)                  NaN  NaN
+19   NaN   �@�@�E�ŏ����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ̓A�C�R�����\������Ă��肻���N���b�N�ōēx�\���ł���                   NaN  NaN
+20   NaN  �@�@�E����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ�\�����ꂸ�f�X�N�g�b�v�̃A�C�R������łȂ��ƍĕ\���ł��Ȃ�                  NaN  NaN
+21   NaN                           �@�@�@�E�A�v���ɂ���Ă̓��[�U�[�̑����҂�������ĕ\���ł���                  NaN  NaN
+22   NaN      �E���z�f�X�N�g�b�v����A�C�R����h���b�O����ƃf�X�N�g�b�v��Ŕ�\���ɂ���S�~���̃t�H���_��ɕ\�������                  NaN  NaN
+23   NaN                             �@�E�S�~���t�H���_��ɑ��݂���Ƃ��͂��̃A�v���̋@�\�͍ǂ�                  NaN  NaN
+24   NaN                        �@�E�A�v����J���Ă����Ԃł̓S�~���ɓ���邱�Ƃ��ł��Ȃ��悤�ɂ���                  NaN  NaN
+25   NaN     �@�E���[�g��ŕK�{�̃A�v���i�wgoogru�x�wLIME�x�j�Ɋւ��Ă̓S�~���ɓ���邱�Ƃ��ł��Ȃ��悤�ɂ���                  NaN  NaN
+26   NaN                                              �E�G�t�F�N�g��Đ��ł���                  NaN  NaN
+27   NaN                            �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN  NaN
+28   NaN                     �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN  NaN
+29   NaN                  �EUI��O���b�W�m�C�Y�ŁE�������A�v���ŕύX�����f�U�C���ɍ����ւ��邱�Ƃ��ł���                  NaN  NaN
+
+=== Sheet: 12_�^�X�N�o�[ ===
+       0                                             1                    2      3
+0    NaN                                           NaN                  NaN    NaN
+1   �@�T�v_                                           NaN                  NaN    NaN
+2    ������                                           NaN                  NaN    NaN
+3    NaN                                          �d�lID                   12  �^�X�N�o�[
+4    NaN                                         �����D��x                    ��    NaN
+5    NaN                                          �쐬��                 ��FIX    NaN
+6    NaN                                         �ŏI�X�V��  2026-04-13 00:00:00    NaN
+7    NaN                                           �X�V��                   ���q    NaN
+8    NaN                                           NaN                  NaN    NaN
+9    NaN                                     �����Ӑ}/�����ړI                  NaN    NaN
+10   NaN               �E�A�v���Ƃ��ăf�X�N�g�b�v��ɃA�C�R���\�����Ȃ���̂�i�[����                  NaN    NaN
+11   NaN                                           NaN                  NaN    NaN
+12   NaN                                           NaN                  NaN    NaN
+13   NaN                                           NaN                  NaN    NaN
+14   NaN                                          �@�\�v��                  NaN      �@
+15   NaN                                 �E��ʉ����ɏ�ɕ\�������                  NaN    NaN
+16   NaN  �E���C���[�͉��z�f�X�N�g�b�v��A��ɍőO�ʂɕ\�������(�X�L���V�b�v�p�[�g�\�����͏���)                  NaN    NaN
+17   NaN                               �E�u�I�v�V�����v��\�����Ă���                  NaN    NaN
+18   NaN                      �E�W�J���̃E�B���h�E�A�v���̃A�C�R����\���ł���                  NaN    NaN
+19   NaN          �@�E���z�f�X�N�g�b�v��ɃE�B���h�E�Ƃ��ĕ\������Ă����̂Ɠ������Ă���                  NaN    NaN
+20   NaN          �@�E�A�C�R����N���b�N�ŃE�B���h�E�̕\��/��\����g�O���Ő؂�ւ��o����                  NaN    NaN
+21   NaN                  �EUI��O���b�W�m�C�Y�Ńf�U�C���ɍ����ւ��邱�Ƃ��ł���                  NaN    NaN
+
+=== Sheet: 13_�I�v�V���� ===
+       0                                   1                    2      3
+0    NaN                                 NaN                  NaN    NaN
+1   �@�T�v_                                 NaN                  NaN    NaN
+2    ������                                 NaN                  NaN    NaN
+3    NaN                                �d�lID                   13  �I�v�V����
+4    NaN                               �����D��x                    ��    NaN
+5    NaN                                �쐬��                 ��FIX    NaN
+6    NaN                               �ŏI�X�V��  2026-04-13 00:00:00    NaN
+7    NaN                                 �X�V��                   ���q    NaN
+8    NaN                                 NaN                  NaN    NaN
+9    NaN                           �����Ӑ}/�����ړI                  NaN    NaN
+10   NaN                      �E�ݒ��d���{�^����i�[����                  NaN    NaN
+11   NaN                  �E�g������f�U�C�����Y�킳���������                  NaN    NaN
+12   NaN                                 NaN                  NaN    NaN
+13   NaN                                 NaN                  NaN    NaN
+14   NaN                                �@�\�v��                  NaN      �@
+15   NaN                 �E�^�X�N�o�[��Ɂu�I�v�V�����v�\������                  NaN    NaN
+16   NaN                  �@�E�N���b�N�ŃE�B���h�E��W�J�ł���                  NaN    NaN
+17   NaN              �@�@�E��ʉ�����h�����[���j���[�ŕ\�������                  NaN    NaN
+18   NaN  �@�@�E�u����v������̓E�B���h�E�\����O��N���b�N�Ŕ�\���ɂł���                  NaN    NaN
+19   NaN           �E�uCONFIG�v�uSHUTDOWN�v��\���ł���                  NaN    NaN
+
+=== Sheet: 14_�^�X�N�}�l�[�W���[ ===
+       0                                                         1                    2          3
+0    NaN                                                       NaN                  NaN        NaN
+1   �@�T�v_                                                       NaN                  NaN        NaN
+2    ������                                                       NaN                  NaN        NaN
+3    NaN                                                      �d�lID                   14  �^�X�N�}�l�[�W���[
+4    NaN                                                     �����D��x                    ��        NaN
+5    NaN                                                      �쐬��                 ��FIX        NaN
+6    NaN                                                     �ŏI�X�V��  2026-04-13 00:00:00        NaN
+7    NaN                                                       �X�V��                   ���q        NaN
+8    NaN                                                       NaN                  NaN        NaN
+9    NaN                                                 �����Ӑ}/�����ړI                  NaN        NaN
+10   NaN                                           �E���zPC�̌��̃��A���e�B����                  NaN        NaN
+11   NaN                                                   �E���o�ւ̕⏕                  NaN        NaN
+12   NaN                                                       NaN                  NaN        NaN
+13   NaN                                                       NaN                  NaN        NaN
+14   NaN                                                      �@�\�v��                  NaN          �@
+15   NaN                                              �E�E�B���h�E��\���ł���                  NaN        NaN
+16   NaN                                     �@�E�E�B���h�E�͏㕔��h���b�O�ňړ��ł���                  NaN        NaN
+17   NaN                       �@�E�E�B���h�E�͉�ʕ\���悩��E�B���h�E�̏㉺���E���������͂ݏo�Ȃ�                  NaN        NaN
+18   NaN         �@�E�E�B���h�E�ɂ́u�ŏ����v�u����v���\������Ă���N���b�N�ŋ@�\����(�u�ő剻�v�͎������Ȃ�)                  NaN        NaN
+19   NaN   �@�@�E�ŏ����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ̓A�C�R�����\������Ă��肻���N���b�N�ōēx�\���ł���                   NaN        NaN
+20   NaN  �@�@�E����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ�\�����ꂸ�f�X�N�g�b�v�̃A�C�R������łȂ��ƍĕ\���ł��Ȃ�                  NaN        NaN
+21   NaN                           �@�@�@�E�A�v���ɂ���Ă̓��[�U�[�̑����҂�������ĕ\���ł���                  NaN        NaN
+22   NaN                          �E�E�B���h�E�\����Ԃƃ^�X�N�}�l�[�W���[�̕\����Ԃ��������Ă���                  NaN        NaN
+23   NaN                                �@�E�E�B���h�E�\�����̃A�C�R���ƃA�v������\���ł���                  NaN        NaN
+24   NaN                          �@�E�E�B���h�E�\�����̃A�v�����^�X�N�}�l�[�W���[��ł�\���ł���                  NaN        NaN
+25   NaN                                 �@�E�E�B���h�E��u����v��Ԃ̂�͕̂\������Ȃ�                  NaN        NaN
+26   NaN                              �EUI��O���b�W�m�C�Y�Ńf�U�C���ɍ����ւ��邱�Ƃ��ł���                  NaN        NaN
+
+=== Sheet: 15_�d���{�^��  ===
+Error 15_�d���{�^�� : 'cp932' codec can't encode character '\u2715' in position 1571: illegal multibyte sequence
+=== Sheet: 16_LIME�y�g�[�N�z ===
+       0                                                         1                    2          3
+0    NaN                                                       NaN                  NaN        NaN
+1   �@�T�v_                                                       NaN                  NaN        NaN
+2    ������                                                       NaN                  NaN        NaN
+3    NaN                                                      �d�lID                   16  LIME�u�g�[�N�v
+4    NaN                                                     �����D��x                    ��        NaN
+5    NaN                                                      �쐬��                 ��FIX        NaN
+6    NaN                                                     �ŏI�X�V��  2026-04-13 00:00:00        NaN
+7    NaN                                                       �X�V��                   ���q        NaN
+8    NaN                                                       NaN                  NaN        NaN
+9    NaN                                                 �����Ӑ}/�����ړI                  NaN        NaN
+10   NaN                                         �E��蕝�L�����o��s����悤�ɂ���                  NaN        NaN
+11   NaN                                                       NaN                  NaN        NaN
+12   NaN                                                       NaN                  NaN        NaN
+13   NaN                                                       NaN                  NaN        NaN
+14   NaN                                                      �@�\�v��                  NaN          �@
+15   NaN                                            �E�u�g�[�N��ʁv��\���ł���                  NaN        NaN
+16   NaN                                    �E�u�g�[�N�v�̃A�C�R����\�����邱�Ƃ��ł���                  NaN        NaN
+17   NaN                                              �E�E�B���h�E��\���ł���                  NaN        NaN
+18   NaN                                     �@�E�E�B���h�E�͏㕔��h���b�O�ňړ��ł���                  NaN        NaN
+19   NaN                       �@�E�E�B���h�E�͉�ʕ\���悩��E�B���h�E�̏㉺���E���������͂ݏo�Ȃ�                  NaN        NaN
+20   NaN         �@�E�E�B���h�E�ɂ́u�ŏ����v�u����v���\������Ă���N���b�N�ŋ@�\����(�u�ő剻�v�͎������Ȃ�)                  NaN        NaN
+21   NaN   �@�@�E�ŏ����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ̓A�C�R�����\������Ă��肻���N���b�N�ōēx�\���ł���                   NaN        NaN
+22   NaN  �@�@�E����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ�\�����ꂸ�f�X�N�g�b�v�̃A�C�R������łȂ��ƍĕ\���ł��Ȃ�                  NaN        NaN
+23   NaN                           �@�@�@�E�A�v���ɂ���Ă̓��[�U�[�̑����҂�������ĕ\���ł���                  NaN        NaN
+24   NaN                        �E�L�����N�^�[���烁�b�Z�[�W���\�������ۂɒʒm�𑗂邱�Ƃ��ł���                   NaN        NaN
+25   NaN                                �@�E���b�Z�[�W�͉�ʐ؂�ւ����Ȃ��ő����ɕ\���ł���                  NaN        NaN
+26   NaN                    �@�E�ʒm�o�i�[��N���b�N����ƊY���L�����N�^�[�̃g�[�N��ʂ�J�����Ƃ��ł���                  NaN        NaN
+27   NaN             �@�E�ʒm�̓g�[�N��ʂ��A�N�e�B�u(�E�B���h�E��N���b�N���Ă�����)�ł͂Ȃ�����\�������                  NaN        NaN
+28   NaN                                            �E�e�L�X�g��\���A�Đ��ł���                  NaN        NaN
+29   NaN                                   �@�E���ɑ���A�E�Ɏ����̃��b�Z�[�W��\���ł���                  NaN        NaN
+30   NaN                               �@�E�e�L�X�g�������ɂ��킹�č��z�c��g��/���k�ł���                   NaN        NaN
+31   NaN                                   �@�E�V�������b�Z�[�W�͉������ւƕ\�����Ă���                  NaN        NaN
+32   NaN                                            �@�E�I�����\���A�I��ł���                  NaN        NaN
+33   NaN                                    �E�g�[�N����̃L��������\�����邱�Ƃ��ł���                  NaN        NaN
+34   NaN                                         �E�g�[�N����̃A�C�R����\���ł���                  NaN        NaN
+35   NaN                                     �E�X�^���v��摜�Ƃ��ĕ\�����邱�Ƃ��ł���                  NaN        NaN
+36   NaN                                  �E�X�N���[���ŉߋ��̃��O��k���Č����悤�ɂ���                  NaN        NaN
+37   NaN                            �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN        NaN
+38   NaN                     �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN        NaN
+39   NaN                                  �EUI��O���b�W�m�C�Y�łɍ����ւ��邱�Ƃ��ł���                  NaN        NaN
+
+=== Sheet: 17_Googru�y�����z ===
+       0                                                         1                    2           3
+0    NaN                                                       NaN                  NaN         NaN
+1   �@�T�v_                                                       NaN                  NaN         NaN
+2    ������                                                       NaN                  NaN         NaN
+3    NaN                                                      �d�lID                   17  Googru�u�����v
+4    NaN                                                     �����D��x                    ��         NaN
+5    NaN                                                      �쐬��                 ��FIX         NaN
+6    NaN                                                     �ŏI�X�V��  2026-04-13 00:00:00         NaN
+7    NaN                                                       �X�V��                   ���q         NaN
+8    NaN                                                       NaN                  NaN         NaN
+9    NaN                                                 �����Ӑ}/�����ړI                  NaN         NaN
+10   NaN                                            �E�X�g�[���[�̐[�x�Ȃǂ�s��                  NaN         NaN
+11   NaN                                                       NaN                  NaN         NaN
+12   NaN                                                       NaN                  NaN         NaN
+13   NaN                                                       NaN                  NaN         NaN
+14   NaN                                                      �@�\�v��                  NaN           �@
+15   NaN                                              �E�E�B���h�E��\���ł���                  NaN         NaN
+16   NaN                      �E��ʓ�e�́u�����E�B���h�E(�������ʉ��)�v�u�T�C�g�\���v��ʂ�2���                  NaN         NaN
+17   NaN                          �E�u�����E�B���h�E�v�Ɓu�T�C�g�\���v��ʂ�؂�ւ��邱�Ƃ��ł���                  NaN         NaN
+18   NaN                                     �@�E�E�B���h�E�͏㕔��h���b�O�ňړ��ł���                  NaN         NaN
+19   NaN                       �@�E�E�B���h�E�͉�ʕ\���悩��E�B���h�E�̏㉺���E���������͂ݏo�Ȃ�                  NaN         NaN
+20   NaN         �@�E�E�B���h�E�ɂ́u�ŏ����v�u����v���\������Ă���N���b�N�ŋ@�\����(�u�ő剻�v�͎������Ȃ�)                  NaN         NaN
+21   NaN   �@�@�E�ŏ����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ̓A�C�R�����\������Ă��肻���N���b�N�ōēx�\���ł���                   NaN         NaN
+22   NaN  �@�@�E����F�E�B���h�E���\���ɂ���A�^�X�N�o�[�ɂ�\�����ꂸ�f�X�N�g�b�v�̃A�C�R������łȂ��ƍĕ\���ł��Ȃ�                  NaN         NaN
+23   NaN                           �@�@�@�E�A�v���ɂ���Ă̓��[�U�[�̑����҂�������ĕ\���ł���                  NaN         NaN
+24   NaN                            �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN         NaN
+25   NaN                     �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN         NaN
+26   NaN                                              �E�G�t�F�N�g��Đ��ł���                  NaN         NaN
+27   NaN                                        �E�e��e�L�X�g�A�e��摜��\���ł���                  NaN         NaN
+28   NaN                                    �E�����E�B���h�E�ɃL�[���[�h��I����͂ł���                  NaN         NaN
+29   NaN           �E���R���͍͂s�킸�v���C���Ɏ�ɓ��ꂽ�L�[���[�h�Ȃǂ���͂�����ɍ������y�[�W���\�������`��                  NaN         NaN
+30     �@                                     �@�E���肵�Ă��Ȃ��L�[���[�h�͕\������Ȃ�                  NaN         NaN
+31   NaN                                        �@�E���肵���L�[���[�h�͕\�������                   NaN         NaN
+32   NaN                               �@�E�L�[���[�h�̓N���b�N����ƃE�B���h�E��ɕ\�������                  NaN         NaN
+33   NaN                                           �@�E���ዾ�A�C�R����\���ł���                  NaN         NaN
+34   NaN                             �@�E���ዾ�A�C�R���ł��̃��[�h�ɑΉ�����y�[�W��\���ł���                  NaN         NaN
+35   NaN                                  �@�@�E�L�[���[�h�������Ă��Ȃ���Ԃł͔������Ȃ�                  NaN         NaN
+36   NaN                                       �E�L�[���[�h�ɉ������y�[�W���\�������                  NaN         NaN
+37   NaN            �@�E�y�[�W�\���̓X�g���X�̂Ȃ����x�̓ǂݍ��ݎ��Ԃ�^���I�ɔ����������A���e�B����o�ł��Ă���                  NaN         NaN
+38   NaN                                            �@�E�y�[�W�̓X�N���[���ł���                  NaN         NaN
+39   NaN                           �@�@�E�ŉ����܂ŃX�N���[������ƃX�N���[����ł��Ȃ��悤�ɂ���                  NaN         NaN
+40   NaN                                           �E�u�߂�v�A�C�R����\���ł���                  NaN         NaN
+41   NaN                                  �@�E�N���b�N��1�܂ł̃y�[�W�ɖ߂邱�Ƃ��ł���                  NaN         NaN
+42   NaN                                           �E�u�i�ށv�A�C�R����\���ł���                  NaN         NaN
+43   NaN           �@�E�u�߂�v�A�C�R���Ŗ߂����ꍇ�Ɍ��̃y�[�W�ɐi�ނ��Ƃ��ł��� (�u�߂�v����̎������s��)                  NaN         NaN
+44   NaN                               �@�E��L�̃A�N�V������s���Ȃ��ꍇ�̓O���[�A�E�g������                  NaN         NaN
+45   NaN                 �E�E�B���h�E��u����v������ɍēx�J�����Ƃ��́u�����E�B���h�E��ʁv���\�������                  NaN         NaN
+46   NaN                                  �EUI��O���b�W�m�C�Y�łɍ����ւ��邱�Ƃ��ł���                  NaN         NaN
+
+=== Sheet: 18_�풓�􂢂̖� ===
+                  0                               1                    2       3
+0               NaN                             NaN                  NaN     NaN
+1              �@�T�v_                             NaN                  NaN     NaN
+2               ������                             NaN                  NaN     NaN
+3               NaN                            �d�lID                   18  �풓�􂢂̖�
+4               NaN                           �����D��x                    ��     NaN
+5               NaN                            �쐬��                 ��FIX     NaN
+6               NaN                           �ŏI�X�V��  2026-04-15 00:00:00     NaN
+7               NaN                             �X�V��                   �]��     NaN
+8               NaN                             NaN                  NaN     NaN
+9               NaN                       �����Ӑ}/�����ړI                  NaN     NaN
+10              NaN                    �E���Ƃ̐ڐG�@��𑝂₷                  NaN     NaN
+11              NaN                  �E���̃��A�N�V������\������                  NaN     NaN
+12              NaN                             NaN                  NaN     NaN
+13              NaN                            �@�\�v��                  NaN       �@
+14              NaN            �E�������̗����G��\�����邱�Ƃ��ł���                  NaN     NaN
+15              NaN               �@�ESpine�œ��������Ƃ��ł���                  NaN     NaN
+16              NaN               �풓�􂢂̖���\�����邱�Ƃ��ł���                  NaN     NaN
+17              NaN                           �E���o����                  NaN     NaN
+18  20260415\n �]���X�V              �������Ă����Ԃ𔻒肷�鎖���ł���                  NaN     NaN
+19  20260415\n �]���X�V  �E�����Ă���Ƃ��]�܂Ȃ����Ƃ����ƃp�����[�^�[����������                  NaN     NaN
+20              NaN                             NaN                  NaN     NaN
+21              NaN                             NaN                  NaN     NaN
+22              NaN                             NaN                  NaN     NaN
+23              NaN                             NaN                  NaN     NaN
+24              NaN                             NaN                  NaN     NaN
+25              NaN                             NaN                  NaN     NaN
+26              NaN                             NaN                  NaN     NaN
+27                �@                             NaN                  NaN     NaN
+28              NaN                             NaN                  NaN     NaN
+29              NaN                             NaN                  NaN     NaN
+30              NaN                             NaN                  NaN     NaN
+31                �@                             NaN                  NaN     NaN
+
+=== Sheet: 19_�X�L���V�b�v�p�[�g ===
+       0                                          1                    2          3
+0    NaN                                        NaN                  NaN        NaN
+1   �@�T�v_                                        NaN                  NaN        NaN
+2    ������                                        NaN                  NaN        NaN
+3    NaN                                       �d�lID                   19  �X�L���V�b�v�p�[�g
+4    NaN                                      �����D��x                    ��        NaN
+5    NaN                                       �쐬��                 ��FIX        NaN
+6    NaN                                      �ŏI�X�V��  2026-04-13 00:00:00        NaN
+7    NaN                                        �X�V��                   ���q        NaN
+8    NaN                                        NaN                  NaN        NaN
+9    NaN                                  �����Ӑ}/�����ړI                  NaN        NaN
+10   NaN                            �E���ƐG�ꍇ����ꏊ��񋟂���                  NaN        NaN
+11   NaN                                        NaN                  NaN        NaN
+12   NaN                                        NaN                  NaN        NaN
+13   NaN                                        NaN                  NaN        NaN
+14   NaN                                       �@�\�v��                  NaN          �@
+15   NaN                   �E���z�f�X�N�g�b�v���ԏ�̃��C���[�ɕ\���ł���                  NaN        NaN
+16   NaN                             �EDAY3�̃��X�g�ɔ�������                  NaN        NaN
+17   NaN                         �E�L�����N�^�[�̗����G��\����s����                  NaN        NaN
+18   NaN                  �@�E�L�����N�^�[��Spine�ŃA�j���[�V������s��                  NaN        NaN
+19   NaN        �E�X�L���V�b�v�p�[�g�̕\�����̓X�L���V�b�v�Ɋ֘A���鑀��ȊO��s���Ȃ�                  NaN        NaN
+20   NaN            �E�X�L���V�b�v�p�[�g���̓X�e�[�^�X������I�ɓW�J���ĕ\���ł���                  NaN        NaN
+21   NaN                             �E�T�̃R�}���h��\���ł���                  NaN        NaN
+22   NaN   �@�E�Ȃł�FSpine���o��s���A�X�e�[�^�X�𑝌��ł���A�s���񐔂����ł���B                  NaN        NaN
+23   NaN   �@�E�������FSpine���o��s���A�X�e�[�^�X�𑝌��ł���A�s���񐔂����ł���B                  NaN        NaN
+24   NaN    �@�E�n�O�FSpine���o��s���A�X�e�[�^�X�𑝌��ł���A�s���񐔂����ł���B                  NaN        NaN
+25   NaN  �@�E��������FSpine���o��s���A�X�e�[�^�X�𑝌��ł���A�s���񐔂����ł���B                  NaN        NaN
+26   NaN                       �@�E�I���F�X�L���V�b�v�p�[�g��I���ł���                  NaN        NaN
+27   NaN        �E�u�c�s���񐔁v��\���ł��A�u�R�v������l�Ƃ��čs���ɉ����Č����ł���                  NaN        NaN
+28   NaN                     �E�X�e�[�^�X���ϓ�����ۂ͑����ɔ��f������                   NaN        NaN
+29   NaN                   �@�E�X�e�[�^�X�ϓ����̃A�j���[�V������Đ��ł���                  NaN        NaN
+30   NaN             �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����SE��Đ�����                  NaN        NaN
+31   NaN      �E�}�E�X�I�[�o�[/�N���b�N�̃A�N�V�����ɉ�����UI�A�j���[�V������Đ�����                  NaN        NaN
+
+=== Sheet: 20_�G���f�B���O ===
+       0                                           1                    2       3
+0    NaN                                         NaN                  NaN     NaN
+1   �@�T�v_                                         NaN                  NaN     NaN
+2    ������                                         NaN                  NaN     NaN
+3    NaN                                        �d�lID                   20  �G���f�B���O
+4    NaN                                       �����D��x                    ��     NaN
+5    NaN                                        �쐬��                 ��FIX     NaN
+6    NaN                                       �ŏI�X�V��  2026-04-13 00:00:00     NaN
+7    NaN                                         �X�V��                   ���q     NaN
+8    NaN                                         NaN                  NaN     NaN
+9    NaN                                   �����Ӑ}/�����ړI                  NaN     NaN
+10   NaN                        �E��i�̌��̑��l���ƍăv���C�ӗ~����߂�                  NaN     NaN
+11   NaN           �E�v���C���[�̃v���C�X�^�C���E�I��E���ʂɉ��������̌�����񋟂���                  NaN     NaN
+12   NaN                                         NaN                  NaN     NaN
+13   NaN                                         NaN                  NaN     NaN
+14   NaN                                        �@�\�v��                  NaN       �@
+15   NaN  �E�p���㉺��T���ڏI���ɂ���ăG���f�B���O�B���̏���𖞂�������G���h��ʂɈڍs����                  NaN     NaN
+16   NaN                                   �@�E����͕ʓr�w��                  NaN     NaN
+17   NaN                       �E�G���f�B���O�I����^�C�g����ʂɑJ�ڂ���                  NaN     NaN
+

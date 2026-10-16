@@ -1,0 +1,63 @@
+No,素材ID,素材名,カテゴリ大,カテゴリ小,再生タイミング / トリガー,仕様概要,尺（秒）,ループ,形式,優先度,Unity実装メモ
+,,【BGM】,,,,,,,,,,
+1,bgm_title,BGM タイトル画面,BGM,タイトル,タイトル画面表示中（BGM_TITLE）,タイトル用BGM ロマンチック×ホラー混在感,60+,ループ,OGG,S,AudioSource.loop = true / AudioMixerGroup "BGM" に接続 / SceneLoad後にAudioManager.PlayBGM("bgm_title")で再生
+2,bgm_daily,BGM 日常パート,BGM,デスクトップ（日常）,デスクトップ / 現実ADVパート（BGM_DAILY）,日常BGM 穏やかで少し切ない旋律,90+,ループ,OGG,S,同上 / BGM_DAILYで参照 / デスクトップ操作中に流れる最多再生BGM
+3,bgm_kimikoi,BGM ゲーム内ゲーム「キミコイ」,BGM,ノベル（ADV）,キミコイウィンドウ起動中（BGM_KIMIKOI）,恋愛ADVメインBGM ピアノ主体,90+,ループ,OGG,S,同上 / キミコイWindow.Open()時にPlayBGM("bgm_kimikoi") / Close()時にPlayBGM("bgm_daily")へ復帰
+4,bgm_skinship,BGM スキンシップパート,BGM,スキンシップ,スキンシップパート開始時,スキンシップBGM 甘く不思議な雰囲気,60+,ループ,OGG,S,同上 / SkinshipOverlay.Open()でBGMクロスフェード / AudioMixer Snapshotで音量遷移推奨
+5,bgm_horror_ambient,BGM ホラーアンビエント（侵食時）,BGM,ホラー,グリッチ演出 / sister_darkness閾値超過時,不穏環境音・歪んだピアノ等のアンビエント,ループ（不定形）,ループ,OGG,A,BGM_DAILYにレイヤー再生 or AudioMixer Snapshotで音量を段階的に上げる方式
+6,bgm_lime,BGM LIMEアプリ（任意）,BGM,LIME,LIMEウィンドウ使用中（任意実装）,チャットアプリ風の軽快BGM,60+,ループ,OGG,C,任意実装 / 実装する場合はBGMグループMasterVolより低い音量設定推奨
+7,bgm_final,BGM 最終日・クライマックス,BGM,クライマックス,DAY14〜15 / クライマックスシーン（BGM_FINAL）,感動と緊迫感が融合したクライマックスBGM,120+,ループ,OGG,S,同上 / BGM_FINALで参照
+8,bgm_ending_good,BGM グッドエンディング（ルートエンド共通）,BGM,エンディング,ルートエンド到達 / エンディングCG表示中,グッドエンド用BGM 感動・爽やか系,90,なし（1再生）,OGG,A,AudioSource.loop = false / PlayOneShot or Playで1回再生 / スタッフロール想定時間に合わせた尺で制作
+9,bgm_ending_true,BGM トゥルーエンド専用,BGM,エンディング,end_true専用,トゥルーエンド専用BGM 全力投球,120,なし（1再生）,OGG,S,同上 / bgm_ending_goodとは別素材で制作
+10,bgm_ending_death,BGM 死亡エンド,BGM,エンディング,DEAD END到達 / 死亡エンド演出中,重く不気味なホラーBGM 短尺,20〜30,なし（1再生）,OGG,A,同上 / se_jumpscareの再生後に流れる / 短くても強い印象を想定
+11,bgm_diagnosis,BGM 性格診断画面,BGM,診断,diagnosis-screen（エンディング後）,不思議で軽やかな診断BGM,60+,ループ,OGG,B,同上 / LoopTrue
+,,【ジングル】,,,,,,,,,,
+12,jingle_boot,ジングル 起動シーケンス,ジングル,ブート,コーポレートロゴ表示時（起動直後）,企業ロゴ表示時の短いジングル,3〜5,なし,OGG,B,AudioSource.PlayOneShot(clip) / BootScene内でCoroutineのyield return new WaitForSeconds(duration)で制御
+13,jingle_day_transition,ジングル DAY遷移（DAY○表示）,ジングル,DAY遷移,DAY_SCREEN演出時,新しい日の開始を告げるジングル,3〜5,なし,OGG,B,同上 / DAY_SCREEN演出IDと連動 / AudioManager.PlaySFX("jingle_day_transition")
+14,jingle_lime_call,ジングル LIME着信音（ループ）,ジングル,LIME,LIME通話着信時（応答or拒否で停止）,スマホ着信音ライクなジングル,10+,ループ,OGG,S,AudioSource.loop = true / LimeCallManager.OnIncoming()でPlay / 応答または拒否でAudioSource.Stop() / 仕様書3-3「着信時はジングルをループ再生」
+15,jingle_ending_unlock,ジングル エンディング到達,ジングル,エンディング,エンディング確定時,エンディング到達時の短い音,2〜3,なし,OGG,A,AudioSource.PlayOneShot / グッドエンドとDEAD ENDで別音素材を使用推奨
+,,【SE：システム・UI】,,,,,,,,,,
+16,se_click_decide,SE 決定ボタン,SE,UIシステム,ボタン押下 / テキスト確定 / 選択肢決定全般,UIの決定音 クリアで短いポップ音,0.2,なし,OGG,S,AudioSource.PlayOneShot(clip) / AudioMixerGroup "SE" に接続 / UIButtonのonClickから呼び出し / 全UI共通で最多再生SE
+17,se_text_advance,SE テキスト送り,SE,UIシステム,ノベルパート クリックでテキスト送り毎,微細なクリック音 音量控えめ,0.1,なし,OGG,B,PlayOneShot / 毎クリック再生のため軽量ファイル必須 / AudioMixerGroup "SE" の音量を低めに設定
+18,se_window_open,SE ウィンドウ 開く,SE,UIシステム,全ウィンドウ 生成 / 最大化 / アプリ起動時,ウィンドウポップアップ音,0.3,なし,OGG,B,PlayOneShot / WindowManager.CreateWindow()の実行タイミングで同時呼び出し
+19,se_window_close,SE ウィンドウ 閉じる,SE,UIシステム,全ウィンドウ ×ボタン / 閉じる時,ウィンドウ閉じる音,0.2,なし,OGG,B,PlayOneShot / WindowManager.Close()で呼び出し
+20,se_window_minimize,SE ウィンドウ 最小化,SE,UIシステム,ウィンドウ 最小化ボタン時,最小化音 短く控えめ,0.2,なし,OGG,C,同上 / WindowManager.Minimize()で呼び出し
+21,se_icon_select,SE アイコン シングルクリック,SE,UIシステム,デスクトップアイコン クリック時,アイコン選択音,0.1,なし,OGG,C,PlayOneShot / DesktopIcon.csのOnPointerClickで呼び出し
+22,se_icon_open,SE アプリ起動（ダブルクリック）,SE,UIシステム,デスクトップアイコン ダブルクリック時,アプリ起動音 やや長めのポップ,0.4,なし,OGG,B,PlayOneShot / DoubleClickDetector判定後に呼び出し
+23,se_start_menu_open,SE スタートメニュー 開く,SE,UIシステム,スタートボタン押下時,スタートメニューが開く音,0.3,なし,OGG,C,PlayOneShot / StartMenu.Open()で呼び出し
+24,se_notification,SE 通知音（一般PC通知）,SE,UIシステム,Toast表示 / システム通知全般（SE_NOTIF）,PC通知音 Windowsライクなポップ音,0.4,なし,OGG,S,PlayOneShot / SE_NOTIFで参照 / COLUMN_GUIDE定義済みID / Taskbar.ShowToast()と同時呼び出し
+25,se_save_complete,SE セーブ完了,SE,UIシステム,SaveManager.Save()実行後,セーブ完了チャイム,0.4,なし,OGG,B,PlayOneShot / SaveManager.OnSaveComplete Eventに登録
+26,se_load_complete,SE ロード完了,SE,UIシステム,SaveManager.Load()実行後,ロード完了音 セーブ音と差別化,0.4,なし,OGG,B,同上 / SaveManager.OnLoadComplete Eventに登録
+,,【SE：LIMEアプリ】,,,,,,,,,,
+27,se_lime_in,SE LIMEメッセージ 受信,SE,LIME,LIMEアプリ メッセージ受信時（SE_LIME_IN）,受信着信音 LINEライクなポップ音,0.5,なし,OGG,S,PlayOneShot / SE_LIME_INで参照 / COLUMN_GUIDE定義済みID / LimeChat.OnMessageReceived()で呼び出し
+28,se_lime_out,SE LIMEメッセージ 送信,SE,LIME,LIMEアプリ メッセージ送信時（SE_LIME_OUT）,送信完了音 受信音より短め,0.3,なし,OGG,S,PlayOneShot / SE_LIME_OUTで参照 / COLUMN_GUIDE定義済みID / LimeChat.OnMessageSent()で呼び出し
+29,se_lime_call_connect,SE LIME通話 応答（繋がった音）,SE,LIME,LIME通話 応答ボタン押下時,通話接続音,0.5,なし,OGG,A,PlayOneShot / jingle_lime_call停止後にこのSEを再生 / LimeCallManager.OnAccept()で呼び出し
+30,se_lime_call_end,SE LIME通話 切断,SE,LIME,LIME通話 切り上げ時,通話切断音,0.3,なし,OGG,B,PlayOneShot / LimeCallManager.OnEnd()で呼び出し
+,,【SE：スキンシップパート】,,,,,,,,,,
+31,se_skinship_talk,SE スキンシップ「話す」,SE,スキンシップ,Skinship.doAction('talk')実行時,「話す」コマンドSE 柔らかいポップ音,0.3,なし,OGG,B,PlayOneShot / SkinshipManager.DoAction(ActionType.Talk)で呼び出し
+32,se_skinship_headpat,SE スキンシップ「なでなで」,SE,スキンシップ,Skinship.doAction('headpat')実行時,頭をなでる柔らかい音,0.4,なし,OGG,B,同上 / ActionType.Headpat
+33,se_skinship_gift,SE スキンシップ「プレゼント」,SE,スキンシップ,Skinship.doAction('gift')実行時,プレゼント受け渡し音（リボン・開封音系）,0.6,なし,OGG,B,同上 / ActionType.Gift
+34,se_skinship_ignore,SE スキンシップ「無視する」,SE,スキンシップ,Skinship.doAction('ignore')実行時,暗く短い音 沈黙感を表現,0.3,なし,OGG,B,同上 / ActionType.Ignore / 怨念パラメータ増加演出と同時呼び出し
+35,se_skinship_end,SE スキンシップ 終了,SE,スキンシップ,Skinship.end()実行後,スキンシップパート終了音,0.5,なし,OGG,C,PlayOneShot / SkinshipManager.End()で呼び出し / BGMをbgm_dailyへクロスフェード復帰
+,,【SE：ホラー・グリッチ演出】,,,,,,,,,,
+36,se_noise,SE 砂嵐ノイズ（複数バリエーション推奨）,SE,ホラー,グリッチ演出全般（SE_NOISE）,砂嵐ホワイトノイズ音,1〜2,なし,OGG,S,PlayOneShot / SE_NOISEで参照 / COLUMN_GUIDE定義済みID / 複数バリエーションをArrayに格納しRandom.Range()で選択
+37,se_glitch_short,SE グリッチ音（短・単発）,SE,ホラー,グリッチエフェクト発生時（SE_GLITCH）,デジタルノイズ・バグ感の短い音,0.5,なし,OGG,S,同上 / SE_GLITCHで参照 / COLUMN_GUIDE定義済みID / グリッチShaderのMaterial更新と同フレームで呼び出し
+38,se_glitch_vhs,SE グリッチ音（VHS・長め）,SE,ホラー,VHSグリッチエフェクト発生時,VHSテープ巻き戻し・トラッキングエラー系ノイズ,2〜3,なし（ループ版別途）,OGG,A,PlayOneShot / Effects.ShowGlitch('vhs')と連動 / 長めのグリッチ時はループ版（AudioSource.loop=true）を別途用意
+39,se_long_beep,SE 長い警告音（ピーーー）,SE,ホラー,特定ホラーシーン / 緊張演出（SE_LONG_BEEP）,無機質な電子警告音,3〜10,なし,OGG,S,PlayOneShot / SE_LONG_BEEPで参照 / COLUMN_GUIDE定義済みID
+40,se_jumpscare,SE ジャンプスケア衝撃音,SE,ホラー,jumpscare-overlay表示時,ジャンプスケア用大音量衝撃ノイズ,0.5〜1,なし,OGG,S,PlayOneShot / AudioMixerGroup "Jumpscare" を別グループで用意し音量上限をMixerで管理（飽和防止）/ ch_imouto_07の表示と同フレームで呼び出し
+41,se_cursor_hijack,SE カーソルジャック（入力乗っ取り）,SE,ホラー,マウスジャック演出 / 入力妨害（仕様書4-2）,カーソル乗っ取り時の電子的不穏音,1,なし,OGG,S,PlayOneShot / InputHijack.Begin()でCursor.SetCursor(cursor_busy) と同時呼び出し / EventSystem.current.enabled = false と連動
+42,se_garbled_text,SE 文字化け音,SE,ホラー,文字化け演出時（仕様書4-2）,データ破損・文字化けのエラー音,0.5,なし,OGG,A,PlayOneShot / TextMeshProUGUI文字化けアニメ（MaxVisibleCharactersランダム崩し）と同時呼び出し
+43,se_screen_shake,SE 画面揺れ 衝撃音,SE,ホラー,SCREEN_SHAKE演出時,画面が揺れる際のインパクト音,0.5,なし,OGG,B,PlayOneShot / SCREEN_SHAKE演出IDと同時呼び出し / CinemachineImpulse or DOTween.Shakeと連動
+44,se_flash,SE フラッシュ（白フラッシュ・起動時）,SE,ホラー,FLASH演出 / 起動直後フラッシュ（仕様書2-1）,画面フラッシュ瞬間の短い鋭い音,0.3,なし,OGG,A,PlayOneShot / 起動シーケンス③「特殊演出」のCoroutine内でフラッシュUI切替と同タイミングで呼び出し
+,,【SE：パラメータ・フラグ】,,,,,,,,,,
+45,se_param_up,SE パラメータ 上昇,SE,パラメータ,GameManager.modifyParam()（正の増加）,パラメータ上昇のポジティブSE,0.3,なし,OGG,B,PlayOneShot / GameManager.OnParamChanged(delta > 0)に登録 / HUDバー更新Animと同時
+46,se_param_down,SE パラメータ 下降,SE,パラメータ,GameManager.modifyParam()（負の減少）,パラメータ下降の暗い音,0.3,なし,OGG,B,同上 / delta < 0の場合
+47,se_param_warning,SE 怨念パラメータ 警告音,SE,パラメータ,sister_darknessが閾値超過時,怨念危険域接近の警告音,0.5,なし,OGG,A,PlayOneShot / GameManager.OnDarknessThresholdReached Eventで呼び出し / HUDバーのPulseアニメと同時
+48,se_cheat_unlock,SE チートツール 解禁,SE,フラグ,DAY4以降 チートツール解禁時,チートツール出現時の不穏効果音,0.7,なし,OGG,A,PlayOneShot / Desktop.AddIcon(icon_cheat)と同タイミングで呼び出し / ハッキング系音推奨
+49,se_day_end,SE 1日終了トランジション,SE,フラグ,DAY_END演出時,1日終了のトランジション音,0.5,なし,OGG,B,PlayOneShot / DAY_END演出IDと同時 / BGMフェードアウト開始タイミングと合わせる
+50,se_death_unlock,SE 死亡エンド到達（DEAD END）,SE,エンディング,死亡エンド確定時（DEAD END）,DEAD END確定時の鋭い終焉音,1,なし,OGG,S,PlayOneShot / se_jumpscareと同時 or 直後に再生 / BGMをAudioSource.Stopで即断後に呼び出し
+51,se_good_end_unlock,SE グッドエンド到達,SE,エンディング,ルートエンド確定時,グッドエンド確定時の短いチャイム,2,なし,OGG,A,PlayOneShot / EndingManager.OnGoodEndReached Eventで呼び出し
+52,se_loop_restart,SE ループリセット（強くてニューゲーム）,SE,フラグ,死亡エンド後のループ再スタート時,データ巻き戻し・ループ再スタート音,1,なし,OGG,A,PlayOneShot / SaveManager.ResetAndRestart()で呼び出し / 「時計が戻る or データ巻き戻し」感のある音推奨 / 仕様書4-1「ループシステム」
+,,【既存素材（ライセンス確認要）】,,,,,,,,,,
+53,existing_milktea,（既存）ontama_piano2_milktea,BGM（既存素材）,参考,現在仮使用中（assets/ontama_piano2_milktea.mp3）,現在プロジェクトに存在する楽曲素材（3MB）,不明,－,MP3,要確認,製品版への使用可否をライセンス元に確認 / 使用可なら削除しない
+54,existing_yubikiri,（既存）ontama_piano2_yubikiri,BGM（既存素材）,参考,現在仮使用中（assets/ontama_piano2_yubikiri.mp3）,現在プロジェクトに存在する楽曲素材（2.6MB）,不明,－,MP3,要確認,同上

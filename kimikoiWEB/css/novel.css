@@ -1,0 +1,249 @@
+/* ============================================
+   NOVEL ENGINE CSS
+   ============================================ */
+
+/* Novel Window Content */
+.novel-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Background */
+.novel-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.5s ease;
+}
+.novel-bg.school {
+    background: linear-gradient(180deg, #87ceeb 0%, #e0f0ff 40%, #d4e8d0 40%, #a8d08d 100%);
+}
+.novel-bg.shrine {
+    background: linear-gradient(180deg, #ff9966 0%, #ff5e62 30%, #2d1b2e 60%, #1a0e1e 100%);
+}
+.novel-bg.room {
+    background: linear-gradient(180deg, #2c1810 0%, #3d2b1f 30%, #1a1210 100%);
+}
+.novel-bg.night {
+    background: linear-gradient(180deg, #0a0a2e 0%, #1a1a3e 50%, #0a0a1e 100%);
+}
+.novel-bg.forest {
+    background: linear-gradient(180deg, #1a3d0a 0%, #2d5a1e 30%, #1a3d0a 60%, #0f230a 100%);
+}
+
+/* Character sprites */
+.novel-sprites {
+    position: absolute;
+    bottom: 30%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+.novel-sprite {
+    font-size: 100px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
+}
+.novel-sprite.active {
+    transform: scale(1.05);
+}
+.novel-sprite.dim {
+    filter: brightness(0.6) drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
+}
+
+/* Text box */
+.novel-textbox {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(0,0,20,0.85) 0%, rgba(0,0,30,0.95) 100%);
+    border-top: 2px solid rgba(233,30,140,0.4);
+    padding: 16px 24px;
+    min-height: 140px;
+    cursor: pointer;
+}
+.novel-speaker {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-light);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.novel-speaker-icon {
+    font-size: 20px;
+}
+.novel-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #fff;
+    min-height: 60px;
+}
+.novel-text .char {
+    opacity: 0;
+    display: inline;
+    animation: fadeIn 0.05s ease forwards;
+}
+
+/* Click indicator */
+.novel-click-indicator {
+    position: absolute;
+    bottom: 12px;
+    right: 20px;
+    color: var(--primary);
+    font-size: 14px;
+    animation: blink 1s infinite;
+}
+
+/* Novel Controls */
+.novel-controls {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+}
+.novel-ctrl-btn {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 4px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: var(--font-ui);
+}
+.novel-ctrl-btn:hover {
+    background: rgba(100,100,100,0.5);
+}
+
+/* Choices */
+.novel-choices {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 20;
+    min-width: 300px;
+}
+.novel-choice-btn {
+    background: linear-gradient(135deg, rgba(0,0,30,0.9), rgba(20,0,40,0.9));
+    border: 1px solid rgba(233,30,140,0.5);
+    color: #fff;
+    padding: 16px 24px;
+    font-size: 15px;
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    border-radius: 4px;
+}
+.novel-choice-btn:hover {
+    background: linear-gradient(135deg, rgba(233,30,140,0.3), rgba(124,77,255,0.3));
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(233,30,140,0.3);
+    transform: translateY(-2px);
+}
+
+/* Backlog */
+.novel-backlog {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.92);
+    overflow-y: auto;
+    padding: 20px;
+    z-index: 30;
+}
+.backlog-entry {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 14px;
+    line-height: 1.6;
+}
+.backlog-speaker {
+    color: var(--primary-light);
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+.backlog-text {
+    color: #ddd;
+}
+.backlog-close {
+    position: sticky;
+    top: 0;
+    background: rgba(0,0,0,0.9);
+    padding: 8px 16px;
+    text-align: right;
+}
+
+/* EVCG overlay */
+.novel-evcg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.8);
+    z-index: 15;
+}
+.evcg-image {
+    max-width: 80%;
+    max-height: 80%;
+    font-size: 120px;
+    text-align: center;
+}
+
+/* ============================================
+   Real World ADV Overlay
+   ============================================ */
+.real-adv-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(0,0,20,0.85) 0%, rgba(0,0,30,0.95) 100%);
+    border-top: 2px solid rgba(124,77,255,0.6);
+    padding: 20px 40px;
+    min-height: 140px;
+    z-index: 6000;
+    cursor: pointer;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+}
+.real-adv-speaker {
+    font-size: 16px;
+    font-weight: 700;
+    color: #a0c0ff; /* Different color for real world speaker */
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.real-adv-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #fff;
+    min-height: 60px;
+}
+.real-adv-text .char {
+    opacity: 0;
+    display: inline;
+    animation: fadeIn 0.05s ease forwards;
+}

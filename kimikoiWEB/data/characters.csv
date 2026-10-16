@@ -1,0 +1,7 @@
+id,name,nameJp,role,emoji,description
+miyu,恋糸 美結,こいと みゆ,heroine_a,<img src='assets/images/characters/miyu.png' class='char-icon'>,ゲーム内ゲーム「キミコイ」のヒロインA。明るくて元気な女の子。
+mio,水無月 三緒,みなづき みお,heroine_b,<img src='assets/images/characters/mio.png' class='char-icon'>,ゲーム内ゲーム「キミコイ」のヒロインB。クールで知的な女の子。
+imouto,妹ちゃん,いもうとちゃん,sister,<img src='assets/images/characters/imouto.png' class='char-icon'>,プレイヤーの妹。疑似OS上に現れる。スキンシップパートの相手。
+ohtomo,大友,おおとも,friend,<img src='assets/images/characters/ohtomo.png' class='char-icon'>,プレイヤーの友人。LIMEでメッセージを送ってくる。
+koishi,恋石さん,こいしさん,classmate,<img src='assets/images/characters/koishi.png' class='char-icon'>,クラスメイト。引越し先で出会う。半月参りの協力者。
+player,プレイヤー,ぷれいやー,player,🧑,主人公。名前入力可能。

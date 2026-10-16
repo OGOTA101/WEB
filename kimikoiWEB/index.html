@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>キミと恋する15日</title>
+    <meta name="description" content="マルチ除霊エンディング恋愛シミュレーション『キミと恋する15日』Web版">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/desktop.css">
+    <link rel="stylesheet" href="css/windows.css">
+    <link rel="stylesheet" href="css/novel.css">
+    <link rel="stylesheet" href="css/lime.css">
+    <link rel="stylesheet" href="css/apps.css">
+    <link rel="stylesheet" href="css/effects.css">
+</head>
+<body>
+    <!-- Boot / Title Screen -->
+    <div id="boot-screen" class="screen active">
+        <div id="boot-sequence">
+            <div class="boot-logo" id="boot-logo-unity">
+                <span class="boot-text">MADE WITH</span>
+                <span class="boot-brand">Unity</span>
+            </div>
+            <div class="boot-logo" id="boot-logo-corp" style="display:none;">
+                <span class="boot-brand sakura">🌸 SAKURA games</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Title Screen -->
+    <div id="title-screen" class="screen">
+        <div class="title-bg">
+            <div class="title-particles" id="title-particles"></div>
+            <div class="title-content">
+                <h1 class="title-main">
+                    <span class="title-kimi">キミ</span><span class="title-to">と</span><span class="title-koi">恋</span><span class="title-suru">する</span>
+                    <br>
+                    <span class="title-days">15</span><span class="title-nichi">日</span>
+                </h1>
+                <div class="title-subtitle">Multi-Exorcism Ending Romance Simulation</div>
+                <div id="title-menu" class="title-menu">
+                    <button class="title-btn" id="btn-start" onclick="GameManager.startNewGame()">
+                        <span class="btn-icon">▶</span> START
+                    </button>
+                    <button class="title-btn" id="btn-load" onclick="GameManager.showLoadScreen()" style="display:none;">
+                        <span class="btn-icon">📂</span> LOAD GAME
+                    </button>
+                    <button class="title-btn" id="btn-config" onclick="GameManager.showConfig()">
+                        <span class="btn-icon">⚙</span> CONFIG
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Name Input Screen -->
+    <div id="name-input-screen" class="screen">
+        <div class="name-input-container">
+            <div class="name-input-box">
+                <h2>プレイヤー名入力</h2>
+                <p>主人公の名前を入力してください</p>
+                <input type="text" id="player-name-input" maxlength="8" placeholder="名前を入力..." value="ユウキ">
+                <button class="title-btn" onclick="GameManager.confirmName()">
+                    <span class="btn-icon">✓</span> 決定
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Config Screen -->
+    <div id="config-screen" class="screen">
+        <div class="config-container">
+            <div class="config-box">
+                <h2>⚙ 設定 / CONFIG</h2>
+                <div class="config-section">
+                    <h3>🔊 音量設定</h3>
+                    <div class="config-row">
+                        <label>BGM</label>
+                        <input type="range" min="0" max="100" value="70" id="config-bgm">
+                        <span id="config-bgm-val">70</span>
+                    </div>
+                    <div class="config-row">
+                        <label>SE</label>
+                        <input type="range" min="0" max="100" value="80" id="config-se">
+                        <span id="config-se-val">80</span>
+                    </div>
+                    <div class="config-row">
+                        <label>ボイス</label>
+                        <input type="range" min="0" max="100" value="90" id="config-voice">
+                        <span id="config-voice-val">90</span>
+                    </div>
+                </div>
+                <div class="config-section">
+                    <h3>📝 テキスト速度</h3>
+                    <div class="config-row">
+                        <label>表示速度</label>
+                        <select id="config-text-speed">
+                            <option value="slow">遅い</option>
+                            <option value="normal" selected>普通</option>
+                            <option value="fast">速い</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="title-btn" onclick="GameManager.closeConfig()">
+                    <span class="btn-icon">✓</span> 閉じる
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save/Load Screen -->
+    <div id="save-load-screen" class="screen">
+        <div class="save-load-container">
+            <div class="save-load-box">
+                <h2 id="save-load-title">セーブ/ロード</h2>
+                <div class="save-slots" id="save-slots"></div>
+                <button class="title-btn" onclick="GameManager.closeSaveLoad()">
+                    <span class="btn-icon">✕</span> 閉じる
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Screen (Main Game) -->
+    <div id="desktop-screen" class="screen">
+        <!-- Wallpaper -->
+        <div id="desktop-wallpaper"></div>
+
+        <!-- Desktop Icons Area -->
+        <div id="desktop-icons"></div>
+
+        <!-- Windows Container -->
+        <div id="windows-container"></div>
+
+        <!-- Desktop Right-click Menu -->
+        <div id="desktop-context-menu" class="context-menu" style="display:none;">
+            <div class="ctx-item" onclick="Desktop.toggleIcons()">🔄 表示切替</div>
+            <div class="ctx-item" onclick="Desktop.alignIcons()">📐 アイコン整列</div>
+            <div class="ctx-separator"></div>
+            <div class="ctx-item" onclick="Desktop.changeWallpaper()">🖼 壁紙変更</div>
+            <div class="ctx-separator"></div>
+            <div class="ctx-item" onclick="Desktop.newFolder()">📁 新規フォルダ</div>
+        </div>
+
+        <!-- Taskbar -->
+        <div id="taskbar">
+            <button id="start-button" onclick="Taskbar.toggleStartMenu()">
+                <span class="start-icon">🪟</span>
+                <span class="start-text">スタート</span>
+            </button>
+            <div id="taskbar-windows"></div>
+            <div id="taskbar-tray">
+                <div class="tray-item tray-decorative" title="日本語入力 (IME)">
+                    <span class="tray-ime">あ</span>
+                </div>
+                <div class="tray-item tray-decorative" title="Bluetooth: オン">
+                    <span class="tray-bt">ᛒ</span>
+                </div>
+                <div class="tray-item tray-decorative" title="ネットワーク: 接続済み">
+                    <span class="tray-network">📶</span>
+                </div>
+                <div id="taskbar-notifications" class="tray-item" onclick="Taskbar.toggleNotifications()">
+                    🔔 <span id="notification-badge" style="display:none;">0</span>
+                </div>
+                <div id="taskbar-volume" class="tray-item" onclick="Taskbar.toggleVolume()">🔊</div>
+                <div id="taskbar-clock" class="tray-item">
+                    <div class="clock-time">00:00</div>
+                    <div class="clock-date">2024/01/01</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Menu -->
+        <div id="start-menu" style="display:none;">
+            <div class="start-header">
+                <div class="start-user">
+                    <span class="user-icon">👤</span>
+                    <span class="user-name" id="start-user-name">ユーザー</span>
+                </div>
+            </div>
+            <div class="start-apps" id="start-apps-list"></div>
+            <div class="start-footer">
+                <button class="start-footer-btn" onclick="GameManager.showSaveScreen()">💾 セーブ</button>
+                <button class="start-footer-btn" onclick="GameManager.showLoadScreen()">📂 ロード</button>
+                <button class="start-footer-btn" onclick="GameManager.showConfig()">⚙ 設定</button>
+                <button class="start-footer-btn shutdown" onclick="GameManager.shutdown()">⏻ シャットダウン</button>
+            </div>
+        </div>
+
+        <!-- Volume Popup -->
+        <div id="volume-popup" style="display:none;">
+            <div class="vol-row"><label>マスター</label><input type="range" min="0" max="100" value="100" oninput="SoundManager.setMaster(this.value)"></div>
+            <div class="vol-row"><label>BGM</label><input type="range" min="0" max="100" value="70" oninput="SoundManager.setBGM(this.value)"></div>
+            <div class="vol-row"><label>SE</label><input type="range" min="0" max="100" value="80" oninput="SoundManager.setSE(this.value)"></div>
+        </div>
+
+        <!-- Notification Panel -->
+        <div id="notification-panel" style="display:none;"></div>
+
+        <!-- HUD: Sister Parameters -->
+        <div id="sister-hud" style="display:none;">
+            <div class="hud-title"><img src='assets/images/characters/imouto.png' class='char-icon'> 妹ちゃん</div>
+            <div class="hud-param">
+                <span>好感度</span>
+                <div class="hud-bar"><div class="hud-bar-fill" id="hud-affection" style="width:50%"></div></div>
+                <span id="hud-affection-val">50</span>
+            </div>
+            <div class="hud-param">
+                <span>信頼度</span>
+                <div class="hud-bar"><div class="hud-bar-fill trust" id="hud-trust" style="width:50%"></div></div>
+                <span id="hud-trust-val">50</span>
+            </div>
+            <div class="hud-param">
+                <span>怨念</span>
+                <div class="hud-bar"><div class="hud-bar-fill anger" id="hud-anger" style="width:0%"></div></div>
+                <span id="hud-anger-val">0</span>
+            </div>
+        </div>
+
+        <!-- Day Transition Overlay -->
+        <div id="day-transition" style="display:none;">
+            <div class="day-transition-content">
+                <div class="day-number" id="day-number">DAY 1</div>
+                <div class="day-subtitle" id="day-subtitle">はじまりの日</div>
+            </div>
+        </div>
+
+        <!-- Real World ADV Overlay -->
+        <div id="real-adv-container" class="real-adv-container" style="display:none;" onclick="RealAdvEngine.advance()">
+            <div class="real-adv-speaker" id="real-adv-speaker"></div>
+            <div class="real-adv-text" id="real-adv-text"></div>
+            <div class="novel-click-indicator" id="real-adv-indicator">クリック ▼</div>
+        </div>
+    </div>
+
+    <!-- Glitch / Horror Overlay -->
+    <div id="glitch-overlay" class="glitch-overlay" style="display:none;"></div>
+    <div id="jumpscare-overlay" style="display:none;">
+        <div class="jumpscare-face">👁️</div>
+    </div>
+
+    <!-- Skinship Overlay -->
+    <div id="skinship-overlay" style="display:none;">
+        <div class="skinship-container">
+            <div class="skinship-character" id="skinship-character">
+                <div class="skinship-sprite">👧</div>
+                <div class="skinship-expression" id="skinship-expression"></div>
+            </div>
+            <div class="skinship-dialogue" id="skinship-dialogue"></div>
+            <div class="skinship-commands" id="skinship-commands">
+                <button class="skinship-btn" onclick="Skinship.doAction('talk')">💬 話す</button>
+                <button class="skinship-btn" onclick="Skinship.doAction('headpat')">🤚 なでなで</button>
+                <button class="skinship-btn" onclick="Skinship.doAction('gift')">🎁 プレゼント</button>
+                <button class="skinship-btn" onclick="Skinship.doAction('ignore')">😐 無視する</button>
+            </div>
+            <div class="skinship-actions-left" id="skinship-actions-left">行動回数: <span id="action-count">4</span></div>
+        </div>
+    </div>
+
+    <!-- Personality Diagnosis Screen -->
+    <div id="diagnosis-screen" class="screen">
+        <div class="diagnosis-container">
+            <div class="diagnosis-box" id="diagnosis-result"></div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/game-manager.js"></script>
+    <script src="js/save-manager.js"></script>
+    <script src="js/sound-manager.js"></script>
+    <script src="js/window-manager.js"></script>
+    <script src="js/desktop.js"></script>
+    <script src="js/taskbar.js"></script>
+    <script src="js/novel-engine.js"></script>
+    <script src="js/real-adv.js"></script>
+    <script src="js/skinship.js"></script>
+    <script src="js/lime-app.js"></script>
+    <script src="js/googru-app.js"></script>
+    <script src="js/apps.js"></script>
+    <script src="js/effects.js"></script>
+</body>
+</html>

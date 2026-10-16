@@ -1,0 +1,111 @@
+No,素材ID,素材名,カテゴリ大,カテゴリ小,使用シーン,仕様概要,サイズ,形式,優先度,Unity実装メモ
+,,【ロゴ・スプラッシュ】,,,,,,,,
+1,logo_unity,Unity起動ロゴ,ロゴ,スプラッシュ,起動直後（スプラッシュ1枚目）,MADE WITH Unity 黒背景白ロゴ,1920x1080,PNG,S,Unity Player Settings > Splash Screen に設定 / 公式ロゴガイドライン準拠必須
+2,logo_corp,SAKURAGames コーポレートロゴ,ロゴ,スプラッシュ,起動スプラッシュ2枚目,自社ロゴ 黒地に白またはピンク 透過PNG,1920x1080,PNG透過,S,BootScene に UI Image配置 / CanvasGroup.alphaをCoroutineでFadeIn → Wait → FadeOut制御
+3,splash_horror_flash,起動フラッシュ（妹ホラー顔）,ロゴ,スプラッシュ,コーポレートロゴ直後,一瞬フラッシュする妹ホラー顔,1920x1080,PNG透過,A,UI Image / CanvasGroup.alpha = 0→1→0を2〜3フレームで切替 / AudioSource.PlayOneShot(se_flash)と同フレームで実行
+,,【タイトル画面】,,,,,,,,
+4,title_bg,タイトル画面 背景,タイトル,背景,タイトル画面全体,タイトル背景画像 暗め・ぼかし推奨,1920x1080,JPG,S,UI Image (Stretch) or RawImage / SceneLoad後にAddressables.LoadAssetAsyncで非同期取得
+5,title_logo,ゲームタイトルロゴ,タイトル,ロゴ,タイトル画面,デザインロゴ 透過PNG,1440x360,PNG透過,A,UI Image / URP Global Volume Bloomとの見え方を事前確認すること
+6,title_particle_tex,タイトル用パーティクルテクスチャ,タイトル,パーティクル,タイトル画面 浮遊エフェクト,桜花びら or 光粒子 テクスチャ,64x64,PNG透過,B,Particle System > Renderer > Material に専用マテリアル設定 / URP Particle Unlit Shader使用
+,,【カスタムカーソル】,,,,,,,,
+7,cursor_normal,カスタムカーソル 通常,カーソル,通常,デスクトップ画面全体（常時）,ゲーム専用カーソル 通常時,32x32 / 64x64,PNG透過,S,Cursor.SetCursor(texture hotspot CursorMode.Auto) でシーンロード後に適用 / 画面外飛び出し制限はClamp処理をUpdate内で実装
+8,cursor_click,カスタムカーソル クリック中,カーソル,押下,クリック押下中,カーソル押下差分,32x32,PNG透過,A,Input.GetMouseButtonDown(0)のタイミングでCursor.SetCursor切替 / リリースでnormalに戻す
+9,cursor_busy,カスタムカーソル 半ビジー（マウスジャック）,カーソル,ホラー演出,マウスジャック演出中 / グリッチ演出中,マウスジャック用カーソル差分,32x32,PNG透過/ANI,S,Cursor.SetCursor()で切替 / 同時にEventSystem.current.enabled = falseで入力ブロック / 仕様書4-2「マウスジャック」に対応
+10,cursor_text,カスタムカーソル テキスト入力,カーソル,テキスト入力,プレイヤー名入力欄など,テキストIビームカーソル,32x32,PNG透過,C,InputFieldのOnSelect/OnDeselectでCursor.SetCursor切替 / Unity標準テクスチャで代替可
+,,【デスクトップアイコン（疑似OS）】,,,,,,,,
+11,icon_novel,アイコン キミコイ,デスクトップアイコン,アプリ,デスクトップ画面,キミコイ起動アイコン,256x256,PNG透過,S,UI Button / SpriteAtlas登録 / DesktopIcon.csのappIdで種別管理 / OnPointerClickで単選択・ダブルクリック検出でアプリ起動 / 現在「💗」絵文字代替
+12,icon_lime,アイコン LIME,デスクトップアイコン,アプリ,デスクトップ画面,LIMEアプリ起動アイコン,256x256,PNG透過,S,同上 / 現在「💬」絵文字代替
+13,icon_googru,アイコン Googru,デスクトップアイコン,アプリ,デスクトップ画面,Googruブラウザ起動アイコン,256x256,PNG透過,A,同上 / 現在「🌐」絵文字代替
+14,icon_notepad,アイコン メモ帳,デスクトップアイコン,アプリ,デスクトップ画面,メモ帳アプリ起動アイコン,256x256,PNG透過,B,同上 / 現在「📝」絵文字代替
+15,icon_clock,アイコン 時計,デスクトップアイコン,アプリ,デスクトップ画面,時計アプリ起動アイコン,256x256,PNG透過,C,同上 / 現在「🕐」絵文字代替
+16,icon_taskmgr,アイコン タスクマネージャー,デスクトップアイコン,アプリ,デスクトップ画面,タスクマネージャー起動アイコン,256x256,PNG透過,C,同上 / 現在「📊」絵文字代替
+17,icon_volume,アイコン 音量ミキサー,デスクトップアイコン,アプリ,デスクトップ画面,音量ミキサー起動アイコン,256x256,PNG透過,C,同上 / 現在「🔊」絵文字代替
+18,icon_settings,アイコン 設定,デスクトップアイコン,アプリ,デスクトップ画面,設定画面起動アイコン,256x256,PNG透過,B,同上 / 現在「⚙」絵文字代替
+19,icon_recycle_empty,アイコン ゴミ箱 空,デスクトップアイコン,アプリ,ゴミ箱空の状態,ゴミ箱空状態アイコン,256x256,PNG透過,B,UI Button / RecycleBin.Count == 0 のときこのSpriteを表示 / スクリプトから動的切替 / 現在「🗑️」絵文字代替
+20,icon_recycle_full,アイコン ゴミ箱 中身あり,デスクトップアイコン,アプリ,アイテム削除後,ゴミ箱中身あり状態アイコン,256x256,PNG透過,B,同上 / RecycleBin.Count > 0 でSprite差替
+21,icon_oshikatsu,アイコン 推し活アプリ,デスクトップアイコン,アプリ,デスクトップ画面,推し活アプリ起動アイコン,256x256,PNG透過,B,同上 / 現在「💖」絵文字代替
+22,icon_cheat,アイコン チートツール（DAY4解禁）,デスクトップアイコン,アプリ,デスクトップ画面（DAY4以降出現）,チートツール起動アイコン 不穏系デザイン,256x256,PNG透過,S,DAY4フラグ到達時にDesktop.AddIcon()で動的インスタンス生成 / 登場時にSpriteとSE同時再生 / 現在「🔧」絵文字代替
+23,icon_folder,アイコン フォルダ,デスクトップアイコン,アプリ,右クリック→新規フォルダ,フォルダアイコン,256x256,PNG透過,C,同上 / 現在「📁」絵文字代替
+24,icon_fileexplorer,アイコン ファイルエクスプローラー,デスクトップアイコン,アプリ,デスクトップ画面 / スタートメニュー,ファイルエクスプローラー起動アイコン,256x256,PNG透過,C,同上
+25,icon_start_btn,スタートボタン アイコン,デスクトップアイコン,システムUI,タスクバー左端 スタートボタン,スタートボタン用アイコン,48x48,PNG透過,A,UI Button / Image / 現在「🪟」絵文字代替
+,,【ウィンドウ枠・システムUI】,,,,,,,,
+26,win_titlebar,ウィンドウ タイトルバー背景,ウィンドウUI,タイトルバー,全ウィンドウ上部,タイトルバー背景テクスチャ,幅可変 × 32px,PNG,B,UI Image 9-Slice / HorizontalLayoutGroupでタイトルテキストとウィンドウボタンを配置 / BaseWindow.csでウィンドウ幅に応じて自動リサイズ
+27,win_btn_close,ウィンドウ 閉じる（×）,ウィンドウUI,ボタン,全ウィンドウ右上,×ボタン Normal/Hover/Pressed 3ステート,24x24（3枚）,PNG透過,B,UI Button / SpriteState に Normal・Highlighted・Pressedを設定 / onClick でWindowManager.Close(windowId)
+28,win_btn_minimize,ウィンドウ 最小化（−）,ウィンドウUI,ボタン,全ウィンドウ右上,−ボタン 3ステート,24x24（3枚）,PNG透過,B,同上 / onClick でWindowManager.Minimize(windowId) / コンテンツ非表示・タイトルバーのみ残す
+29,win_btn_maximize,ウィンドウ 最大化（□）,ウィンドウUI,ボタン,全ウィンドウ右上,□ボタン 3ステート,24x24（3枚）,PNG透過,C,同上 / onClick でWindowManager.Maximize(windowId) / RectTransformをScreen全体に変更
+30,win_resize_handle,ウィンドウ リサイズハンドル,ウィンドウUI,操作UI,全ウィンドウ右端・下端・角6箇所,リサイズUI表示（斜め矢印等）,16x16,PNG透過,C,UI Image / IDragHandler + IPointerEnterHandler実装でサイズ変更処理 / 右端・下端・角の6箇所にそれぞれ配置
+31,win_bg_frame,ウィンドウ 本体フレーム背景,ウィンドウUI,本体,全ウィンドウ本体,ウィンドウ背景・枠テクスチャ,9-Slice可変,PNG透過,B,UI Image / Image Type: Sliced / 9-Slice Border設定で任意サイズに対応
+,,【タスクバー・スタートメニュー】,,,,,,,,
+32,taskbar_bg,タスクバー背景,タスクバー,背景,デスクトップ下部タスクバー,タスクバー全体背景 半透明ガラス風,1920x48,PNG透過,B,UI Image (Stretch) / Canvas (Screen Space Overlay) / sortingOrder最前面に設定
+33,startmenu_bg,スタートメニュー背景,スタートメニュー,背景,スタートボタン押下後ポップアップ,スタートメニュー展開時の背景パネル,400x640,PNG透過,B,UI Image / Canvasでtransitional表示 / DOTween.DOAnchorPosでスライドイン/アウトアニメ
+34,tray_icon_notif,トレイアイコン 通知ベル,トレイアイコン,システムUI,タスクバートレイ,通知ベルアイコン バッジ数表示付き,32x32,PNG透過,A,UI Image / バッジはTMP_Textを重ねて数表示 / notifications.CountをOnイベントでbadgeに反映 / 現在「🔔」絵文字代替
+35,tray_icon_volume,トレイアイコン 音量（4差分）,トレイアイコン,システムUI,タスクバートレイ,スピーカーアイコン 大・中・小・ミュート差分,32x32（4枚）,PNG透過,B,UI Image / AudioMixer.GetFloat("MasterVolume")の値に応じてGetComponent<Image>().sprite差替 / 現在「🔊」絵文字代替
+36,tray_icon_wifi,トレイアイコン Wi-Fi（装飾）,トレイアイコン,装飾,タスクバートレイ,Wi-Fiアイコン 装飾のみ,32x32,PNG透過,C,UI Image / インタラクションなし / 現在「📶」絵文字代替
+37,tray_icon_bt,トレイアイコン Bluetooth（装飾）,トレイアイコン,装飾,タスクバートレイ,Bluetoothアイコン 装飾のみ,32x32,PNG透過,C,UI Image / インタラクションなし / 現在「ᛒ」絵文字代替
+38,tray_icon_ime,トレイアイコン IME（装飾）,トレイアイコン,装飾,タスクバートレイ,日本語入力アイコン 装飾のみ,32x32,PNG透過,C,UI Image / インタラクションなし / 現在「あ」絵文字代替
+,,【HUD（妹パラメータ表示）】,,,,,,,,
+39,hud_frame,HUDフレーム（妹パラメータパネル）,HUD,パラメータUI,デスクトップ 右上固定表示,妹パラメータHUDパネルのフレーム,320x160,PNG透過,S,Canvas (Screen Space Overlay) / RectTransform.anchorをRightTopに固定 / sortingOrderをDesktopより前面に設定
+40,hud_bar_base,HUDゲージ枠（バーベース）,HUD,ゲージ,HUD内 各パラメータバー,好感度・信頼度・怨念バー共通の枠,240x20,PNG透過,A,UI Image / Image Type: Sliced / 9-Slice Borderで幅変更に対応
+41,hud_bar_affection,HUDゲージ 好感度 充填（ピンク）,HUD,ゲージ充填,HUD内 好感度バー,好感度充填テクスチャ ピンク〜赤グラデ,240x20,PNG,A,UI Image / Image Type: Filled / Fill Method: Horizontal / DOTween.DOFillAmount(target 0.5f)でアニメ / sister_affection変化時に呼び出し
+42,hud_bar_trust,HUDゲージ 信頼度 充填（水色）,HUD,ゲージ充填,HUD内 信頼度バー,信頼度充填テクスチャ 水色〜青緑グラデ,240x20,PNG,A,同上 / sister_trust変化時に呼び出し
+43,hud_bar_anger,HUDゲージ 怨念 充填（赤紫）,HUD,ゲージ充填,HUD内 怨念バー,怨念充填テクスチャ 赤紫〜暗紫グラデ,240x20,PNG,S,同上 / sister_darknessが閾値超過時にPulse（点滅AnimationClip）を追加再生 / sister_anger変化時に呼び出し
+,,【ノベルパート（ADV）UI】,,,,,,,,
+44,novel_textwindow,ノベル テキストウィンドウ枠,ADVノベルUI,テキスト枠,ノベルパート テキスト表示エリア,ADVテキスト表示ウィンドウの枠,1440x240,PNG透過,S,UI Image 9-Slice / TextMeshProUGUIをChild Objectとして配置 / TypewriterエフェクトはTMPのMaxVisibleCharactersを毎フレーム加算で実装 / 現在CSSのみ
+45,novel_namebox,ノベル 話者名ボックス枠,ADVノベルUI,話者名,ノベルパート 話者名表示,話者名ボックス テキストウィンドウ上に重ねて配置,280x48,PNG透過,A,UI Image 9-Slice / ContentSizeFitterで幅を文字量に応じて可変 / キャラIDに応じてColorまたはSpriteを切替
+46,novel_backlog_bg,バックログ 背景・ウィンドウ,ADVノベルUI,バックログ,バックログ（会話履歴）画面,バックログ画面全体の背景,1280x800,PNG透過,B,ScrollRect + VerticalLayoutGroup + ContentSizeFitter / 各セリフ行はPrefabでInstantiate / 大量ログ時はObjectPool推奨
+47,novel_choice_btn_normal,選択肢ボタン 通常,ADVノベルUI,選択肢,SELECT機能 選択肢表示,選択肢ボタン 通常状態,720x72,PNG透過,S,UI Button / SpriteState.normalSprite / VerticalLayoutGroupで縦並び自動配置 / 現在CSSのみ
+48,novel_choice_btn_hover,選択肢ボタン ホバー,ADVノベルUI,選択肢,SELECT機能 マウスオーバー時,選択肢ボタン ホバー状態,720x72,PNG透過,A,UI Button / SpriteState.highlightedSprite に設定
+49,novel_click_indicator,クリック促進マーク（▼）,ADVノベルUI,送り促進,ノベルパート テキスト末尾,テキスト送り待ち状態を示す点滅素材,32x32,PNG透過,B,UI Image / DOTween.DOFade(0f 0.5f).SetLoops(-1 LoopType.Yoyo)で点滅 / テキスト送り完了時にSetActive(true)
+50,novel_skip_icon,スキップアイコン（>>）,ADVノベルUI,スキップUI,ノベルパート スキップ実行中,スキップ実行中の視覚フィードバックアイコン,64x32,PNG透過,B,UI Image / スキップKey検出中はSetActive(true)で表示
+,,【LIMEアプリ UI】,,,,,,,,
+51,lime_app_logo,LIMEアプリ ロゴ・ヘッダー,LIMEアプリUI,ヘッダー,LIMEウィンドウ上部,LIMEアプリロゴ＋タイトルバー素材,480x64,PNG透過,B,UI Image / HorizontalLayoutGroupでロゴ・タイトルテキスト・通話ボタンを配置
+52,lime_bubble_me,LIMEバブル 自分（右）,LIMEアプリUI,チャットバブル,LIMEチャット画面 自分の発言,プレイヤー発言の右寄り吹き出し 9-Slice,400x任意,PNG（9-Slice）,S,UI Image / Image Type: Sliced / ContentSizeFitterでテキスト量に応じて縦方向を自動拡張 / 現在CSSのみ
+53,lime_bubble_other,LIMEバブル 相手（左）,LIMEアプリUI,チャットバブル,LIMEチャット画面 NPC発言,NPC発言の左寄り吹き出し 9-Slice,400x任意,PNG（9-Slice）,S,同上 / 左右の配置をRectTransform.anchorで切替
+54,lime_chat_bg,LIMEチャット背景,LIMEアプリUI,背景,LIMEウィンドウ本体,チャット画面のタイル背景,400x400（タイル）,PNG,B,UI Image / Image Type: Tiled / ScrollRectのBackgroundとして配置
+55,lime_call_overlay,LIME通話画面 背景,LIMEアプリUI,通話UI,LIME着信・応答時,着信UIの全画面オーバーレイ背景,1920x1080,PNG透過,A,UI Image / Canvas sortingOrder最前面 / 着信ジングル停止後にFadeOutAnimationと連動 / 仕様書3-3「着信時ジングルループ」に対応
+56,lime_icon_unknown,LIME連絡先アイコン（未設定）,LIMEアプリUI,コンタクトアイコン,LIME連絡先 未登録ユーザー,名前未設定枠のデフォルトアイコン,64x64,PNG透過,C,UI Image / SpriteAtlas登録 / キャラアイコンが設定されていない場合のfallback sprite
+,,【Googruブラウザ UI】,,,,,,,,
+57,googru_logo,Googruブラウザ ロゴ,Googruアプリ,ヘッダー,Googruウィンドウ上部,Googruロゴ,480x80,PNG透過,B,UI Image / WindowManager管理下のウィンドウ内に配置
+58,googru_searchbar_frame,Googru 検索バー枠,Googruアプリ,検索UI,Googruウィンドウ 検索入力欄,検索バーUIの枠素材,800x48,PNG透過,B,UI Image 9-Slice / TMP_InputFieldのBackgroundTextureとして設定
+59,googru_site_thumbnail,Googru サイトサムネイル（汎用）,Googruアプリ,コンテンツ,Googru検索結果ページ,サイトサムネイル汎用素材（3〜5種）,320x180,JPG,C,UI Image / ScrollView内のListItemPrefabにそれぞれ割り当て
+,,【エフェクト・演出用テクスチャ】,,,,,,,,
+60,fx_glitch_noise,グリッチ ノイズテクスチャ,エフェクト,グリッチ演出,グリッチ演出全般（SEと同期）,VHSノイズ・ブロックノイズ合成用テクスチャ,1920x1080,PNG透過,S,URP FullScreen Renderer Feature + Custom Render Pass / MaterialのTimeパラメータをscriptから操作してアニメ / 仕様書4-2対応
+61,fx_scanlines,スキャンライン（CRT横線）,エフェクト,グリッチ演出,グリッチ演出補助,CRTモニター風横線パターン,1920x1080,PNG透過,B,UI Image (Multiply Blend Mode) or Shader Graph Overlay / sortingOrder最前面に固定
+62,fx_vhs_frame,VHSフレームテクスチャ（トラッキングエラー）,エフェクト,グリッチ演出,VHSグリッチ専用,VHSテープ劣化の横ズレライン素材,1920x1080,PNG透過,A,Shader GraphのUV Scrollingと組み合わせ / Timeノードで横ズレを動的に変化させる
+63,fx_dark_vignette,暗転ビネット（淵暗化）,エフェクト,暗転,ホラーシーン・緊張演出補助,画面四隅を暗くするビネットテクスチャ,1920x1080,PNG透過,B,URP Post Processing Vignette の代替素材 or 補助 / UI Image (Multiply) で全画面オーバーレイ配置
+64,fx_blood_overlay,血しぶきオーバーレイ,エフェクト,ホラー,死亡エンド演出,血しぶき風のホラー画面オーバーレイ,1920x1080,PNG透過,B,UI Image / CanvasGroup.alphaをDOFadeでフェードイン / 死亡エンド判定時に呼び出し
+65,fx_particle_cherry,桜花びら パーティクルテクスチャ,エフェクト,パーティクル,タイトル画面 / 神社シーン,舞う桜花びら用テクスチャ,64x64,PNG透過,B,Particle System / TextureSheetAnimationを使用 / MainモジュールのSimulationSpaceでWorld設定
+66,fx_particle_dust,ホコリ・光粒子 パーティクルテクスチャ,エフェクト,パーティクル,ホラーシーン / 森シーン,空気中ホコリ・光粒子テクスチャ,32x32,PNG透過,C,同上 / EmissionモジュールでRate over Timeを調整
+,,【セーブ / ロード・設定 UI】,,,,,,,,
+67,ui_save_slot,セーブスロット 枠素材（空・データあり 2種）,セーブ/ロード UI,スロット枠,セーブ/ロード画面,セーブデータ1スロット分の枠 空とデータあり2種,640x100,PNG透過,B,UI Image / スロットの状態でSpriteを切替 / VerticalLayoutGroupで6スロット自動配置 / 現在CSSのみ
+68,ui_config_bg,設定画面 背景,設定UI,背景,CONFIG画面,設定UIのモーダル背景,960x640,PNG透過,C,UI Image / CanvasGroup.alpha = 0でFade制御 / ESCキーでCloseAction呼び出し
+69,ui_slider_bg,スライダー ベース（トラック）,設定UI,コンポーネント,音量スライダー / テキスト速度,スライドバーのベース枠素材,400x16,PNG（9-Slice）,B,UI Slider > Background の Source Image / Image Type: Sliced
+70,ui_slider_fill,スライダー 充填部,設定UI,コンポーネント,スライダー 充填,スライダーの充填色素材,400x16,PNG,B,UI Slider > Fill Area > Fill の Image
+71,ui_slider_handle,スライダー ハンドル（つまみ）,設定UI,コンポーネント,スライダー操作つまみ,スライダーのつまみアイコン,24x24,PNG透過,B,UI Slider > Handle の Image / SpriteStateでHover時に色変更推奨
+,,【スキンシップパート UI】,,,,,,,,
+72,skinship_bg,スキンシップパート 背景,スキンシップUI,背景,スキンシップパート 全画面,スキンシップパート起動時の全画面背景,1920x1080,PNG / JPG,S,UI Image (Stretch) / 専用Canvas sortingOrder最前面 / 仕様書3-2「デスクトップ最前面に展開」に対応 / 現在CSSのみ
+73,skinship_command_frame,スキンシップ コマンドボタン群の枠,スキンシップUI,コマンドUI,スキンシップ 4コマンドボタン表示,4ボタン全体の外枠フレーム,720x200,PNG透過,A,UI Image / HorizontalLayoutGroupで4ボタンを等間隔配置
+74,skinship_btn_talk,コマンドボタン 話す,スキンシップUI,コマンドボタン,「話す」コマンド,「話す」ボタン Background,240x80,PNG透過,A,UI Button / SpriteStateで Normal・Highlighted・Pressed・Disabled 4ステート / Disabled時はBotonComponent.interactable = false
+75,skinship_btn_headpat,コマンドボタン なでなで,スキンシップUI,コマンドボタン,「なでなで」コマンド,「なでなで」ボタン Background,240x80,PNG透過,A,同上
+76,skinship_btn_gift,コマンドボタン プレゼント,スキンシップUI,コマンドボタン,「プレゼント」コマンド,「プレゼント」ボタン Background,240x80,PNG透過,A,同上
+77,skinship_btn_ignore,コマンドボタン 無視する,スキンシップUI,コマンドボタン,「無視する」コマンド,「無視する」ボタン Background 他3ボタンと色調を差別化,240x80,PNG透過,A,同上 / 暗色・無彩色推奨
+78,skinship_action_counter,スキンシップ 行動回数表示枠,スキンシップUI,カウンターUI,行動残り回数表示,「行動回数 ○/4」の枠素材,200x48,PNG透過,B,UI Image / TMP_Textで数値を表示 / actionsRemaining変化時にPlayOneShot(se_param_down)と合わせて更新
+,,【エンディング・診断 UI】,,,,,,,,
+79,ui_ending_title_route,エンディングロゴ ルートエンド用,エンディングUI,ロゴ,ルートエンド到達後 画面,ルートエンド名をデザインしたロゴ 共通 or 個別,1200x200,PNG透過,A,UI Image / CanvasGroup.alpha DOFadeでFadeIn / エンドIDに応じてAddressablesで動的ロード
+80,ui_ending_title_dead,DEAD ENDロゴ,エンディングUI,ロゴ,死亡エンド到達後,DEAD ENDロゴ ホラーフォント系デザイン,1200x200,PNG透過,S,同上 / se_jumpscareの再生後に表示 / 赤・黒カラーパレット推奨
+81,ui_ending_title_true,TRUE ENDロゴ,エンディングUI,ロゴ,トゥルーエンド到達後,TRUE ENDロゴ 光輝・黄金系デザイン,1200x200,PNG透過,A,同上
+82,ui_diagnosis_bg,性格診断画面 背景,エンディングUI,背景,diagnosis-screen（エンディング後）,性格診断レポート画面の背景,1920x1080,PNG / JPG,B,UI Image (Stretch) / SceneではなくCanvasの切替で表示
+83,ui_diagnosis_card,性格診断 結果カード枠,エンディングUI,カード枠,性格診断 10段階結果表示,診断結果カード型UI枠（10種共通 or 個別）,600x400,PNG透過,B,UI Image / TMP_Textで診断テキストを流し込み / ScrollRect不要のため固定サイズ設計
+,,【フォント素材（TextMeshPro SDF用）】,,,,,,,,
+84,font_jp_main,日本語メインフォント（TTF→SDF変換用）,フォント,日本語,全テキスト表示（全画面）,TMP用日本語SDFフォント,TTF/OTF,TTF→SDF,S,TextMeshPro FontAsset作成 / Window > TextMeshPro > Font Asset Creatorで変換 / Character Set: Custom Characters or Custom Range / Dynamic Atlas対応でサイズ削減可 / 仕様書5「TextMeshPro連携」
+85,font_horror,ホラー演出用フォント（文字化け・特殊文字）,フォント,ホラー演出,文字化け演出 / DEAD END系テキスト,崩れ文字・特殊文字用フォント,TTF/OTF,TTF→SDF,A,TMP FontAsset / 文字化け表現用にHalf-width Katakana等を含む文字セットで生成 / 仕様書4-2「文字化け演出」に対応
+86,font_en,英語フォント（ローカライズ用）,フォント,英語,英語ローカライズ時の全テキスト,英語テキスト用フォント,TTF/OTF,TTF→SDF,A,TMP FontAsset / Unity Localization Packageと連携してfontsの動的切替 / 仕様書1-1「英語対応」
+87,font_cn,中国語フォント（簡体字・ローカライズ用）,フォント,中国語,中国語ローカライズ表示,中国語（簡体字）テキスト用フォント,TTF/OTF,TTF→SDF,B,TMP FontAsset / フォントファイルが大容量になるためAddressablesでOn-Demand Downloadを検討 / 仕様書1-1「中国語対応」
+,,【Steamプラットフォーム素材】,,,,,,,,
+88,steam_capsule,Steam カプセル画像（縦長）,Steam,プラットフォーム,Steamライブラリ / ストアトップページ,Steamライブラリ・ストア縦長サムネ,600x900,JPG,A,Steamストア申請時に必要 / タイトルロゴ＋キービジュアルを合成して制作
+89,steam_header,Steam ヘッダー画像,Steam,プラットフォーム,Steamストアページ上部ヘッダー,Steamストアヘッダー画像,460x215,JPG,A,同上 / ゲームの世界観を一枚で伝えるビジュアルを選定
+90,steam_ss_01,Steamスクリーンショット タイトル画面,Steam,スクリーンショット,Steamストア掲載（5枚以上推奨）,タイトル画面のスクリーンショット,1920x1080,JPG,B,インゲームキャプチャで可 / Steamストア申請時に5枚以上必要
+91,steam_ss_02,Steamスクリーンショット デスクトップ画面,Steam,スクリーンショット,Steamストア掲載,疑似OSデスクトップのスクリーンショット,1920x1080,JPG,B,同上
+92,steam_ss_03,Steamスクリーンショット ノベルパート,Steam,スクリーンショット,Steamストア掲載,ADVパートのシーンスクリーンショット,1920x1080,JPG,B,同上
+93,steam_ss_04,Steamスクリーンショット スキンシップパート,Steam,スクリーンショット,Steamストア掲載,スキンシップパートのスクリーンショット,1920x1080,JPG,B,同上
+94,steam_achievement_icon,Steam 実績アイコン（各実績個別）,Steam,実績,Steam実績システム,Steam実績解禁時のアイコン 実績数分必要,64x64（各実績で個別）,PNG,B,Steamworks.NET / SteamUserStats.SetAchievement(achievementId)と連携 / 最低5種以上推奨 / 仕様書1-1「Steam実績対応」

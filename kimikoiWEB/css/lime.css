@@ -1,0 +1,221 @@
+/* ============================================
+   LIME APP CSS
+   ============================================ */
+
+.lime-container {
+    display: flex;
+    height: 100%;
+    font-family: var(--font-ui);
+}
+
+/* Contact list */
+.lime-sidebar {
+    width: 200px;
+    background: #f7f7f7;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+}
+.lime-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background 0.15s;
+}
+.lime-contact:hover {
+    background: #e8f5e9;
+}
+.lime-contact.active {
+    background: #c8e6c9;
+}
+.lime-contact-avatar {
+    font-size: 28px;
+}
+.lime-contact-info {
+    flex: 1;
+    overflow: hidden;
+}
+.lime-contact-name {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+.lime-contact-preview {
+    font-size: 11px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.lime-contact-badge {
+    background: #f44336;
+    color: #fff;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* Chat area */
+.lime-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #8db4ce;
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px),
+        repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px);
+}
+.lime-chat-header {
+    background: #075e54;
+    color: #fff;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+.lime-chat-avatar {
+    font-size: 28px;
+}
+.lime-chat-name {
+    font-size: 14px;
+}
+
+.lime-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.lime-msg {
+    max-width: 70%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    position: relative;
+    word-break: break-word;
+    animation: slideUp 0.3s ease;
+}
+.lime-msg.received {
+    background: #fff;
+    color: #000;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.lime-msg.sent {
+    background: #dcf8c6;
+    color: #000;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.lime-msg-time {
+    font-size: 10px;
+    color: #888;
+    text-align: right;
+    margin-top: 4px;
+}
+
+/* Reply chooser */
+.lime-reply-area {
+    background: #f0f0f0;
+    border-top: 1px solid #ccc;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.lime-reply-btn {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: var(--font-ui);
+    cursor: pointer;
+    border-radius: 16px;
+    transition: all 0.2s;
+    color: #333;
+    text-align: left;
+}
+.lime-reply-btn:hover {
+    background: #e8f5e9;
+    border-color: #4caf50;
+}
+
+/* Typing indicator */
+.lime-typing {
+    align-self: flex-start;
+    background: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #888;
+}
+.lime-typing .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #888;
+    margin: 0 1px;
+    animation: blink 1s infinite;
+}
+.lime-typing .dot:nth-child(2) { animation-delay: 0.2s; }
+.lime-typing .dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* Call overlay */
+.lime-call-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(180deg, #1a237e 0%, #283593 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    z-index: 10;
+}
+.lime-call-avatar {
+    font-size: 80px;
+    animation: pulse 2s infinite;
+}
+.lime-call-name {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+.lime-call-status {
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+}
+.lime-call-buttons {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+}
+.lime-call-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+.lime-call-btn.accept {
+    background: #4caf50;
+}
+.lime-call-btn.reject {
+    background: #f44336;
+}

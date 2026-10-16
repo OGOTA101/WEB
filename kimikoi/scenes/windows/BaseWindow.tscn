@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwindow"]
+
+[ext_resource type="Script" path="res://scripts/core/BaseWindow.gd" id="1"]
+
+[node name="BaseWindow" type="Control"]
+script = ExtResource("1")
+custom_minimum_size = Vector2(320, 240)
+size = Vector2(400, 300)
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="TitleBar" type="Panel" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+size = Vector2(400, 30)
+theme_override_styles/panel = SubResource("StyleBoxFlat_titlebar")
+
+[node name="TitleLabel" type="Label" parent="TitleBar"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 280.0
+offset_bottom = 25.0
+text = "ウィンドウ"
+
+[node name="HBox" type="HBoxContainer" parent="TitleBar"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -90.0
+offset_right = 0.0
+offset_top = 2.0
+offset_bottom = 28.0
+
+[node name="BtnMinimize" type="Button" parent="TitleBar/HBox"]
+custom_minimum_size = Vector2(28, 26)
+text = "_"
+
+[node name="BtnMaximize" type="Button" parent="TitleBar/HBox"]
+custom_minimum_size = Vector2(28, 26)
+text = "□"
+
+[node name="BtnClose" type="Button" parent="TitleBar/HBox"]
+custom_minimum_size = Vector2(28, 26)
+text = "X"
+
+[node name="ContentArea" type="Control" parent="."]
+layout_mode = 0
+offset_top = 30.0
+anchor_right = 1.0
+anchor_bottom = 1.0

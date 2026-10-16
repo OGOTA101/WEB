@@ -1,0 +1,224 @@
+/* ============================================
+   MAIN CSS - キミと恋する15日 Web版
+   ============================================ */
+
+:root {
+    /* Color Palette */
+    --primary: #e91e8c;
+    --primary-dark: #c2185b;
+    --primary-light: #f48fb1;
+    --accent: #7c4dff;
+    --accent-dark: #651fff;
+    --bg-dark: #0a0a1a;
+    --bg-medium: #1a1a2e;
+    --bg-light: #16213e;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0c0;
+    --text-muted: #666680;
+    --success: #4caf50;
+    --warning: #ff9800;
+    --danger: #f44336;
+    --glass-bg: rgba(255,255,255,0.05);
+    --glass-border: rgba(255,255,255,0.1);
+
+    /* Windows Theme Colors */
+    --win-bg: #ece9d8;
+    --win-title: linear-gradient(180deg, #0a246a 0%, #3a6ea5 100%);
+    --win-title-inactive: linear-gradient(180deg, #7f9db9 0%, #b0c4de 100%);
+    --win-border: #0054e3;
+    --win-button: #d4d0c8;
+    --taskbar-bg: linear-gradient(180deg, #245edb 0%, #3a6ea5 50%, #1e52b7 100%);
+    --start-green: linear-gradient(180deg, #3c8c2e 0%, #52a83e 50%, #3c8c2e 100%);
+
+    /* Typography */
+    --font-main: 'M PLUS 1p', 'Noto Sans JP', sans-serif;
+    --font-ui: 'Noto Sans JP', 'MS UI Gothic', sans-serif;
+
+    /* Sizing */
+    --taskbar-height: 36px;
+    --icon-size: 64px;
+    --icon-grid: 80px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font-main);
+    background: #000;
+    color: var(--text-primary);
+    user-select: none;
+    cursor: default;
+}
+
+/* Screen system */
+.screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: none;
+    z-index: 1;
+}
+.screen.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 14px; }
+::-webkit-scrollbar-track { background: #e0ddd1; border-left: 1px solid #999; }
+::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #c8c4b8 0%, #d4d0c8 50%, #c8c4b8 100%); border: 1px solid #999; }
+::-webkit-scrollbar-button { height: 14px; background: var(--win-button); border: 1px outset #ddd; }
+
+/* Context menu */
+.context-menu {
+    position: fixed;
+    background: #f5f5f5;
+    border: 2px solid #808080;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    z-index: 9999;
+    min-width: 180px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+}
+.ctx-item {
+    padding: 4px 24px;
+    cursor: pointer;
+    color: #000;
+}
+.ctx-item:hover {
+    background: #0a246a;
+    color: #fff;
+}
+.ctx-separator {
+    height: 1px;
+    background: #808080;
+    margin: 2px 4px;
+}
+
+/* Tooltips */
+[data-tooltip] {
+    position: relative;
+}
+[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffcc;
+    color: #000;
+    border: 1px solid #000;
+    padding: 2px 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 99999;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+@keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+@keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); }
+    50% { box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary); }
+}
+
+/* Dialog box (Windows XP style) */
+.dialog-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+.dialog-box {
+    background: var(--win-bg);
+    border: 2px outset #fff;
+    min-width: 300px;
+    max-width: 460px;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.5);
+}
+.dialog-title {
+    background: var(--win-title);
+    color: white;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.dialog-body {
+    padding: 16px 20px;
+    color: #000;
+    font-size: 13px;
+    line-height: 1.6;
+}
+.dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px 16px;
+}
+.dialog-btn {
+    padding: 4px 24px;
+    font-size: 12px;
+    font-family: var(--font-ui);
+    background: var(--win-button);
+    border: 2px outset #fff;
+    cursor: pointer;
+    min-width: 75px;
+}
+.dialog-btn:active {
+    border-style: inset;
+}
+.dialog-btn.primary {
+    font-weight: bold;
+}

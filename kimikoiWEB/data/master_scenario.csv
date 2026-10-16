@@ -1,0 +1,136 @@
+番号,機能,トリガー,話者,テキスト,キャラ表示,背景,BGM,SE,選択肢,演出,備考
+100,SYSTEM,START,,MADE_WITH_UNITY,,,,,,,起動ロゴ
+110,SYSTEM,AUTO,,SAKURA_GAMES_LOGO,,,,SE_NOISE,,FLASH,コーポレートロゴ
+120,SYSTEM,AUTO,,KIMIKOI_TITLE_SCREEN,,,BGM_TITLE,,,FADE_IN,タイトル
+130,SYSTEM,START_GAME,,NAME_INPUT,,,,,,DAY_SCREEN,名前入力
+140,SYSTEM,AUTO,,DIAGNOSIS_START,,,,,,,性格診断（スキップ）
+1000,REAL_ADV,DAY1,主人公,「ふぅ、やっと課題が終わった……。LIMEでも見るか」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+1010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+1020,LIME,AUTO,大友,「教えたゲームもうやった？」,,,,SE_LIME_IN,,,
+1030,SELECT,AUTO,,どう返信する？,,,,,「まだはじめたとこ」/「インディーゲームって初めてだよ」,,
+1040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+1050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+1100,GAME_ADV,AUTO,,【DAY 1：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+1110,GAME_ADV,AUTO,こいと みゆ,「主人公くん、会いたかったよ！」,MIYU:NORMAL,,,,,,
+1120,SELECT,AUTO,,,,,,,A:「俺も会いたかったよ」(+好感度)/B:「ん、まあな」(+怨念),,ルート分岐
+1130,GAME_ADV,CHOICE_A,こいと みゆ,「えへへ、嬉しい！」,MIYU:HAPPY,,,,,PARAM:sister_affection+10,Aの反応
+1140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+1150,GAME_ADV,CHOICE_B,こいと みゆ,「そ、そっか……。」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+1160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了
+2000,REAL_ADV,DAY2,主人公,「……2日目か。LIMEが来てるな」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+2010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+2020,LIME,AUTO,大友,「ゲーム進んでるか？なんか変なバグない？」,,,,SE_LIME_IN,,,
+2030,SELECT,AUTO,,どう返信する？,,,,,「順調だよ」/「ちょっとバグ多いかも…」,,
+2040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+2050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+2100,GAME_ADV,AUTO,,【DAY 2：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+2110,GAME_ADV,AUTO,こいと みゆ,「今日も来てくれたんだね、嬉しいな。」,MIYU:NORMAL,,,,,,
+2120,SELECT,AUTO,,,,,,,A:「約束したからね」(+好感度)/B:「暇だっただけだよ」(+怨念),,ルート分岐
+2130,GAME_ADV,CHOICE_A,こいと みゆ,「やったー！ 約束守ってくれてありがとう。」,MIYU:HAPPY,,,,,PARAM:sister_affection+10,Aの反応
+2140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+2150,GAME_ADV,CHOICE_B,こいと みゆ,「そんないい方しなくてもいいのに……」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+2160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了
+3000,REAL_ADV,DAY3,主人公,「……3日目か。LIMEが来てるな」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+3010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+3020,LIME,AUTO,恋石さん,「昨日の授業のノート、LIMEで送るね！」,,,,SE_LIME_IN,,,
+3030,SELECT,AUTO,,どう返信する？,,,,,「ありがとう！」/「悪い、助かる」,,
+3040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+3050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+3100,GAME_ADV,AUTO,,【DAY 3：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+3110,GAME_ADV,AUTO,こいと みゆ,「ねえねえ、私のこと、どう思ってる？」,MIYU:NORMAL,,,,,,
+3120,SELECT,AUTO,,,,,,,A:「大切な人だよ」(+好感度)/B:「ただの友達かな」(+怨念),,ルート分岐
+3130,GAME_ADV,CHOICE_A,こいと みゆ,「ほんと！？ 私もだよ！」,MIYU:HAPPY,,,,,PARAM:sister_affection+10,Aの反応
+3140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+3150,GAME_ADV,CHOICE_B,こいと みゆ,「……そう。」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+3160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了
+4000,REAL_ADV,DAY4,主人公,「……4日目か。LIMEが来てるな」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+4010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+4020,LIME,AUTO,大友,「美結ちゃんのルート、けっこう難しいらしいよ」,,,,SE_LIME_IN,,,
+4030,SELECT,AUTO,,どう返信する？,,,,,「そうなんだ」/「攻略サイト見るよ」,,
+4040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+4050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+4100,GAME_ADV,AUTO,,【DAY 4：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+4110,GAME_ADV,AUTO,こいと みゆ,「少しずつ、主人公くんのことがわかってきた気がする。」,MIYU:NORMAL,,,,,,
+4120,SELECT,AUTO,,,,,,,A:「俺もみゆの事知りたい」(+信頼度)/B:「そうかな？」(+怨念),,ルート分岐
+4130,GAME_ADV,CHOICE_A,こいと みゆ,「もっとたくさんお話ししようね！」,MIYU:HAPPY,,,,,PARAM:sister_trust+10,Aの反応
+4140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+4150,GAME_ADV,CHOICE_B,こいと みゆ,「……ふーん。」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+4160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了
+5000,REAL_ADV,DAY5,主人公,「……5日目か。LIMEが来てるな」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+5010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+5020,LIME,AUTO,恋石さん,「あ、今度の休み、みんなで遊ばない？」,,,,SE_LIME_IN,,,
+5030,SELECT,AUTO,,どう返信する？,,,,,「いいね、行こう」/「ごめん、ゲームがあるから…」,,
+5040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+5050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+5100,GAME_ADV,AUTO,,【DAY 5：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+5110,GAME_ADV,AUTO,こいと みゆ,「ずっと、一緒にいてくれる……？」,MIYU:NORMAL,,,,,,
+5120,SELECT,AUTO,,,,,,,A:「もちろん」(+好感度)/B:「状況によるかな」(+怨念),,ルート分岐
+5130,GAME_ADV,CHOICE_A,こいと みゆ,「うんっ！ 絶対だよ！」,MIYU:HAPPY,,,,,PARAM:sister_affection+10,Aの反応
+5140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+5150,GAME_ADV,CHOICE_B,こいと みゆ,「……うそつき。」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+5160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了
+6000,REAL_ADV,DAY6,主人公,「……6日目か。LIMEが来てるな」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+6010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+6020,LIME,AUTO,大友,「主人公、お前最近なんかおかしくないか…？」,,,,SE_LIME_IN,,,
+6030,SELECT,AUTO,,どう返信する？,,,,,「気のせいだよ」/「ちょっと寝不足かもな」,,
+6040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+6050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+6100,GAME_ADV,AUTO,,【DAY 6：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+6110,GAME_ADV,AUTO,こいと みゆ,「ねえ、どうして最近冷たいの？」,MIYU:NORMAL,,,,,,
+6120,SELECT,AUTO,,,,,,,A:「冷たくないよ」(+好感度)/B:「気のせいだろ」(+怨念),,ルート分岐
+6130,GAME_ADV,CHOICE_A,こいと みゆ,「よかった……勘違いだったんだね。」,MIYU:HAPPY,,,,,PARAM:sister_affection+10,Aの反応
+6140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+6150,GAME_ADV,CHOICE_B,こいと みゆ,「……本当に？」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+6160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了
+7000,REAL_ADV,DAY7,主人公,「……7日目か。LIMEが来てるな」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+7010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+7020,LIME,AUTO,大友,「なあ、あのゲームのデータ、消せないってマジ？」,,,,SE_LIME_IN,,,
+7030,SELECT,AUTO,,どう返信する？,,,,,「そんなことないだろ」/「え、本当に？」,,
+7040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+7050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+7100,GAME_ADV,AUTO,,【DAY 7：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+7110,GAME_ADV,AUTO,こいと みゆ,「私以外の女の子のところに行かないで……」,MIYU:NORMAL,,,,,,
+7120,SELECT,AUTO,,,,,,,A:「行かないよ」(+信頼度)/B:「束縛はちょっと…」(+怨念),,ルート分岐
+7130,GAME_ADV,CHOICE_A,こいと みゆ,「信じてるからね？」,MIYU:HAPPY,,,,,PARAM:sister_trust+10,Aの反応
+7140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+7150,GAME_ADV,CHOICE_B,こいと みゆ,「……。」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+7160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了
+8000,REAL_ADV,DAY8,主人公,「……8日目か。LIMEが来てるな」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+8010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+8020,LIME,AUTO,恋石さん,「…大丈夫？ 最近学校でぼーっとしてるけど」,,,,SE_LIME_IN,,,
+8030,SELECT,AUTO,,どう返信する？,,,,,「ちょっと疲れが溜まってるだけ…」/「ゲームのキャラが気になるんだ」,,
+8040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+8050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+8100,GAME_ADV,AUTO,,【DAY 8：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+8110,GAME_ADV,AUTO,こいと みゆ,「主人公くんは、私のものだから。」,MIYU:NORMAL,,,,,,
+8120,SELECT,AUTO,,,,,,,A:「みゆのものだよ」(+好感度)/B:「物じゃないぞ」(+怨念),,ルート分岐
+8130,GAME_ADV,CHOICE_A,こいと みゆ,「ふふっ、嬉しいな。」,MIYU:HAPPY,,,,,PARAM:sister_affection+10,Aの反応
+8140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+8150,GAME_ADV,CHOICE_B,こいと みゆ,「……ふんっ。」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+8160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了
+9000,REAL_ADV,DAY9,主人公,「……9日目か。LIMEが来てるな」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+9010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+9020,LIME,AUTO,大友,「おい、ゲームやめろ！ そのゲームなんかやばいぞ！」,,,,SE_LIME_IN,,,
+9030,SELECT,AUTO,,どう返信する？,,,,,「何言ってるんだ？」/「……もう遅いかも」,,
+9040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+9050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+9100,GAME_ADV,AUTO,,【DAY 9：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+9110,GAME_ADV,AUTO,こいと みゆ,「もう、どこにも行かせない。」,MIYU:NORMAL,,,,,,
+9120,SELECT,AUTO,,,,,,,A:「ずっと一緒だ」(+信頼度)/B:「……」(+怨念),,ルート分岐
+9130,GAME_ADV,CHOICE_A,こいと みゆ,「うん、もう離さないから。」,MIYU:HAPPY,,,,,PARAM:sister_trust+10,Aの反応
+9140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+9150,GAME_ADV,CHOICE_B,こいと みゆ,「……どうして？」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+9160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了
+10000,REAL_ADV,DAY10,主人公,「……10日目か。LIMEが来てるな」,,BG_ROOM_DAY,BGM_DAILY,,,,導入
+10010,REAL_OS,AUTO,,LIME着信,,,,SE_NOTIF,,OPEN_LIME,強制起動
+10020,LIME,AUTO,大友,「……返事しろよ。生きてるか？」,,,,SE_LIME_IN,,,
+10030,SELECT,AUTO,,どう返信する？,,,,,「……」/「……」,,
+10040,REAL_ADV,AUTO,主人公,「さてと、キミコイを開くか……。」,,,,,,,
+10050,SYSTEM,AUTO,,DAY_START,,,,,,,ここでADVを一時停止
+10100,GAME_ADV,AUTO,,【DAY 10：シナリオ開始】,,BG_SCHOOL,BGM_NOVEL,,,,ゲーム内
+10110,GAME_ADV,AUTO,こいと みゆ,「ずっと、ずーっと、一緒だよ……？」,MIYU:NORMAL,,,,,,
+10120,SELECT,AUTO,,,,,,,A:「永遠に」(+好感度)/B:「……」(+怨念),,ルート分岐
+10130,GAME_ADV,CHOICE_A,こいと みゆ,「あはは……あはははは！」,MIYU:HAPPY,,,,,PARAM:sister_affection+10,Aの反応
+10140,SYSTEM,CHOICE_A,,DAY1_END,,,,,,,一日終了
+10150,GAME_ADV,CHOICE_B,こいと みゆ,「……。」,MIYU:SAD,,,,,PARAM:sister_anger+10,Bの反応
+10160,SYSTEM,CHOICE_B,,DAY1_END,,,,,,,一日終了

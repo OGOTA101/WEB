@@ -1,0 +1,48 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="KIMIKOI"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+config/icon="res://icon.svg"
+run/main_scene="res://scenes/desktop/Desktop.tscn"
+
+[autoload]
+
+WindowManager="*res://scripts/core/WindowManager.gd"
+SoundManager="*res://scripts/core/SoundManager.gd"
+RecycleBin="*res://scripts/core/RecycleBin.gd"
+AppLauncher="*res://scripts/core/AppLauncher.gd"
+DebugLogManager="*res://scripts/core/DebugLogManager.gd"
+
+[logging]
+
+file_logging/enable_file_logging=true
+file_logging/log_path="user://logs/godot.log"
+file_logging/max_log_files=5
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/resizable=true
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

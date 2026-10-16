@@ -1,0 +1,533 @@
+/* ============================================
+   APPS CSS (Googru, Notepad, TaskManager, etc)
+   ============================================ */
+
+/* ---------- Googru Browser ---------- */
+.googru-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    font-family: var(--font-ui);
+}
+.googru-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+}
+.googru-nav-btn {
+    background: none;
+    border: 1px solid #ddd;
+    width: 28px; height: 28px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.googru-nav-btn:hover { background: #e8e8e8; }
+.googru-url-bar {
+    flex: 1;
+    padding: 4px 10px;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    font-size: 12px;
+    background: #fff;
+    font-family: var(--font-ui);
+    outline: none;
+}
+.googru-url-bar:focus { border-color: #4285f4; }
+.googru-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+}
+
+/* Googru Homepage */
+.googru-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding: 40px 20px;
+}
+.googru-logo {
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+}
+.googru-logo .g1 { color: #4285f4; }
+.googru-logo .g2 { color: #ea4335; }
+.googru-logo .g3 { color: #fbbc05; }
+.googru-logo .g4 { color: #4285f4; }
+.googru-logo .g5 { color: #34a853; }
+.googru-logo .g6 { color: #ea4335; }
+.googru-search-box {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 24px;
+    padding: 8px 16px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.googru-search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: var(--font-ui);
+}
+.googru-search-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 8px;
+}
+
+/* Googru search results */
+.googru-results {
+    padding: 16px 20px;
+}
+.googru-result-item {
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.googru-result-url {
+    font-size: 12px;
+    color: #006621;
+}
+.googru-result-title {
+    font-size: 16px;
+    color: #1a0dab;
+    margin: 2px 0;
+}
+.googru-result-title:hover {
+    text-decoration: underline;
+}
+.googru-result-desc {
+    font-size: 13px;
+    color: #545454;
+    line-height: 1.4;
+}
+
+/* Googru page view */
+.googru-page {
+    padding: 20px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #333;
+}
+.googru-page h1 {
+    color: #1a237e;
+    font-size: 22px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #e8e8e8;
+    padding-bottom: 8px;
+}
+.googru-page h2 {
+    color: #283593;
+    font-size: 18px;
+    margin: 16px 0 8px;
+}
+.googru-page p {
+    margin-bottom: 12px;
+}
+
+/* Googru Mail */
+.googru-mail {
+    padding: 16px;
+}
+.googru-mail-compose {
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+}
+.googru-mail-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+.googru-mail-field label {
+    min-width: 40px;
+    color: #666;
+}
+.googru-mail-field input, .googru-mail-field select {
+    flex: 1;
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+}
+.googru-mail-body {
+    width: 100%;
+    min-height: 100px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    resize: vertical;
+    margin-bottom: 8px;
+}
+.googru-send-btn {
+    background: #4285f4;
+    color: #fff;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+}
+.googru-send-btn:hover { background: #3367d6; }
+
+/* ---------- Notepad ---------- */
+.notepad-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.notepad-textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    padding: 8px;
+    font-family: 'MS Gothic', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+}
+
+/* ---------- Task Manager ---------- */
+.taskmgr-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--win-bg);
+    padding: 8px;
+    font-size: 12px;
+    color: #000;
+}
+.taskmgr-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #aaa;
+    margin-bottom: 8px;
+}
+.taskmgr-tab {
+    padding: 4px 16px;
+    border: 1px solid #aaa;
+    border-bottom: none;
+    background: #ddd;
+    cursor: pointer;
+    font-size: 11px;
+    margin-bottom: -1px;
+}
+.taskmgr-tab.active {
+    background: var(--win-bg);
+    border-bottom-color: var(--win-bg);
+    font-weight: bold;
+}
+.taskmgr-list {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #aaa;
+    overflow-y: auto;
+}
+.taskmgr-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    background: var(--win-button);
+    border-bottom: 1px solid #aaa;
+    padding: 2px 0;
+    font-weight: bold;
+}
+.taskmgr-header span {
+    padding: 2px 8px;
+    border-right: 1px solid #aaa;
+}
+.taskmgr-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+.taskmgr-row:hover { background: #dce6f4; }
+.taskmgr-row.selected { background: #0a246a; color: #fff; }
+.taskmgr-row span {
+    padding: 3px 8px;
+    border-right: 1px solid #eee;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.taskmgr-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+}
+.taskmgr-btn {
+    padding: 4px 16px;
+    font-size: 11px;
+    font-family: var(--font-ui);
+    background: var(--win-button);
+    border: 2px outset #fff;
+    cursor: pointer;
+}
+.taskmgr-btn:active { border-style: inset; }
+
+/* ---------- Clock App ---------- */
+.clock-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a2e;
+    color: #fff;
+}
+.clock-display {
+    font-size: 64px;
+    font-weight: 900;
+    font-family: 'Courier New', monospace;
+    color: #00ff88;
+    text-shadow: 0 0 20px rgba(0,255,136,0.5);
+    margin-bottom: 8px;
+}
+.clock-date-display {
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 24px;
+}
+.clock-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.clock-tab {
+    padding: 6px 16px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.clock-tab.active {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+/* ---------- Recycle Bin ---------- */
+.recycle-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    font-size: 12px;
+    color: #000;
+}
+.recycle-toolbar {
+    background: var(--win-bg);
+    border-bottom: 1px solid #aaa;
+    padding: 4px 8px;
+    display: flex;
+    gap: 4px;
+}
+.recycle-toolbar-btn {
+    padding: 2px 10px;
+    font-size: 11px;
+    font-family: var(--font-ui);
+    background: var(--win-button);
+    border: 1px outset #fff;
+    cursor: pointer;
+}
+.recycle-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px;
+}
+.recycle-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+.recycle-item:hover { background: #e8e4da; }
+.recycle-item.selected { background: #0a246a; color: #fff; }
+.recycle-item-icon { font-size: 20px; }
+
+/* ---------- Oshi-katsu App ---------- */
+.oshikatsu-container {
+    height: 100%;
+    background: linear-gradient(135deg, #ffe0ec 0%, #fff5f5 100%);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+.oshikatsu-header {
+    background: linear-gradient(90deg, #ff6b9d, #ff85b3);
+    color: #fff;
+    padding: 12px 16px;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+.oshikatsu-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+.oshikatsu-section {
+    margin-bottom: 20px;
+}
+.oshikatsu-section h3 {
+    font-size: 14px;
+    color: #ff6b9d;
+    margin-bottom: 8px;
+}
+.wallpaper-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+.wallpaper-option {
+    aspect-ratio: 16/9;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.2s;
+}
+.wallpaper-option:hover {
+    border-color: #ff6b9d;
+    transform: scale(1.05);
+}
+.wallpaper-option.selected {
+    border-color: #ff6b9d;
+    box-shadow: 0 0 10px rgba(255,107,157,0.3);
+}
+
+/* ---------- Cheat Tool ---------- */
+.cheat-container {
+    height: 100%;
+    background: #0a0a0a;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    padding: 16px;
+    overflow-y: auto;
+    font-size: 13px;
+    line-height: 1.6;
+}
+.cheat-title {
+    color: #ff0000;
+    font-size: 16px;
+    text-shadow: 0 0 10px rgba(255,0,0,0.5);
+    margin-bottom: 12px;
+}
+.cheat-cmd {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+    align-items: center;
+}
+.cheat-input {
+    flex: 1;
+    background: #111;
+    border: 1px solid #333;
+    color: #00ff00;
+    padding: 4px 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+}
+.cheat-btn {
+    background: #333;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+}
+.cheat-btn:hover {
+    background: #00ff00;
+    color: #000;
+}
+.cheat-param-list {
+    margin-top: 12px;
+}
+.cheat-param-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid #222;
+}
+.cheat-param-name { color: #0ff; }
+.cheat-param-val {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+.cheat-param-val input[type="range"] {
+    width: 100px;
+}
+
+/* ---------- Settings App ---------- */
+.settings-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    color: #000;
+    font-size: 13px;
+    padding: 16px;
+    overflow-y: auto;
+}
+.settings-group {
+    margin-bottom: 20px;
+}
+.settings-group h3 {
+    font-size: 14px;
+    color: #0054e3;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ddd;
+}
+.settings-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    padding: 4px 0;
+}
+.settings-row label {
+    min-width: 100px;
+    color: #555;
+}
+.settings-row input, .settings-row select {
+    flex: 1;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-family: var(--font-ui);
+    border: 1px solid #ccc;
+}
