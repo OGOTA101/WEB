@@ -1,0 +1,19 @@
+# ===== 依存パッケージ =====
+node_modules/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+
+# ===== PyInstaller 中間生成物 =====
+image-cleaner-py/build/
+
+# ===== IDE / エディタ =====
+.vs/
+
+# ===== Playwright CLI の一時ファイル =====
+.playwright-cli/
+
+# ===== 大容量すぎて GitHub(100MB/ファイル制限)へ push できない成果物 =====
+# 【モック】キミコイの仕様書 xlsx（406MB / 111MB）はローカル保管のみ
+kimikoiWEB/【モック】*.xlsx
