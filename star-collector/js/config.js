@@ -8,15 +8,15 @@ const GAME_CONFIG = {
     // ■ 難易度設定 (Difficulty & Spawning)
     // -------------------------------------------------------------------------
     DIFFICULTY_TABLE: [
-        { maxCombo: 9, spawnRate: 800, lifeTime: 3000, type: 'static', starSize: 18, desc: 'Intro', rareChance: 0.0 },
-        { maxCombo: 29, spawnRate: 700, lifeTime: 2500, type: 'static', starSize: 16, desc: 'Wake up', rareChance: 0.05 },
-        { maxCombo: 59, spawnRate: 600, lifeTime: 2000, type: 'static', starSize: 14, desc: 'Normal', rareChance: 0.1 },
-        { maxCombo: 89, spawnRate: 550, lifeTime: 1500, type: 'static', starSize: 13, desc: 'Fast', rareChance: 0.2 },
-        { maxCombo: 119, spawnRate: 500, lifeTime: 1200, type: 'wobbly', starSize: 12, desc: 'Wobbly', rareChance: 0.3 },
-        { maxCombo: 149, spawnRate: 450, lifeTime: 1000, type: 'moving', starSize: 11, desc: 'Moving', rareChance: 0.4 },
-        { maxCombo: 179, spawnRate: 400, lifeTime: 800, type: 'rush', starSize: 10, desc: 'Rush', rareChance: 0.5 },
-        { maxCombo: 199, spawnRate: 350, lifeTime: 700, type: 'blink', starSize: 9, desc: 'Blink', rareChance: 0.6 },
-        { maxCombo: 9999, spawnRate: 250, lifeTime: 600, type: 'starfall', starSize: 8, desc: 'Starfall', rareChance: 0.8 }
+        { maxCombo: 9, spawnRate: 800, lifeTime: 3000, type: 'static', starSize: 18, desc: 'Intro', rareChance: 0.0, gimmick: { constellation: 0, shooting: 0 } },
+        { maxCombo: 29, spawnRate: 700, lifeTime: 2500, type: 'static', starSize: 16, desc: 'Wake up', rareChance: 0.05, gimmick: { constellation: 0, shooting: 0 } },
+        { maxCombo: 59, spawnRate: 600, lifeTime: 2000, type: 'static', starSize: 14, desc: 'Normal', rareChance: 0.1, gimmick: { constellation: 0, shooting: 0 } },
+        { maxCombo: 89, spawnRate: 550, lifeTime: 1500, type: 'static', starSize: 13, desc: 'Fast', rareChance: 0.2, gimmick: { constellation: 0.05, shooting: 0 } },
+        { maxCombo: 119, spawnRate: 500, lifeTime: 1200, type: 'wobbly', starSize: 12, desc: 'Wobbly', rareChance: 0.3, gimmick: { constellation: 0.1, shooting: 0.05 } },
+        { maxCombo: 149, spawnRate: 450, lifeTime: 1000, type: 'moving', starSize: 11, desc: 'Moving', rareChance: 0.4, gimmick: { constellation: 0.15, shooting: 0.1 } },
+        { maxCombo: 179, spawnRate: 400, lifeTime: 800, type: 'rush', starSize: 10, desc: 'Rush', rareChance: 0.5, gimmick: { constellation: 0.2, shooting: 0.15 } },
+        { maxCombo: 199, spawnRate: 350, lifeTime: 700, type: 'blink', starSize: 9, desc: 'Blink', rareChance: 0.6, gimmick: { constellation: 0.25, shooting: 0.2 } },
+        { maxCombo: 9999, spawnRate: 250, lifeTime: 600, type: 'starfall', starSize: 8, desc: 'Starfall', rareChance: 0.8, gimmick: { constellation: 0.3, shooting: 0.3 } }
     ],
 
     // -------------------------------------------------------------------------
@@ -33,9 +33,9 @@ const GAME_CONFIG = {
     // -------------------------------------------------------------------------
     SYSTEM: {
         ENDLESS_SCORE_RATE: 0.1,
-        Miss_STAMINA_COST: 10,
-        MAX_STAMINA: 100,
-        GACHA_COST: 500
+        MISS_TIME_PENALTY: 10,
+        TIME_LIMIT_SECONDS: 180,
+        GACHA_COST: 300
     },
 
     // -------------------------------------------------------------------------
@@ -230,32 +230,33 @@ const GAME_CONFIG = {
     // 付与効果リスト (Random Effects)
     ACCESSORY_EFFECTS: [
         // A. 判定強化
-        { id: 'range_s', name: '広域(小)', desc: '判定x1.2', stats: { hitScale: 0.2 }, isRare: false },
-        { id: 'range_m', name: '広域(中)', desc: '判定x1.5', stats: { hitScale: 0.5 }, isRare: false },
-        { id: 'range_l', name: '広域(大)', desc: '判定x2.0', stats: { hitScale: 1.0 }, isRare: true },
+        { id: 'range_s', name: '広域(小)', desc: '判定x1.2', detail: '星を拾える範囲が少し広がるよ', stats: { hitScale: 0.2 }, isRare: false },
+        { id: 'range_m', name: '広域(中)', desc: '判定x1.5', detail: '星を拾える範囲がかなり広がるよ', stats: { hitScale: 0.5 }, isRare: false },
+        { id: 'range_l', name: '広域(大)', desc: '判定x2.0', detail: '星を拾える範囲がすごく広がるよ！', stats: { hitScale: 1.0 }, isRare: true },
 
-        // B. 時間延長
-        { id: 'time_s', name: '悠久(小)', desc: '時間+0.5秒', stats: { lifeAdd: 500 }, isRare: false },
-        { id: 'time_m', name: '悠久(中)', desc: '時間+1.0秒', stats: { lifeAdd: 1000 }, isRare: false },
-        { id: 'time_l', name: '悠久(大)', desc: '時間+2.0秒', stats: { lifeAdd: 2000 }, isRare: true },
+        // B. 星滞在時間 (Star Life)
+        { id: 'life_s', name: '悠久(小)', desc: '星寿命+0.5秒', detail: '星が消えるまでの時間が0.5秒伸びるよ', stats: { lifeAdd: 500 }, isRare: false },
+        { id: 'life_m', name: '悠久(中)', desc: '星寿命+1.0秒', detail: '星が消えるまでの時間が1秒伸びるよ', stats: { lifeAdd: 1000 }, isRare: false },
+        { id: 'life_l', name: '悠久(大)', desc: '星寿命+2.0秒', detail: '星が消えるまでの時間が2秒も伸びるよ！', stats: { lifeAdd: 2000 }, isRare: true },
 
-        // C. スタミナ強化
-        { id: 'stamina_s', name: '頑強(小)', desc: '体力+5', stats: { staminaAdd: 5 }, isRare: false },
-        { id: 'stamina_l', name: '頑強(大)', desc: '体力+10', stats: { staminaAdd: 10 }, isRare: true },
+        // C. 制限時間延長 (Game Time)
+        { id: 'time_s', name: '延長(小)', desc: '制限時間+30秒', detail: 'ゲームの制限時間が30秒増えるよ', stats: { timeAdd: 30 }, isRare: false },
+        { id: 'time_l', name: '延長(大)', desc: '制限時間+60秒', detail: 'ゲームの制限時間が60秒増えるよ！', stats: { timeAdd: 60 }, isRare: true },
+        { id: 'time_xl', name: '延長(特)', desc: '制限時間+90秒', detail: 'ゲームの制限時間が90秒も増えるよ！！', stats: { timeAdd: 90 }, isRare: true },
 
         // D. トレジャー (レア出現率)
-        { id: 'treasure_s', name: '幸運(小)', desc: 'レア率+10%', stats: { rareRate: 0.1 }, isRare: false },
-        { id: 'treasure_l', name: '幸運(大)', desc: 'レア率+20%', stats: { rareRate: 0.2 }, isRare: true },
+        { id: 'treasure_s', name: '幸運(小)', desc: 'レア率+10%', detail: '珍しい星が少し出やすくなるよ', stats: { rareRate: 0.1 }, isRare: false },
+        { id: 'treasure_l', name: '幸運(大)', desc: 'レア率+20%', detail: '珍しい星がかなり出やすくなるよ！', stats: { rareRate: 0.2 }, isRare: true },
 
         // E. スコア・獲得
-        { id: 'score_s', name: '得点(小)', desc: 'スコア+1', stats: { scoreAdd: 1 }, isRare: false },
-        { id: 'score_l', name: '得点(大)', desc: 'スコア+3', stats: { scoreAdd: 3 }, isRare: true },
-        { id: 'collect_s', name: '収集(小)', desc: '獲得x1.2', stats: { currencyMult: 0.2 }, isRare: false },
-        { id: 'collect_l', name: '収集(大)', desc: '獲得x1.5', stats: { currencyMult: 0.5 }, isRare: true },
+        { id: 'score_s', name: '得点(小)', desc: 'スコア+1', detail: '星を拾った時のスコアが+1されるよ', stats: { scoreAdd: 1 }, isRare: false },
+        { id: 'score_l', name: '得点(大)', desc: 'スコア+3', detail: '星を拾った時のスコアが+3されるよ', stats: { scoreAdd: 3 }, isRare: true },
+        { id: 'collect_s', name: '収集(小)', desc: '獲得x1.2', detail: '持ち帰れる星の数が1.2倍になるよ', stats: { currencyMult: 0.2 }, isRare: false },
+        { id: 'collect_l', name: '収集(大)', desc: '獲得x1.5', detail: '持ち帰れる星の数が1.5倍になるよ！', stats: { currencyMult: 0.5 }, isRare: true },
 
         // F. ユニーク効果 (Special)
-        { id: 'unique_auto', name: '自動', desc: '5秒毎に自動回収', stats: { autoCatch: 5000 }, isRare: true },
-        { id: 'unique_heal', name: '治癒', desc: '5%で体力回復', stats: { luckyHeal: 0.05 }, isRare: true },
-        { id: 'unique_sniper', name: '狙撃手', desc: '判定x0.8/点x2', stats: { hitScale: -0.2, scoreMult: 2.0 }, isRare: true }
-    ]
+        { id: 'unique_auto', name: '自動', desc: '5秒毎に自動回収', detail: '5秒に1回、勝手に星を集めてくれるよ', stats: { autoCatch: 5000 }, isRare: true },
+        { id: 'unique_heal', name: '時戻し', desc: '5%で時間回復', detail: '星を拾うと、たまに時間が5秒回復するよ', stats: { luckyHeal: 0.05 }, isRare: true },
+        { id: 'unique_sniper', name: '狙撃手', desc: '判定x0.8/点x2', detail: '判定は狭くなるけど、スコアが2倍になるよ！', stats: { hitScale: -0.2, scoreMult: 2.0 }, isRare: true }
+    ],
 };

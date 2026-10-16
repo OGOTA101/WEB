@@ -59,6 +59,13 @@ window.addEventListener('DOMContentLoaded', () => {
         audio.playBgm();
     });
 
+    document.getElementById('btn-endless').addEventListener('click', () => {
+        audio.playSE('decide');
+        screenMgr.goTo('game');
+        game.start('endless', 1.0);
+        audio.playBgm();
+    });
+
     // Ranking Button
     document.getElementById('btn-ranking').addEventListener('click', () => {
         audio.playSE('decide');
@@ -361,7 +368,10 @@ window.addEventListener('DOMContentLoaded', () => {
             const startPress = () => {
                 pressTimer = setTimeout(() => {
                     audio.playSE('decide');
-                    showCustomAlert(`${item.displayName}\n\n${eff1.desc}\n${eff2.desc}\n\n${base.desc}`);
+                    let effectText = eff1 ? `・${eff1.detail}` : '';
+                    if (eff2) effectText += `\n・${eff2.detail}`;
+
+                    showCustomAlert(`${item.displayName}\n\n${effectText}\n\n${base.desc}`);
                 }, 600);
             };
             const endPress = () => clearTimeout(pressTimer);
