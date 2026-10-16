@@ -1,0 +1,53 @@
+{
+  "itemid": "1306765",
+  "languages": {
+    "english": {
+      "app[content][sysreqs][windows][min][osversion]": "Windows 10 (64-bit)",
+      "app[content][sysreqs][windows][min][processor]": "Intel Core i3 (6th generation or later) / AMD Ryzen 3 equivalent",
+      "app[content][sysreqs][windows][min][graphics]": "DirectX 11-compatible GPU with 1 GB VRAM or more",
+      "app[content][sysreqs][windows][min][soundcard]": "DirectX-compatible sound card",
+      "app[content][sysreqs][windows][min][notes]": "1280x720 or higher. Keyboard and mouse, or an XInput-compatible controller, required.",
+      "app[content][sysreqs][windows][rec][osversion]": "Windows 10 / 11 (64-bit)",
+      "app[content][sysreqs][windows][rec][processor]": "Intel Core i5 / AMD Ryzen 5 equivalent",
+      "app[content][sysreqs][windows][rec][graphics]": "DirectX 11-compatible GPU with 2 GB VRAM or more",
+      "app[content][sysreqs][windows][rec][soundcard]": "DirectX-compatible sound card",
+      "app[content][sysreqs][windows][rec][notes]": "1920x1080 recommended. XInput-compatible controllers supported."
+    },
+    "japanese": {
+      "app[content][sysreqs][windows][min][osversion]": "Windows 10（64ビット）",
+      "app[content][sysreqs][windows][min][processor]": "Intel Core i3（第6世代以降）／AMD Ryzen 3 相当",
+      "app[content][sysreqs][windows][min][graphics]": "DirectX 11対応GPU、1 GB VRAM以上",
+      "app[content][sysreqs][windows][min][soundcard]": "DirectX対応サウンドカード",
+      "app[content][sysreqs][windows][min][notes]": "1280×720以上。キーボードとマウス、またはXInput対応コントローラーが必要です。",
+      "app[content][sysreqs][windows][rec][osversion]": "Windows 10／11（64ビット）",
+      "app[content][sysreqs][windows][rec][processor]": "Intel Core i5／AMD Ryzen 5 相当",
+      "app[content][sysreqs][windows][rec][graphics]": "DirectX 11対応GPU、2 GB VRAM以上",
+      "app[content][sysreqs][windows][rec][soundcard]": "DirectX対応サウンドカード",
+      "app[content][sysreqs][windows][rec][notes]": "1920×1080を推奨。XInput対応コントローラーに対応しています。"
+    },
+    "schinese": {
+      "app[content][sysreqs][windows][min][osversion]": "Windows 10（64位）",
+      "app[content][sysreqs][windows][min][processor]": "Intel Core i3（第6代或更新）／AMD Ryzen 3同等水平",
+      "app[content][sysreqs][windows][min][graphics]": "支持DirectX 11、显存1 GB或以上的显卡",
+      "app[content][sysreqs][windows][min][soundcard]": "兼容DirectX的声卡",
+      "app[content][sysreqs][windows][min][notes]": "1280×720或更高分辨率。需要键盘和鼠标，或支持XInput的控制器。",
+      "app[content][sysreqs][windows][rec][osversion]": "Windows 10／11（64位）",
+      "app[content][sysreqs][windows][rec][processor]": "Intel Core i5／AMD Ryzen 5同等水平",
+      "app[content][sysreqs][windows][rec][graphics]": "支持DirectX 11、显存2 GB或以上的显卡",
+      "app[content][sysreqs][windows][rec][soundcard]": "兼容DirectX的声卡",
+      "app[content][sysreqs][windows][rec][notes]": "推荐1920×1080分辨率。支持XInput控制器。"
+    },
+    "koreana": {
+      "app[content][sysreqs][windows][min][osversion]": "Windows 10 (64비트)",
+      "app[content][sysreqs][windows][min][processor]": "Intel Core i3 (6세대 이상) / AMD Ryzen 3 동급",
+      "app[content][sysreqs][windows][min][graphics]": "DirectX 11 호환 GPU, VRAM 1 GB 이상",
+      "app[content][sysreqs][windows][min][soundcard]": "DirectX 호환 사운드 카드",
+      "app[content][sysreqs][windows][min][notes]": "1280x720 이상. 키보드와 마우스 또는 XInput 호환 컨트롤러가 필요합니다.",
+      "app[content][sysreqs][windows][rec][osversion]": "Windows 10 / 11 (64비트)",
+      "app[content][sysreqs][windows][rec][processor]": "Intel Core i5 / AMD Ryzen 5 동급",
+      "app[content][sysreqs][windows][rec][graphics]": "DirectX 11 호환 GPU, VRAM 2 GB 이상",
+      "app[content][sysreqs][windows][rec][soundcard]": "DirectX 호환 사운드 카드",
+      "app[content][sysreqs][windows][rec][notes]": "1920x1080을 권장합니다. XInput 호환 컨트롤러를 지원합니다."
+    }
+  }
+}

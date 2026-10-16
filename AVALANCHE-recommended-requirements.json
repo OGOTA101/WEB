@@ -1,0 +1,19 @@
+{
+  "itemid": "1306765",
+  "languages": {
+    "english": {
+      "app[content][sysreqs][windows][rec][osversion]": "Windows 10 / 11 (64-bit)",
+      "app[content][sysreqs][windows][rec][processor]": "Intel Core i5-8400 / AMD Ryzen 5 2600 equivalent or better",
+      "app[content][sysreqs][windows][rec][graphics]": "DirectX 11-compatible GPU with 2 GB VRAM or more",
+      "app[content][sysreqs][windows][rec][soundcard]": "DirectX-compatible sound card",
+      "app[content][sysreqs][windows][rec][notes]": "A 1920x1080 display is recommended. Keyboard and mouse, or an XInput-compatible controller, required."
+    },
+    "japanese": {
+      "app[content][sysreqs][windows][rec][osversion]": "Windows 10 / 11（64ビット）",
+      "app[content][sysreqs][windows][rec][processor]": "Intel Core i5-8400 / AMD Ryzen 5 2600 相当以上",
+      "app[content][sysreqs][windows][rec][graphics]": "DirectX 11対応GPU、VRAM 2GB以上",
+      "app[content][sysreqs][windows][rec][soundcard]": "DirectX対応サウンドカード",
+      "app[content][sysreqs][windows][rec][notes]": "1920×1080以上を推奨。キーボードとマウス、またはXInput対応コントローラーが必要です。"
+    }
+  }
+}

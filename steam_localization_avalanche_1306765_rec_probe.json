@@ -1,0 +1,17 @@
+{
+  "itemid": "1306765",
+  "languages": {
+    "english": {
+      "app[content][sysreqs][windows][rec][osversion]": "Windows 10 / 11 (64-bit)",
+      "app[content][sysreqs][windows][rec][processor]": "Intel Core i5 / AMD Ryzen 5 equivalent",
+      "app[content][sysreqs][windows][rec][graphics]": "DirectX 11-compatible GPU with 2 GB VRAM or more",
+      "app[content][sysreqs][windows][rec][soundcard]": "DirectX-compatible sound card",
+      "app[content][sysreqs][windows][rec][notes]": "1920x1080 recommended. XInput-compatible controllers supported.",
+      "app[content][sysreqs][windows][recommended][osversion]": "Windows 10 / 11 (64-bit)",
+      "app[content][sysreqs][windows][recommended][processor]": "Intel Core i5 / AMD Ryzen 5 equivalent",
+      "app[content][sysreqs][windows][recommended][graphics]": "DirectX 11-compatible GPU with 2 GB VRAM or more",
+      "app[content][sysreqs][windows][recommended][soundcard]": "DirectX-compatible sound card",
+      "app[content][sysreqs][windows][recommended][notes]": "1920x1080 recommended. XInput-compatible controllers supported."
+    }
+  }
+}

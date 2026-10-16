@@ -1,0 +1,6 @@
+itemid,key,language,text
+1306765,app[content][sysreqs][windows][rec][osversion],english,"Windows 10 / 11 (64-bit)"
+1306765,app[content][sysreqs][windows][rec][processor],english,"Intel Core i5 / AMD Ryzen 5 equivalent"
+1306765,app[content][sysreqs][windows][rec][graphics],english,"DirectX 11-compatible GPU with 2 GB VRAM or more"
+1306765,app[content][sysreqs][windows][rec][soundcard],english,"DirectX-compatible sound card"
+1306765,app[content][sysreqs][windows][rec][notes],english,"1920x1080 recommended. XInput-compatible controllers supported."

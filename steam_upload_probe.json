@@ -1,0 +1,275 @@
+{
+  "itemid": "1306765",
+  "languages": {
+    "english": {
+      "app[content][about]": "[p]Move each falling Tron into place and complete a line. When a line clears, the Trons above it fall and open a new decision. Keep clearing without breaking the flow to build your CON and push your score higher.[/p][p]AVALANCHE adds falling snow and special Trons to the familiar rhythm of a falling-block puzzle. Snow changes the shape of the field, while metal Trons can crush it and create a new route through the stack. Planning the next placement matters as much as reacting to the piece in front of you.[/p][p]Play for as long as you can, chase a personal best, and refine the way you build. Track your score, cleared lines, highest CON, and Tron clears as you learn the board one run at a time.[/p][p]Features[/p][p]- Clear lines without breaking your CON and turn each placement into a higher score[/p][p]- Seven regular Trons, plus a special metal Tron that crushes snow and opens new routes[/p][p]- As the level rises, falling speed and snowfall leave less room for mistakes[/p][p]- Plan one placement ahead with Hold, Ghost, and NEXT preview[/p][p]- Keyboard and controller support, from quick runs to personal-best attempts[/p][p]- Japanese, English, Simplified Chinese, and Korean UI, with achievements and personal bests[/p]",
+      "app[content][short_description]": "Stack Trons through a snowfall, clear lines, and keep your CON alive in a focused falling-block score attack. Use special Trons to open routes through the field, then plan ahead as the pace picks up. From quick runs to personal-best attempts. [UPLOAD_PROBE]",
+      "app[content][sysreqs][windows][min][osversion]": "Windows 10 (64-bit)",
+      "app[content][sysreqs][windows][min][processor]": "Intel Core i3 (6th generation or later) / AMD Ryzen 3 equivalent",
+      "app[content][sysreqs][windows][min][graphics]": "DirectX 11-compatible GPU with 1 GB VRAM or more",
+      "app[content][sysreqs][windows][min][soundcard]": "DirectX-compatible sound card",
+      "app[content][sysreqs][windows][min][notes]": "1280x720 or higher. Keyboard and mouse, or an XInput-compatible controller, required."
+    },
+    "french": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "italian": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "german": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "spanish": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "indonesian": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "ukrainian": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "dutch": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "greek": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "swedish": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "latam": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "thai": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "czech": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "danish": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "turkish": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "norwegian": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "hungarian": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "finnish": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "bulgarian": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "vietnamese": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "brazilian": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "portuguese": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "polish": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "malay": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "romanian": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "russian": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "schinese": {
+      "app[content][about]": "[p]移动落下的特隆并填满一行。消行后，上方的特隆会落下，新的选择也随之出现。连续消行可以延长CON连锁，让分数继续上升。[/p][p]AVALANCHE在下落方块的节奏中加入了降雪和特殊特隆。雪会改变场地的形状，金属特隆可以压碎雪，为堆叠打开新的路线。熟悉场地、安排下一步和及时应对同样重要。[/p][p]尽可能坚持更久，挑战自己的最高分，并逐渐改进堆叠方式。每次游戏都会记录分数、消除行数、最高CON和特隆消除次数。[/p][p]主要特色[/p][p]- 连续消行保持CON，在每一次落下之间寻找更高的分数。[/p][p]- 7种普通特隆，以及能够压碎积雪、打开新路线的特殊金属特隆。[/p][p]- 等级越高，落下速度和降雪越快，留给失误的空间也越小。[/p][p]- 利用保留、幽灵和NEXT预览，提前规划下一次放置。[/p][p]- 支持键盘和控制器，从短局挑战到刷新个人纪录都可以游玩。[/p][p]- 支持日语、英语、简体中文和韩语界面、成就及个人最高纪录。[/p]",
+      "app[content][short_description]": "在不断降雪的场地中堆叠特隆，连续消行保持CON并冲击更高分。利用特殊特隆打开路线，在落下速度加快前规划下一步。短局也能挑战自己的最高纪录。",
+      "app[content][sysreqs][windows][min][osversion]": "Windows 10（64位）",
+      "app[content][sysreqs][windows][min][processor]": "Intel Core i3（第6代或更新）／AMD Ryzen 3同等水平",
+      "app[content][sysreqs][windows][min][graphics]": "支持DirectX 11、显存1 GB或以上的显卡",
+      "app[content][sysreqs][windows][min][soundcard]": "兼容DirectX的声卡",
+      "app[content][sysreqs][windows][min][notes]": "1280×720或更高分辨率。需要键盘和鼠标，或支持XInput的控制器。"
+    },
+    "tchinese": {
+      "app[content][about]": "",
+      "app[content][short_description]": "",
+      "app[content][sysreqs][windows][min][osversion]": "",
+      "app[content][sysreqs][windows][min][processor]": "",
+      "app[content][sysreqs][windows][min][graphics]": "",
+      "app[content][sysreqs][windows][min][soundcard]": "",
+      "app[content][sysreqs][windows][min][notes]": ""
+    },
+    "japanese": {
+      "app[content][about]": "[p]落ちてくるトロンを動かして、フィールドの一列をきれいに埋めよう。ラインが消えるたびに、上のトロンが落ち、次の一手が生まれます。消去を途切れさせずに続ければCONが伸び、スコアも大きくなります。[/p][p]AVALANCHEでは、通常のライン消去だけでなく、雪と特殊トロンが盤面の形を少しずつ変えていきます。空いた列へ雪が降るため、どこを埋め、どこを残すかがそのまま次の判断になります。金属のトロンで雪を押しつぶす瞬間や、複数ラインをまとめて消す瞬間には、連鎖を伸ばす気持ちよさがあります。[/p][p]目標は、できるだけ長く盤面を保ち、自己ベストを更新すること。スコア、消去ライン、最大CON、トロンの扱いを記録し、自分の積み方を少しずつ磨いていきます。[/p][p]主な特徴[/p][p]- ラインを消してCONをつなぎ、あと一手の判断でスコアを伸ばす[/p][p]- 7種類の通常トロンに、雪を押しつぶす特殊トロン。盤面は一手ごとに変わる[/p][p]- レベルが上がるほど雪と落下速度が増し、積み方の余裕がなくなる[/p][p]- ホールド、ゴースト、NEXT表示を頼りに、次の置き場所まで見通す[/p][p]- キーボード／コントローラー両対応。短い一局から自己ベスト更新まで[/p][p]- 日本語・英語・中国語・韓国語、実績、自己ベストに対応[/p]",
+      "app[content][short_description]": "雪が降るフィールドでトロンを積み、ライン消去をつないでCONとスコアを伸ばす落下パズル。特殊トロンで盤面を切り開き、落下速度が上がる前に次の一手を決めよう。短い一局から自己ベスト更新まで。",
+      "app[content][sysreqs][windows][min][osversion]": "Windows 10（64ビット）",
+      "app[content][sysreqs][windows][min][processor]": "Intel Core i3（第6世代以降）／AMD Ryzen 3 相当",
+      "app[content][sysreqs][windows][min][graphics]": "DirectX 11対応GPU、1 GB VRAM以上",
+      "app[content][sysreqs][windows][min][soundcard]": "DirectX対応サウンドカード",
+      "app[content][sysreqs][windows][min][notes]": "1280×720以上。キーボードとマウス、またはXInput対応コントローラーが必要です。"
+    },
+    "koreana": {
+      "app[content][about]": "[p]떨어지는 트론을 움직여 한 줄을 완성하세요. 줄이 사라지면 위의 트론이 내려오고 새로운 선택이 생깁니다. 줄 지우기를 끊지 않고 이어 가면 CON이 올라가며 점수도 커집니다.[/p][p]AVALANCHE는 낙하 퍼즐의 리듬에 눈과 특수 트론을 더했습니다. 눈은 필드의 모양을 바꾸고, 금속 트론은 눈을 눌러 없애며 새로운 길을 만듭니다. 지금 놓을 트론뿐 아니라 다음 배치까지 생각하는 것이 중요합니다.[/p][p]더 오래 버티고 최고 기록을 갱신하며, 한 판씩 쌓는 방법을 다듬어 보세요. 점수, 지운 줄 수, 최고 CON, 트론 제거 횟수를 기록합니다.[/p][p]주요 특징[/p][p]- 줄을 지워 CON을 이어 가며, 한 번의 배치로 더 높은 점수를 노릴 수 있습니다.[/p][p]- 7종류의 일반 트론과 눈을 눌러 없애는 특수 금속 트론이 등장합니다.[/p][p]- 레벨이 오를수록 낙하 속도와 눈이 거세져 실수할 여유가 줄어듭니다.[/p][p]- 홀드, 고스트, NEXT 미리보기로 다음 배치를 한 수 앞서 생각할 수 있습니다.[/p][p]- 키보드와 컨트롤러를 모두 지원하며, 짧은 플레이부터 최고 기록 도전까지 즐길 수 있습니다.[/p][p]- 일본어·영어·중국어 간체·한국어 UI, 도전 과제와 개인 최고 기록을 지원합니다.[/p]",
+      "app[content][short_description]": "눈이 내리는 필드에서 트론을 쌓고 줄을 지워 CON과 점수를 이어 가세요. 특수 트론으로 길을 만들며, 속도가 빨라지기 전에 다음 수를 준비하는 낙하 퍼즐입니다. 짧은 한 판부터 최고 기록 도전까지 즐길 수 있습니다.",
+      "app[content][sysreqs][windows][min][osversion]": "Windows 10 (64비트)",
+      "app[content][sysreqs][windows][min][processor]": "Intel Core i3 (6세대 이상) / AMD Ryzen 3 동급",
+      "app[content][sysreqs][windows][min][graphics]": "DirectX 11 호환 GPU, VRAM 1 GB 이상",
+      "app[content][sysreqs][windows][min][soundcard]": "DirectX 호환 사운드 카드",
+      "app[content][sysreqs][windows][min][notes]": "1280x720 이상. 키보드와 마우스 또는 XInput 호환 컨트롤러가 필요합니다."
+    }
+  }
+}
